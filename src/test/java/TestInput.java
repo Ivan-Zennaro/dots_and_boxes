@@ -18,7 +18,7 @@ public class TestInput {
 
 
     @ParameterizedTest
-    @ValueSource(strings = {"45k", "upk", "487K", "4k"}) //L'input è per le stringhe di lunghezza 3, la convezione si può modificare come preferiamo, basta decidere
+    @ValueSource(strings = {"45k", "upk", "487K", "4k"}) //L'input è per le stringhe di lunghezza 3, la convenzione si può modificare come preferiamo, basta decidere
     public void testInvalidMoveFromInput(String inpt){
         Move inputMove = input.parseMove(inpt);
         Move testMove = new Move(-1,-1,Side.INVALID);
