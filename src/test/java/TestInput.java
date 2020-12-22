@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class TestInput {
 
@@ -9,37 +10,20 @@ public class TestInput {
 
     @Test
     public void testMoveParser(){
-        Move inputMove = input.parseMove("23U");
-        Move testMove = new Move(2,3,Side.UP);
+        Move inputMove = input.parseMove("45U");
+        Move testMove = new Move(4,5,Side.UP);
 
         Assertions.assertEquals(testMove,inputMove);
     }
 
-    @Test
-    public void testInvalidMoveWrongDirection(){
-        Move inputMove = input.parseMove("48k");
-        Move testMove = new Move(-1,-1,Side.INVALID);
 
-        Assertions.assertEquals(testMove,inputMove);
-    }
-    @Test
-    public void testInvalidMoveWrongNumbers(){
-        Move inputMove = input.parseMove("upk");
+    @ParameterizedTest
+    @ValueSource(strings = {"45k", "upk", "487K", "4k"})
+    public void testInvalidMoveFromInput(String inpt){
+        Move inputMove = input.parseMove(inpt);
         Move testMove = new Move(-1,-1,Side.INVALID);
 
         Assertions.assertEquals(testMove,inputMove);
     }
 
-    @Test
-    public void testInvalidMoveTooBigInput(){
-        Move inputMove = input.parseMove("487k");
-        Move testMove = new Move(-1,-1,Side.INVALID);
-        Assertions.assertEquals(testMove,inputMove);
-    }
-    @Test
-    public void testInvalidMoveTooSmallInput(){
-        Move inputMove = input.parseMove("4k");
-        Move testMove = new Move(-1,-1,Side.INVALID);
-        Assertions.assertEquals(testMove,inputMove);
-    }
 }
