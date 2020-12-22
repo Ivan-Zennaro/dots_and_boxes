@@ -8,10 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestColors {
 
-    @ParameterizedTest
-    @CsvSource({"-,RED,\u001B[31m"})
-    public void colors_match_the_correct_strings(String s, Color c, String pattern){
-        Assertions.assertEquals( "\u001B[31m"+s+"\u001B[0m", ColorManager.getColoredString(s,c));
+
+    @Test
+    public void colors_match_the_correct_strings(){
+        assertAll(
+                () -> assertEquals("\u001B[31m-\u001B[0m", ColorManager.getColoredString("-",Color.RED)),
+                () -> assertEquals("\u001B[34m|\u001B[0m", ColorManager.getColoredString("|",Color.BLU))
+        );
     }
 
 }
