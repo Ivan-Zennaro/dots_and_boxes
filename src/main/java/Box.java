@@ -20,6 +20,11 @@ public class Box {
         this.lineRight = false;
     }
 
+
+    /*
+        Maybe useless.
+        [Dario]
+     */
     public Box(boolean lineUp, boolean lineLeft, boolean lineDown, boolean lineRight) {
         this.lineUp = lineUp;
         this.lineDown = lineDown;

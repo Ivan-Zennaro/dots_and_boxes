@@ -5,6 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class TestBox {
 
+    /*
+    Does this test make some sense? to test the instance of an object....dont think so.
+    [Dario]
+     */
+
     @Test
     public void empty_instance(){
         Box box = new Box();
