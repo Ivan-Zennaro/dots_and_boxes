@@ -82,5 +82,22 @@ public class Box {
         lineRight = true;
     }
 
+    public void drawLine(Side line) {
+        switch (line) {
+            case UP:
+                this.lineUp=true;
+                break;
+            case RIGHT:
+                this.lineRight=true;
+                break;
+            case DOWN:
+                this.lineDown=true;
+                break;
+            case LEFT:
+                this.lineLeft=true;
+                break;
+        }
+    }
+
 
 }
