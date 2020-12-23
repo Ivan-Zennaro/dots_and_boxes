@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,7 +12,7 @@ public class TestBox {
     //test1
 
     @Test
-    public void empty_instance(){
+    public void empty_instance() {
         Box box = new Box();
         assertAll(
                 () -> assertFalse(box.hasLineUp()),
@@ -22,7 +23,7 @@ public class TestBox {
     }
 
     @Test
-    public void drawSomeLines(){
+    public void drawSomeLines() {
         Box box = new Box();
         box.drawLineUp();
         box.drawLineLeft();
@@ -32,6 +33,13 @@ public class TestBox {
                 () -> assertTrue(box.hasLineLeft()),
                 () -> assertFalse(box.hasLineRight())
         );
+    }
+
+    @Test   //TRY TO DO A PARAMETERIZE TEST INSTEAD THIS ONE
+    public void checkLineInBoxByMove() {
+        Box box = new Box(true, true, false, false);
+        Move move = new Move(1, 2, Side.UP);
+        assertTrue(box.hasLineBySide(move.getSide()));
     }
 
 }
