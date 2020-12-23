@@ -28,5 +28,13 @@ public class TestBoard {
         board.drawLine(move);
         assertTrue(board.boxHasAlreadyLine(neighbourMove));
     }
+    @Test
+    public void neighbourBoxIsUpdatedOnALargerBoard(){
+        Board board = new Board(10,10);
+        Move move = new Move(5,5,Side.UP);
+        Move neighbourMove = new Move(4,5,Side.DOWN);
+        board.drawLine(move);
+        assertTrue(board.boxHasAlreadyLine(neighbourMove));
+    }
 
 }
