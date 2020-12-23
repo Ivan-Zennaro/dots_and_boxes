@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBox {
 
@@ -18,6 +17,19 @@ public class TestBox {
                 () -> assertFalse(box.hasLineUp()),
                 () -> assertFalse(box.hasLineDown()),
                 () -> assertFalse(box.hasLineLeft()),
+                () -> assertFalse(box.hasLineRight())
+        );
+    }
+
+    @Test
+    public void drawSomeLines(){
+        Box box = new Box();
+        box.drawLineUp();
+        box.drawLineLeft();
+        assertAll(
+                () -> assertTrue(box.hasLineUp()),
+                () -> assertFalse(box.hasLineDown()),
+                () -> assertTrue(box.hasLineLeft()),
                 () -> assertFalse(box.hasLineRight())
         );
     }
