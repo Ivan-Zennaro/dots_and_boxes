@@ -1,10 +1,12 @@
 
 
 
-4 5 U
+4 5 U  //correct
 
-4
-5
-U
+ 4 5 U //wrong
 
-45U
+45U  //wrong
+
+4  5  U  //wrong
+
+4  5 U  //wrong
