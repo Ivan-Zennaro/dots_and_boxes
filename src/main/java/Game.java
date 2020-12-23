@@ -24,7 +24,7 @@ public class Game {
             while(!flagmove){
                 System.out.println("Insert move [x y side:U,D,L,R]?");
                 Input input= new Input();
-                Move move1 = input.parseMove(keyboard.nextLine());
+                Move move1 = Move.parseMove(keyboard.nextLine());
 
                 if(move1.getSide()!= Side.INVALID){
                     flagmove = true;
