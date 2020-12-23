@@ -47,6 +47,37 @@ public class TestInput {
 
 
     }
+
+    @Test
+    public void testPlayerMultipleInput() {
+        String data = "4 5 U \n3 5 D \n10 11 L";
+        InputStream stdin = System.in;
+        try {
+            System.setIn(new ByteArrayInputStream(data.getBytes()));
+            Scanner scanner = new Scanner(System.in);
+
+
+            Move inputMove = Move.parseMove(scanner.nextLine().toString());
+            Move testMove = new Move(4,5,Side.UP);
+
+            Assertions.assertEquals(testMove,inputMove);
+            inputMove = Move.parseMove(scanner.nextLine().toString());
+            testMove = new Move(3,5,Side.DOWN);
+
+            Assertions.assertEquals(testMove,inputMove);
+
+
+            inputMove = Move.parseMove(scanner.nextLine().toString());
+            testMove = new Move(10,11,Side.LEFT);
+
+            Assertions.assertEquals(testMove,inputMove);
+
+        } finally {
+            System.setIn(stdin);
+        }
+
+
+    }
 }
 
 
