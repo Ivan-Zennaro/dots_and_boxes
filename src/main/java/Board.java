@@ -13,12 +13,14 @@ public class Board {
     }
 
     public boolean boxHasAlreadyLine(Move move) {       //AGGIUNGERE TEST!
-        return board[move.getX()][move.getY()].hasLineBySide(move.getSide());
+        Box choosenBox = board[move.getX()][move.getY()];
+        return choosenBox.hasLineBySide(move.getSide());
     }
 
     public void drawLine(Move move){
         //devo disegnare anche la linea nella box adiacente
-        board[move.getX()][move.getY()].drawLine(move.getSide());
+        Box choosenBox = board[move.getX()][move.getY()];
+        choosenBox.drawLine(move.getSide());
     }
 
 

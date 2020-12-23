@@ -1,5 +1,9 @@
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,10 +39,21 @@ public class TestBox {
         );
     }
 
-    @Test   //TRY TO DO A PARAMETERIZE TEST INSTEAD THIS ONE
-    public void checkLineInBoxByMove() {
-        Box box = new Box(true, true, false, false);
-        Move move = new Move(1, 2, Side.UP);
+
+
+
+
+    private static Stream<Arguments> boxAndMoveGenerator() {
+
+        return Stream.of(
+                Arguments.of(new Box(true, true, false, false), new Move(1, 2, Side.UP)),
+                Arguments.of(new Box(false, true, true, false), new Move(1, 2, Side.DOWN)),
+                Arguments.of(new Box(false, true, false, false), new Move(1, 2, Side.LEFT))
+                );
+    }
+    @ParameterizedTest
+    @MethodSource("boxAndMoveGenerator")
+    public void checkLineInBoxByMove(Box box,Move move) {
         assertTrue(box.hasLineBySide(move.getSide()));
     }
 
