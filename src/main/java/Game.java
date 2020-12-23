@@ -22,7 +22,7 @@ public class Game {
             boolean flagmove = false;
 
             while(!flagmove){
-                System.out.println("Insert Input/Move?");
+                System.out.println("Insert move [x y side:U,D,L,R]?");
                 Input input= new Input();
                 Move move1 = input.parseMove(keyboard.nextLine());
 
