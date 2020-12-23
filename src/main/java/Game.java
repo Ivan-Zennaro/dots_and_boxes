@@ -29,7 +29,7 @@ public class Game {
                 if(move1.getSide()!= Side.INVALID){
                     flagmove = true;
                 }
-                if (isMoveInBoardRange(move1)){
+                else if (isMoveInBoardRange(move1)){
                     flagmove = true;
                 }
                 if (!board.boxHasAlreadyLine(move1)){
@@ -41,7 +41,7 @@ public class Game {
 
 
     public boolean isMoveInBoardRange(Move move){
-        return move.getX() < boxesInRow && move.getY() < boxesInColumn;
+        return move.getX() < boxesInRow && move.getY() < boxesInColumn && move.getX() > 0 && move.getY() >0;
     }
 
 
