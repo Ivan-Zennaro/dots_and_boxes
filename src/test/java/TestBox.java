@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBox {
 
@@ -9,6 +8,7 @@ public class TestBox {
     Does this test make some sense? to test the instance of an object....dont think so.
     [Dario]
      */
+    //test1
 
     @Test
     public void empty_instance(){
@@ -17,6 +17,19 @@ public class TestBox {
                 () -> assertFalse(box.hasLineUp()),
                 () -> assertFalse(box.hasLineDown()),
                 () -> assertFalse(box.hasLineLeft()),
+                () -> assertFalse(box.hasLineRight())
+        );
+    }
+
+    @Test
+    public void drawSomeLines(){
+        Box box = new Box();
+        box.drawLineUp();
+        box.drawLineLeft();
+        assertAll(
+                () -> assertTrue(box.hasLineUp()),
+                () -> assertFalse(box.hasLineDown()),
+                () -> assertTrue(box.hasLineLeft()),
                 () -> assertFalse(box.hasLineRight())
         );
     }
