@@ -3,6 +3,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Scanner;
+
 public class TestInput {
 
 
@@ -25,7 +29,24 @@ public class TestInput {
 
         Assertions.assertEquals(testMove,inputMove);
     }
+    @Test
+    public void testPlayerInput() {
+        String data = "4 5 U";
+        InputStream stdin = System.in;
+        try {
+            System.setIn(new ByteArrayInputStream(data.getBytes()));
+            Scanner scanner = new Scanner(System.in);
+            Move inputMove = Move.parseMove(scanner.nextLine());
+            Move testMove = new Move(4,5,Side.UP);
 
+            Assertions.assertEquals(testMove,inputMove);
+
+        } finally {
+            System.setIn(stdin);
+        }
+
+
+    }
 }
 
 
