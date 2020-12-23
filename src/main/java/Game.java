@@ -29,7 +29,7 @@ public class Game {
                 if(move1.getSide()!= Side.INVALID){
                     flagmove = true;
                 }
-                else if (isMoveInBoardRange(move1)){
+                else if (board.isMoveInBoardRange(move1)){
                     flagmove = true;
                 }
                 //by there flagmove only says if the input is a valid line of the board
@@ -43,11 +43,6 @@ public class Game {
                 //maybe this test could be refactored
             }
         }
-    }
-
-
-    public boolean isMoveInBoardRange(Move move){
-        return move.getX() < boxesInRow && move.getY() < boxesInColumn && move.getX() > 0 && move.getY() >0;
     }
 
 
