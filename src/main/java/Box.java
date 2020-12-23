@@ -18,6 +18,7 @@ public class Box {
         this.lineDown = false;
         this.lineLeft = false;
         this.lineRight = false;
+
     }
 
 
@@ -31,6 +32,22 @@ public class Box {
         this.lineLeft = lineLeft;
         this.lineRight = lineRight;
     }
+
+    public boolean hasLineBySide(Side line) {
+        switch (line) {
+            case UP:
+                return this.hasLineUp();
+            case RIGHT:
+                return this.hasLineRight();
+            case DOWN:
+                return this.hasLineDown();
+            case LEFT:
+                return this.hasLineLeft();
+            default:
+                return false;
+        }
+    }
+
 
     public boolean hasLineUp() {
         return lineUp;
@@ -49,16 +66,19 @@ public class Box {
     }
 
 
-    public void drawLineUp(){
+    public void drawLineUp() {
         lineUp = true;
     }
-    public void drawLineDown(){
+
+    public void drawLineDown() {
         lineDown = true;
     }
-    public void drawLineLeft(){
+
+    public void drawLineLeft() {
         lineLeft = true;
     }
-    public void drawLineRight(){
+
+    public void drawLineRight() {
         lineRight = true;
     }
 
