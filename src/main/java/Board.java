@@ -44,7 +44,7 @@ public class Board {
     public boolean isMoveInBoardRange(Move move){
         return move.getX() < boxRows && move.getY() < boxColumns && move.getX() > 0 && move.getY() >0;
     }
-    public boolean isMoveInBoardX(int coord){
+    public boolean isMoveInBoardX(int coord){//maybe these two twin methods can be reused instead of the above
         return coord < boxRows && coord > 0 ;
     }
     public boolean isMoveInBoardY(int coord){
