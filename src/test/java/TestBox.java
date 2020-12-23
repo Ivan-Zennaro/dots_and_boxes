@@ -9,6 +9,7 @@ public class TestBox {
     Does this test make some sense? to test the instance of an object....dont think so.
     [Dario]
      */
+    //test1
 
     @Test
     public void empty_instance(){
