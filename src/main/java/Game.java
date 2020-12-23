@@ -32,9 +32,15 @@ public class Game {
                 else if (isMoveInBoardRange(move1)){
                     flagmove = true;
                 }
+                //by there flagmove only says if the input is a valid line of the board
+
+                //now we need to check if it is already written in the board...
                 if (!board.boxHasAlreadyLine(move1)){
                     flagmove = true;
-                }
+                }else{
+                    //... and falsify the flag if the answer is yes
+                    flagmove = false;}
+                //maybe this test could be refactored
             }
         }
     }
