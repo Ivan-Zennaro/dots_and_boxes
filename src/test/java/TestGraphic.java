@@ -35,7 +35,7 @@ public class TestGraphic {
     @Test
     public void update_blu_move_in_2x2_board() {
         Graphic graphic = new Graphic(2, 2);
-        graphic.updateMove(new Move(0, 0, Side.UP), new Player('A', Color.BLU));
+        graphic.updateMove(new Move(0, 0, Side.UP), new Player('A', Color.BLU),null);
         String boardString_2x2 =
                 "\n" + ColorManager.getColoredString(" ---", Color.BLU) + " ---\n" +
                         "|   |   |   \n" +
@@ -49,7 +49,7 @@ public class TestGraphic {
     @Test
     public void update_blu_move_in_3x3_board() {
         Graphic graphic = new Graphic(3, 3);
-        graphic.updateMove(new Move(2, 2, Side.RIGHT), new Player('A', Color.BLU));
+        graphic.updateMove(new Move(2, 2, Side.RIGHT), new Player('A', Color.BLU),null);
         String boardString_3x3 =
                 "\n" + " --- --- ---\n" +
                         "|   |   |   |   \n" +
@@ -61,6 +61,29 @@ public class TestGraphic {
 
         Assertions.assertEquals(boardString_3x3, graphic.getStringBoard());
     }
+
+
+    @Test
+    public void update_blu_move_in_3x3_board_and_draw_a_taken_box() {
+        Graphic graphic = new Graphic(3, 3);
+        Player [][] points = new Player[3][3];
+        points[0][0] = new Player('A',Color.GREEN);
+        graphic.updateMove(new Move(0, 0, Side.DOWN), points[0][0], points);
+        graphic.addCopletedBox(0,0,points[0][0].getId());
+        String boardString_3x3 =
+                "\n" + " --- --- ---\n" +
+                        "| A |   |   |   \n" +
+                        ColorManager.getColoredString(" ---",Color.GREEN) + " --- ---\n" +
+                        "|   |   |   |   \n" +
+                        " --- --- ---\n" +
+                        "|   |   |   |   \n" +
+                        " --- --- ---\n";
+
+        Assertions.assertEquals(boardString_3x3, graphic.getStringBoard());
+    }
+
+
+
 
     @ParameterizedTest
     @CsvSource({"1,UP,1", "2,DOWN,2", "3,RIGHT,4", "5,LEFT,5"})

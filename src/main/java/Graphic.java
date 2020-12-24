@@ -20,7 +20,7 @@ public class Graphic {
     }
 
 
-    public void updateMove(Move move, Player player) {
+    public void updateMove(Move move, Player player, Player[][] points) {
 
         Color color = player.getColor();
         int mappedX = mapX(move);
@@ -30,9 +30,15 @@ public class Graphic {
             stringToWrite = ColorManager.getColoredString(HORIZZONTAL_LINE, color);
         else
             stringToWrite = ColorManager.getColoredString(VERTICAL_LINE, color);
-
         graphicBoard[mappedX][mappedY] = stringToWrite;
     }
+
+    public void addCopletedBox(int x, int y, char c) {
+        StringBuilder s = new StringBuilder(graphicBoard[x * 2 + 1][y]);
+        s.setCharAt(2, c);
+        graphicBoard[x * 2 + 1][y] = s.toString() ;
+    }
+
 
     public static int mapY(Move move) {
         if (move.getSide() == Side.RIGHT)
