@@ -19,8 +19,7 @@ public class Graphic {
         }
     }
 
-
-    public void updateMove(Move move, Player player, Player[][] points) {
+    public void updateMove(Move move, Player player) {
 
         Color color = player.getColor();
         int mappedX = mapX(move);
