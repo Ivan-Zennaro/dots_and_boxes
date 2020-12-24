@@ -5,7 +5,7 @@ public class TestGraphic {
 
     @Test
     public void draw_2x2_empty_board(){
-        Graphic graphic = new Graphic();
+        Graphic graphic = new Graphic(2,2);
         String boardString_2x2 =
                 " --- ---\n" +
                 "|   |   |\n" +
@@ -14,37 +14,9 @@ public class TestGraphic {
                 " --- ---\n" +
                 "\n";
         Board board = new Board(2,2);
-        Assertions.assertEquals(boardString_2x2,graphict ad.getStringBoard(board));
+        Assertions.assertEquals(boardString_2x2,graphic.getStringBoard(board));
     }
 
 
-    /*
-    @Test
-    public void check_red_move_in_2x2_board(){
-        String boardString_2x2 =
-                " "+ ColorManager.getColoredString("---",Color.RED) +" ---\n" +
-                        "|   |   |\n" +
-                        " --- ---\n" +
-                        "|   |   |\n" +
-                        " --- ---\n" +
-                        "\n";
-        Board board = new Board(2,2);
-        Assertions.assertEquals(boardString_2x2,Graphic.getStringBoard(board));
-    }
-*/
-
-    /*@Test
-    public void draw_3x3_empty_board(){
-        String boardString_3x3 =
-                " --- --- ---\n" +
-                "|   |   |   |\n" +
-                " --- --- ---\n" +
-                "|   |   |   |\n" +
-                " --- --- ---\n" +
-                "|   |   |   |\n" +
-                " --- --- ---\n";
-        Board board = new Board(3,3);
-        Assertions.assertEquals(boardString_3x3,Graphic.getStringBoard(board));
-    }*/
 
 }
