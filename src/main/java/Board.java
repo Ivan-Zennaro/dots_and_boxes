@@ -1,13 +1,13 @@
 public class Board {
 
     private Box[][] board;
-    int boxRows;
-    int boxColumns;
+    private int boardRows;
+    private int boardColumns;
 
     public Board(int numberOfBoxesInARow, int numberOfBoxesInAColumn) {
         board = new Box[numberOfBoxesInARow][numberOfBoxesInAColumn];
-        this.boxRows = numberOfBoxesInARow;
-        this.boxColumns = numberOfBoxesInAColumn;
+        this.boardRows = numberOfBoxesInARow;
+        this.boardColumns = numberOfBoxesInAColumn;
         for (int i = 0; i < numberOfBoxesInARow; i++) {
             for (int j = 0; j < numberOfBoxesInAColumn; j++) {
                 board[i][j] = new Box();
@@ -46,7 +46,7 @@ public class Board {
     }
 
     public boolean isMoveInBoardRange(Move move) {
-        return move.getX() < boxRows && move.getY() < boxColumns && move.getX() >= 0 && move.getY() >= 0;
+        return move.getX() < boardRows && move.getY() < boardColumns && move.getX() >= 0 && move.getY() >= 0;
     }
 
 }
