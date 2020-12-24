@@ -13,7 +13,7 @@ public enum Side {
         if(this == RIGHT) return LEFT;
         return this;
     }
-    public int new_coord(){
+    public int coordShift(){
         if(this == UP) return -1;
         if(this == DOWN) return +1;
         if(this == LEFT) return -1;

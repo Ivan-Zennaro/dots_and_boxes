@@ -20,35 +20,33 @@ public class Board {
         return choosenBox.hasLineBySide(move.getSide());
     }
 
-    public void drawLine(Move move){
+    public void drawLine(Move move) {
         //devo disegnare anche la linea nella box adiacente
         Box choosenBox = board[move.getX()][move.getY()];
         choosenBox.drawLine(move.getSide());
+
+
         Box otherBox = choosenBox;
 
 
-        boolean flag = false;
-            if(move.getSide() == Side.UP || move.getSide() == Side.DOWN)
-                if(isMoveInBoardX(move.getX()+move.getSide().new_coord())){
-                     otherBox = board[move.getX()+move.getSide().new_coord()][move.getY()];
-                     flag = true;
-              }
-            if(move.getSide() == Side.LEFT || move.getSide() == Side.RIGHT)
-                 if(isMoveInBoardY(move.getY()+move.getSide().new_coord())){
-                     otherBox = board[move.getX()][move.getY()+move.getSide().new_coord()];
-                     flag = true;
-                 }
-                 if (flag)
-                        otherBox.drawLine(move.getSide().invert());
+        boolean flagModifyOtherBox = false;
+        if (move.getSide() == Side.UP || move.getSide() == Side.DOWN)
+            if (isMoveInBoardRange(new Move(move.getX() + move.getSide().coordShift(), move.getY(), move.getSide().invert()))) {
+                otherBox = board[move.getX() + move.getSide().coordShift()][move.getY()];
+                flagModifyOtherBox = true;
+            }
+        if (move.getSide() == Side.LEFT || move.getSide() == Side.RIGHT)
+            if (isMoveInBoardRange(new Move(move.getX(), move.getY() + move.getSide().coordShift(), move.getSide().invert()))) {
+                otherBox = board[move.getX()][move.getY() + move.getSide().coordShift()];
+                flagModifyOtherBox = true;
+            }
+
+        if (flagModifyOtherBox)
+            otherBox.drawLine(move.getSide().invert());
     }
-    public boolean isMoveInBoardRange(Move move){
-        return move.getX() < boxRows && move.getY() < boxColumns && move.getX() > 0 && move.getY() >0;
-    }
-    public boolean isMoveInBoardX(int coord){//maybe these two twin methods can be reused instead of the above
-        return coord < boxRows && coord > 0 ;
-    }
-    public boolean isMoveInBoardY(int coord){
-        return  coord < boxColumns && coord > 0 ;
+
+    public boolean isMoveInBoardRange(Move move) {
+        return move.getX() < boxRows && move.getY() < boxColumns && move.getX() >= 0 && move.getY() >= 0;
     }
 
 }
