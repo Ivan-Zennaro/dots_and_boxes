@@ -18,7 +18,7 @@ public class Graphic {
 
 
     public void updateMove (Move move, Player player){
-
+        graphicBoard[0][0] = ColorManager.getColoredString(" ---",Color.BLU);
     }
 
     public String getStringBoard() {
@@ -29,7 +29,6 @@ public class Graphic {
             }
             s += "\n";
         }
-
         return s;
     }
 
