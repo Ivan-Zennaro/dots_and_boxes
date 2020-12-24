@@ -1,5 +1,8 @@
 public class Graphic {
 
+    private static final String HORIZZONTAL_LINE = " ---";
+    private static final String VERTICAL_LINE = "|   ";
+
     private String graphicBoard [][];
 
     public Graphic (int boardRows, int boardCols){
@@ -9,9 +12,9 @@ public class Graphic {
         for (int i = 0; i < mappedRows; i++){
             for (int j = 0 ; j < mappedCols ; j++) {
                 if (i % 2 == 0)
-                    graphicBoard[i][j] = " ---";
+                    graphicBoard[i][j] = HORIZZONTAL_LINE;
                 else
-                    graphicBoard[i][j] = "|   ";
+                    graphicBoard[i][j] = VERTICAL_LINE;
                 }
             }
     }
@@ -19,9 +22,16 @@ public class Graphic {
 
     public void updateMove (Move move, Player player){
 
-        /*Color color = player.getColor();
-        int mappedX = */
-        graphicBoard[0][0] = ColorManager.getColoredString(" ---",Color.BLU);
+        Color color = player.getColor();
+        int mappedX = mapX(move);
+        int mappedY = mapY(move);
+        String stringToWrite;
+        if (mappedX % 2 == 0)
+            stringToWrite = ColorManager.getColoredString(HORIZZONTAL_LINE,color);
+        else
+            stringToWrite = ColorManager.getColoredString(VERTICAL_LINE,color);
+
+        graphicBoard[mappedX][mappedY] = stringToWrite;
     }
 
     public static int mapY (Move move){
