@@ -5,7 +5,6 @@ public class Box {
     private boolean lineLeft;
     private boolean lineRight;
 
-
     /*
         Dont know if could be useful, depends on the implementation.
         If class Game keep track of which player close a box then this is useless.
