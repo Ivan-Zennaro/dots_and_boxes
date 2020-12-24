@@ -30,7 +30,14 @@ public class Graphic {
         else return move.getY();
     }
 
-
+    public static int mapX (Move move){
+        int tempX = move.getX() * 2 + 1;
+        if (move.getSide() == Side.UP)
+            return tempX - 1;
+        if (move.getSide() == Side.DOWN)
+            return tempX + 1;
+        else return tempX;
+    }
 
     public String getStringBoard() {
         String s = "\n";

@@ -39,6 +39,12 @@ public class TestGraphic {
         Assertions.assertEquals(graphicBoardY,Graphic.mapY(new Move(0,gameBoardY,side)));
     }
 
+    @ParameterizedTest
+    @CsvSource({"0,UP,0", "2,DOWN,6", "1,RIGHT,3", "2,UP,4"})
+    public void map_x_value_of_game_board_with_x_value_of_graphic_board(int gameBoardX,Side side, int graphicBoardX){
+        Assertions.assertEquals(graphicBoardX,Graphic.mapX(new Move(gameBoardX,0,side)));
+    }
+
 
 
 }
