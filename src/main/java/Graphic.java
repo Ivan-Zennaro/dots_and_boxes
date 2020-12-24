@@ -22,7 +22,6 @@ public class Graphic {
     }
 
     public String getStringBoard() {
-
         String s = "\n";
         for (int i = 0; i < graphicBoard.length; i++){
             for (int j = 0; (i % 2 == 0 &&  j < graphicBoard[0].length -1 ) || ( i % 2 != 0 &&  j < graphicBoard[0].length ); j++){
@@ -30,8 +29,6 @@ public class Graphic {
             }
             s += "\n";
         }
-
-
 
         return s;
     }
