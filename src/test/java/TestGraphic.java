@@ -13,10 +13,6 @@ public class TestGraphic {
                 "|   |   |\n" +
                 " --- ---\n" +
                 "\n";
-        Board board = new Board(2,2);
-        Assertions.assertEquals(boardString_2x2,graphic.getStringBoard(board));
+        Assertions.assertEquals(boardString_2x2,graphic.getStringBoard());
     }
-
-
-
 }

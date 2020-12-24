@@ -6,11 +6,11 @@ public class Graphic {
         board = new String[boardRows * 2 + 1][boardCols + 1];
     }
 
-    public void updateMove (Move move){
+    public void updateMove (Move move, Player player){
 
     }
 
-    public String getStringBoard(Board board) {
+    public String getStringBoard() {
         String boardString_2x2 =
                 " --- ---\n" +
                         "|   |   |\n" +
