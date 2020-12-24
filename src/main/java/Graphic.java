@@ -24,11 +24,13 @@ public class Graphic {
         graphicBoard[0][0] = ColorManager.getColoredString(" ---",Color.BLU);
     }
 
-    public static int mapX (Move move){
+    public static int mapY (Move move){
         if (move.getSide() == Side.RIGHT)
-            return move.getX() + 1;
-        else return move.getX();
+            return move.getY() + 1;
+        else return move.getY();
     }
+
+
 
     public String getStringBoard() {
         String s = "\n";
