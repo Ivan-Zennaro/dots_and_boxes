@@ -35,7 +35,7 @@ public class Graphic {
     public void addCopletedBox(int x, int y, char c) {
         StringBuilder s = new StringBuilder(graphicBoard[x * 2 + 1][y]);
         s.setCharAt(2, c);
-        graphicBoard[x * 2 + 1][y] = s.toString() ;
+        graphicBoard[x * 2 + 1][y] = s.toString();
     }
 
 
@@ -55,14 +55,17 @@ public class Graphic {
     }
 
     public String getStringBoard() {
-        String s = "\n";
+        String s = "\n    ";
+        for (int i = 0; i < (graphicBoard.length + 1) / 2 - 1; i++)
+            s += i + "   ";
         for (int i = 0; i < graphicBoard.length; i++) {
+            if (i % 2 == 0) s += "\n  ";
+            else s += "\n" + (((i + 1) / 2) - 1) + " ";
             for (int j = 0; (i % 2 == 0 && j < graphicBoard[0].length - 1) || (i % 2 != 0 && j < graphicBoard[0].length); j++) {
                 s += graphicBoard[i][j];
             }
-            s += "\n";
         }
-        return s;
+        return s + "\n";
     }
 
 }
