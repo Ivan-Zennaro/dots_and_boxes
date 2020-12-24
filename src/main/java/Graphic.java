@@ -18,7 +18,16 @@ public class Graphic {
 
 
     public void updateMove (Move move, Player player){
+
+        /*Color color = player.getColor();
+        int mappedX = */
         graphicBoard[0][0] = ColorManager.getColoredString(" ---",Color.BLU);
+    }
+
+    public static int mapX (Move move){
+        if (move.getSide() == Side.RIGHT)
+            return move.getX() + 1;
+        else return move.getX();
     }
 
     public String getStringBoard() {

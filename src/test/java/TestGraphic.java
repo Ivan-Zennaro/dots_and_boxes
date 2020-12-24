@@ -1,5 +1,8 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class TestGraphic {
 
@@ -28,6 +31,12 @@ public class TestGraphic {
                         " --- ---\n";
 
         Assertions.assertEquals(boardString_2x2,graphic.getStringBoard());
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1,UP,1", "2,DOWN,2", "3,RIGHT,4", "5,LEFT,5"})
+    public void map_x_value_of_game_board_with_x_value_of_graphic_board(int gameBoardX,Side side, int graphicBoardX){
+        Assertions.assertEquals(graphicBoardX,Graphic.mapX(new Move(gameBoardX,0,side)));
     }
 
 }

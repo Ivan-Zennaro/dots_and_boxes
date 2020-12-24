@@ -13,7 +13,7 @@ public class Player {
         return this.points;
     }
 
-    private Color getColor(){
+    public Color getColor(){
         return this.color;
     }
 
