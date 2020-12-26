@@ -35,7 +35,7 @@ public class Game {
 
             int points = board.returnPoints(move);
             currentPlayer.increasePoint(points);
-
+            setPoint (move.getX(), move.getY(), currentPlayer.getId());
             if (points == 0) {
                 //SWAP PLAYERS
                 temp = currentPlayer;
@@ -70,7 +70,7 @@ public class Game {
             for (int i = 0; i < points.length && complete; i++) {
                 for (int j = 0; j < points[0].length && complete; j++) {
                     if (points[i][j] == 0)
-                        complete = false;
+                        complete = false;//can we apply some break? this double for cycle seems inefficient, maybe streams will solve it
                 }
             }
             return complete;
