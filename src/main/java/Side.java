@@ -5,8 +5,9 @@ public enum Side {
     LEFT,
     RIGHT,
     INVALID;
+
     public char asChar(){return name().charAt(0);}
-    public  Side invert(){
+    public Side invert(){
         if(this == UP) return DOWN;
         if(this == DOWN) return UP;
         if(this == LEFT) return RIGHT;
@@ -19,6 +20,5 @@ public enum Side {
         if(this == LEFT) return -1;
         if(this == RIGHT) return +1;
         return 0;
-
     }
 }
