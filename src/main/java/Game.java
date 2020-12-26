@@ -49,14 +49,14 @@ public class Game {
                 currentPlayer = otherPlayer;
                 otherPlayer = temp;
             } else if (points == 1) {
-                if (!board.getIsNeighbourFlag()) {
+                if (!board.getNeighbourGetsPoint()) {
                     graphic.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
 
-                } else if (move.getSide() == Side.LEFT && move.getSide() == Side.RIGHT) {
+                } else if (move.getSide() == Side.LEFT || move.getSide() == Side.RIGHT) {
                     if (board.isMoveInBoardRange(new Move(move.getX(), move.getY() + move.getSide().coordShift(), move.getSide().invert()))) {
                         graphic.addCompletedBox(move.getX(), move.getY() + move.getSide().coordShift(), currentPlayer.getId());
                     }
-                } else if (move.getSide() == Side.UP && move.getSide() == Side.DOWN) {
+                } else if (move.getSide() == Side.UP || move.getSide() == Side.DOWN) {
                     if (board.isMoveInBoardRange(new Move(move.getX() + move.getSide().coordShift(), move.getY(), move.getSide().invert()))) {
                         graphic.addCompletedBox(move.getX() + move.getSide().coordShift(), move.getY(), currentPlayer.getId());
                     }
@@ -65,10 +65,10 @@ public class Game {
 
                 graphic.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
 
-                if (move.getSide() == Side.LEFT && move.getSide() == Side.RIGHT) {
+                if (move.getSide() == Side.LEFT || move.getSide() == Side.RIGHT) {
                     if (board.isMoveInBoardRange(new Move(move.getX(), move.getY() + move.getSide().coordShift(), move.getSide().invert())))
                         graphic.addCompletedBox(move.getX(), move.getY() + move.getSide().coordShift(), currentPlayer.getId());
-                } else if (move.getSide() == Side.UP && move.getSide() == Side.DOWN) {
+                } else if (move.getSide() == Side.UP || move.getSide() == Side.DOWN) {
                     if (board.isMoveInBoardRange(new Move(move.getX() + move.getSide().coordShift(), move.getY(), move.getSide().invert())))
                         graphic.addCompletedBox(move.getX() + move.getSide().coordShift(), move.getY(), currentPlayer.getId());
 
