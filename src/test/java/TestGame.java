@@ -4,6 +4,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.ByteArrayInputStream;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 public class TestGame {
 
     @ParameterizedTest
@@ -13,7 +15,11 @@ public class TestGame {
         System.setIn(in);
         Game game = new Game();
         Board board = game.initializeBoard();
-        Assertions.assertEquals(Integer.parseInt(choice), board.getBoardRows());
+
+        assertAll(
+                () -> Assertions.assertEquals(Integer.parseInt(choice), board.getBoardRows()),
+                () -> Assertions.assertEquals(Integer.parseInt(choice), board.getBoardColumns())
+        );
     }
 
 }

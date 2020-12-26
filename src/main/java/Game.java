@@ -20,7 +20,7 @@ public class Game {
         initializeBoard();
 
 
-        while (true) {//fin a che la partita non è finita ciclo...
+        while (true) {       //fin a che la partita non è finita ciclo...
             boolean flagmove = false;
 
             while (!flagmove) {
