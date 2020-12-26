@@ -3,7 +3,7 @@ public class Board {
     private Box[][] board;
     private int boardRows;
     private int boardColumns;
-
+    private boolean isNeighbourFlag;
 
 
     public Board(int numberOfBoxesInARow, int numberOfBoxesInAColumn) {
@@ -28,19 +28,19 @@ public class Board {
         choosenBox.drawLine(move.getSide());
         Box otherBox = choosenBox;
 
-        boolean flagModifyOtherBox = false;
+       isNeighbourFlag = false;
         if (move.getSide() == Side.UP || move.getSide() == Side.DOWN)
             if (isMoveInBoardRange(new Move(move.getX() + move.getSide().coordShift(), move.getY(), move.getSide().invert()))) {
                 otherBox = board[move.getX() + move.getSide().coordShift()][move.getY()];
-                flagModifyOtherBox = true;
+                isNeighbourFlag = true;
             }
         if (move.getSide() == Side.LEFT || move.getSide() == Side.RIGHT)
             if (isMoveInBoardRange(new Move(move.getX(), move.getY() + move.getSide().coordShift(), move.getSide().invert()))) {
                 otherBox = board[move.getX()][move.getY() + move.getSide().coordShift()];
-                flagModifyOtherBox = true;
+                isNeighbourFlag = true;
             }
 
-        if (flagModifyOtherBox)
+        if (isNeighbourFlag)
             otherBox.drawLine(move.getSide().invert());
     }
     public int returnPoints(Move move) {
@@ -84,6 +84,7 @@ public class Board {
     public int getBoardColumns() {
         return boardColumns;
     }
+    public boolean getIsNeighbourFlag() {return isNeighbourFlag;}
 
 
 }
