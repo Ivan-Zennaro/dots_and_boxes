@@ -102,6 +102,7 @@ public class Game {
             System.out.println("Player" + player2.getId()+ " WON!");
         }else{
             System.out.println("TIE!");}
+        keyboard.close();
 
     }
 
