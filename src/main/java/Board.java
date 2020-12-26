@@ -2,6 +2,15 @@ public class Board {
 
     private Box[][] board;
     private int boardRows;
+
+    public int getBoardRows() {
+        return boardRows;
+    }
+
+    public int getBoardColumns() {
+        return boardColumns;
+    }
+
     private int boardColumns;
 
     public Board(int numberOfBoxesInARow, int numberOfBoxesInAColumn) {
