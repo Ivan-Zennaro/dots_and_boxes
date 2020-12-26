@@ -86,7 +86,7 @@ public class TestGraphic {
         Graphic graphic = new Graphic(3, 3);
         Player player = new Player('A', Color.GREEN);
         graphic.updateMove(new Move(0, 0, Side.DOWN), player);
-        graphic.addCopletedBox(0, 0, player.getId());
+        graphic.addCompletedBox(0, 0, player.getId());
         String boardString_3x3 =
                 "\n    0   1   2   \n" +
                         "   --- --- ---\n" +
