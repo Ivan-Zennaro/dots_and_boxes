@@ -9,11 +9,11 @@ public class Game {
     private char[][] points;
 
     public Game() {
-        player1 = new Player('1', Color.BLU);
-        player2 = new Player('2', Color.GREEN);
+        player1 = new Player('A', Color.BLU);
+        player2 = new Player('B', Color.RED);
     }
 
-    public void startGame() {
+    public void startGame() throws Exception{
 
         Scanner keyboard = new Scanner(System.in);
         initializeBoard();
@@ -23,8 +23,10 @@ public class Game {
         Player temp;
 
         while (!isGameFinished()) {
-
-            System.out.println("Is the turn of " + currentPlayer.getId());
+            System.out.println(graphic.getStringBoard());
+            System.out.println("Player " + player1.getId() + " got "+player1.getPoints()+" points" );
+            System.out.println("Player " + player2.getId() + " got "+player2.getPoints()+" points" );
+            System.out.println("Is the turn of Player" + currentPlayer.getId());
 
             Move move;
             do {
@@ -73,9 +75,8 @@ public class Game {
                 }
 
             }
-            System.out.println("Player " + player1.getId() + " got "+player1.getPoints()+" points" );
-            System.out.println("Player " + player2.getId() + " got "+player2.getPoints()+" points" );
-            System.out.println("Player " + currentPlayer.getId() + "'s turn");
+
+
         }
 
     }
@@ -88,13 +89,13 @@ public class Game {
         int optionGrid;
         do {
             System.out.println("How big the grid? 2:[2x2]  3:[3x3] 5:[5x5]");
-            optionGrid = Integer.parseInt(keyboard.nextLine());
+            optionGrid = keyboard.nextInt();
         } while (!(optionGrid == 2 || optionGrid == 3 || optionGrid == 5));
 
         board = new Board(optionGrid, optionGrid);
         graphic = new Graphic(optionGrid, optionGrid);
         points = new char[optionGrid][optionGrid];
-        keyboard.close();
+
         return board;
     }
 
