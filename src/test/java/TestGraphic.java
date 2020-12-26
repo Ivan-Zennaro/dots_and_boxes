@@ -6,6 +6,18 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class TestGraphic {
 
     @Test
+    public void draw_1x1_empty_board() {
+        Graphic graphic = new Graphic(1, 1);
+        String boardString_1x1 =
+                "\n" +
+                        "    0   \n" +
+                        "   ---\n" +
+                        "0 |   |   \n" +
+                        "   ---\n";
+        Assertions.assertEquals(boardString_1x1, graphic.getStringBoard());
+    }
+
+    @Test
     public void draw_2x2_empty_board() {
         Graphic graphic = new Graphic(2, 2);
         String boardString_2x2 =
