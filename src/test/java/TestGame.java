@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -21,5 +22,15 @@ public class TestGame {
                 () -> Assertions.assertEquals(Integer.parseInt(choice), board.getBoardColumns())
         );
     }
+
+    @Test
+    public void game_is_not_end(){
+        ByteArrayInputStream in = new ByteArrayInputStream("2".getBytes());
+        System.setIn(in);
+        Game game = new Game();
+        game.initializeBoard();
+        Assertions.assertEquals(false, game.isGameFinished());
+    }
+
 
 }

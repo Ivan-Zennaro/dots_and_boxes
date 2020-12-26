@@ -5,6 +5,10 @@ public class Game {
     private Player player1;
     private Player player2;
     private Board board;
+    private char [][] points;
+
+
+
 
     public Game() {
         player1 = new Player('1', Color.BLU);
@@ -56,7 +60,20 @@ public class Game {
         } while (!(optionGrid == 2 || optionGrid == 3 || optionGrid == 5));
 
         board = new Board(optionGrid, optionGrid);
+        points = new char[optionGrid][optionGrid];
         keyboard.close();
         return board;
+    }
+
+    public boolean isGameFinished() {
+        if (points == null) return false;
+        boolean complete = true;
+        for (int i = 0; i < points.length && complete; i++) {
+            for (int j = 0; j < points[0].length && complete; j++) {
+                if (points[i][j] == 0)
+                    complete = false;
+            }
+        }
+        return complete;
     }
 }

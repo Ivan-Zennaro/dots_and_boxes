@@ -98,5 +98,7 @@ public class Box {
         }
     }
 
-
+    public boolean isCompleted() {
+        return lineDown && lineLeft && lineRight && lineUp;
+    }
 }
