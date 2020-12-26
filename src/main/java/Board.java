@@ -23,13 +23,10 @@ public class Board {
     }
 
     public void drawLine(Move move) {
-        //devo disegnare anche la linea nella box adiacente
+
         Box choosenBox = board[move.getX()][move.getY()];
         choosenBox.drawLine(move.getSide());
-
-
         Box otherBox = choosenBox;
-
 
         boolean flagModifyOtherBox = false;
         if (move.getSide() == Side.UP || move.getSide() == Side.DOWN)

@@ -7,9 +7,6 @@ public class Game {
     private Board board;
     private char [][] points;
 
-
-
-
     public Game() {
         player1 = new Player('1', Color.BLU);
         player2 = new Player('2', Color.GREEN);
@@ -18,35 +15,25 @@ public class Game {
     public void startGame() {
 
         Scanner keyboard = new Scanner(System.in);
-
-        //richiesta righe e colonne della griglia
-        //MOLTO APPROSSIMATA
         initializeBoard();
 
+        Player currentPlayer = player1;
 
-        while (true) {       //fin a che la partita non è finita ciclo...
-            boolean flagmove = false;
+        while (!isGameFinished()) {
 
-            while (!flagmove) {
+            System.out.println ("Is the turn of " + currentPlayer.getId());
+
+            Move move;
+            do{
                 System.out.println("Insert move [x y side:U,D,L,R]?");
-                Move move1 = Move.parseMove(keyboard.nextLine());
+                move = Move.parseMove(keyboard.nextLine());
+            }while (!board.isMoveInBoardRange(move) || move.getSide() == Side.INVALID || board.boxHasAlreadyLine(move));
 
-                if (move1.getSide() != Side.INVALID) {
-                    flagmove = true;
-                } else if (board.isMoveInBoardRange(move1)) {
-                    flagmove = true;
-                }
-                //by there flagmove only says if the input is a valid line of the board
+            board.drawLine(move);
 
-                //now we need to check if it is already written in the board...
-                if (!board.boxHasAlreadyLine(move1)) {
-                    flagmove = true;
-                } else {
-                    //... and falsify the flag if the answer is yes
-                    flagmove = false;
-                }
-                //maybe this test could be refactored
-            }
+            //bisogna controllare che la nuova mossa abbia generato un quadrato
+
+
         }
     }
 
@@ -66,7 +53,7 @@ public class Game {
     }
 
     public boolean isGameFinished() {
-        if (points == null) return false;
+        if (points == null || board == null) return false;
         boolean complete = true;
         for (int i = 0; i < points.length && complete; i++) {
             for (int j = 0; j < points[0].length && complete; j++) {
@@ -75,5 +62,9 @@ public class Game {
             }
         }
         return complete;
+    }
+
+    private void setPoint (int x, int y, char c){
+        points[x][y] = c;
     }
 }

@@ -32,5 +32,4 @@ public class TestGame {
         Assertions.assertEquals(false, game.isGameFinished());
     }
 
-
 }
