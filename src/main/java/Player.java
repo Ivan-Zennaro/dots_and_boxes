@@ -21,8 +21,8 @@ public class Player {
         return this.id;
     }
 
-    public int increasePoint(){
-        this.points += 1;
+    public int increasePoint(int points){
+        this.points += points;
         return this.points;
     }
 

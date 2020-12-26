@@ -43,7 +43,38 @@ public class Board {
         if (flagModifyOtherBox)
             otherBox.drawLine(move.getSide().invert());
     }
+    public int returnPoints(Move move) {
 
+        int points = 0 ;
+
+
+
+
+        Box choosenBox = board[move.getX()][move.getY()];
+        if(choosenBox.isCompleted())
+            points += 1;
+        Box otherBox = choosenBox;
+
+        boolean flagModifyOtherBox = false;
+        if (move.getSide() == Side.UP || move.getSide() == Side.DOWN)
+            if (isMoveInBoardRange(new Move(move.getX() + move.getSide().coordShift(), move.getY(), move.getSide().invert()))) {
+                otherBox = board[move.getX() + move.getSide().coordShift()][move.getY()];
+                flagModifyOtherBox = true;
+            }
+        if (move.getSide() == Side.LEFT || move.getSide() == Side.RIGHT)
+            if (isMoveInBoardRange(new Move(move.getX(), move.getY() + move.getSide().coordShift(), move.getSide().invert()))) {
+                otherBox = board[move.getX()][move.getY() + move.getSide().coordShift()];
+                flagModifyOtherBox = true;
+            }
+
+        if (flagModifyOtherBox) {
+            otherBox.drawLine(move.getSide().invert());
+            if (otherBox.isCompleted())
+                points += 1;
+        }
+
+        return points;
+    }
     public boolean isMoveInBoardRange(Move move) {
         return move.getX() < boardRows && move.getY() < boardColumns && move.getX() >= 0 && move.getY() >= 0;
     }

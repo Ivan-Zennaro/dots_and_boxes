@@ -37,4 +37,45 @@ public class TestBoard {
         assertTrue(board.boxHasAlreadyLine(neighbourMove));
     }
 
+    @Test
+    public void zeroPointsAreMade(){
+        Board board = new Board(2,2);
+        Move move = new Move(0,0,Side.UP);
+        board.drawLine(move);
+
+        assertEquals(0,board.returnPoints(move));
+    }
+    @Test
+    public void onePointIsMade(){
+        Board board = new Board(2,2);
+        Move move = new Move(0,0,Side.UP);
+        board.drawLine(move);
+        move = new Move(0,0,Side.DOWN);
+        board.drawLine(move);
+        move = new Move(0,0,Side.LEFT);
+        board.drawLine(move);
+        move = new Move(0,0,Side.RIGHT);
+        board.drawLine(move);
+        assertEquals(1,board.returnPoints(move));
+    }
+    @Test
+    public void twoPointsAreMade(){
+        Board board = new Board(2,2);
+        Move move = new Move(0,0,Side.UP);
+        board.drawLine(move);
+        move = new Move(0,0,Side.DOWN);
+        board.drawLine(move);
+        move = new Move(0,0,Side.LEFT);
+        board.drawLine(move);
+        move = new Move(0,1,Side.UP);
+        board.drawLine(move);
+        move = new Move(0,1,Side.DOWN);
+        board.drawLine(move);
+        move = new Move(0,1,Side.RIGHT);
+        board.drawLine(move);
+        move = new Move(0,1,Side.LEFT);
+        board.drawLine(move);
+        assertEquals(2,board.returnPoints(move));
+    }
+
 }
