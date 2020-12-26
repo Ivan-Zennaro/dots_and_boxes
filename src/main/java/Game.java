@@ -2,22 +2,13 @@ import java.util.Scanner;
 
 public class Game {
 
-    Player player1;
-    Player player2;
-
-    /*instantiating a board 2*2. Usless usign Boxesinrow/Column?
-    [Luca]*/
-    int boxesInRow;
-    int boxesInColumn;
-    Board board;
+    private Player player1;
+    private Player player2;
+    private Board board;
 
     public Game() {
         player1 = new Player('1', Color.BLU);
         player2 = new Player('2', Color.GREEN);
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
     }
 
     public void startGame() {
@@ -27,7 +18,6 @@ public class Game {
         //richiesta righe e colonne della griglia
         //MOLTO APPROSSIMATA
         initializeBoard();
-
 
 
         while (true) {//fin a che la partita non è finita ciclo...
