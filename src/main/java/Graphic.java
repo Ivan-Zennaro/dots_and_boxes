@@ -1,6 +1,6 @@
 public class Graphic {
 
-    private static final String HORIZZONTAL_LINE = " ---";
+    private static final String HORIZONTAL_LINE = " ---";
     private static final String VERTICAL_LINE = "|   ";
 
     private String graphicBoard[][];
@@ -12,7 +12,7 @@ public class Graphic {
         for (int i = 0; i < mappedRows; i++) {
             for (int j = 0; j < mappedCols; j++) {
                 if (i % 2 == 0)
-                    graphicBoard[i][j] = HORIZZONTAL_LINE;
+                    graphicBoard[i][j] = HORIZONTAL_LINE;
                 else
                     graphicBoard[i][j] = VERTICAL_LINE;
             }
@@ -26,13 +26,13 @@ public class Graphic {
         int mappedY = mapY(move);
         String stringToWrite;
         if (mappedX % 2 == 0)
-            stringToWrite = ColorManager.getColoredString(HORIZZONTAL_LINE, color);
+            stringToWrite = ColorManager.getColoredString(HORIZONTAL_LINE, color);
         else
             stringToWrite = ColorManager.getColoredString(VERTICAL_LINE, color);
         graphicBoard[mappedX][mappedY] = stringToWrite;
     }
 
-    public void addCopletedBox(int x, int y, char c) {
+    public void addCompletedBox(int x, int y, char c) {
         StringBuilder s = new StringBuilder(graphicBoard[x * 2 + 1][y]);
         s.setCharAt(2, c);
         graphicBoard[x * 2 + 1][y] = s.toString();
