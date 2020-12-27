@@ -13,7 +13,7 @@ public class Game {
         player2 = new Player('B', Color.RED);
     }
 
-    public void startGame() throws Exception{
+    public void startGame() throws Exception {
 
         Scanner keyboard = new Scanner(System.in);
         initializeBoard();
@@ -24,8 +24,8 @@ public class Game {
 
         while (!isGameFinished()) {
             System.out.println(graphic.getStringBoard());
-            System.out.println("Player " + player1.getId() + " got "+player1.getPoints()+" points" );
-            System.out.println("Player " + player2.getId() + " got "+player2.getPoints()+" points" );
+            System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
+            System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
             System.out.println("Is the turn of Player" + currentPlayer.getId());
 
             Move move;
@@ -55,14 +55,14 @@ public class Game {
                 } else if (move.getSide() == Side.LEFT || move.getSide() == Side.RIGHT) {
                     if (board.isMoveInBoardRange(new Move(move.getX(), move.getY() + move.getSide().coordShift(), move.getSide().invert()))) {
                         graphic.addCompletedBox(move.getX(), move.getY() + move.getSide().coordShift(), currentPlayer.getId());
-                        setPoint(move.getX(), move.getY()+ move.getSide().coordShift(), currentPlayer.getId());
+                        setPoint(move.getX(), move.getY() + move.getSide().coordShift(), currentPlayer.getId());
 
 
                     }
                 } else if (move.getSide() == Side.UP || move.getSide() == Side.DOWN) {
                     if (board.isMoveInBoardRange(new Move(move.getX() + move.getSide().coordShift(), move.getY(), move.getSide().invert()))) {
                         graphic.addCompletedBox(move.getX() + move.getSide().coordShift(), move.getY(), currentPlayer.getId());
-                        setPoint(move.getX()+ move.getSide().coordShift(), move.getY(), currentPlayer.getId());
+                        setPoint(move.getX() + move.getSide().coordShift(), move.getY(), currentPlayer.getId());
 
 
                     }
@@ -73,40 +73,38 @@ public class Game {
                 setPoint(move.getX(), move.getY(), currentPlayer.getId());
 
 
-
                 if (move.getSide() == Side.LEFT || move.getSide() == Side.RIGHT) {
                     if (board.isMoveInBoardRange(new Move(move.getX(), move.getY() + move.getSide().coordShift(), move.getSide().invert()))) {
                         graphic.addCompletedBox(move.getX(), move.getY() + move.getSide().coordShift(), currentPlayer.getId());
-                        setPoint(move.getX(), move.getY()+ move.getSide().coordShift(), currentPlayer.getId());
+                        setPoint(move.getX(), move.getY() + move.getSide().coordShift(), currentPlayer.getId());
 
                     }
-                    } else if (move.getSide() == Side.UP || move.getSide() == Side.DOWN) {
+                } else if (move.getSide() == Side.UP || move.getSide() == Side.DOWN) {
                     if (board.isMoveInBoardRange(new Move(move.getX() + move.getSide().coordShift(), move.getY(), move.getSide().invert()))) {
                         graphic.addCompletedBox(move.getX() + move.getSide().coordShift(), move.getY(), currentPlayer.getId());
-                        setPoint(move.getX()+ move.getSide().coordShift(), move.getY(), currentPlayer.getId());
+                        setPoint(move.getX() + move.getSide().coordShift(), move.getY(), currentPlayer.getId());
 
                     }
 
-                    }
+                }
 
             }
 
 
         }
         System.out.println(graphic.getStringBoard());
-        System.out.println("Player " + player1.getId() + " got "+player1.getPoints()+" points" );
-        System.out.println("Player " + player2.getId() + " got "+player2.getPoints()+" points" );
-        if(player1.getPoints()>player2.getPoints()){
-            System.out.println("Player" + player1.getId()+ " WON!");
-        }else if(player2.getPoints()>player1.getPoints()){
-            System.out.println("Player" + player2.getId()+ " WON!");
-        }else{
-            System.out.println("TIE!");}
+        System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
+        System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
+        if (player1.getPoints() > player2.getPoints()) {
+            System.out.println("Player" + player1.getId() + " WON!");
+        } else if (player2.getPoints() > player1.getPoints()) {
+            System.out.println("Player" + player2.getId() + " WON!");
+        } else {
+            System.out.println("TIE!");
+        }
         keyboard.close();
 
     }
-
-
 
 
     public Board initializeBoard() {

@@ -48,10 +48,12 @@ public class Board {
 
         int points = 0;
 
-
         Box choosenBox = board[move.getX()][move.getY()];
         if (choosenBox.isCompleted())
             points += 1;
+
+
+
         Box otherBox = choosenBox;
 
         boolean flagModifyOtherBox = false;
@@ -68,7 +70,6 @@ public class Board {
             }
 
         if (flagModifyOtherBox) {
-            otherBox.drawLine(move.getSide().invert());
             if (otherBox.isCompleted()) {
                 points += 1;
                 neighbourGetsPoint = true;
