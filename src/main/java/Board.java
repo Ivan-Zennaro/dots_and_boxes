@@ -26,22 +26,12 @@ public class Board {
 
         Box choosenBox = board[move.getX()][move.getY()];
         choosenBox.drawLine(move.getSide());
-        Box otherBox = choosenBox;
 
-        boolean modifyOtherBox = false;
-        if (move.getSide() == Side.UP || move.getSide() == Side.DOWN)
-            if (isMoveInBoardRange(new Move(move.getX() + move.getSide().coordShift(), move.getY(), move.getSide().invert()))) {
-                otherBox = board[move.getX() + move.getSide().coordShift()][move.getY()];
-                modifyOtherBox = true;
-            }
-        if (move.getSide() == Side.LEFT || move.getSide() == Side.RIGHT)
-            if (isMoveInBoardRange(new Move(move.getX(), move.getY() + move.getSide().coordShift(), move.getSide().invert()))) {
-                otherBox = board[move.getX()][move.getY() + move.getSide().coordShift()];
-                modifyOtherBox = true;
-            }
-
-        if (modifyOtherBox)
-            otherBox.drawLine(move.getSide().invert());
+        Move otherMove = getNeighbourSideMove(move);
+        if (otherMove.getSide() != Side.INVALID) {
+            Box otherBox = board[otherMove.getX()][otherMove.getY()];
+            otherBox.drawLine(otherMove.getSide());
+        }
     }
 
     public int returnPoints(Move move) {
@@ -95,6 +85,18 @@ public class Board {
     public boolean getNeighbourGetsPoint() {
         return neighbourGetsPoint;
     }
+    public Move getNeighbourSideMove(Move move){
+        if (move.getSide() == Side.UP || move.getSide() == Side.DOWN)
+            if (isMoveInBoardRange(new Move(move.getX() + move.getSide().coordShift(), move.getY(), move.getSide().invert()))) {
+                return new Move (move.getX()+ move.getSide().coordShift(),move.getY() ,move.getSide().invert());
 
+            }
+        if (move.getSide() == Side.LEFT || move.getSide() == Side.RIGHT)
+            if (isMoveInBoardRange(new Move(move.getX(), move.getY() + move.getSide().coordShift(), move.getSide().invert()))) {
+                return new Move (move.getX(),move.getY() + move.getSide().coordShift(),move.getSide().invert());
+            }
+
+        return new Move(-1,-1,Side.INVALID);
+    }
 
 }
