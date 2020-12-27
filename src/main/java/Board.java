@@ -3,7 +3,7 @@ public class Board {
     private Box[][] board;
     private int boardRows;
     private int boardColumns;
-    private boolean neighbourGetsPoint = false;
+    private boolean neighbourGetsPoint;
 
 
     public Board(int numberOfBoxesInARow, int numberOfBoxesInAColumn) {
@@ -55,6 +55,7 @@ public class Board {
         Box otherBox = choosenBox;
 
         boolean flagModifyOtherBox = false;
+        neighbourGetsPoint = false;
         if (move.getSide() == Side.UP || move.getSide() == Side.DOWN)
             if (isMoveInBoardRange(new Move(move.getX() + move.getSide().coordShift(), move.getY(), move.getSide().invert()))) {
                 otherBox = board[move.getX() + move.getSide().coordShift()][move.getY()];
