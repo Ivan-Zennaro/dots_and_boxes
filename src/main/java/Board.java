@@ -46,7 +46,7 @@ public class Board {
     public int getBoardColumns() {
         return boardColumns;
     }
-    
+
     public Move getNeighbourSideMove(Move move){
         if (move.getSide() == Side.UP || move.getSide() == Side.DOWN)
             if (isMoveInBoardRange(new Move(move.getX() + move.getSide().coordShift(), move.getY(), move.getSide().invert()))) {
