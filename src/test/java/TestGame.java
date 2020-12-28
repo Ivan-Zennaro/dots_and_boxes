@@ -14,7 +14,7 @@ public class TestGame {
     public void check_input_grid_dimensions(String choice){
         ByteArrayInputStream in = new ByteArrayInputStream(choice.getBytes());
         System.setIn(in);
-        Game game = new Game();
+        Game game = new TwoPlayersGame();
         Board board = game.initializeBoard();
 
         assertAll(
@@ -23,13 +23,61 @@ public class TestGame {
         );
     }
 
+
+
     @Test
     public void game_is_not_end(){
-        ByteArrayInputStream in = new ByteArrayInputStream("2".getBytes());
-        System.setIn(in);
-        Game game = new Game();
+        System.out.println("GAME HAS NOT ENDED TEST");
+        TestingGame game = new TestingGame();
+
+        game.setBoardSize(2);
         game.initializeBoard();
-        Assertions.assertEquals(false, game.isGameFinished());
+        game.turn("0 0 U");
+        Assertions.assertFalse(game.isGameFinished());
     }
+
+    @Test
+    public void game_ended(){
+        System.out.println("GAME ENDED TEST");
+        TestingGame game = new TestingGame();
+
+        game.setBoardSize(2);
+        game.initializeBoard();
+        game.turn("0 0 L");
+
+        game.turn("0 0 R");
+        game.turn("0 0 U");
+        game.turn("0 0 D");
+
+        game.turn("0 0 R");
+        game.turn("0 0 U");
+        game.turn("0 0 D");
+        game.turn("0 1 U");
+        game.turn("0 1 D");
+        game.turn("0 1 R");
+        game.turn("1 1 L");
+        game.turn("1 1 R");
+        game.turn("1 1 D");
+        game.turn("1 0 D");
+        game.turn("1 0 L");
+        game.endGame();
+
+        Assertions.assertTrue(game.isGameFinished());
+    }
+
+    /*
+    @Test
+    public void input_one_move(){
+        String inputString = "2\n0 0 L\n";
+        ByteArrayInputStream in = new ByteArrayInputStream(inputString.getBytes());
+        System.setIn(in);
+        Move move = new Move(0 , 0 , Side.LEFT);
+        Game game = new Game();
+        game.startGame();
+        board.get
+        Assertions.assertTrue(game.isGameFinished());
+    }
+*/
+
 
 }

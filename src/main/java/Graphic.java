@@ -34,7 +34,9 @@ public class Graphic {
 
     public void addCompletedBox(int x, int y, char c) {
         StringBuilder s = new StringBuilder(graphicBoard[x * 2 + 1][y]);
-        s.setCharAt(2, c);
+        if (s.length() > 4)
+            s.setCharAt(7, c);
+        else s.setCharAt(2, c);
         graphicBoard[x * 2 + 1][y] = s.toString();
     }
 
@@ -69,3 +71,5 @@ public class Graphic {
     }
 
 }
+
+
