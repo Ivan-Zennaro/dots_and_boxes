@@ -3,7 +3,6 @@ public class Board {
     private Box[][] board;
     private int boardRows;
     private int boardColumns;
-    private boolean neighbourGetsPoint;
 
 
     public Board(int numberOfBoxesInARow, int numberOfBoxesInAColumn) {
@@ -34,27 +33,7 @@ public class Board {
         }
     }
 
-    public int returnPoints(Move move) {
 
-        int points = 0;
-
-        Box choosenBox = board[move.getX()][move.getY()];
-        if (choosenBox.isCompleted())
-            points += 1;
-        neighbourGetsPoint = false;
-        Move otherMove = getNeighbourSideMove(move);
-
-        if (otherMove.getSide()!=Side.INVALID) {
-            Box otherBox = board[otherMove.getX()][otherMove.getY()];
-            if (otherBox.isCompleted()) {
-                points += 1;
-                neighbourGetsPoint = true;
-            }
-
-        }
-
-        return points;
-    }
 
     public boolean isMoveInBoardRange(Move move) {
         return move.getX() < boardRows && move.getY() < boardColumns && move.getX() >= 0 && move.getY() >= 0;
@@ -67,10 +46,7 @@ public class Board {
     public int getBoardColumns() {
         return boardColumns;
     }
-
-    public boolean getNeighbourGetsPoint() {
-        return neighbourGetsPoint;
-    }
+    
     public Move getNeighbourSideMove(Move move){
         if (move.getSide() == Side.UP || move.getSide() == Side.DOWN)
             if (isMoveInBoardRange(new Move(move.getX() + move.getSide().coordShift(), move.getY(), move.getSide().invert()))) {
