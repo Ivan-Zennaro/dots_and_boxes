@@ -1,13 +1,12 @@
 import java.util.Scanner;
 
-public class Game {
+public abstract class Game {
 
-    private Player player1;
-    private Player player2;
-    private Player currentPlayer;
-    private Board board;
-    private Graphic graphic;
-    private char[][] points;
+    protected Player player1;
+    protected Player player2;
+    protected Player currentPlayer;
+    protected Board board;
+    protected Graphic graphic;
 
     public Game() {
         player1 = new Player('A', Color.BLU);
@@ -15,59 +14,69 @@ public class Game {
         currentPlayer = player1;
     }
 
-    public void startGame(){
+    public abstract void startGame();
 
-        Scanner keyboard = new Scanner(System.in);
-        initializeBoard();
-
-
-
-        while (!isGameFinished()) {
-            System.out.println(graphic.getStringBoard());
-            System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
-            System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
-            System.out.println("Is the turn of Player" + currentPlayer.getId());
-
-            Move move;
-            do {
-                System.out.println("Insert move [x y side:U,D,L,R]?");
-                move = Move.parseMove(keyboard.nextLine());
-            } while (!board.isMoveInBoardRange(move) || move.getSide() == Side.INVALID || board.boxHasAlreadyLine(move));
-
-            board.drawLine(move);
-            graphic.updateMove(move, currentPlayer);
-
-            boolean atLeastOnePointByCurrentPlayer = false;
-
-            if( board.isBoxCompleted(move) ){
-                currentPlayer.increasePoint(1);
-                graphic.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
-                atLeastOnePointByCurrentPlayer = true;
-            }
-            Move otherMove = board.getNeighbourSideMove(move);
-            if( otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)){
-                currentPlayer.increasePoint(1);
-                graphic.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
-                atLeastOnePointByCurrentPlayer = true;
-            }
-
-            if(!atLeastOnePointByCurrentPlayer){
-                swapPlayers();
-            }
+    public void endGame() {
+        finalGraphics();
+        printWinner();
+    }
 
 
+    public void turn(String stringMove) {
+        printStarter();
+        Move move;
+        move = Move.parseMove(stringMove);
+        if (board.isMoveInBoardRange(move) && move.getSide() != Side.INVALID && !board.boxHasAlreadyLine(move))
+            computeMove(move);
+    }
 
 
+    public void computeMove(Move move) {
+        board.drawLine(move);
+        graphic.updateMove(move, currentPlayer);
 
+        boolean atLeastOnePointByCurrentPlayer = false;
 
-
+        if (board.isBoxCompleted(move)) {
+            currentPlayer.increasePoint(1);
+            graphic.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
+            atLeastOnePointByCurrentPlayer = true;
+        }
+        Move otherMove = board.getNeighbourSideMove(move);
+        if (otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)) {
+            currentPlayer.increasePoint(1);
+            graphic.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
+            atLeastOnePointByCurrentPlayer = true;
         }
 
+        if (!atLeastOnePointByCurrentPlayer) {
+            swapPlayers();
+        }
+
+    }
+
+    public void printStarter() {
 
         System.out.println(graphic.getStringBoard());
         System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
         System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
-        System.out.println();
+        System.out.println("Is the turn of Player" + currentPlayer.getId());
+    }
+
+    public void turn(Scanner keyboard) {
+        printStarter();
+
+        Move move;
+        do {
+            System.out.println("Insert move [x y side:U,D,L,R]?");
+            move = Move.parseMove(keyboard.nextLine());
+        } while (!board.isMoveInBoardRange(move) || move.getSide() == Side.INVALID || board.boxHasAlreadyLine(move));
+        computeMove(move);
+
+    }
+
+
+    private void printWinner() {
         if (player1.getPoints() > player2.getPoints()) {
             System.out.println("Player" + player1.getId() + " WON!");
         } else if (player2.getPoints() > player1.getPoints()) {
@@ -75,32 +84,26 @@ public class Game {
         } else {
             System.out.println("TIE!");
         }
-        keyboard.close();
     }
 
-    private void swapPlayers() {
-        if(currentPlayer == player1) {
+
+    public void finalGraphics() {
+        System.out.println(graphic.getStringBoard());
+        System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
+        System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
+        System.out.println();
+    }
+
+    public void swapPlayers() {
+        if (currentPlayer == player1) {
             currentPlayer = player2;
-        }else{
+        } else {
             currentPlayer = player1;
         }
     }
 
 
-    public Board initializeBoard() {
-        Scanner keyboard = new Scanner(System.in);
-        int optionGrid;
-        do {
-            System.out.println("How big the grid? 2:[2x2]  3:[3x3] 5:[5x5]");
-            optionGrid = keyboard.nextInt();
-        } while (!(optionGrid == 2 || optionGrid == 3 || optionGrid == 5));
-
-        board = new Board(optionGrid, optionGrid);
-        graphic = new Graphic(optionGrid, optionGrid);
-        points = new char[optionGrid][optionGrid];
-
-        return board;
-    }
+    public abstract Board initializeBoard();
 
     public boolean isGameFinished() {
         return player1.getPoints() + player2.getPoints() >= board.getBoardColumns() * board.getBoardRows();
