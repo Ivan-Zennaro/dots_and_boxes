@@ -93,7 +93,6 @@ public class Game {
         do {
             System.out.println("How big the grid? 2:[2x2]  3:[3x3] 5:[5x5]");
             optionGrid = keyboard.nextInt();
-            keyboard.nextLine();
         } while (!(optionGrid == 2 || optionGrid == 3 || optionGrid == 5));
 
         board = new Board(optionGrid, optionGrid);
@@ -107,7 +106,4 @@ public class Game {
         return player1.getPoints() + player2.getPoints() >= board.getBoardColumns() * board.getBoardRows();
     }
 
-    private void setPoint(int x, int y, char c) {
-        points[x][y] = c;
-    }
 }
