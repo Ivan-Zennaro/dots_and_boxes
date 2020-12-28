@@ -53,18 +53,16 @@ public class Game {
                     setPoint(move.getX(), move.getY(), currentPlayer.getId());
                 } else {
                     graphic.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
-                    setPoint(otherMove.getX() + otherMove.getSide().coordShift(), otherMove.getY(), currentPlayer.getId());
+                    setPoint(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
                 }
             } else {
 
                 graphic.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
                 setPoint(move.getX(), move.getY(), currentPlayer.getId());
 
-
                 Move otherMove = board.getNeighbourSideMove(move);
-                graphic.addCompletedBox(move.getX(), move.getY() + move.getSide().coordShift(), currentPlayer.getId());
-                setPoint(move.getX(), move.getY() + move.getSide().coordShift(), currentPlayer.getId());
-
+                graphic.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
+                setPoint(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
 
             }
 
