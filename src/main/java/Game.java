@@ -4,6 +4,7 @@ public class Game {
 
     private Player player1;
     private Player player2;
+    private Player currentPlayer;
     private Board board;
     private Graphic graphic;
     private char[][] points;
@@ -11,6 +12,7 @@ public class Game {
     public Game() {
         player1 = new Player('A', Color.BLU);
         player2 = new Player('B', Color.RED);
+        currentPlayer = player1;
     }
 
     public void startGame() throws Exception {
@@ -18,9 +20,7 @@ public class Game {
         Scanner keyboard = new Scanner(System.in);
         initializeBoard();
 
-        Player currentPlayer = player1;
-        Player otherPlayer = player2;
-        Player temp;
+
 
         while (!isGameFinished()) {
             System.out.println(graphic.getStringBoard());
@@ -36,35 +36,30 @@ public class Game {
 
             board.drawLine(move);
             graphic.updateMove(move, currentPlayer);
-            int points = board.returnPoints(move);
 
-            currentPlayer.increasePoint(points);
+            boolean atLeastOnePointByCurrentPlayer = false;
 
-
-            if (points == 0) {
-                //SWAP PLAYERS
-                temp = currentPlayer;
-                currentPlayer = otherPlayer;
-                otherPlayer = temp;
-            } else if (points == 1) {
-                Move otherMove = board.getNeighbourSideMove(move);
-                if (!board.getNeighbourGetsPoint()) {
-                    graphic.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
-                    setPoint(move.getX(), move.getY(), currentPlayer.getId());
-                } else {
-                    graphic.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
-                    setPoint(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
-                }
-            } else {
-
+            if( board.isBoxCompleted(move) ){
+                currentPlayer.increasePoint(1);
                 graphic.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
-                setPoint(move.getX(), move.getY(), currentPlayer.getId());
-
-                Move otherMove = board.getNeighbourSideMove(move);
-                graphic.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
-                setPoint(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
-
+                atLeastOnePointByCurrentPlayer = true;
             }
+            Move otherMove = board.getNeighbourSideMove(move);
+            if( otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)){
+                currentPlayer.increasePoint(1);
+                graphic.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
+                atLeastOnePointByCurrentPlayer = true;
+            }
+
+            if(!atLeastOnePointByCurrentPlayer){
+                swapPlayers();
+            }
+
+
+
+
+
+
 
         }
 
@@ -81,6 +76,14 @@ public class Game {
             System.out.println("TIE!");
         }
         keyboard.close();
+    }
+
+    private void swapPlayers() {
+        if(currentPlayer == player1) {
+            currentPlayer = player2;
+        }else{
+            currentPlayer = player1;
+        }
     }
 
 
