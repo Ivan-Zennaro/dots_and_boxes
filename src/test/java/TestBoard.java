@@ -78,4 +78,18 @@ public class TestBoard {
         assertEquals(2,board.returnPoints(move));
     }
 
+    @Test
+    public void oneBoxCompleted(){
+        Board board = new Board(2,2);
+        Move move = new Move(0,0,Side.UP);
+        board.drawLine(move);
+        move = new Move(0,0,Side.DOWN);
+        board.drawLine(move);
+        move = new Move(0,0,Side.LEFT);
+        board.drawLine(move);
+        move = new Move(0,0,Side.RIGHT);
+        board.drawLine(move);
+        assertTrue(board.isBoxCompleted(move));
+    }
+
 }
