@@ -15,7 +15,7 @@ public class Game {
         currentPlayer = player1;
     }
 
-    public void startGame() throws Exception {
+    public void startGame(){
 
         Scanner keyboard = new Scanner(System.in);
         initializeBoard();
@@ -93,6 +93,7 @@ public class Game {
         do {
             System.out.println("How big the grid? 2:[2x2]  3:[3x3] 5:[5x5]");
             optionGrid = keyboard.nextInt();
+            keyboard.nextLine();
         } while (!(optionGrid == 2 || optionGrid == 3 || optionGrid == 5));
 
         board = new Board(optionGrid, optionGrid);
@@ -103,15 +104,7 @@ public class Game {
     }
 
     public boolean isGameFinished() {
-        if (points == null || board == null) return false;
-        boolean complete = true;
-        for (int i = 0; i < points.length && complete; i++) {
-            for (int j = 0; j < points[0].length && complete; j++) {
-                if (points[i][j] == 0)
-                    complete = false;//can we apply some break? this double for cycle seems inefficient, maybe streams will solve it
-            }
-        }
-        return complete;
+        return player1.getPoints() + player2.getPoints() >= board.getBoardColumns() * board.getBoardRows();
     }
 
     private void setPoint(int x, int y, char c) {
