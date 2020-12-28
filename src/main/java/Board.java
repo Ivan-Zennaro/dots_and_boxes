@@ -85,4 +85,11 @@ public class Board {
         return new Move(-1,-1,Side.INVALID);
     }
 
+    public Box getBoxByMove(Move move) {
+        return board[move.getX()][move.getY()];
+    }
+
+    public boolean isBoxCompleted(Move move){
+        return getBoxByMove(move).isCompleted();
+    }
 }
