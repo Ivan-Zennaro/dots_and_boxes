@@ -68,4 +68,6 @@ public class TestBox {
                 () -> assertEquals(1,new Box(true,false,false,false).getNumberOfDrawLine())
         );
     }
+
+
 }

@@ -6,6 +6,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class TestGameComputer {
 
     @ParameterizedTest
@@ -21,6 +24,17 @@ public class TestGameComputer {
         List<Integer> list = new ArrayList<>();
         list.add(1);list.add(2);list.add(3);list.add(4);
         Assertions.assertEquals(list,PlayerVsComputerGame.matrixToList(matrix));
+    }
+
+    @Test
+    public void get_missing_side_from_box (){
+        assertAll(
+                () -> assertEquals(Side.LEFT, PlayerVsComputerGame.getMissingSideFromBox(new Box(true,false,true,true))),
+                () -> assertEquals(Side.RIGHT, PlayerVsComputerGame.getMissingSideFromBox(new Box(true,true,true,false))),
+                () -> assertEquals(Side.DOWN, PlayerVsComputerGame.getMissingSideFromBox(new Box(true,true,false,true))),
+                () -> assertEquals(Side.UP, PlayerVsComputerGame.getMissingSideFromBox(new Box(false,true,true,true))),
+                () -> assertEquals(Side.INVALID, PlayerVsComputerGame.getMissingSideFromBox(new Box(false,false,true,true)))
+        );
 
     }
 
