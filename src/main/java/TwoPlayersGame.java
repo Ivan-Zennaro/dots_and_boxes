@@ -22,7 +22,7 @@ public class TwoPlayersGame extends Game {
         int optionGrid;
         do {
             System.out.println("How big the grid? 2:[2x2]  3:[3x3] 5:[5x5]");
-            optionGrid = keyboard.nextInt();
+            optionGrid = Integer.parseInt( keyboard.nextLine() );
         } while (!(optionGrid == 2 || optionGrid == 3 || optionGrid == 5));
 
         board = new Board(optionGrid, optionGrid);
