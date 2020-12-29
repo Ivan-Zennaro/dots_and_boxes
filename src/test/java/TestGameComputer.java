@@ -35,7 +35,31 @@ public class TestGameComputer {
                 () -> assertEquals(Side.UP, PlayerVsComputerGame.getMissingSideFromBox(new Box(false,true,true,true))),
                 () -> assertEquals(Side.INVALID, PlayerVsComputerGame.getMissingSideFromBox(new Box(false,false,true,true)))
         );
+    }
 
+    @Test
+    public void draw_line_in_a_missing_position_of_a_box(){
+        PlayerVsComputerGame game = new PlayerVsComputerGame();
+        game.defaultInitialize();
+        game.turn(new Move(1,1,Side.LEFT));
+        game.turn(new Move(1,1,Side.RIGHT));
+        game.turn(new Move(1,1,Side.DOWN));
+        Assertions.assertEquals(new Move(1,1,Side.UP),game.getComputerMove());
+    }
+
+    @Test
+    public void draw_line_in_a_random_box_with_not_2_side_completed(){
+        PlayerVsComputerGame game = new PlayerVsComputerGame();
+        game.defaultInitialize();
+        game.turn(new Move(1,1,Side.LEFT));
+        game.turn(new Move(1,1,Side.DOWN));
+        game.turn(new Move(0,0,Side.UP));
+        game.turn(new Move(0,0,Side.LEFT));
+        game.turn(new Move(0,1,Side.UP));
+        game.turn(new Move(0,1,Side.RIGHT));
+        Move move = game.getComputerMove();
+        Assertions.assertEquals(1,move.getX());
+        Assertions.assertEquals(0,move.getY());
     }
 
 }
