@@ -40,14 +40,14 @@ public abstract class Game {
         boolean atLeastOnePointScoredByCurrentPlayer = false;
 
         if (board.isBoxCompleted(move)) {
-            currentPlayer.increasePoint(1);
+            currentPlayer.onePointDone();
             graphic.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
             atLeastOnePointScoredByCurrentPlayer = true;
         }
 
         Move otherMove = board.getNeighbourSideMove(move);
         if (otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)) {
-            currentPlayer.increasePoint(1);
+            currentPlayer.onePointDone();
             graphic.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
             atLeastOnePointScoredByCurrentPlayer = true;
         }
