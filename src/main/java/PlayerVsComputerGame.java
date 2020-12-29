@@ -12,14 +12,15 @@ public class PlayerVsComputerGame extends Game {
         initializeBoard();
         while (!isGameFinished()) {
 
+            /*
             printScoreBoard();
             turn(getComputerMove());
             try {
                 Thread.sleep(3000);
             } catch (Exception e) {
-            }
+            }*/
 
-            /*if (currentPlayer == player1) {
+            if (currentPlayer == player1) {
                 printScoreBoard();
                 System.out.println("Insert move [x y side:U,D,L,R]?");
                 turn(keyboard.nextLine());
@@ -30,7 +31,7 @@ public class PlayerVsComputerGame extends Game {
                     Thread.sleep(400);
                 }catch (Exception e){}
 
-            }*/
+            }
         }
         keyboard.close();
     }
@@ -122,6 +123,7 @@ public class PlayerVsComputerGame extends Game {
             colCandidate = indexCandidate % board.getBoardColumns();
             Box finalBox = box;
             List<Side> candidateSides = Arrays.asList(Side.DOWN, Side.UP, Side.LEFT, Side.RIGHT).stream().filter(side1 -> predicateSide.test(finalBox, side1)).collect(Collectors.toList());
+            if (candidateSides.size() == 0) return Move.getInvalidMove();
             side = getRandomElementFromList(candidateSides);
         } while (box.hasLineBySide(side));
         return new Move(rowCandidate, colCandidate, side);
