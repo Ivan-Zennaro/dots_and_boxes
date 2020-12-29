@@ -67,5 +67,40 @@ public class TestGame {
 
     }
 
+    @Test
+    public void game_first_turn_player(){
+        System.out.println("TEST GAME FIRST TURN");
+        TestingGame game = new TestingGame();
+        game.setBoardSize(2);
+        game.initializeBoard();
+        Assertions.assertEquals(game.player1.getId(),game.currentPlayer.getId());
+    }
 
+    @Test
+    public void game_second_turn_player(){
+        System.out.println("TEST GAME SECOND TURN");
+        TestingGame game = new TestingGame();
+        game.setBoardSize(2);
+        game.initializeBoard();
+        game.turn("0 0 L");
+        Assertions.assertEquals(game.player2.getId(),game.currentPlayer.getId());
+    }
+
+    @Test
+    public void  game_swap_players_after_one_point(){
+        System.out.println("TEST GAME TURN AFTER POINT");
+        TestingGame game = new TestingGame();
+        game.setBoardSize(2);
+        game.initializeBoard();
+        game.turn("0 0 L");
+        game.turn("0 0 U");
+        game.turn("0 0 D");
+        game.turn("0 1 L");
+
+        assertAll(
+                ()->Assertions.assertEquals(game.player2.getId(),game.currentPlayer.getId()),
+                ()->Assertions.assertNotEquals(game.player1.getId(),game.currentPlayer.getId())
+        );
+
+    }
 }
