@@ -1,17 +1,18 @@
 import java.util.Scanner;
 
-public class TwoPlayersGame extends Game{
+public class TwoPlayersGame extends Game {
     @Override
     public void startGame() {
-
-        Scanner keyboard = new Scanner(System.in);
         initializeBoard();
+        Scanner keyboard = new Scanner(System.in);
+
         while (!isGameFinished()) {
             System.out.println("Insert move [x y side:U,D,L,R]?");
             turn(keyboard);
         }
         keyboard.close();
     }
+
     @Override
     public Board initializeBoard() {
         Scanner keyboard = new Scanner(System.in);

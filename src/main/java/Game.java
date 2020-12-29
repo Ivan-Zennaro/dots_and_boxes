@@ -5,6 +5,7 @@ public abstract class Game {
     protected Player player1;
     protected Player player2;
     protected Player currentPlayer;
+
     protected Board board;
     protected Graphic graphic;
 
@@ -24,10 +25,13 @@ public abstract class Game {
 
     public void turn(String stringMove) {
         printStarter();
-        Move move;
-        move = Move.parseMove(stringMove);
-        if (board.isMoveInBoardRange(move) && move.getSide() != Side.INVALID && !board.boxHasAlreadyLine(move))
+        Move move = Move.parseMove(stringMove);
+        if (moveIsAllowable(move))
             computeMove(move);
+    }
+
+    private boolean moveIsAllowable(Move move) {
+        return board.isMoveInBoardRange(move) && move.getSide() != Side.INVALID && !board.boxHasAlreadyLine(move);
     }
 
 
@@ -35,21 +39,21 @@ public abstract class Game {
         board.drawLine(move);
         graphic.updateMove(move, currentPlayer);
 
-        boolean atLeastOnePointByCurrentPlayer = false;
+        boolean atLeastOnePointScoredByCurrentPlayer = false;
 
         if (board.isBoxCompleted(move)) {
             currentPlayer.increasePoint(1);
             graphic.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
-            atLeastOnePointByCurrentPlayer = true;
+            atLeastOnePointScoredByCurrentPlayer = true;
         }
         Move otherMove = board.getNeighbourSideMove(move);
         if (otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)) {
             currentPlayer.increasePoint(1);
             graphic.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
-            atLeastOnePointByCurrentPlayer = true;
+            atLeastOnePointScoredByCurrentPlayer = true;
         }
 
-        if (!atLeastOnePointByCurrentPlayer) {
+        if (!atLeastOnePointScoredByCurrentPlayer) {
             swapPlayers();
         }
 
