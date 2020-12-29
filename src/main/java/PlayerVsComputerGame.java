@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class PlayerVsComputerGame extends Game {
@@ -16,7 +19,7 @@ public class PlayerVsComputerGame extends Game {
                 turn(keyboard.nextLine());
             }
             else {
-                turn(null);
+                turn("");
             }
         }
         keyboard.close();
@@ -44,4 +47,17 @@ public class PlayerVsComputerGame extends Game {
         return boardRow > 0 && boardCols > 0;
     }
 
+    public Move getComputerMove(){
+        List<Box> boxes = new ArrayList<>();
+
+        return null;
+    }
+
+    public static <T> List<T> matrixToList(T[][] twoDArray) {
+        List<T> list = new ArrayList<T>();
+        for (T[] array : twoDArray) {
+            list.addAll(Arrays.asList(array));
+        }
+        return list;
+    }
 }
