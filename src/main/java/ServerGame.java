@@ -51,6 +51,9 @@ public class ServerGame {
                                 /* ---------------- DO MOVE WRITTEN TO THE SERVER ---------------- */
                                 if (true) { //  TO DO !!!!!!!
                                     //DO THE MOVE (or game flow?)
+                                    System.out.println("Test");
+                                    bw.write("OK TEST" + System.lineSeparator());
+                                    bw.flush();
                                 } else {
                                     bw.write("ERR; Wrong format, try again" + System.lineSeparator());
                                     bw.flush();
