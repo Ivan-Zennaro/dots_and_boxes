@@ -1,30 +1,45 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class PlayerVsComputerGame extends Game {
+    Scanner keyboard;
 
     @Override
     public void startGame() {
 
         initializeBoard();
-
-        Scanner keyboard = new Scanner(System.in);
-
         while (!isGameFinished()) {
+
             printScoreBoard();
-            if (currentPlayer == player1) {
+            turn(getComputerMove());
+            try {
+                Thread.sleep(1500);
+            }catch (Exception e){}
+
+            /*if (currentPlayer == player1) {
+                printScoreBoard();
                 System.out.println("Insert move [x y side:U,D,L,R]?");
                 turn(keyboard.nextLine());
-            }
-            else {
-                turn("");
-            }
+            } else {
+                printScoreBoard();
+                turn(getComputerMove());
+                try {
+                    Thread.sleep(400);
+                }catch (Exception e){}
+
+            }*/
         }
         keyboard.close();
     }
 
+    public void defaultInitialize(){
+        board = new Board(2, 2);
+        graphic = new Graphic(2, 2);
+    }
+
     @Override
     public Board initializeBoard() {
-        Scanner keyboard = new Scanner(System.in);
+        keyboard = new Scanner(System.in);
         int boardRow, boardCols;
         do {
             System.out.println("Insert boardRow:");
@@ -36,7 +51,6 @@ public class PlayerVsComputerGame extends Game {
         board = new Board(boardRow, boardCols);
         graphic = new Graphic(boardRow, boardCols);
 
-        keyboard.close();
         return board;
     }
 
@@ -46,27 +60,19 @@ public class PlayerVsComputerGame extends Game {
 
     public Move getComputerMove(){
         List<Box> boxes = matrixToList(board.getBoard());
-        boxes.removeIf(box -> box.isCompleted());
-        Optional<Box> candidateBox = boxes.stream().
-                filter(box -> box.getNumberOfDrawLine() == 3).findFirst();
-        if (candidateBox.isPresent()){
-            Box box = candidateBox.get();
-            int indexCandidate = boxes.indexOf(box);
-            int rowCandidate = indexCandidate / board.getBoardRows();
-            int ColCandidate = indexCandidate % board.getBoardColumns();
+        Move move = completeA3SideBox(boxes);
+        if (move.isValid())
+            return move;
 
+        move = randomMoveInBoxWithNot2SideCompleted(boxes);
+        if (move.isValid())
+            return move;
 
+        move = randomMove(boxes);
+        if (move.isValid())
+            return move;
 
-           // return new Move()
-
-        }
-
-
-        long numberOfNotCompletedBoxWith = boxes.stream()
-                .filter(box -> box.getNumberOfDrawLine() != 2)
-                .count();
-        if (boxes.size() == 0) return new Move(-1,-1,Side.INVALID);
-        return null;
+        return Move.getInvalidMove();
     }
 
     public static <T> List<T> matrixToList(T[][] matrix) {
@@ -84,6 +90,64 @@ public class PlayerVsComputerGame extends Game {
         if (!box.hasLineUp()) return Side.UP;
         return Side.INVALID;
     }
+
+    public static <T> T getRandomElementFromList(List<T> list) {
+        if (list == null || list.size() < 1) return null;
+        Random rand = new Random();
+        return list.get(rand.nextInt(list.size()));
+    }
+
+
+    public Move completeA3SideBox(List<Box> boxes) {
+        List<Box> notFullBoxes = boxes.stream().filter(box -> !box.isCompleted()).collect(Collectors.toList());
+        Optional<Box> boxToComplete = notFullBoxes.stream().
+                filter(box -> box.getNumberOfDrawLine() == 3).findFirst();
+        if (boxToComplete.isPresent()){
+            Box box = boxToComplete.get();
+            int indexCandidate = boxes.indexOf(box);
+            int rowCandidate = indexCandidate / board.getBoardColumns();
+            int ColCandidate = indexCandidate % board.getBoardColumns();
+            Side candidateSide = getMissingSideFromBox(box);
+            return new Move(rowCandidate,ColCandidate,candidateSide);
+        }
+        return new Move(-1,-1,Side.INVALID);
+    }
+
+    public Move randomMoveInBoxWithNot2SideCompleted(List<Box> boxes) {
+        List<Box> notFullBoxes = boxes.stream().filter(box -> !box.isCompleted()).collect(Collectors.toList());
+        List<Box> candidateBoxes = notFullBoxes.stream().filter(box -> box.getNumberOfDrawLine() != 2).collect(Collectors.toList());
+        if (candidateBoxes.size() > 0){
+            Box box = candidateBoxes.get(new Random().nextInt(candidateBoxes.size()));
+            int indexCandidate = boxes.indexOf(box);
+            int rowCandidate = indexCandidate / board.getBoardColumns();
+            int ColCandidate = indexCandidate % board.getBoardColumns();
+            List<Side> sides = Arrays.asList(Side.DOWN,Side.UP,Side.LEFT,Side.RIGHT);
+            Side candidateSide;
+            do {
+                candidateSide = getRandomElementFromList(sides);
+            }while (box.hasLineBySide(candidateSide));
+            return new Move(rowCandidate,ColCandidate,candidateSide);
+        }
+        return new Move(-1,-1,Side.INVALID);
+    }
+
+    public Move randomMove(List<Box> boxes) {
+        List<Box> notFullBoxes = boxes.stream().filter(box -> !box.isCompleted()).collect(Collectors.toList());
+        if (notFullBoxes.size() == 0) return new Move(-1,-1,Side.INVALID);
+
+        Box box = getRandomElementFromList(notFullBoxes);
+        int indexCandidate = boxes.indexOf(box);
+        int rowCandidate = indexCandidate / board.getBoardColumns();
+        int ColCandidate = indexCandidate % board.getBoardColumns();
+        List<Side> sides = Arrays.asList(Side.DOWN,Side.UP,Side.LEFT,Side.RIGHT);
+        Side candidateSide;
+        do {
+            candidateSide = getRandomElementFromList(sides);
+        }while (box.hasLineBySide(candidateSide));
+        return new Move(rowCandidate,ColCandidate,candidateSide);
+    }
+
+
 
 
 }

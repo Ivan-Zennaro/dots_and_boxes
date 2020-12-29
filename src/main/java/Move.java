@@ -10,14 +10,20 @@ public class Move {
         this.side = side;
     }
 
+    public static Move getInvalidMove(){
+        return new Move(-1,-1,Side.INVALID);
+    }
+
+    public boolean isValid (){
+        return this.side != Side.INVALID;
+    }
+
     public int getX() {
         return x;
     }
-
     public int getY() {
         return y;
     }
-
     public Side getSide() {
         return side;
     }
@@ -55,9 +61,9 @@ public class Move {
                     return new Move(x, y, refSide);
             }
         }catch( Exception e){
-            return new Move(-1, -1, Side.INVALID);
+            return getInvalidMove();
         }
-        return new Move(-1, -1, Side.INVALID);
+        return getInvalidMove();
     }
 
 }
