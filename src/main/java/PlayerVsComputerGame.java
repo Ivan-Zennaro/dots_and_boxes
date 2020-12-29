@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -14,8 +15,9 @@ public class PlayerVsComputerGame extends Game {
             printScoreBoard();
             turn(getComputerMove());
             try {
-                Thread.sleep(1500);
-            }catch (Exception e){}
+                Thread.sleep(3000);
+            } catch (Exception e) {
+            }
 
             /*if (currentPlayer == player1) {
                 printScoreBoard();
@@ -33,7 +35,7 @@ public class PlayerVsComputerGame extends Game {
         keyboard.close();
     }
 
-    public void defaultInitialize(){
+    public void defaultInitialize() {
         board = new Board(2, 2);
         graphic = new Graphic(2, 2);
     }
@@ -47,7 +49,7 @@ public class PlayerVsComputerGame extends Game {
             boardRow = keyboard.nextInt();
             System.out.println("Insert boardCols:");
             boardCols = keyboard.nextInt();
-        } while (!validCoordinate(boardRow,boardCols));
+        } while (!validCoordinate(boardRow, boardCols));
 
         board = new Board(boardRow, boardCols);
         graphic = new Graphic(boardRow, boardCols);
@@ -55,21 +57,29 @@ public class PlayerVsComputerGame extends Game {
         return board;
     }
 
-    public boolean validCoordinate (int boardRow, int boardCols){
+    public boolean validCoordinate(int boardRow, int boardCols) {
         return boardRow > 0 && boardCols > 0;
     }
 
-    public Move getComputerMove(){
+    public Move getComputerMove() {
         List<Box> boxes = matrixToList(board.getBoard());
-        Move move = getMoveWithConstraint(box -> box.getNumberOfDrawLine() == 3,boxes);
+        Move move = getMoveWithConstraint(box -> box.getNumberOfDrawLine() == 3, (box, side) -> true, boxes);
         if (move.isValid())
             return move;
 
-        move = getMoveWithConstraint(box -> box.getNumberOfDrawLine() != 2,boxes);   if (move.isValid())
+        move = getMoveWithConstraint(box -> box.getNumberOfDrawLine() != 2,
+                (box, side) -> {
+                    int row = getRowBox_b_in_boxes(boxes, box);
+                    int col = getColBox_b_in_boxes(boxes, box);
+                    Move sideMove = board.getNeighbourSideMove(new Move(row, col, side));
+                    if (!sideMove.isValid()) return true;
+                    Box sideBox = board.getBoxByMove(sideMove);
+                    return sideBox.getNumberOfDrawLine() != 2;
+                }, boxes);
         if (move.isValid())
             return move;
 
-        move =  getMoveWithConstraint(box -> true ,boxes);
+        move = getMoveWithConstraint((box) -> true, (box, side) -> true, boxes);
         if (move.isValid())
             return move;
 
@@ -98,22 +108,33 @@ public class PlayerVsComputerGame extends Game {
         return list.get(rand.nextInt(list.size()));
     }
 
-    public Move getMoveWithConstraint (Predicate<Box> predicateBox, List<Box> boxes) {
+    public Move getMoveWithConstraint(Predicate<Box> predicateBox, BiPredicate<Box, Side> predicateSide, List<Box> boxes) {
         List<Box> candidateBoxes = boxes.stream().filter(box -> !box.isCompleted()).filter(predicateBox).collect(Collectors.toList());
         if (candidateBoxes.size() == 0) return Move.getInvalidMove();
 
         Box box;
         Side side;
-        int rowCandidate,colCandidate = -1;
+        int rowCandidate, colCandidate = -1;
         do {
             box = getRandomElementFromList(candidateBoxes);
             int indexCandidate = boxes.indexOf(box);
             rowCandidate = indexCandidate / board.getBoardColumns();
             colCandidate = indexCandidate % board.getBoardColumns();
-            List<Side> candidateSides = Arrays.asList(Side.DOWN, Side.UP, Side.LEFT, Side.RIGHT);
+            Box finalBox = box;
+            List<Side> candidateSides = Arrays.asList(Side.DOWN, Side.UP, Side.LEFT, Side.RIGHT).stream().filter(side1 -> predicateSide.test(finalBox, side1)).collect(Collectors.toList());
             side = getRandomElementFromList(candidateSides);
         } while (box.hasLineBySide(side));
-        return new Move(rowCandidate,colCandidate,side);
+        return new Move(rowCandidate, colCandidate, side);
     }
+
+
+    public int getRowBox_b_in_boxes(List<Box> boxes, Box b) {
+        return boxes.indexOf(b) / board.getBoardColumns();
+    }
+
+    public int getColBox_b_in_boxes(List<Box> boxes, Box b) {
+        return boxes.indexOf(b) % board.getBoardColumns();
+    }
+
 
 }
