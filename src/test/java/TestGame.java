@@ -9,30 +9,15 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class TestGame {
 
-    @ParameterizedTest
-    @ValueSource(strings = {"2","3","5"}) //Value Source quando ho solo un parametro
-    public void check_input_grid_dimensions(String choice){
-        ByteArrayInputStream in = new ByteArrayInputStream(choice.getBytes());
-        System.setIn(in);
-        Game game = new TwoPlayersGame();
-        Board board = game.initializeBoard();
-
-        assertAll(
-                () -> Assertions.assertEquals(Integer.parseInt(choice), board.getBoardRows()),
-                () -> Assertions.assertEquals(Integer.parseInt(choice), board.getBoardColumns())
-        );
-    }
-
-
-
     @Test
     public void game_is_not_end(){
         System.out.println("GAME HAS NOT ENDED TEST");
         TestingGame game = new TestingGame();
+        Move move = new Move(0,0,Side.UP);
 
         game.setBoardSize(2);
         game.initializeBoard();
-        game.turn("0 0 U");
+        game.turn(move);
         Assertions.assertFalse(game.isGameFinished());
     }
 
@@ -65,19 +50,22 @@ public class TestGame {
         Assertions.assertTrue(game.isGameFinished());
     }
 
-    /*
     @Test
-    public void input_one_move(){
-        String inputString = "2\n0 0 L\n";
-        ByteArrayInputStream in = new ByteArrayInputStream(inputString.getBytes());
-        System.setIn(in);
-        Move move = new Move(0 , 0 , Side.LEFT);
-        Game game = new Game();
-        game.startGame();
-        board.get
-        Assertions.assertTrue(game.isGameFinished());
+    public void game_one_points(){
+        System.out.println("TEST GAME ONE POINT");
+        TestingGame game = new TestingGame();
+        game.setBoardSize(2);
+        game.initializeBoard();
+
+        game.turn("0 0 L");
+        game.turn("0 0 U");
+        game.turn("0 0 D");
+        game.turn("0 1 L");
+
+
+        Assertions.assertEquals(1,game.printCurrentPlayerScore());
+
     }
-*/
 
 
 }

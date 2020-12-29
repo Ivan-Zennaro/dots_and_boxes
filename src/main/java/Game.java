@@ -8,7 +8,7 @@ public abstract class Game {
     protected Board board;
     protected Graphic graphic;
 
-    public Game() {
+   public Game() {
         player1 = new Player('A', Color.BLU);
         player2 = new Player('B', Color.RED);
         currentPlayer = player1;
@@ -21,9 +21,12 @@ public abstract class Game {
         printWinner();
     }
 
+    public void turn(String moveString){
+        Move move = Move.parseMove(moveString);
+        turn(move);
+    }
 
-    public void turn(String stringMove) {
-        Move move = Move.parseMove(stringMove);
+    public void turn(Move move) {
         if (isMoveAllowed(move))
             computeMove(move);
     }
@@ -64,6 +67,10 @@ public abstract class Game {
         System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
         System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
         System.out.println("Is the turn of Player" + currentPlayer.getId());
+    }
+
+    public int printCurrentPlayerScore(){
+        return (currentPlayer.getPoints());
     }
 
 
