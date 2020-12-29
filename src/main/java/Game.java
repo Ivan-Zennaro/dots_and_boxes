@@ -23,7 +23,6 @@ public abstract class Game {
 
 
     public void turn(String stringMove) {
-        printStarter();
         Move move = Move.parseMove(stringMove);
         if (isMoveAllowed(move))
             computeMove(move);
@@ -45,6 +44,7 @@ public abstract class Game {
             graphic.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
             atLeastOnePointScoredByCurrentPlayer = true;
         }
+
         Move otherMove = board.getNeighbourSideMove(move);
         if (otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)) {
             currentPlayer.increasePoint(1);
@@ -58,15 +58,13 @@ public abstract class Game {
 
     }
 
-    public void printStarter() {
+    public void printScoreBoard() {
 
         System.out.println(graphic.getStringBoard());
         System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
         System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
         System.out.println("Is the turn of Player" + currentPlayer.getId());
     }
-
-
 
 
     private void printWinner() {

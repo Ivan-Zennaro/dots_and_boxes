@@ -4,15 +4,14 @@ public class TwoPlayersGame extends Game {
     @Override
     public void startGame() {
         initializeBoard();
-        printStarter();
 
         Scanner keyboard = new Scanner(System.in);
 
         while (!isGameFinished()) {
+            printScoreBoard();
             System.out.println("Insert move [x y side:U,D,L,R]?");
             turn(keyboard.nextLine());
         }
-
         keyboard.close();
     }
 
