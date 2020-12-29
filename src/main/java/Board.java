@@ -68,4 +68,6 @@ public class Board {
     public boolean isBoxCompleted(Move move){
         return getBoxByMove(move).isCompleted();
     }
+
+    public Box[][] getBoard() {return board; }
 }

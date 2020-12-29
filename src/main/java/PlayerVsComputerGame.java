@@ -48,16 +48,15 @@ public class PlayerVsComputerGame extends Game {
     }
 
     public Move getComputerMove(){
-        List<Box> boxes = new ArrayList<>();
+        List<Box> boxes = matrixToList(board.getBoard());
 
         return null;
     }
 
-    public static <T> List<T> matrixToList(T[][] twoDArray) {
+    public static <T> List<T> matrixToList(T[][] matrix) {
         List<T> list = new ArrayList<T>();
-        for (T[] array : twoDArray) {
+        for (T[] array : matrix)
             list.addAll(Arrays.asList(array));
-        }
         return list;
     }
 }
