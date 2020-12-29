@@ -1,4 +1,3 @@
-import java.util.Scanner;
 
 public abstract class Game {
 
@@ -26,11 +25,11 @@ public abstract class Game {
     public void turn(String stringMove) {
         printStarter();
         Move move = Move.parseMove(stringMove);
-        if (moveIsAllowable(move))
+        if (isMoveAllowed(move))
             computeMove(move);
     }
 
-    private boolean moveIsAllowable(Move move) {
+    private boolean isMoveAllowed(Move move) {
         return board.isMoveInBoardRange(move) && move.getSide() != Side.INVALID && !board.boxHasAlreadyLine(move);
     }
 
@@ -67,17 +66,7 @@ public abstract class Game {
         System.out.println("Is the turn of Player" + currentPlayer.getId());
     }
 
-    public void turn(Scanner keyboard) {
-        printStarter();
 
-        Move move;
-        do {
-            System.out.println("Insert move [x y side:U,D,L,R]?");
-            move = Move.parseMove(keyboard.nextLine());
-        } while (!board.isMoveInBoardRange(move) || move.getSide() == Side.INVALID || board.boxHasAlreadyLine(move));
-        computeMove(move);
-
-    }
 
 
     private void printWinner() {
