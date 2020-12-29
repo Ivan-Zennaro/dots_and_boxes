@@ -58,7 +58,7 @@ public class Graphic {
 
     public String getStringBoard() {
         String s = "\n    ";
-        for (int i = 0; i < (graphicBoard.length + 1) / 2 - 1; i++)
+        for (int i = 0; i < graphicBoard[0].length - 1; i++)
             s += i + "   ";
         for (int i = 0; i < graphicBoard.length; i++) {
             if (i % 2 == 0) s += "\n  ";
