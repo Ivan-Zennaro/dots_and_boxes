@@ -99,6 +99,15 @@ public class Box {
         }
     }
 
+    public int getNumberOfDrawLine(){
+        int tot = 0;
+        tot = lineLeft ? tot + 1 : tot;
+        tot = lineDown ? tot + 1 : tot;
+        tot = lineUp ? tot + 1 : tot;
+        tot = lineRight ? tot + 1 : tot;
+        return tot;
+    }
+
     public boolean isCompleted() {
         return lineDown && lineLeft && lineRight && lineUp;
     }
