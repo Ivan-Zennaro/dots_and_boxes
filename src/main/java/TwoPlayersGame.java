@@ -12,6 +12,7 @@ public class TwoPlayersGame extends Game {
             System.out.println("Insert move [x y side:U,D,L,R]?");
             turn(keyboard.nextLine());
         }
+        endGame();
         keyboard.close();
     }
 
