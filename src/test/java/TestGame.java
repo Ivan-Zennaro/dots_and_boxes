@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.ByteArrayInputStream;
@@ -79,5 +80,11 @@ public class TestGame {
     }
 */
 
+    @ParameterizedTest
+    @CsvSource({"5,2,TRUE", "-1,2,FALSE","1,1,TRUE","0,0,FALSE","0,1,FALSE"})
+    public void board_cols_and_row_are_valid(int boardRow, int boardCols, boolean validity){
+        PlayerVsComputerGame game = new PlayerVsComputerGame();
+        Assertions.assertEquals(validity,game.validCoordinate(boardRow,boardCols));
+    }
 
 }
