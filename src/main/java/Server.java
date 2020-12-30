@@ -31,10 +31,10 @@ public class Server {
             System.out.println("Connection from " + s);
 // Create a DataOutputStream for writing data to the
 // other side
-//!!!            DataOutputStream dout = new DataOutputStream(s.getOutputStream());
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
+          DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+//            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
 // Save this stream so we don't need to make it again
-            outputStreams.put(s, bw);
+            outputStreams.put(s, dout);
 // Create a new thread for this connection, and then forget
 // about it
             new ServerThread(this, s);
