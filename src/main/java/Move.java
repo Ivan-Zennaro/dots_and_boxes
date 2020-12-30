@@ -74,5 +74,13 @@ public class Move {
         return this.side == Side.LEFT || this.side == Side.RIGHT;
     }
 
+    public int getXtwoMatrixRepresentation(){
+        if( this.side == Side.DOWN ){
+            return x+ 1;
+        }else
+            return x ;
+    }
+
+
 
 }
