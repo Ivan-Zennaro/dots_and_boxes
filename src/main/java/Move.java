@@ -70,6 +70,9 @@ public class Move {
         return this.side == Side.UP || this.side == Side.DOWN;
     }
 
+    public boolean isVertical(){
+        return this.side == Side.LEFT || this.side == Side.RIGHT;
+    }
 
 
 }

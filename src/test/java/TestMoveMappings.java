@@ -13,5 +13,15 @@ public class TestMoveMappings {
         Assertions.assertTrue(testMove.isHorizontal());
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"LEFT", "RIGHT"})
+    public void verticalAligned(Side side){
+        Move testMove = new Move(0,0,side);
+
+        Assertions.assertTrue(testMove.isVertical());
+    }
+
+
+
 
 }
