@@ -10,17 +10,19 @@ public class ServerGame {
     private final int port;
     private final String quitCommand;
     private final ExecutorService executorService;
-    private final ExecutorService executorMath;
+
 
     public ServerGame(int port, String quitCommand) {
         this.port = port;
         this.quitCommand = quitCommand;
         executorService = Executors.newCachedThreadPool();
-        executorMath = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     }
 
     public void start() throws IOException {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
+
+            //TODO -- istance a game here when the server starts
+
             while (true) {
                 try {
                     final Socket socket = serverSocket.accept();
@@ -32,7 +34,11 @@ public class ServerGame {
                             System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
                             System.out.println("New connection from: " + socket.getInetAddress().getHostName()); // Log the new connection client
 
+                            //TODO -- if game is already started or not, tell the user the state
+
                             while (true) {  //loop until server gets command quit or client disconnect
+
+
                                 String command = br.readLine();
 
                                 if (command == null) {
@@ -47,6 +53,8 @@ public class ServerGame {
                                     System.out.println("Client " + socket.getInetAddress().getHostName() + " disconnected");
                                     break;
                                 }
+
+                                // COMMAND OPTION: 1. MOVE 2. NEW GAME
 
                                 /* ---------------- DO MOVE WRITTEN TO THE SERVER ---------------- */
                                 if (true) { //  TO DO !!!!!!!
@@ -75,7 +83,6 @@ public class ServerGame {
 
         } finally {
             executorService.shutdown();
-            executorMath.shutdown();
         }
 
 
