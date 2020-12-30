@@ -66,4 +66,10 @@ public class Move {
         return getInvalidMove();
     }
 
+    public boolean isHorizontal(){
+        return this.side == Side.UP || this.side == Side.DOWN;
+    }
+
+
+
 }
