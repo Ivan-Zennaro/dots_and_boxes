@@ -24,13 +24,13 @@ public class ServerThread extends Thread {
         try {
 // Create a DataInputStream for communication; the client
 // is using a DataOutputStream to write to us
-            DataInputStream din = new DataInputStream(socket.getInputStream());
-//            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//            DataInputStream din = new DataInputStream(socket.getInputStream());
+            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 //            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 // Over and over, forever ...
             while (true) {
 // ... read the next message ...
-                String message = din.readLine();
+                String message = br.readLine();
 // ... tell the world ...
                 System.out.println("Sending " + message);
 // ... and have the server send it to all clients

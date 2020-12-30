@@ -59,7 +59,7 @@ public class Server {
                 DataOutputStream dout = (DataOutputStream) e.nextElement();
 // ... and send the message
                 try {
-                    dout.writeUTF(message);
+                    dout.writeUTF(message + System.lineSeparator());
                 } catch (IOException ie) {
                     System.out.println(ie);
                 }
