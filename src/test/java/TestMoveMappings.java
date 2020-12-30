@@ -30,6 +30,14 @@ public class TestMoveMappings {
         Assertions.assertEquals(newXcoordinate, testMove.getXtwoMatrixRepresentation());
     }
 
+    @ParameterizedTest
+    @CsvSource({"0,0,UP,0", "0,0,LEFT,0", "0,0,DOWN,0", "0,0,RIGHT,1"})
+    public void coordinateYinTwoMatrixRepresentation(int x, int y, Side side, int newYcoordinate){
+        Move testMove = new Move(x,y,side);
+
+        Assertions.assertEquals(newYcoordinate, testMove.getYtwoMatrixRepresentation());
+    }
+
 
 
 

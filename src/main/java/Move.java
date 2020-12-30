@@ -10,20 +10,22 @@ public class Move {
         this.side = side;
     }
 
-    public static Move getInvalidMove(){
-        return new Move(-1,-1,Side.INVALID);
+    public static Move getInvalidMove() {
+        return new Move(-1, -1, Side.INVALID);
     }
 
-    public boolean isValid (){
+    public boolean isValid() {
         return this.side != Side.INVALID;
     }
 
     public int getX() {
         return x;
     }
+
     public int getY() {
         return y;
     }
+
     public Side getSide() {
         return side;
     }
@@ -46,41 +48,47 @@ public class Move {
         return result;
     }
 
-    public static Move parseMove(String input){
+    public static Move parseMove(String input) {
         try {
 
             String[] splitInput = input.split(" ");
-            if(splitInput.length!=3 && splitInput[2].length() != 1 )
+            if (splitInput.length != 3 && splitInput[2].length() != 1)
                 throw new Exception();
             int x = Integer.parseInt(String.valueOf(splitInput[0]));
             int y = Integer.parseInt(String.valueOf(splitInput[1]));
             Side side;
-            char sideAsChar =splitInput[2].charAt(0);
+            char sideAsChar = splitInput[2].charAt(0);
             for (Side refSide : Side.values()) {
                 if (refSide.asChar() == sideAsChar)
                     return new Move(x, y, refSide);
             }
-        }catch( Exception e){
+        } catch (Exception e) {
             return getInvalidMove();
         }
         return getInvalidMove();
     }
 
-    public boolean isHorizontal(){
+    public boolean isHorizontal() {
         return this.side == Side.UP || this.side == Side.DOWN;
     }
 
-    public boolean isVertical(){
+    public boolean isVertical() {
         return this.side == Side.LEFT || this.side == Side.RIGHT;
     }
 
-    public int getXtwoMatrixRepresentation(){
-        if( this.side == Side.DOWN ){
-            return x+ 1;
-        }else
-            return x ;
+    public int getXtwoMatrixRepresentation() {
+        if (this.side == Side.DOWN) {
+            return x + 1;
+        } else
+            return x;
     }
 
+    public int getYtwoMatrixRepresentation() {
+        if (this.side == Side.RIGHT) {
+            return y + 1;
+        } else
+            return y;
+    }
 
 
 }
