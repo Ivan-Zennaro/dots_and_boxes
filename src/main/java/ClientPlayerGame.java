@@ -43,6 +43,8 @@ public class ClientPlayerGame extends Game {
         int optionGrid = 1;
         do {
             System.out.println("How big the grid? 2:[2x2]  3:[3x3] 5:[5x5]");
+            outputClient.write("How big the grid? 2:[2x2]  3:[3x3] 5:[5x5]" + System.lineSeparator());
+            outputClient.flush();
 
             try {
                 optionGrid = Integer.parseInt(keyboard.readLine());
