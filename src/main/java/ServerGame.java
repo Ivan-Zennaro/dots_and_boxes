@@ -35,11 +35,14 @@ public class ServerGame {
                             System.out.println("New connection from: " + socket.getInetAddress().getHostName()); // Log the new connection client
 
                             // istance new game
+                            ClientPlayerGame cpg = new ClientPlayerGame();
+                            cpg.startGameServer(br, bw, quitCommand);
                             // ask client which board
                             boolean flagIstanceNewBoard = false;
 
                             while (true) {  //loop until server gets command quit or client disconnect
                                 //OR WHEN THE GAME ENDS?
+
 
                                 if (!flagIstanceNewBoard){
                                     // new game
