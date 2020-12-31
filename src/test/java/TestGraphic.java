@@ -9,11 +9,11 @@ public class TestGraphic {
     public void draw_1x1_empty_board() {
         Graphic graphic = new Graphic(1, 1);
         String boardString_1x1 =
-                "\n" +
-                        "    0   \n" +
-                        "   ---\n" +
-                        "0 |   |   \n" +
-                        "   ---\n";
+                System.lineSeparator() +
+                        "    0   "+System.lineSeparator() +
+                        "   ---"+System.lineSeparator() +
+                        "0 |   |   "+System.lineSeparator() +
+                        "   ---"+System.lineSeparator();
         Assertions.assertEquals(boardString_1x1, graphic.getStringBoard());
     }
 
@@ -21,13 +21,13 @@ public class TestGraphic {
     public void draw_2x2_empty_board() {
         Graphic graphic = new Graphic(2, 2);
         String boardString_2x2 =
-                "\n" +
-                        "    0   1   \n" +
-                        "   --- ---\n" +
-                        "0 |   |   |   \n" +
-                        "   --- ---\n" +
-                        "1 |   |   |   \n" +
-                        "   --- ---\n";
+                System.lineSeparator() +
+                        "    0   1   "+System.lineSeparator() +
+                        "   --- ---"+System.lineSeparator() +
+                        "0 |   |   |   "+System.lineSeparator() +
+                        "   --- ---"+System.lineSeparator() +
+                        "1 |   |   |   "+System.lineSeparator() +
+                        "   --- ---"+System.lineSeparator();
         Assertions.assertEquals(boardString_2x2, graphic.getStringBoard());
     }
 
@@ -35,14 +35,14 @@ public class TestGraphic {
     public void draw_3x3_empty_board() {
         Graphic graphic = new Graphic(3, 3);
         String boardString_3x3 =
-                "\n" + "    0   1   2   \n" +
-                        "   --- --- ---\n" +
-                        "0 |   |   |   |   \n" +
-                        "   --- --- ---\n" +
-                        "1 |   |   |   |   \n" +
-                        "   --- --- ---\n" +
-                        "2 |   |   |   |   \n" +
-                        "   --- --- ---\n";
+                System.lineSeparator() + "    0   1   2   "+System.lineSeparator() +
+                        "   --- --- ---"+System.lineSeparator() +
+                        "0 |   |   |   |   "+System.lineSeparator() +
+                        "   --- --- ---"+System.lineSeparator() +
+                        "1 |   |   |   |   "+System.lineSeparator() +
+                        "   --- --- ---"+System.lineSeparator() +
+                        "2 |   |   |   |   "+System.lineSeparator() +
+                        "   --- --- ---"+System.lineSeparator();
         Assertions.assertEquals(boardString_3x3, graphic.getStringBoard());
     }
 
@@ -52,13 +52,13 @@ public class TestGraphic {
         Graphic graphic = new Graphic(2, 2);
         graphic.updateMove(new Move(0, 0, Side.UP), new Player('A', Color.BLU));
         String boardString_2x2 =
-                "\n" +
-                        "    0   1   \n" +
-                        "  "+ ColorManager.getColoredString(" ---",Color.BLU) + " ---\n" +
-                        "0 |   |   |   \n" +
-                        "   --- ---\n" +
-                        "1 |   |   |   \n" +
-                        "   --- ---\n";
+                System.lineSeparator() +
+                        "    0   1   "+System.lineSeparator() +
+                        "  "+ ColorManager.getColoredString(" ---",Color.BLU) + " ---"+System.lineSeparator() +
+                        "0 |   |   |   "+System.lineSeparator() +
+                        "   --- ---"+System.lineSeparator() +
+                        "1 |   |   |   "+System.lineSeparator() +
+                        "   --- ---"+System.lineSeparator();
 
         Assertions.assertEquals(boardString_2x2, graphic.getStringBoard());
     }
@@ -67,15 +67,15 @@ public class TestGraphic {
     public void update_blu_move_in_3x3_board() {
         Graphic graphic = new Graphic(3, 3);
         graphic.updateMove(new Move(2, 2, Side.RIGHT), new Player('A', Color.BLU));
-        String boardString_3x3 = "\n" +
-                "    0   1   2   \n" +
-                "   --- --- ---\n" +
-                "0 |   |   |   |   \n" +
-                "   --- --- ---\n" +
-                "1 |   |   |   |   \n" +
-                "   --- --- ---\n" +
-                "2 |   |   |   " + ColorManager.getColoredString("|   ", Color.BLU) + "\n" +
-                "   --- --- ---\n";
+        String boardString_3x3 = System.lineSeparator() +
+                "    0   1   2   "+System.lineSeparator() +
+                "   --- --- ---"+System.lineSeparator() +
+                "0 |   |   |   |   "+System.lineSeparator() +
+                "   --- --- ---"+System.lineSeparator() +
+                "1 |   |   |   |   "+System.lineSeparator() +
+                "   --- --- ---"+System.lineSeparator() +
+                "2 |   |   |   " + ColorManager.getColoredString("|   ", Color.BLU) + System.lineSeparator() +
+                "   --- --- ---"+System.lineSeparator();
 
         Assertions.assertEquals(boardString_3x3, graphic.getStringBoard());
     }
@@ -88,14 +88,14 @@ public class TestGraphic {
         graphic.updateMove(new Move(0, 0, Side.DOWN), player);
         graphic.addCompletedBox(0, 0, player.getId());
         String boardString_3x3 =
-                "\n    0   1   2   \n" +
-                        "   --- --- ---\n" +
-                        "0 | A |   |   |   \n" +
-                        "  " + ColorManager.getColoredString(" ---", Color.GREEN) + " --- ---\n" +
-                        "1 |   |   |   |   \n" +
-                        "   --- --- ---\n" +
-                        "2 |   |   |   |   \n" +
-                        "   --- --- ---\n";
+                System.lineSeparator()+"    0   1   2   "+System.lineSeparator() +
+                        "   --- --- ---"+System.lineSeparator() +
+                        "0 | A |   |   |   "+System.lineSeparator() +
+                        "  " + ColorManager.getColoredString(" ---", Color.GREEN) + " --- ---"+System.lineSeparator() +
+                        "1 |   |   |   |   "+System.lineSeparator() +
+                        "   --- --- ---"+System.lineSeparator() +
+                        "2 |   |   |   |   "+System.lineSeparator() +
+                        "   --- --- ---"+System.lineSeparator();
 
         Assertions.assertEquals(boardString_3x3, graphic.getStringBoard());
     }
