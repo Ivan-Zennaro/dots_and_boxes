@@ -44,13 +44,20 @@ public class PlayerVsComputerGame extends Game {
     @Override
     public Board initializeBoard() {
         keyboard = new Scanner(System.in);
-        int boardRow, boardCols;
+        int boardRow = 0, boardCols = 0;
         do {
             System.out.println("Insert boardRow:");
-            boardRow = keyboard.nextInt();
+            try {
+            boardRow = Integer.parseInt(keyboard.nextLine());
+            }catch(NumberFormatException e){}
+        } while (!validCoordinate(boardRow));
+
+        do {
             System.out.println("Insert boardCols:");
-            boardCols = keyboard.nextInt();
-        } while (!validCoordinate(boardRow, boardCols));
+            try {
+            boardCols = Integer.parseInt(keyboard.nextLine());
+            }catch(NumberFormatException e){}
+        } while (!validCoordinate(boardCols));
 
         board = new Board(boardRow, boardCols);
         graphic = new Graphic(boardRow, boardCols);
@@ -58,8 +65,8 @@ public class PlayerVsComputerGame extends Game {
         return board;
     }
 
-    public boolean validCoordinate(int boardRow, int boardCols) {
-        return boardRow > 0 && boardCols > 0;
+    public boolean validCoordinate(int boardSize) {
+        return boardSize > 0;
     }
 
     public Move getComputerMove() {

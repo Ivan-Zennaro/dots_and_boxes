@@ -20,10 +20,12 @@ public class TwoPlayersGame extends Game {
     public Board initializeBoard() {
         keyboard = new Scanner(System.in);
 
-        int optionGrid;
+        int optionGrid = 0;
         do {
             System.out.println("How big the grid? 2:[2x2]  3:[3x3] 5:[5x5]");
-            optionGrid = Integer.parseInt( keyboard.nextLine() );
+            try {
+                optionGrid = Integer.parseInt(keyboard.nextLine());
+            }catch(NumberFormatException e){}
         } while (!(optionGrid == 2 || optionGrid == 3 || optionGrid == 5));
 
         board = new Board(optionGrid, optionGrid);

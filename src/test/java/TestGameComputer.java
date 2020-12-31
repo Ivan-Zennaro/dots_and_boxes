@@ -15,7 +15,8 @@ public class TestGameComputer {
     @CsvSource({"5,2,TRUE", "-1,2,FALSE","1,1,TRUE","0,0,FALSE","0,1,FALSE"})
     public void board_cols_and_row_are_valid(int boardRow, int boardCols, boolean validity){
         PlayerVsComputerGame game = new PlayerVsComputerGame();
-        Assertions.assertEquals(validity,game.validCoordinate(boardRow,boardCols));
+        Assertions.assertEquals(validity,game.validCoordinate(boardRow)&&game.validCoordinate(boardCols));
+
     }
 
     @Test
