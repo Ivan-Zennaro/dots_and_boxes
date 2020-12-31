@@ -57,17 +57,17 @@ public class Graphic {
     }
 
     public String getStringBoard() {
-        String s = "\n    ";
+        String s = System.lineSeparator() + "    ";
         for (int i = 0; i < graphicBoard[0].length - 1; i++)
             s += i + "   ";
         for (int i = 0; i < graphicBoard.length; i++) {
-            if (i % 2 == 0) s += "\n  ";
-            else s += "\n" + (((i + 1) / 2) - 1) + " ";
+            if (i % 2 == 0) s += System.lineSeparator() + "  ";
+            else s += System.lineSeparator() + (((i + 1) / 2) - 1) + " ";
             for (int j = 0; (i % 2 == 0 && j < graphicBoard[0].length - 1) || (i % 2 != 0 && j < graphicBoard[0].length); j++) {
                 s += graphicBoard[i][j];
             }
         }
-        return s + "\n";
+        return s + System.lineSeparator();
     }
 
 }
