@@ -29,6 +29,14 @@ public abstract class Game {
     public void turn(Move move) {
         if (isMoveAllowed(move))
             computeMove(move);
+        else{
+            System.out.println("\nINVALID MOVE!!\n");
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                //e.printStackTrace();
+            }
+        }
     }
 
     private boolean isMoveAllowed(Move move) {
