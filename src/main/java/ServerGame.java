@@ -34,10 +34,18 @@ public class ServerGame {
                             System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
                             System.out.println("New connection from: " + socket.getInetAddress().getHostName()); // Log the new connection client
 
-                            //TODO -- if game is already started or not, tell the user the state
+                            // istance new game
+                            // ask client which board
+                            boolean flagIstanceNewBoard = false;
 
                             while (true) {  //loop until server gets command quit or client disconnect
+                                //OR WHEN THE GAME ENDS?
 
+                                if (!flagIstanceNewBoard){
+                                    // new game
+                                    bw.write("Devi scegliere una board");
+                                    bw.flush();
+                                }
 
                                 String command = br.readLine();
 
@@ -54,7 +62,9 @@ public class ServerGame {
                                     break;
                                 }
 
-                                // COMMAND OPTION: 1. MOVE 2. NEW GAME
+
+
+                                // COMMAND OPTION: 1. MOVE 2. NEW GAME 3.ASK AGAIN
 
                                 /* ---------------- DO MOVE WRITTEN TO THE SERVER ---------------- */
                                 if (true) { //  TO DO !!!!!!!
@@ -66,6 +76,8 @@ public class ServerGame {
                                     bw.write("ERR; Wrong format, try again" + System.lineSeparator());
                                     bw.flush();
                                 }
+
+                                //IF GAME IS FINISHED -> show winner and break loop while
                             }
                         } catch (IOException e) {
                             System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
