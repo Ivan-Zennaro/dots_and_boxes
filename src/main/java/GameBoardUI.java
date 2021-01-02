@@ -77,21 +77,6 @@ public class GameBoardUI {
         }
     };
 
-    public static int mapYseparateMatrixes(Move move) {
-        if (move.getSide() == Side.RIGHT)
-            return move.getYtwoMatrixRepresentation() + 1;
-        else return move.getYtwoMatrixRepresentation();
-    }
-
-    public static int mapXseparateMatrixes(Move move) {
-        int tempX = move.getXtwoMatrixRepresentation() * 2 + 1;
-        if (move.getSide() == Side.UP)
-            return tempX - 1;
-        if (move.getSide() == Side.DOWN)
-            return tempX + 1;
-        else return tempX;
-    }
-
 
     private void processMove(Move location) {
         int x = location.getXtwoMatrixRepresentation(), y = location.getYtwoMatrixRepresentation();
@@ -241,10 +226,10 @@ public class GameBoardUI {
         return label;
     }
 
-    public GameBoardUI(MainUI parent, JFrame frame, int numberOfLinesInARow, GameSolver redSolver, GameSolver blueSolver, String redName, String blueName) {
+    public GameBoardUI(MainUI parent, JFrame frame, int numberOfDotsInARow, GameSolver redSolver, GameSolver blueSolver, String redName, String blueName) {
         this.parent = parent;
         this.frame = frame;
-        this.n = numberOfLinesInARow;
+        this.n = numberOfDotsInARow;
         this.redSolver = redSolver;
         this.blueSolver = blueSolver;
         this.redName = redName;
