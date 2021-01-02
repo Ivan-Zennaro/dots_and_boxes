@@ -21,7 +21,7 @@ Now programmers are free to develop extra features and add more tests to ensure 
 
 
 31/12/2020
-Another discussion, tests were added for the alpha. Started to develop more extra features of the game
+Another discussion, tests were added for the alpha. Started to develop more extra features of the game in the previous days
 
 
 02/01/2021
