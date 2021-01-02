@@ -33,23 +33,19 @@ public class ServerGame {
                             System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
                             System.out.println("New connection from: " + socket.getInetAddress().getHostName()); // Log the new connection client
 
+                            //TODO - welcome message on client screen
+
                             // istance new game
                             ClientPlayerGame gameForClient = new ClientPlayerGame(br, bw);
-                            gameForClient.startGameServer(br, bw, quitCommand);
-
-                            // ask client which board
-                            boolean flagIstanceNewBoard = false;
-
-                            while (true) {  //loop until server gets command quit or client disconnect
-                                //OR WHEN THE GAME ENDS?
+                            gameForClient.startGameServer(quitCommand);
 
 
-                                if (!flagIstanceNewBoard){
-                                    // new game
-                                    bw.write("Devi scegliere una board");
-                                    bw.flush();
-                                }
+                            while (true) {  //here the games is end or the client asked to quit
 
+                                //possible line showed to client: "the game is ended due to a quit request or to its natural end:
+                                // would you really quit (write QUIT) or restart a new game?"
+
+                                //TODO - implement a flow to allow a user to restart a new game
                                 String command = br.readLine();
 
                                 if (command == null) {
@@ -64,23 +60,6 @@ public class ServerGame {
                                     System.out.println("Client " + socket.getInetAddress().getHostName() + " disconnected");
                                     break;
                                 }
-
-
-
-                                // COMMAND OPTION: 1. MOVE 2. NEW GAME 3.ASK AGAIN
-
-                                /* ---------------- DO MOVE WRITTEN TO THE SERVER ---------------- */
-                                if (true) { //  TO DO !!!!!!!
-                                    //DO THE MOVE (or game flow?)
-                                    System.out.println("Test");
-                                    bw.write("OK TEST" + System.lineSeparator());
-                                    bw.flush();
-                                } else {
-                                    bw.write("ERR; Wrong format, try again" + System.lineSeparator());
-                                    bw.flush();
-                                }
-
-                                //IF GAME IS FINISHED -> show winner and break loop while
                             }
                         } catch (IOException e) {
                             System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
