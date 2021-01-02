@@ -12,20 +12,21 @@ public class ClientPlayerGame extends Game {
         this.outputServer = outputFromServer;
     }
 
-    public void startGameServer(BufferedReader input, BufferedWriter output, String quitCommand) throws IOException {
+    public void startGameServer(String quitCommand) throws IOException {
         boolean completedInitializationBoard;
         completedInitializationBoard = initializeBoard(quitCommand);
 
         if (completedInitializationBoard) {
             while (!isGameFinished()) {
 
-                output.write(printScoreBoardOnClient());
-                output.flush();
-                System.out.println("Insert move [x y side:U,D,L,R]?");
-                output.write("Insert move [x y side:U,D,L,R]?" + System.lineSeparator());
-                output.flush();
+                outputServer.write(printScoreBoardOnClient());
+                outputServer.flush();
+                outputServer.write("Insert move [x y side:U,D,L,R]?" + System.lineSeparator());
+                outputServer.flush();
 
-                String command = input.readLine();
+                String command = keyboard.readLine();
+
+                //TODO - with quit command exit the game and show the result before quit: is it ok?
                 if (command == null) {
                     System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
                     System.out.println("Client abruptly closed connection ");
@@ -45,9 +46,11 @@ public class ClientPlayerGame extends Game {
                 // output.flush();
 
             }
+
+
             endGame();
         }
-        keyboard.close();
+        // keyboard.close();
     }
 
 
@@ -127,7 +130,6 @@ public class ClientPlayerGame extends Game {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     //NON SERVE A NIENTE, SOLO PERCHE GAME E' ABSTRACT...Come ottimizzare???
