@@ -31,7 +31,8 @@ public class PlayerVsComputerGame extends Game {
                 turn(getComputerMove());
                 try {
                     Thread.sleep(400);
-                }catch (Exception e){}
+                } catch (Exception e) {
+                }
             }
         }
         keyboard.close();
@@ -49,15 +50,17 @@ public class PlayerVsComputerGame extends Game {
         do {
             System.out.println("Insert boardRow:");
             try {
-            boardRow = Integer.parseInt(keyboard.nextLine());
-            }catch(NumberFormatException e){}
+                boardRow = Integer.parseInt(keyboard.nextLine());
+            } catch (NumberFormatException e) {
+            }
         } while (!validCoordinate(boardRow));
 
         do {
             System.out.println("Insert boardCols:");
             try {
-            boardCols = Integer.parseInt(keyboard.nextLine());
-            }catch(NumberFormatException e){}
+                boardCols = Integer.parseInt(keyboard.nextLine());
+            } catch (NumberFormatException e) {
+            }
         } while (!validCoordinate(boardCols));
 
         board = new Board(boardRow, boardCols);
@@ -73,28 +76,44 @@ public class PlayerVsComputerGame extends Game {
     public Move getComputerMove() {
         List<Box> boxes = matrixToList(board.getBoard());
 
-        Move move = getMoveWithConstraint(box -> box.getNumberOfDrawLine() == 3,(box, side) -> {
-            Box sideBox = getBoxInSideOfCurrentBox(box, side, boxes);
-            if (sideBox == null) return false;
-            return sideBox.getNumberOfDrawLine() == 2;
-        }, boxes);
-        if (move.isValid())  return move;
-
-        move = getMoveWithConstraint(box -> box.getNumberOfDrawLine() == 3,(box, side) -> true, boxes);
+        Move move = getMove_thatColseAtLeast2Boxes(boxes);
         if (move.isValid()) return move;
 
-        move = getMoveWithConstraint(box -> box.getNumberOfDrawLine() != 2,
-                (box, side) -> {
-                    Box sideBox = getBoxInSideOfCurrentBox(box, side, boxes);
-                    if (sideBox == null) return true;
-                    return sideBox.getNumberOfDrawLine() != 2;
-                }, boxes);
+        move = getMove_thatColseABox(boxes);
         if (move.isValid()) return move;
 
-        move = getMoveWithConstraint((box) -> true, (box, side) -> true, boxes);
+        move = getMove_thatNotPutTheThirdLineInABox(boxes);
+        if (move.isValid()) return move;
+
+        move = getRandomMove(boxes);
         if (move.isValid()) return move;
 
         return Move.getInvalidMove();
+    }
+
+    private Move getMove_thatColseAtLeast2Boxes(List<Box> boxes) {
+        return getMoveWithConstraint(box -> box.getNumberOfDrawLine() == 3, (box, side) -> {
+            Box sideBox = getNeighbourBox(box, side, boxes);
+            if (sideBox == null) return false;
+            return sideBox.getNumberOfDrawLine() == 2;
+        }, boxes);
+    }
+
+    private Move getMove_thatColseABox(List<Box> boxes) {
+        return getMoveWithConstraint(box -> box.getNumberOfDrawLine() == 3, (box, side) -> true, boxes);
+    }
+
+    private Move getMove_thatNotPutTheThirdLineInABox(List<Box> boxes) {
+        return getMoveWithConstraint(box -> box.getNumberOfDrawLine() != 2,
+                (box, side) -> {
+                    Box sideBox = getNeighbourBox(box, side, boxes);
+                    if (sideBox == null) return true;
+                    return sideBox.getNumberOfDrawLine() != 2;
+                }, boxes);
+    }
+
+    private Move getRandomMove(List<Box> boxes) {
+        return getMoveWithConstraint((box) -> true, (box, side) -> true, boxes);
     }
 
 
@@ -104,12 +123,12 @@ public class PlayerVsComputerGame extends Game {
 
         List<Move> candidateMoves = new ArrayList<>();
 
-        for (Box box: candidateBoxes) {
+        for (Box box : candidateBoxes) {
             int indexCandidate = boxes.indexOf(box);
             int rowCandidate = indexCandidate / board.getBoardColumns();
             int colCandidate = indexCandidate % board.getBoardColumns();
             List<Side> candidateSides = Arrays.asList(Side.DOWN, Side.UP, Side.LEFT, Side.RIGHT).stream().filter(side -> !box.hasLineBySide(side)).filter(side -> predicateSide.test(box, side)).collect(Collectors.toList());
-            for (Side side: candidateSides) {
+            for (Side side : candidateSides) {
                 candidateMoves.add(new Move(rowCandidate, colCandidate, side));
             }
         }
@@ -146,11 +165,12 @@ public class PlayerVsComputerGame extends Game {
     public int getRowBox_b_in_boxes(List<Box> boxes, Box b) {
         return boxes.indexOf(b) / board.getBoardColumns();
     }
+
     public int getColBox_b_in_boxes(List<Box> boxes, Box b) {
         return boxes.indexOf(b) % board.getBoardColumns();
     }
 
-    public Box getBoxInSideOfCurrentBox (Box currentBox, Side side, List<Box> boxes){
+    public Box getNeighbourBox(Box currentBox, Side side, List<Box> boxes) {
         int row = getRowBox_b_in_boxes(boxes, currentBox);
         int col = getColBox_b_in_boxes(boxes, currentBox);
         Move sideMove = board.getNeighbourSideMove(new Move(row, col, side));
