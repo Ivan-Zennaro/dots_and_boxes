@@ -14,7 +14,7 @@ public class ClientPlayerGame extends Game {
 
     public void startGameServer(BufferedReader input, BufferedWriter output, String quitCommand) throws IOException {
         boolean completedInitializationBoard;
-        completedInitializationBoard = initializeBoard(output, quitCommand);
+        completedInitializationBoard = initializeBoard(quitCommand);
 
         if (completedInitializationBoard) {
             while (!isGameFinished()) {
@@ -51,22 +51,21 @@ public class ClientPlayerGame extends Game {
     }
 
 
-    public boolean initializeBoard(BufferedWriter outputClient, String quitCmd) throws IOException {
+    public boolean initializeBoard(String quitCmd) throws IOException {
         int optionGrid = 1;
-        boolean allOkInitialization = true;
         String inputLineClient;
 
         do {
             System.out.println("How big the grid? 2:[2x2]  3:[3x3] 5:[5x5]");
-            outputClient.write("How big the grid? 2:[2x2]  3:[3x3] 5:[5x5]" + System.lineSeparator());
-            outputClient.flush();
+            outputServer.write("How big the grid? 2:[2x2]  3:[3x3] 5:[5x5]" + System.lineSeparator());
+            outputServer.flush();
 
             inputLineClient = keyboard.readLine();
 
             if (inputLineClient == null || inputLineClient.equals(quitCmd)) {
                 System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
                 System.out.println("Client disconnected or Client abruptly closed connection");
-                return allOkInitialization = false;
+                return false;
             }
 
             try {
@@ -79,7 +78,7 @@ public class ClientPlayerGame extends Game {
         board = new Board(optionGrid, optionGrid);
         graphic = new Graphic(optionGrid, optionGrid);
 
-        return allOkInitialization;
+        return true;
     }
 
     public String printScoreBoardOnClient() {
