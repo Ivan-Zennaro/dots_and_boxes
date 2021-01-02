@@ -34,7 +34,7 @@ public class ServerGame {
                             System.out.println("New connection from: " + socket.getInetAddress().getHostName()); // Log the new connection client
 
                             // istance new game
-                            ClientPlayerGame gameForClient = new ClientPlayerGame();
+                            ClientPlayerGame gameForClient = new ClientPlayerGame(br, bw);
                             gameForClient.startGameServer(br, bw, quitCommand);
 
                             // ask client which board
