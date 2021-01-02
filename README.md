@@ -25,4 +25,4 @@ Another discussion, tests were added for the alpha. Started to develop more extr
 
 
 02/01/2021
-Set goals to complete the project includin presentation and future refactoring
+Set goals to complete the project including presentation and future refactoring
