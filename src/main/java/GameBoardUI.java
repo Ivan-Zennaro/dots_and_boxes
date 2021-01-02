@@ -21,7 +21,6 @@ public class GameBoardUI {
     protected Board board;
     protected Graphic graphic;
 
-
     GameSolver redSolver, blueSolver, solver;
     String redName, blueName;
     MainUI parent;
@@ -316,11 +315,11 @@ public class GameBoardUI {
         isSetVEdge = new boolean[n][n - 1];*/
 
 
-        hEdge = new JLabel[n - 1][n];
-        isSetHEdge = new boolean[n - 1][n];
+        hEdge = new JLabel[n][n - 1];
+        isSetHEdge = new boolean[n][n - 1];
 
-        vEdge = new JLabel[n][n - 1];
-        isSetVEdge = new boolean[n][n - 1];
+        vEdge = new JLabel[n - 1][n];
+        isSetVEdge = new boolean[n - 1][n];
 
         box = new JLabel[n - 1][n - 1];
 
@@ -339,8 +338,8 @@ public class GameBoardUI {
                     pane.add(vEdge[i / 2][j]);
 
                     if (j < n - 1) {
-                        box[j][i / 2] = getBox();
-                        pane.add(box[j][i / 2]);
+                        box[i / 2][j] = getBox();
+                        pane.add(box[i / 2][j]);
                     }
                 }
                 //vEdge[n - 1][i / 2] = getVerticalEdge();
