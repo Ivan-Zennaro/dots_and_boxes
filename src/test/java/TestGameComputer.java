@@ -63,4 +63,14 @@ public class TestGameComputer {
         Assertions.assertEquals(0,move.getY());
     }
 
+
+    /*domanda per fare questo test come faccio?*/
+   /* @Test
+    public void draw_line_in_a_random_box_with_not_2_side_completed(){
+        PlayerVsComputerGame game = new PlayerVsComputerGame();
+        game.defaultInitialize();
+        Assertions.assertEquals(game.get,game.getSideBoxByMove(new Move(0,1,Side.LEFT)));
+
+    }*/
+
 }
