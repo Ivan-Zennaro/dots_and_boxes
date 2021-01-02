@@ -13,19 +13,21 @@ public class Move {
     //two matrix representation TMR
     public Move(int xTMR, int yTMR, boolean horizontal, int boxesInARow, int boxesInAColumn) {
         if (horizontal) {
-            this.x = xTMR;
             this.y = yTMR;
-            if (xTMR > boxesInARow) {
+            if (xTMR >= boxesInARow) {
+                this.x = xTMR - 1;
                 this.side = Side.DOWN;
             } else {
+                this.x = xTMR;
                 this.side = Side.UP;
             }
         } else {
             this.x = xTMR;
-            this.y = yTMR;
-            if (yTMR > boxesInAColumn) {
+            if (yTMR >= boxesInAColumn) {
+                this.y = yTMR - 1;
                 this.side = Side.RIGHT;
             } else {
+                this.y = yTMR;
                 this.side = Side.LEFT;
             }
         }
