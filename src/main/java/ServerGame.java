@@ -21,7 +21,6 @@ public class ServerGame {
     public void start() throws IOException {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
 
-            //TODO -- istance a game here when the server starts
 
             while (true) {
                 try {
@@ -35,8 +34,9 @@ public class ServerGame {
                             System.out.println("New connection from: " + socket.getInetAddress().getHostName()); // Log the new connection client
 
                             // istance new game
-                            ClientPlayerGame cpg = new ClientPlayerGame();
-                            cpg.startGameServer(br, bw, quitCommand);
+                            ClientPlayerGame gameForClient = new ClientPlayerGame();
+                            gameForClient.startGameServer(br, bw, quitCommand);
+
                             // ask client which board
                             boolean flagIstanceNewBoard = false;
 
