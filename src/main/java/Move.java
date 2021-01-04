@@ -105,11 +105,18 @@ public class Move {
     }
 
     public Side getInvertedSide() {
-        if (this.getSide() == Side.UP) return Side.DOWN;
-        if (this.getSide() == Side.DOWN) return Side.UP;
-        if (this.getSide() == Side.LEFT) return Side.RIGHT;
-        if (this.getSide() == Side.RIGHT) return Side.LEFT;
-        return Side.INVALID;
+        switch (this.getSide()) {
+            case UP:
+                return Side.DOWN;
+            case DOWN:
+                return Side.UP;
+            case LEFT:
+                return Side.RIGHT;
+            case RIGHT:
+                return Side.LEFT;
+            default:
+                return Side.INVALID;
+        }
     }
 
 }
