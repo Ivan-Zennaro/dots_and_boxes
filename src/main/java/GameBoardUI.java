@@ -5,10 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 
-public class GameBoardUI {
+public class GameBoardUI extends Game {
     private final static int size = 8;
     private final static int dist = 40;
     public static final java.awt.Color TRANSPARENT_COLOR = java.awt.Color.getColor("#ffffff00");
@@ -19,21 +18,21 @@ public class GameBoardUI {
     public static final java.awt.Color RED_COLOR = new java.awt.Color(244, 67, 54);
 
     private int n;
+    private int nBoxInRows;
+    private int nBoxInCols;
+
+
     private boolean mouseEnabled;
 
-    protected Player player1;
-    protected Player player2;
-    protected Player currentPlayer;
 
-    protected Board board;
-    protected Graphic graphic;
 
     GameSolver redSolver, blueSolver, solver;
     String redName, blueName;
     MainUI parent;
 
-    private JLabel[][] hEdge, vEdge, box;
-    private boolean[][] isSetHEdge, isSetVEdge;
+    private JLabel graphicBoard[][];
+    private JLabel[][] box;
+    private boolean[][] isSetEdge;
 
     private JFrame frame;
     private JLabel redScoreLabel, blueScoreLabel, statusLabel;
@@ -58,47 +57,53 @@ public class GameBoardUI {
         @Override
         public void mouseEntered(MouseEvent mouseEvent) {
             if (!mouseEnabled) return;
-            Move location = getSource(mouseEvent.getSource());
-            int x = location.getXtwoMatrixRepresentation(), y = location.getYtwoMatrixRepresentation();
-            if (location.isHorizontal()) {
-                if (isSetHEdge[x][y]) return;
-                hEdge[x][y].setBackground(currentPlayer.getColor().getAwtColor());
-            } else {
-                if (isSetVEdge[x][y]) return;
-                vEdge[x][y].setBackground(currentPlayer.getColor().getAwtColor());
-            }
+            Move move = getSource(mouseEvent.getSource());
+            int x = mapX(move), y = mapY(move);
+            if (isSetEdge[x][y]) return;
+            graphicBoard[x][y].setBackground(currentPlayer.getColor().getAwtColor());
         }
 
         @Override
         public void mouseExited(MouseEvent mouseEvent) {
             if (!mouseEnabled) return;
-            Move location = getSource(mouseEvent.getSource());
-            int x = location.getXtwoMatrixRepresentation(), y = location.getYtwoMatrixRepresentation();
-            if (location.isHorizontal()) {
-                if (isSetHEdge[x][y]) return;
-                hEdge[x][y].setBackground(DEFAULT_BACKGROUND_LINE_COLOR);
-            } else {
-                if (isSetVEdge[x][y]) return;
-                vEdge[x][y].setBackground(DEFAULT_BACKGROUND_LINE_COLOR);
-            }
+            Move move = getSource(mouseEvent.getSource());
+            int x = mapX(move), y = mapY(move);
+            if (isSetEdge[x][y]) return;
+            graphicBoard[x][y].setBackground(DEFAULT_BACKGROUND_LINE_COLOR);
         }
     };
 
 
+    public Board initializeBoard() {
+        return null;
+    }
+
+
+
+    public static int mapY(Move move) {
+        if (move.getSide() == Side.RIGHT)
+            return move.getY() + 1;
+        else return move.getY();
+    }
+
+    public static int mapX(Move move) {
+        int tempX = move.getX() * 2 + 1;
+        if (move.getSide() == Side.UP)
+            return tempX - 1;
+        if (move.getSide() == Side.DOWN)
+            return tempX + 1;
+        else return tempX;
+    }
+
+
     private void processMove(Move move) {
-        int x = move.getXtwoMatrixRepresentation(), y = move.getYtwoMatrixRepresentation();
-        ArrayList<Point> ret;
-        if (move.isHorizontal()) {
-            if (isSetHEdge[x][y]) return;
-            board.drawLine(move);
-            hEdge[x][y].setBackground(currentPlayer.getColor().getAwtColor()); //otherwise DARK_GREY
-            isSetHEdge[x][y] = true;
-        } else {
-            if (isSetVEdge[x][y]) return;
-            board.drawLine(move);
-            vEdge[x][y].setBackground(currentPlayer.getColor().getAwtColor());
-            isSetVEdge[x][y] = true;
-        }
+        int x = mapX(move), y = mapY(move);
+
+        if (isSetEdge[x][y]) return;
+        board.drawLine(move);
+        graphicBoard[x][y].setBackground(currentPlayer.getColor().getAwtColor()); //otherwise DARK_GREY
+        isSetEdge[x][y] = true;
+
         graphic.updateMove(move, currentPlayer);
 
         boolean atLeastOnePointScoredByCurrentPlayer = false;
@@ -123,7 +128,7 @@ public class GameBoardUI {
         redScoreLabel.setText(String.valueOf(player1.getPoints()));
         blueScoreLabel.setText(String.valueOf(player2.getPoints()));
 
-        if (boardIsComplete()) {
+        if (isGameFinished()) {
             if (player1.getPoints() > player2.getPoints()) {
                 statusLabel.setText("Player-1 is the winner!");
                 statusLabel.setForeground(RED_COLOR);
@@ -151,19 +156,9 @@ public class GameBoardUI {
         }
     }
 
-    public void printScoreBoard() {
-        System.out.println(graphic.getStringBoard());
-        System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
-        System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
-        System.out.println("Is the turn of Player" + currentPlayer.getId());
-    }
-
-    private boolean boardIsComplete() {
-        return player1.getPoints() + player2.getPoints() >= n;
-    }
 
     private void manageGame() {
-        while (!boardIsComplete()) {
+        while (!isGameFinished()) {
             if (goBack) return;
             if (solver == null) {
                 mouseEnabled = true;
@@ -176,19 +171,37 @@ public class GameBoardUI {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
         }
     }
 
+    private Move toMove(int x, int y) {
+        if (x % 2 == 0) {
+            if (x < graphicBoard.length - 1) {
+                return new Move(x / 2, y, Side.UP);
+            } else {
+                return new Move(x / 2 - 1, y, Side.DOWN);
+            }
+        } else {
+            if (y < graphicBoard[0].length - 1) {
+                return new Move(x / 2, y, Side.LEFT);
+            } else {
+                return new Move(x / 2, y - 1, Side.RIGHT);
+            }
+        }
+
+    }
+
     private Move getSource(Object object) {
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < (n - 1); j++)
-                if (hEdge[i][j] == object)
-                    return new Move(i, j, true, n - 1, n - 1);
-        for (int i = 0; i < (n - 1); i++)
-            for (int j = 0; j < n; j++)
-                if (vEdge[i][j] == object)
-                    return new Move(i, j, false, n - 1, n - 1);
-        return new Move(-1, -1, Side.INVALID);
+        for (int i = 0; i < graphicBoard.length; i++) {
+            JPanel pane = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+            for (int j = 0; (i % 2 == 0 && j < graphicBoard[0].length - 1) || (i % 2 != 0 && j < graphicBoard[0].length); j++) {
+                if (graphicBoard[i][j] == object) {
+                    return toMove(i, j);
+                }
+            }
+        }
+        return Move.getInvalidMove();
     }
 
     private JLabel getHorizontalEdge() {
@@ -214,7 +227,7 @@ public class GameBoardUI {
         label.setPreferredSize(new Dimension(size, size));
         //label.setBackground(java.awt.Color.BLACK);
         label.setOpaque(true);
-        label.setBorder(new LineBorder(java.awt.Color.BLACK,10,true));
+        label.setBorder(new LineBorder(java.awt.Color.BLACK, 10, true));
         return label;
     }
 
@@ -235,11 +248,13 @@ public class GameBoardUI {
         this.parent = parent;
         this.frame = frame;
         this.n = numberOfDotsInARow;
+        this.nBoxInRows = n - 1;
+        this.nBoxInCols = n - 1;
         this.redSolver = redSolver;
         this.blueSolver = blueSolver;
         this.redName = redName;
         this.blueName = blueName;
-        initGame();
+        startGame();
     }
 
     private boolean goBack;
@@ -252,13 +267,13 @@ public class GameBoardUI {
     };
 
 
-    private void initGame() {
+    public void startGame() {
 
         board = new Board(n - 1, n - 1);
         int boardWidth = n * size + (n - 1) * dist;
 
-        player1 = new Player('A', Color.BLU);
-        player2 = new Player('B', Color.RED);
+        player1 = new Player('A', Color.RED);
+        player2 = new Player('B', Color.BLU);
         currentPlayer = player1;
         solver = redSolver;
         graphic = new Graphic(n - 1, n - 1);
@@ -304,37 +319,34 @@ public class GameBoardUI {
         vEdge = new JLabel[n][n - 1];
         isSetVEdge = new boolean[n][n - 1];*/
 
+        int mappedRows = nBoxInRows * 2 + 1;
+        int mappedCols = nBoxInCols + 1;
+        graphicBoard = new JLabel[mappedRows][mappedCols];
+        isSetEdge = new boolean[mappedRows][mappedCols];
 
-        hEdge = new JLabel[n][n - 1];
-        isSetHEdge = new boolean[n][n - 1];
+        box = new JLabel[nBoxInRows][nBoxInCols];
 
-        vEdge = new JLabel[n - 1][n];
-        isSetVEdge = new boolean[n - 1][n];
 
-        box = new JLabel[n - 1][n - 1];
-
-        for (int i = 0; i < (2 * n - 1); i++) {
+        for (int i = 0; i < mappedRows; i++) {
             JPanel pane = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-            if (i % 2 == 0) {
-                pane.add(getDot());
-                for (int j = 0; j < (n - 1); j++) {
-                    hEdge[i / 2][j] = getHorizontalEdge();
-                    pane.add(hEdge[i / 2][j]);
+            for (int j = 0; (i % 2 == 0 && j < mappedCols - 1) || (i % 2 != 0 && j < mappedCols); j++) {
+                if (i % 2 == 0) {
                     pane.add(getDot());
-                }
-            } else {
-                for (int j = 0; j < n; j++) {
-                    vEdge[i / 2][j] = getVerticalEdge();
-                    pane.add(vEdge[i / 2][j]);
-
-                    if (j < n - 1) {
+                    graphicBoard[i][j] = getHorizontalEdge();
+                    pane.add(graphicBoard[i][j]);
+                } else {
+                    graphicBoard[i][j] = getVerticalEdge();
+                    pane.add(graphicBoard[i][j]);
+                    if (j < mappedCols - 1) {
                         box[i / 2][j] = getBox();
                         pane.add(box[i / 2][j]);
                     }
                 }
-                //vEdge[n - 1][i / 2] = getVerticalEdge();
-                //pane.add(vEdge[n - 1][i / 2]);
+
             }
+            if (i % 2 == 0)
+                pane.add(getDot());
+
             ++constraints.gridy;
             grid.add(pane, constraints);
         }
