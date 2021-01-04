@@ -78,32 +78,32 @@ public class GameBoardUI {
     };
 
 
-    private void processMove(Move location) {
-        int x = location.getXtwoMatrixRepresentation(), y = location.getYtwoMatrixRepresentation();
+    private void processMove(Move move) {
+        int x = move.getXtwoMatrixRepresentation(), y = move.getYtwoMatrixRepresentation();
         ArrayList<Point> ret;
-        if (location.isHorizontal()) {
+        if (move.isHorizontal()) {
             if (isSetHEdge[x][y]) return;
-            board.drawLine(location);
+            board.drawLine(move);
             hEdge[x][y].setBackground(java.awt.Color.BLACK);
             isSetHEdge[x][y] = true;
         } else {
             if (isSetVEdge[x][y]) return;
-            board.drawLine(location);
+            board.drawLine(move);
             vEdge[x][y].setBackground(java.awt.Color.BLACK);
             isSetVEdge[x][y] = true;
         }
-        graphic.updateMove(location, currentPlayer);
+        graphic.updateMove(move, currentPlayer);
 
         boolean atLeastOnePointScoredByCurrentPlayer = false;
 
-        if (board.isBoxCompleted(location)) {
+        if (board.isBoxCompleted(move)) {
             currentPlayer.onePointDone();
-            graphic.addCompletedBox(location.getX(), location.getY(), currentPlayer.getId());
-            box[location.getX()][location.getY()].setBackground((currentPlayer == player1) ? java.awt.Color.RED : java.awt.Color.BLUE);
+            graphic.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
+            box[move.getX()][move.getY()].setBackground((currentPlayer == player1) ? java.awt.Color.RED : java.awt.Color.BLUE);
             atLeastOnePointScoredByCurrentPlayer = true;
         }
 
-        Move otherMove = board.getNeighbourSideMove(location);
+        Move otherMove = board.getNeighbourSideMove(move);
         if (otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)) {
             currentPlayer.onePointDone();
             graphic.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
