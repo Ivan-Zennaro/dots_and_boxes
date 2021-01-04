@@ -56,7 +56,6 @@ public class Move {
                 throw new Exception();
             int x = Integer.parseInt(String.valueOf(splitInput[0]));
             int y = Integer.parseInt(String.valueOf(splitInput[1]));
-            Side side;
             char sideAsChar = splitInput[2].charAt(0);
             for (Side refSide : Side.values()) {
                 if (refSide.asChar() == sideAsChar)
