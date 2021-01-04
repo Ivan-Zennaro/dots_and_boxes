@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,12 @@ import java.util.ArrayList;
 public class GameBoardUI {
     private final static int size = 8;
     private final static int dist = 40;
+    public static final java.awt.Color TRANSPARENT_COLOR = java.awt.Color.getColor("#ffffff00");
+
+    public static final java.awt.Color DEFAULT_BORDER_LINE_COLOR = java.awt.Color.WHITE;
+    public static final java.awt.Color DEFAULT_BACKGROUND_LINE_COLOR = TRANSPARENT_COLOR;
+    public static final java.awt.Color BLUE_COLOR = new java.awt.Color(59, 105, 177);
+    public static final java.awt.Color RED_COLOR = new java.awt.Color(244, 67, 54);
 
     private int n;
     private boolean mouseEnabled;
@@ -55,10 +62,10 @@ public class GameBoardUI {
             int x = location.getXtwoMatrixRepresentation(), y = location.getYtwoMatrixRepresentation();
             if (location.isHorizontal()) {
                 if (isSetHEdge[x][y]) return;
-                hEdge[x][y].setBackground(currentPlayer == player1 ? java.awt.Color.RED : java.awt.Color.BLUE);
+                hEdge[x][y].setBackground(currentPlayer.getColor().getAwtColor());
             } else {
                 if (isSetVEdge[x][y]) return;
-                vEdge[x][y].setBackground(currentPlayer == player1 ? java.awt.Color.RED : java.awt.Color.BLUE);
+                vEdge[x][y].setBackground(currentPlayer.getColor().getAwtColor());
             }
         }
 
@@ -69,10 +76,10 @@ public class GameBoardUI {
             int x = location.getXtwoMatrixRepresentation(), y = location.getYtwoMatrixRepresentation();
             if (location.isHorizontal()) {
                 if (isSetHEdge[x][y]) return;
-                hEdge[x][y].setBackground(java.awt.Color.LIGHT_GRAY);
+                hEdge[x][y].setBackground(DEFAULT_BACKGROUND_LINE_COLOR);
             } else {
                 if (isSetVEdge[x][y]) return;
-                vEdge[x][y].setBackground(java.awt.Color.GRAY);
+                vEdge[x][y].setBackground(DEFAULT_BACKGROUND_LINE_COLOR);
             }
         }
     };
@@ -84,12 +91,12 @@ public class GameBoardUI {
         if (move.isHorizontal()) {
             if (isSetHEdge[x][y]) return;
             board.drawLine(move);
-            hEdge[x][y].setBackground(java.awt.Color.BLACK);
+            hEdge[x][y].setBackground(currentPlayer.getColor().getAwtColor()); //otherwise DARK_GREY
             isSetHEdge[x][y] = true;
         } else {
             if (isSetVEdge[x][y]) return;
             board.drawLine(move);
-            vEdge[x][y].setBackground(java.awt.Color.BLACK);
+            vEdge[x][y].setBackground(currentPlayer.getColor().getAwtColor());
             isSetVEdge[x][y] = true;
         }
         graphic.updateMove(move, currentPlayer);
@@ -99,7 +106,7 @@ public class GameBoardUI {
         if (board.isBoxCompleted(move)) {
             currentPlayer.onePointDone();
             graphic.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
-            box[move.getX()][move.getY()].setBackground((currentPlayer == player1) ? java.awt.Color.RED : java.awt.Color.BLUE);
+            box[move.getX()][move.getY()].setBackground(currentPlayer.getColor().getAwtColor());
             atLeastOnePointScoredByCurrentPlayer = true;
         }
 
@@ -107,12 +114,11 @@ public class GameBoardUI {
         if (otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)) {
             currentPlayer.onePointDone();
             graphic.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
-            box[otherMove.getX()][otherMove.getY()].setBackground((currentPlayer == player1) ? java.awt.Color.RED : java.awt.Color.BLUE);
+            box[otherMove.getX()][otherMove.getY()].setBackground(currentPlayer.getColor().getAwtColor());
             atLeastOnePointScoredByCurrentPlayer = true;
         }
 
         printScoreBoard();
-
 
         redScoreLabel.setText(String.valueOf(player1.getPoints()));
         blueScoreLabel.setText(String.valueOf(player2.getPoints()));
@@ -120,10 +126,10 @@ public class GameBoardUI {
         if (boardIsComplete()) {
             if (player1.getPoints() > player2.getPoints()) {
                 statusLabel.setText("Player-1 is the winner!");
-                statusLabel.setForeground(java.awt.Color.RED);
+                statusLabel.setForeground(RED_COLOR);
             } else if (player2.getPoints() > player1.getPoints()) {
                 statusLabel.setText("Player-2 is the winner!");
-                statusLabel.setForeground(java.awt.Color.BLUE);
+                statusLabel.setForeground(BLUE_COLOR);
             } else {
                 statusLabel.setText("Game Tied!");
                 statusLabel.setForeground(java.awt.Color.BLACK);
@@ -135,19 +141,17 @@ public class GameBoardUI {
                 currentPlayer = player2;
                 solver = blueSolver;
                 statusLabel.setText("Player-2's Turn...");
-                statusLabel.setForeground(java.awt.Color.BLUE);
+                statusLabel.setForeground(BLUE_COLOR);
             } else {
                 currentPlayer = player1;
                 solver = redSolver;
                 statusLabel.setText("Player-1's Turn...");
-                statusLabel.setForeground(java.awt.Color.RED);
+                statusLabel.setForeground(RED_COLOR);
             }
         }
-
     }
 
     public void printScoreBoard() {
-
         System.out.println(graphic.getStringBoard());
         System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
         System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
@@ -188,18 +192,18 @@ public class GameBoardUI {
     }
 
     private JLabel getHorizontalEdge() {
-        JLabel label = new JLabel();
-        label.setPreferredSize(new Dimension(dist, size));
-        //label.setBorder(BorderFactory.createLineBorder(java.awt.Color.BLACK));
-        label.setOpaque(true);
-        label.addMouseListener(mouseListener);
-        return label;
+        return getjLabel(dist, size);
     }
 
     private JLabel getVerticalEdge() {
+        return getjLabel(size, dist);
+    }
+
+    private JLabel getjLabel(int size, int dist) {
         JLabel label = new JLabel();
         label.setPreferredSize(new Dimension(size, dist));
-        //label.setBorder(BorderFactory.createLineBorder(java.awt.Color.BLACK));
+        label.setBorder(BorderFactory.createLineBorder(DEFAULT_BORDER_LINE_COLOR));
+        label.setBackground(DEFAULT_BACKGROUND_LINE_COLOR);
         label.setOpaque(true);
         label.addMouseListener(mouseListener);
         return label;
@@ -208,8 +212,9 @@ public class GameBoardUI {
     private JLabel getDot() {
         JLabel label = new JLabel();
         label.setPreferredSize(new Dimension(size, size));
-        label.setBackground(java.awt.Color.BLACK);
+        //label.setBackground(java.awt.Color.BLACK);
         label.setOpaque(true);
+        label.setBorder(new LineBorder(java.awt.Color.BLACK,10,true));
         return label;
     }
 
@@ -282,10 +287,10 @@ public class GameBoardUI {
         scorePanel.add(new JLabel("<html><font color='red'>Score:", SwingConstants.CENTER));
         scorePanel.add(new JLabel("<html><font color='blue'>Score:", SwingConstants.CENTER));
         redScoreLabel = new JLabel("0", SwingConstants.CENTER);
-        redScoreLabel.setForeground(java.awt.Color.RED);
+        redScoreLabel.setForeground(RED_COLOR);
         scorePanel.add(redScoreLabel);
         blueScoreLabel = new JLabel("0", SwingConstants.CENTER);
-        blueScoreLabel.setForeground(java.awt.Color.BLUE);
+        blueScoreLabel.setForeground(BLUE_COLOR);
         scorePanel.add(blueScoreLabel);
         ++constraints.gridy;
         grid.add(scorePanel, constraints);
@@ -338,7 +343,7 @@ public class GameBoardUI {
         grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
 
         statusLabel = new JLabel("Player-1's Turn...", SwingConstants.CENTER);
-        statusLabel.setForeground(java.awt.Color.RED);
+        statusLabel.setForeground(RED_COLOR);
         statusLabel.setPreferredSize(new Dimension(2 * boardWidth, dist));
         ++constraints.gridy;
         grid.add(statusLabel, constraints);
