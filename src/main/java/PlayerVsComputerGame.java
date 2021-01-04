@@ -76,13 +76,13 @@ public class PlayerVsComputerGame extends Game {
     public Move getComputerMove() {
         List<Box> boxes = matrixToList(board.getBoard());
 
-        Move move = getMove_thatColseAtLeast2Boxes(boxes);
+        Move move = getMove_thatCloseAtLeast2Boxes(boxes);
         if (move.isValid()) return move;
 
-        move = getMove_thatColseABox(boxes);
+        move = getMove_thatClosesABox(boxes);
         if (move.isValid()) return move;
 
-        move = getMove_thatNotPutTheThirdLineInABox(boxes);
+        move = getMove_thatDoesNotPutTheThirdLineInABox(boxes);
         if (move.isValid()) return move;
 
         move = getRandomMove(boxes);
@@ -91,7 +91,7 @@ public class PlayerVsComputerGame extends Game {
         return Move.getInvalidMove();
     }
 
-    private Move getMove_thatColseAtLeast2Boxes(List<Box> boxes) {
+    private Move getMove_thatCloseAtLeast2Boxes(List<Box> boxes) {
         return getMoveWithConstraint(box -> box.getNumberOfDrawLine() == 3, (box, side) -> {
             Box sideBox = getNeighbourBox(box, side, boxes);
             if (sideBox == null) return false;
@@ -99,11 +99,11 @@ public class PlayerVsComputerGame extends Game {
         }, boxes);
     }
 
-    private Move getMove_thatColseABox(List<Box> boxes) {
+    private Move getMove_thatClosesABox(List<Box> boxes) {
         return getMoveWithConstraint(box -> box.getNumberOfDrawLine() == 3, (box, side) -> true, boxes);
     }
 
-    private Move getMove_thatNotPutTheThirdLineInABox(List<Box> boxes) {
+    private Move getMove_thatDoesNotPutTheThirdLineInABox(List<Box> boxes) {
         return getMoveWithConstraint(box -> box.getNumberOfDrawLine() != 2,
                 (box, side) -> {
                     Box sideBox = getNeighbourBox(box, side, boxes);
