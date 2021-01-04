@@ -26,48 +26,39 @@ public class ClientPlayerGame extends Game {
 
                 String command = keyboard.readLine();
 
-                //TODO - with quit command exit the game and show the result before quit: is it ok?
                 if (command == null) {
-                    System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
-                    System.out.println("Client abruptly closed connection ");
-                    break;
+                   // System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
+                   // System.out.println("Client abruptly closed connection ");
+                    return;
                 }
                 command = command.trim();
                 if (command.equals(quitCommand)) {
-                    System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
-                    System.out.println("Client disconnected");
-                    break;
+                    outputServer.write("You requested to end the game! So, the game ended as follow:" + System.lineSeparator());
+                    outputServer.flush();
+                    endGame();
+                    return;
                 }
 
                 turn(command);
-
-                //SERVONO????
-                // output.write(graphic.getStringBoard() + System.lineSeparator());
-                // output.flush();
-
             }
-
-
             endGame();
         }
-        // keyboard.close();
     }
 
 
     public boolean initializeBoard(String quitCmd) throws IOException {
-        int optionGrid = 1;
+        int optionGrid = 0;
         String inputLineClient;
 
         do {
-            System.out.println("How big the grid? 2:[2x2]  3:[3x3] 5:[5x5]");
             outputServer.write("How big the grid? 2:[2x2]  3:[3x3] 5:[5x5]" + System.lineSeparator());
             outputServer.flush();
 
             inputLineClient = keyboard.readLine();
 
             if (inputLineClient == null || inputLineClient.equals(quitCmd)) {
-                System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
-                System.out.println("Client disconnected or Client abruptly closed connection");
+                //System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
+                //System.out.println("Client disconnected or Client abruptly closed connection");
                 return false;
             }
 
@@ -97,6 +88,12 @@ public class ClientPlayerGame extends Game {
     public void endGame() {
         finalGraphics();
         printWinner();
+        try {
+            outputServer.write("The game is ended due to a quit request or to its natural end: " + System.lineSeparator());
+            outputServer.flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -126,6 +123,7 @@ public class ClientPlayerGame extends Game {
                     outputServer.write("TIE!");
                 }
             }
+            outputServer.write(System.lineSeparator());
             outputServer.flush();
         } catch (Exception e) {
             e.printStackTrace();
