@@ -49,13 +49,13 @@ public class Board {
 
     public Move getNeighbourSideMove(Move move){
         if (move.getSide() == Side.UP || move.getSide() == Side.DOWN)
-            if (isMoveInBoardRange(new Move(move.getX() + move.getSide().coordShift(), move.getY(), move.getSide().invert()))) {
-                return new Move (move.getX()+ move.getSide().coordShift(),move.getY() ,move.getSide().invert());
+            if (isMoveInBoardRange(new Move(move.getX() + move.getCoordShift(), move.getY(), move.getInvertedSide()))) {
+                return new Move (move.getX()+ move.getCoordShift(),move.getY() ,move.getInvertedSide());
 
             }
         if (move.getSide() == Side.LEFT || move.getSide() == Side.RIGHT)
-            if (isMoveInBoardRange(new Move(move.getX(), move.getY() + move.getSide().coordShift(), move.getSide().invert()))) {
-                return new Move (move.getX(),move.getY() + move.getSide().coordShift(),move.getSide().invert());
+            if (isMoveInBoardRange(new Move(move.getX(), move.getY() + move.getCoordShift(), move.getInvertedSide()))) {
+                return new Move (move.getX(),move.getY() + move.getCoordShift(),move.getInvertedSide());
             }
 
         return new Move(-1,-1,Side.INVALID);

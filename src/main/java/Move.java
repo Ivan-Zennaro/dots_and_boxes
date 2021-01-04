@@ -89,6 +89,19 @@ public class Move {
         } else
             return y;
     }
-
+    public int getCoordShift(){
+        if(this.getSide() == Side.UP) return -1;
+        if(this.getSide() == Side.DOWN) return +1;
+        if(this.getSide() == Side.LEFT) return -1;
+        if(this.getSide() == Side.RIGHT) return +1;
+        return 0;
+    }
+    public Side getInvertedSide(){
+        if(this.getSide() == Side.UP) return Side.DOWN;
+        if(this.getSide() == Side.DOWN) return Side.UP;
+        if(this.getSide() == Side.LEFT) return Side.RIGHT;
+        if(this.getSide() == Side.RIGHT) return Side.LEFT;
+        return Side.INVALID;
+    }
 
 }
