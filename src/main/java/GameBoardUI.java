@@ -69,10 +69,10 @@ public class GameBoardUI {
             int x = location.getXtwoMatrixRepresentation(), y = location.getYtwoMatrixRepresentation();
             if (location.isHorizontal()) {
                 if (isSetHEdge[x][y]) return;
-                hEdge[x][y].setBackground(java.awt.Color.WHITE);
+                hEdge[x][y].setBackground(java.awt.Color.LIGHT_GRAY);
             } else {
                 if (isSetVEdge[x][y]) return;
-                vEdge[x][y].setBackground(java.awt.Color.WHITE);
+                vEdge[x][y].setBackground(java.awt.Color.GRAY);
             }
         }
     };
@@ -190,7 +190,7 @@ public class GameBoardUI {
     private JLabel getHorizontalEdge() {
         JLabel label = new JLabel();
         label.setPreferredSize(new Dimension(dist, size));
-        label.setBorder(BorderFactory.createLineBorder(java.awt.Color.BLACK));
+        //label.setBorder(BorderFactory.createLineBorder(java.awt.Color.BLACK));
         label.setOpaque(true);
         label.addMouseListener(mouseListener);
         return label;
@@ -199,7 +199,7 @@ public class GameBoardUI {
     private JLabel getVerticalEdge() {
         JLabel label = new JLabel();
         label.setPreferredSize(new Dimension(size, dist));
-        label.setBorder(BorderFactory.createLineBorder(java.awt.Color.BLACK));
+        //label.setBorder(BorderFactory.createLineBorder(java.awt.Color.BLACK));
         label.setOpaque(true);
         label.addMouseListener(mouseListener);
         return label;
