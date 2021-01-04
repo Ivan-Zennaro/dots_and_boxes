@@ -58,8 +58,8 @@ public class ServerGame {
                                 command = command.trim();
                                 if (command.equals(quitCommand)) {
                                     bw.write("You chose to close the connection with the Server!" + System.lineSeparator());
-                                    bw.write("Thank you, we hope that enjoyed your game! See you");
-                                    bw.write("Type whatever you want to close the connection" + System.lineSeparator());
+                                    bw.write("Thank you, we hope that enjoyed your game! See you! "+ System.lineSeparator());
+                                    bw.write("Type whatever you want to close the connection." + System.lineSeparator());
                                     bw.flush();
                                     try{
                                         br.readLine();
