@@ -66,6 +66,11 @@ public class Cli extends IOManager {
         System.out.println("Is the turn of Player" + currentPlayer.getId());
     }
 
+    @Override
+    public void initialize() {
+        System.out.println(getStringBoard());
+    }
+
     public String getStringBoard() {
         String s = System.lineSeparator() + "    ";
         for (int i = 0; i < graphicBoard[0].length - 1; i++)
