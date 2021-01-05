@@ -6,23 +6,23 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public class TestCmd {
+public class TestCli {
 
     @Test
     public void draw_1x1_empty_board() {
-        Cmd cmd = new Cmd(1, 1);
+        Cli cli = new Cli(1, 1);
         String boardString_1x1 =
                 System.lineSeparator() +
                         "    0   "+System.lineSeparator() +
                         "   ---"+System.lineSeparator() +
                         "0 |   |   "+System.lineSeparator() +
                         "   ---"+System.lineSeparator();
-        Assertions.assertEquals(boardString_1x1, cmd.getStringBoard());
+        Assertions.assertEquals(boardString_1x1, cli.getStringBoard());
     }
 
     @Test
     public void draw_2x2_empty_board() {
-        Cmd cmd = new Cmd(2, 2);
+        Cli cli = new Cli(2, 2);
         String boardString_2x2 =
                 System.lineSeparator() +
                         "    0   1   "+System.lineSeparator() +
@@ -31,12 +31,12 @@ public class TestCmd {
                         "   --- ---"+System.lineSeparator() +
                         "1 |   |   |   "+System.lineSeparator() +
                         "   --- ---"+System.lineSeparator();
-        Assertions.assertEquals(boardString_2x2, cmd.getStringBoard());
+        Assertions.assertEquals(boardString_2x2, cli.getStringBoard());
     }
 
     @Test
     public void draw_3x3_empty_board() {
-        Cmd cmd = new Cmd(3, 3);
+        Cli cli = new Cli(3, 3);
         String boardString_3x3 =
                 System.lineSeparator() + "    0   1   2   "+System.lineSeparator() +
                         "   --- --- ---"+System.lineSeparator() +
@@ -46,14 +46,14 @@ public class TestCmd {
                         "   --- --- ---"+System.lineSeparator() +
                         "2 |   |   |   |   "+System.lineSeparator() +
                         "   --- --- ---"+System.lineSeparator();
-        Assertions.assertEquals(boardString_3x3, cmd.getStringBoard());
+        Assertions.assertEquals(boardString_3x3, cli.getStringBoard());
     }
 
 
     @Test
     public void update_blu_move_in_2x2_board() {
-        Cmd cmd = new Cmd(2, 2);
-        cmd.updateMove(new Move(0, 0, Side.UP), new Player('A', Color.BLU));
+        Cli cli = new Cli(2, 2);
+        cli.updateMove(new Move(0, 0, Side.UP), new Player('A', Color.BLU));
         String boardString_2x2 =
                 System.lineSeparator() +
                         "    0   1   "+System.lineSeparator() +
@@ -63,13 +63,13 @@ public class TestCmd {
                         "1 |   |   |   "+System.lineSeparator() +
                         "   --- ---"+System.lineSeparator();
 
-        Assertions.assertEquals(boardString_2x2, cmd.getStringBoard());
+        Assertions.assertEquals(boardString_2x2, cli.getStringBoard());
     }
 
     @Test
     public void update_blu_move_in_3x3_board() {
-        Cmd cmd = new Cmd(3, 3);
-        cmd.updateMove(new Move(2, 2, Side.RIGHT), new Player('A', Color.BLU));
+        Cli cli = new Cli(3, 3);
+        cli.updateMove(new Move(2, 2, Side.RIGHT), new Player('A', Color.BLU));
         String boardString_3x3 = System.lineSeparator() +
                 "    0   1   2   "+System.lineSeparator() +
                 "   --- --- ---"+System.lineSeparator() +
@@ -80,17 +80,17 @@ public class TestCmd {
                 "2 |   |   |   " + ColorManager.getColoredString("|   ", Color.BLU) + System.lineSeparator() +
                 "   --- --- ---"+System.lineSeparator();
 
-        Assertions.assertEquals(boardString_3x3, cmd.getStringBoard());
+        Assertions.assertEquals(boardString_3x3, cli.getStringBoard());
     }
 
 
     @Test
     public void update_blu_move_in_3x3_board_and_draw_a_taken_box() {
-        Cmd cmd = new Cmd(3, 3);
+        Cli cli = new Cli(3, 3);
         Player player = new Player('A', Color.GREEN);
-        cmd.updateMove(new Move(0, 0, Side.DOWN), player);
-        cmd.updateMove(new Move(0, 0, Side.LEFT), player);
-        cmd.updateCompletedBox(0, 0, player);
+        cli.updateMove(new Move(0, 0, Side.DOWN), player);
+        cli.updateMove(new Move(0, 0, Side.LEFT), player);
+        cli.updateCompletedBox(0, 0, player);
         String boardString_3x3 =
                 System.lineSeparator() +"    0   1   2   " +  System.lineSeparator() +
                         "   --- --- ---" + System.lineSeparator() +
@@ -101,20 +101,20 @@ public class TestCmd {
                         "2 |   |   |   |   " + System.lineSeparator() +
                         "   --- --- ---" + System.lineSeparator() ;
 
-        Assertions.assertEquals(boardString_3x3, cmd.getStringBoard());
+        Assertions.assertEquals(boardString_3x3, cli.getStringBoard());
     }
 
 
     @ParameterizedTest
     @CsvSource({"1,UP,1", "2,DOWN,2", "3,RIGHT,4", "5,LEFT,5"})
     public void map_y_value_of_game_board_with_y_value_of_graphic_board(int gameBoardY, Side side, int graphicBoardY) {
-        Assertions.assertEquals(graphicBoardY, Cmd.getMappedY(new Move(0, gameBoardY, side)));
+        Assertions.assertEquals(graphicBoardY, Cli.getMappedY(new Move(0, gameBoardY, side)));
     }
 
     @ParameterizedTest
     @CsvSource({"0,UP,0", "2,DOWN,6", "1,RIGHT,3", "2,UP,4"})
     public void map_x_value_of_game_board_with_x_value_of_graphic_board(int gameBoardX, Side side, int graphicBoardX) {
-        Assertions.assertEquals(graphicBoardX, Cmd.getMappedX(new Move(gameBoardX, 0, side)));
+        Assertions.assertEquals(graphicBoardX, Cli.getMappedX(new Move(gameBoardX, 0, side)));
     }
 
     @ParameterizedTest
@@ -137,7 +137,7 @@ public class TestCmd {
             case 2: winnerString = "Player "+ p2.getId() + " WON!"; break;
             default: winnerString = "TIE!";
         }
-        new Cmd(0,0).showWinner(p1,p2);
+        new Cli(0,0).showWinner(p1,p2);
         Assertions.assertEquals(winnerString, outputStreamCaptor.toString().trim());
     }
 }

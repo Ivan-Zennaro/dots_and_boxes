@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-public class Cmd extends IOManager {
+public class Cli extends IOManager {
 
     private final String HORIZONTAL_LINE = " ---";
     private final String VERTICAL_LINE = "|   ";
@@ -9,7 +9,7 @@ public class Cmd extends IOManager {
     private String graphicBoard[][];
     private Scanner keyboard;
 
-    public Cmd(int boardRows, int boardCols) {
+    public Cli(int boardRows, int boardCols) {
         keyboard = new Scanner(System.in);
 
         int mappedRows = boardRows * 2 + 1;

@@ -105,7 +105,7 @@ public class GameBoardUI extends Game {
         graphicBoard[x][y].setBackground(currentPlayer.getColor().getAwtColor()); //otherwise DARK_GREY
         isSetEdge[x][y] = true;
 
-        cmd.updateMove(move, currentPlayer);
+        cli.updateMove(move, currentPlayer);
 
         atLeastOnePointScoredByCurrentPlayer = false;
 
@@ -155,7 +155,7 @@ public class GameBoardUI extends Game {
     private void fillBoxIfCompletedAndUpdateScore(Move lastMove){
         if (lastMove.getSide() != Side.INVALID && board.isBoxCompleted(lastMove)) {
             currentPlayer.onePointDone();
-            cmd.updateCompletedBox(lastMove.getX(), lastMove.getY(), currentPlayer);
+            cli.updateCompletedBox(lastMove.getX(), lastMove.getY(), currentPlayer);
             box[lastMove.getX()][lastMove.getY()].setBackground(currentPlayer.getColor().getAwtColor());
             atLeastOnePointScoredByCurrentPlayer = true;
         }
@@ -280,7 +280,7 @@ public class GameBoardUI extends Game {
         player2 = new Player('B', Color.BLU);
         currentPlayer = player1;
         solver = redSolver;
-        cmd = new Cmd(n - 1, n - 1);
+        cli = new Cli(n - 1, n - 1);
 
         JPanel grid = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();

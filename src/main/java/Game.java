@@ -6,7 +6,7 @@ public abstract class Game {
     protected Player currentPlayer;
 
     protected Board board;
-    protected Cmd cmd;
+    protected Cli cli;
 
    public Game() {
         player1 = new Player('A', Color.RED);
@@ -46,20 +46,20 @@ public abstract class Game {
 
     public void computeMove(Move move) {
         board.drawLine(move);
-        cmd.updateMove(move, currentPlayer);
+        cli.updateMove(move, currentPlayer);
 
         boolean atLeastOnePointScoredByCurrentPlayer = false;
 
         if (board.isBoxCompleted(move)) {
             currentPlayer.onePointDone();
-            cmd.updateCompletedBox(move.getX(), move.getY(), currentPlayer);
+            cli.updateCompletedBox(move.getX(), move.getY(), currentPlayer);
             atLeastOnePointScoredByCurrentPlayer = true;
         }
 
         Move otherMove = board.getNeighbourSideMove(move);
         if (otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)) {
             currentPlayer.onePointDone();
-            cmd.updateCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer);
+            cli.updateCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer);
             atLeastOnePointScoredByCurrentPlayer = true;
         }
 
@@ -71,7 +71,7 @@ public abstract class Game {
 
     public void printScoreBoard() {
 
-        System.out.println(cmd.getStringBoard());
+        System.out.println(cli.getStringBoard());
         System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
         System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
         System.out.println("Is the turn of Player" + currentPlayer.getId());
@@ -94,7 +94,7 @@ public abstract class Game {
 
 
     public void finalGraphics() {
-        System.out.println(cmd.getStringBoard());
+        System.out.println(cli.getStringBoard());
         System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
         System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
         System.out.println();

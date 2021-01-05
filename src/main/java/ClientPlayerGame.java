@@ -70,14 +70,14 @@ public class ClientPlayerGame extends Game {
         } while (!(optionGrid == 2 || optionGrid == 3 || optionGrid == 5));
 
         board = new Board(optionGrid, optionGrid);
-        cmd = new Cmd(optionGrid, optionGrid);
+        cli = new Cli(optionGrid, optionGrid);
 
         return true;
     }
 
     public String printScoreBoardOnClient() {
         String printableScoreBoard;
-        printableScoreBoard = cmd.getStringBoard() + System.lineSeparator();
+        printableScoreBoard = cli.getStringBoard() + System.lineSeparator();
         printableScoreBoard += "Player " + player1.getId() + " got " + player1.getPoints() + " points" + System.lineSeparator();
         printableScoreBoard += "Player " + player2.getId() + " got " + player2.getPoints() + " points" + System.lineSeparator();
         printableScoreBoard += "Is the turn of Player" + currentPlayer.getId() + System.lineSeparator();
@@ -99,7 +99,7 @@ public class ClientPlayerGame extends Game {
     @Override
     public void finalGraphics() {
         String finalGraphicForClient;
-        finalGraphicForClient = cmd.getStringBoard() + System.lineSeparator();
+        finalGraphicForClient = cli.getStringBoard() + System.lineSeparator();
         finalGraphicForClient += "Player " + player1.getId() + " got " + player1.getPoints() + " points" + System.lineSeparator();
         finalGraphicForClient += "Player " + player2.getId() + " got " + player2.getPoints() + " points" + System.lineSeparator();
 

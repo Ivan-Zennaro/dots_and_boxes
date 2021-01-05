@@ -40,7 +40,7 @@ public class PlayerVsComputerGame extends Game {
 
     public void defaultInitialize() {
         board = new Board(2, 2);
-        cmd = new Cmd(2, 2);
+        cli = new Cli(2, 2);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class PlayerVsComputerGame extends Game {
         } while (!validCoordinate(boardCols));
 
         board = new Board(boardRow, boardCols);
-        cmd = new Cmd(boardRow, boardCols);
+        cli = new Cli(boardRow, boardCols);
 
         return board;
     }

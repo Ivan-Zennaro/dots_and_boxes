@@ -29,7 +29,7 @@ public class TwoPlayersGame extends Game {
         } while (!(optionGrid == 2 || optionGrid == 3 || optionGrid == 5));
 
         board = new Board(optionGrid, optionGrid);
-        cmd = new Cmd(optionGrid, optionGrid);
+        cli = new Cli(optionGrid, optionGrid);
 
         return board;
     }
