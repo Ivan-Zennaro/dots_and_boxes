@@ -67,28 +67,6 @@ public class Move {
         return getInvalidMove();
     }
 
-    public boolean isHorizontal() {
-        return this.side == Side.UP || this.side == Side.DOWN;
-    }
-
-    public boolean isVertical() {
-        return this.side == Side.LEFT || this.side == Side.RIGHT;
-    }
-
-    public int getXtwoMatrixRepresentation() {
-        if (this.side == Side.DOWN) {
-            return x + 1;
-        } else
-            return x;
-    }
-
-    public int getYtwoMatrixRepresentation() {
-        if (this.side == Side.RIGHT) {
-            return y + 1;
-        } else
-            return y;
-    }
-
     public int getCoordShift() {
         switch (this.getSide()) {
             case UP:
