@@ -1,12 +1,17 @@
+import java.util.Scanner;
 import java.util.stream.IntStream;
 
 public class Cmd extends IOManager {
 
+    private final String HORIZONTAL_LINE = " ---";
+    private final String VERTICAL_LINE = "|   ";
+
     private String graphicBoard[][];
-    private static final String HORIZONTAL_LINE = " ---";
-    private static final String VERTICAL_LINE = "|   ";
+    private Scanner keyboard;
 
     public Cmd(int boardRows, int boardCols) {
+        keyboard = new Scanner(System.in);
+
         int mappedRows = boardRows * 2 + 1;
         int mappedCols = boardCols + 1;
 
@@ -32,28 +37,16 @@ public class Cmd extends IOManager {
     @Override
     public void updateCompletedBox(int x, int y, Player player) {
         Color color = player.getColor();
-        String coloredId = ColorManager.getColoredString(Character.toString(player.getId()),color);
+        String coloredId = ColorManager.getColoredString(Character.toString(player.getId()), color);
         graphicBoard[x * 2 + 1][y] = graphicBoard[x * 2 + 1][y].replace("   \u001B[0m", " \u001B[0m" + coloredId + " ");
         System.out.println(getStringBoard());
     }
 
-    public String getStringBoard() {
-        String s = System.lineSeparator() + "    ";
-        for (int i = 0; i < graphicBoard[0].length - 1; i++)
-            s += i + "   ";
-        for (int i = 0; i < graphicBoard.length; i++) {
-            if (i % 2 == 0) s += System.lineSeparator() + "  ";
-            else s += System.lineSeparator() + (((i + 1) / 2) - 1) + " ";
-            for (int j = 0; (i % 2 == 0 && j < graphicBoard[0].length - 1) || (i % 2 != 0 && j < graphicBoard[0].length); j++) {
-                s += graphicBoard[i][j];
-            }
-        }
-        return s + System.lineSeparator();
-    }
 
     @Override
     public Move readMove() {
-        return null;
+        System.out.println("Insert move [x y side:U,D,L,R]?");
+        return Move.parseMove(keyboard.nextLine());
     }
 
     @Override
@@ -71,6 +64,20 @@ public class Cmd extends IOManager {
         System.out.println("Player " + p1.getId() + " got " + p1.getPoints() + " points");
         System.out.println("Player " + p2.getId() + " got " + p2.getPoints() + " points");
         System.out.println("Is the turn of Player" + currentPlayer.getId());
+    }
+
+    public String getStringBoard() {
+        String s = System.lineSeparator() + "    ";
+        for (int i = 0; i < graphicBoard[0].length - 1; i++)
+            s += i + "   ";
+        for (int i = 0; i < graphicBoard.length; i++) {
+            if (i % 2 == 0) s += System.lineSeparator() + "  ";
+            else s += System.lineSeparator() + (((i + 1) / 2) - 1) + " ";
+            for (int j = 0; (i % 2 == 0 && j < graphicBoard[0].length - 1) || (i % 2 != 0 && j < graphicBoard[0].length); j++) {
+                s += graphicBoard[i][j];
+            }
+        }
+        return s + System.lineSeparator();
     }
 }
 
