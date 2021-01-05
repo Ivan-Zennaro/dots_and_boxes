@@ -10,6 +10,30 @@ public class Move {
         this.side = side;
     }
 
+    //two matrix representation TMR
+    public Move(int xTMR, int yTMR, boolean horizontal, int boxesInARow, int boxesInAColumn) {
+        if (horizontal) {
+            this.y = yTMR;
+            if (xTMR >= boxesInARow) {
+                this.x = xTMR - 1;
+                this.side = Side.DOWN;
+            } else {
+                this.x = xTMR;
+                this.side = Side.UP;
+            }
+        } else {
+            this.x = xTMR;
+            if (yTMR >= boxesInAColumn) {
+                this.y = yTMR - 1;
+                this.side = Side.RIGHT;
+            } else {
+                this.y = yTMR;
+                this.side = Side.LEFT;
+            }
+        }
+    }
+
+
     public static Move getInvalidMove() {
         return new Move(-1, -1, Side.INVALID);
     }

@@ -9,8 +9,8 @@ public abstract class Game {
     protected Graphic graphic;
 
    public Game() {
-        player1 = new Player('A', Color.BLU);
-        player2 = new Player('B', Color.RED);
+        player1 = new Player('A', Color.RED);
+        player2 = new Player('B', Color.BLU);
         currentPlayer = player1;
     }
 
