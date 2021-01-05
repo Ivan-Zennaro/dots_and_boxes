@@ -155,7 +155,7 @@ public class GameBoardUI extends Game {
     private void fillBoxIfCompletedAndUpdateScore(Move lastMove){
         if (lastMove.getSide() != Side.INVALID && board.isBoxCompleted(lastMove)) {
             currentPlayer.onePointDone();
-            cmd.addCompletedBox(lastMove.getX(), lastMove.getY(), currentPlayer.getId());
+            cmd.updateCompletedBox(lastMove.getX(), lastMove.getY(), currentPlayer);
             box[lastMove.getX()][lastMove.getY()].setBackground(currentPlayer.getColor().getAwtColor());
             atLeastOnePointScoredByCurrentPlayer = true;
         }

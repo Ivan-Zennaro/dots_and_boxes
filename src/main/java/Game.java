@@ -52,14 +52,14 @@ public abstract class Game {
 
         if (board.isBoxCompleted(move)) {
             currentPlayer.onePointDone();
-            cmd.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
+            cmd.updateCompletedBox(move.getX(), move.getY(), currentPlayer);
             atLeastOnePointScoredByCurrentPlayer = true;
         }
 
         Move otherMove = board.getNeighbourSideMove(move);
         if (otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)) {
             currentPlayer.onePointDone();
-            cmd.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
+            cmd.updateCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer);
             atLeastOnePointScoredByCurrentPlayer = true;
         }
 

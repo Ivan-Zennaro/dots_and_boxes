@@ -1,55 +1,40 @@
-public class Cmd extends IOManager{
+import java.util.stream.IntStream;
 
-    private static final String HORIZONTAL_LINE = " ---";
-    private static final String VERTICAL_LINE = "|   ";
+public class Cmd extends IOManager {
 
     private String graphicBoard[][];
+    private static final String HORIZONTAL_LINE = " ---";
+    private static final String VERTICAL_LINE = "|   ";
 
     public Cmd(int boardRows, int boardCols) {
         int mappedRows = boardRows * 2 + 1;
         int mappedCols = boardCols + 1;
-        graphicBoard = new String[mappedRows][mappedCols];
-        for (int i = 0; i < mappedRows; i++) {
-            for (int j = 0; j < mappedCols; j++) {
-                if (i % 2 == 0)
-                    graphicBoard[i][j] = HORIZONTAL_LINE;
-                else
-                    graphicBoard[i][j] = VERTICAL_LINE;
-            }
-        }
+
+        graphicBoard = IntStream.range(0, mappedRows)
+                .mapToObj(r -> IntStream.range(0, mappedCols)
+                        .mapToObj(c -> r % 2 == 0 ? HORIZONTAL_LINE : VERTICAL_LINE)
+                        .toArray(String[]::new))
+                .toArray(String[][]::new);
     }
 
+    @Override
     public void updateMove(Move move, Player player) {
-
         Color color = player.getColor();
-        int mappedX = mapX(move);
-        int mappedY = mapY(move);
-        String stringToWrite;
+        int mappedX = getMappedX(move);
+        int mappedY = getMappedY(move);
         if (mappedX % 2 == 0)
-            stringToWrite = ColorManager.getColoredString(HORIZONTAL_LINE, color);
+            graphicBoard[mappedX][mappedY] = ColorManager.getColoredString(HORIZONTAL_LINE, color);
         else
-            stringToWrite = ColorManager.getColoredString(VERTICAL_LINE, color);
-        graphicBoard[mappedX][mappedY] = stringToWrite;
+            graphicBoard[mappedX][mappedY] = ColorManager.getColoredString(VERTICAL_LINE, color);
+        System.out.println(getStringBoard());
     }
 
-    public void addCompletedBox(int x, int y, char c) {
-        graphicBoard[x * 2 + 1][y] = graphicBoard[x * 2 + 1][y].replace("   \u001B[0m", " \u001B[0m" + c + " ");
-    }
-
-
-    public static int mapY(Move move) {
-        if (move.getSide() == Side.RIGHT)
-            return move.getY() + 1;
-        else return move.getY();
-    }
-
-    public static int mapX(Move move) {
-        int tempX = move.getX() * 2 + 1;
-        if (move.getSide() == Side.UP)
-            return tempX - 1;
-        if (move.getSide() == Side.DOWN)
-            return tempX + 1;
-        else return tempX;
+    @Override
+    public void updateCompletedBox(int x, int y, Player player) {
+        Color color = player.getColor();
+        String coloredId = ColorManager.getColoredString(Character.toString(player.getId()),color);
+        graphicBoard[x * 2 + 1][y] = graphicBoard[x * 2 + 1][y].replace("   \u001B[0m", " \u001B[0m" + coloredId + " ");
+        System.out.println(getStringBoard());
     }
 
     public String getStringBoard() {
@@ -72,18 +57,20 @@ public class Cmd extends IOManager{
     }
 
     @Override
-    public void updateMove() {
-
+    public void showWinner(Player p1, Player p2) {
+        if (p1.getPoints() == p2.getPoints())
+            System.out.println("TIE!");
+        else {
+            Player winner = (p1.getPoints() > p2.getPoints() ? p1 : p2);
+            System.out.println("Player " + winner.getId() + " WON!");
+        }
     }
 
     @Override
-    public void updateCompletedBox() {
-
-    }
-
-    @Override
-    public void updateGameInfo() {
-
+    public void updateGameInfo(Player p1, Player p2, Player currentPlayer) {
+        System.out.println("Player " + p1.getId() + " got " + p1.getPoints() + " points");
+        System.out.println("Player " + p2.getId() + " got " + p2.getPoints() + " points");
+        System.out.println("Is the turn of Player" + currentPlayer.getId());
     }
 }
 
