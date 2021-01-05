@@ -26,3 +26,6 @@ Another discussion, tests were added for the alpha. Started to develop more extr
 
 02/01/2021
 Set goals to complete the project including presentation and future refactoring
+
+05/01/2021 
+Found important code smell, code duplication and consequent shotgun surgery.
