@@ -1,11 +1,11 @@
-public class Graphic {
+public class Cmd extends IOManager{
 
     private static final String HORIZONTAL_LINE = " ---";
     private static final String VERTICAL_LINE = "|   ";
 
     private String graphicBoard[][];
 
-    public Graphic(int boardRows, int boardCols) {
+    public Cmd(int boardRows, int boardCols) {
         int mappedRows = boardRows * 2 + 1;
         int mappedCols = boardCols + 1;
         graphicBoard = new String[mappedRows][mappedCols];
@@ -66,6 +66,25 @@ public class Graphic {
         return s + System.lineSeparator();
     }
 
+    @Override
+    public Move readMove() {
+        return null;
+    }
+
+    @Override
+    public void updateMove() {
+
+    }
+
+    @Override
+    public void updateCompletedBox() {
+
+    }
+
+    @Override
+    public void updateGameInfo() {
+
+    }
 }
 
 

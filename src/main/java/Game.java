@@ -6,7 +6,7 @@ public abstract class Game {
     protected Player currentPlayer;
 
     protected Board board;
-    protected Graphic graphic;
+    protected Cmd cmd;
 
    public Game() {
         player1 = new Player('A', Color.RED);
@@ -46,20 +46,20 @@ public abstract class Game {
 
     public void computeMove(Move move) {
         board.drawLine(move);
-        graphic.updateMove(move, currentPlayer);
+        cmd.updateMove(move, currentPlayer);
 
         boolean atLeastOnePointScoredByCurrentPlayer = false;
 
         if (board.isBoxCompleted(move)) {
             currentPlayer.onePointDone();
-            graphic.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
+            cmd.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
             atLeastOnePointScoredByCurrentPlayer = true;
         }
 
         Move otherMove = board.getNeighbourSideMove(move);
         if (otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)) {
             currentPlayer.onePointDone();
-            graphic.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
+            cmd.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
             atLeastOnePointScoredByCurrentPlayer = true;
         }
 
@@ -71,7 +71,7 @@ public abstract class Game {
 
     public void printScoreBoard() {
 
-        System.out.println(graphic.getStringBoard());
+        System.out.println(cmd.getStringBoard());
         System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
         System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
         System.out.println("Is the turn of Player" + currentPlayer.getId());
@@ -94,7 +94,7 @@ public abstract class Game {
 
 
     public void finalGraphics() {
-        System.out.println(graphic.getStringBoard());
+        System.out.println(cmd.getStringBoard());
         System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
         System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
         System.out.println();

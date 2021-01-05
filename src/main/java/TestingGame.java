@@ -12,7 +12,7 @@ public class TestingGame extends Game{
     public Board initializeBoard() {
 
         board = new Board(boardSize,boardSize);
-        graphic = new Graphic(boardSize,boardSize);
+        cmd = new Cmd(boardSize,boardSize);
         return board;
     }
 
