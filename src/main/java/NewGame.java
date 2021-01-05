@@ -12,40 +12,23 @@ public abstract class NewGame {
         this.player1 = this.currentPlayer = p1;
         this.player2 = p2;
         this.ioManager = ioManager;
+        board = new Board(nRows, nCols);
     }
 
     public abstract void startGame();
 
     public void endGame() {
-        finalGraphics();
-        printWinner();
-    }
-
-    public void turn(String moveString){
-        Move move = Move.parseMove(moveString);
-        turn(move);
-    }
-
-    public void turn(Move move) {
-        if (isMoveAllowed(move))
-            computeMove(move);
-        else{
-            System.out.println("\nINVALID MOVE!!\n");
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                //e.printStackTrace();
-            }
-        }
+        ioManager.showWinner(player1, player2);
     }
 
     private boolean isMoveAllowed(Move move) {
         return board.isMoveInBoardRange(move) && move.getSide() != Side.INVALID && !board.boxHasAlreadyLine(move);
     }
 
-
     public void computeMove(Move move) {
+        if (!isMoveAllowed(move)) return;
         board.drawLine(move);
+
         ioManager.updateMove(move, currentPlayer);
 
         boolean atLeastOnePointScoredByCurrentPlayer = false;
@@ -62,54 +45,17 @@ public abstract class NewGame {
             ioManager.updateCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer);
             atLeastOnePointScoredByCurrentPlayer = true;
         }
-
-        if (!atLeastOnePointScoredByCurrentPlayer) {
-            swapPlayers();
-        }
-
+        if (!atLeastOnePointScoredByCurrentPlayer) swapPlayers();
     }
 
     public void printScoreBoard() {
-
         ioManager.initialize();
-        System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
-        System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
-        System.out.println("Is the turn of Player" + currentPlayer.getId());
-    }
-
-    public int printCurrentPlayerScore(){
-        return (currentPlayer.getPoints());
-    }
-
-
-    private void printWinner() {
-        if (player1.getPoints() > player2.getPoints()) {
-            System.out.println("Player" + player1.getId() + " WON!");
-        } else if (player2.getPoints() > player1.getPoints()) {
-            System.out.println("Player " + player2.getId() + " WON!");
-        } else {
-            System.out.println("TIE!");
-        }
-    }
-
-
-    public void finalGraphics() {
-        ioManager.initialize();
-        System.out.println("Player " + player1.getId() + " got " + player1.getPoints() + " points");
-        System.out.println("Player " + player2.getId() + " got " + player2.getPoints() + " points");
-        System.out.println();
+        ioManager.updateGameInfo(player1, player2, currentPlayer);
     }
 
     public void swapPlayers() {
-        if (currentPlayer == player1) {
-            currentPlayer = player2;
-        } else {
-            currentPlayer = player1;
-        }
+        currentPlayer = currentPlayer == player1 ? player2 : player1;
     }
-
-
-    public abstract Board initializeBoard();
 
     public boolean isGameFinished() {
         return player1.getPoints() + player2.getPoints() >= board.getBoardColumns() * board.getBoardRows();
