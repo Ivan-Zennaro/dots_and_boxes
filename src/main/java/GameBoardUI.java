@@ -20,6 +20,7 @@ public class GameBoardUI extends Game {
     private int n;
     private int nBoxInRows;
     private int nBoxInCols;
+    private boolean atLeastOnePointScoredByCurrentPlayer;
 
 
     private boolean mouseEnabled;
@@ -79,7 +80,6 @@ public class GameBoardUI extends Game {
     }
 
 
-
     public static int mapY(Move move) {
         if (move.getSide() == Side.RIGHT)
             return move.getY() + 1;
@@ -95,7 +95,6 @@ public class GameBoardUI extends Game {
         else return tempX;
     }
 
-
     private void processMove(Move move) {
         int x = mapX(move), y = mapY(move);
 
@@ -106,22 +105,12 @@ public class GameBoardUI extends Game {
 
         graphic.updateMove(move, currentPlayer);
 
-        boolean atLeastOnePointScoredByCurrentPlayer = false;
+        atLeastOnePointScoredByCurrentPlayer = false;
 
-        if (board.isBoxCompleted(move)) {
-            currentPlayer.onePointDone();
-            graphic.addCompletedBox(move.getX(), move.getY(), currentPlayer.getId());
-            box[move.getX()][move.getY()].setBackground(currentPlayer.getColor().getAwtColor());
-            atLeastOnePointScoredByCurrentPlayer = true;
-        }
 
+        fillBoxIfCompletedAndUpdateScore(move);
         Move otherMove = board.getNeighbourSideMove(move);
-        if (otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)) {
-            currentPlayer.onePointDone();
-            graphic.addCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer.getId());
-            box[otherMove.getX()][otherMove.getY()].setBackground(currentPlayer.getColor().getAwtColor());
-            atLeastOnePointScoredByCurrentPlayer = true;
-        }
+        fillBoxIfCompletedAndUpdateScore(otherMove);
 
         printScoreBoard();
 
@@ -129,16 +118,8 @@ public class GameBoardUI extends Game {
         blueScoreLabel.setText(String.valueOf(player2.getPoints()));
 
         if (isGameFinished()) {
-            if (player1.getPoints() > player2.getPoints()) {
-                statusLabel.setText("Player-1 is the winner!");
-                statusLabel.setForeground(RED_COLOR);
-            } else if (player2.getPoints() > player1.getPoints()) {
-                statusLabel.setText("Player-2 is the winner!");
-                statusLabel.setForeground(BLUE_COLOR);
-            } else {
-                statusLabel.setText("Game Tied!");
-                statusLabel.setForeground(java.awt.Color.BLACK);
-            }
+            finalGraphics();
+            setWinnerLabel();
         }
 
         if (!atLeastOnePointScoredByCurrentPlayer) {
@@ -156,6 +137,27 @@ public class GameBoardUI extends Game {
         }
     }
 
+    private void setWinnerLabel() {
+        if (player1.getPoints() > player2.getPoints()) {
+            statusLabel.setText("Player-1 is the winner!");
+            statusLabel.setForeground(RED_COLOR);
+        } else if (player2.getPoints() > player1.getPoints()) {
+            statusLabel.setText("Player-2 is the winner!");
+            statusLabel.setForeground(BLUE_COLOR);
+        } else {
+            statusLabel.setText("Game Tied!");
+            statusLabel.setForeground(java.awt.Color.BLACK);
+        }
+    }
+
+    private void fillBoxIfCompletedAndUpdateScore(Move lastMove){
+        if (lastMove.getSide() != Side.INVALID && board.isBoxCompleted(lastMove)) {
+            currentPlayer.onePointDone();
+            graphic.addCompletedBox(lastMove.getX(), lastMove.getY(), currentPlayer.getId());
+            box[lastMove.getX()][lastMove.getY()].setBackground(currentPlayer.getColor().getAwtColor());
+            atLeastOnePointScoredByCurrentPlayer = true;
+        }
+    }
 
     private void manageGame() {
         while (!isGameFinished()) {
@@ -287,8 +289,8 @@ public class GameBoardUI extends Game {
         JPanel playerPanel = new JPanel(new GridLayout(2, 2));
         if (n > 3) playerPanel.setPreferredSize(new Dimension(2 * boardWidth, dist));
         else playerPanel.setPreferredSize(new Dimension(2 * boardWidth, 2 * dist));
-        playerPanel.add(new JLabel("<html><font color='red'>Player-1:", SwingConstants.CENTER));
-        playerPanel.add(new JLabel("<html><font color='blue'>Player-2:", SwingConstants.CENTER));
+        playerPanel.add(new JLabel("<html><font color='red'>Player 1:", SwingConstants.CENTER));
+        playerPanel.add(new JLabel("<html><font color='blue'>Player 2:", SwingConstants.CENTER));
         playerPanel.add(new JLabel("<html><font color='red'>" + redName, SwingConstants.CENTER));
         playerPanel.add(new JLabel("<html><font color='blue'>" + blueName, SwingConstants.CENTER));
         ++constraints.gridy;
