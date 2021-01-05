@@ -12,21 +12,21 @@ public abstract class Game {
         player1 = new Player('A', Color.RED);
         player2 = new Player('B', Color.BLU);
         currentPlayer = player1;
-    }
+   }
 
-    public abstract void startGame();
+   public abstract void startGame();
 
-    public void endGame() {
+   public void endGame() {
         finalGraphics();
         printWinner();
-    }
+   }
 
-    public void turn(String moveString){
+   public void turn(String moveString){
         Move move = Move.parseMove(moveString);
         turn(move);
-    }
+   }
 
-    public void turn(Move move) {
+   public void turn(Move move) {
         if (isMoveAllowed(move))
             computeMove(move);
         else{
@@ -37,7 +37,7 @@ public abstract class Game {
                 //e.printStackTrace();
             }
         }
-    }
+   }
 
     private boolean isMoveAllowed(Move move) {
         return board.isMoveInBoardRange(move) && move.getSide() != Side.INVALID && !board.boxHasAlreadyLine(move);

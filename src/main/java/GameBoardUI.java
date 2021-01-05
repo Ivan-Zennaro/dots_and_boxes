@@ -8,6 +8,8 @@ import java.awt.event.MouseListener;
 
 
 public class GameBoardUI extends Game {
+
+
     private final static int size = 8;
     private final static int dist = 40;
     public static final java.awt.Color TRANSPARENT_COLOR = java.awt.Color.getColor("#ffffff00");
