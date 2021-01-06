@@ -128,16 +128,19 @@ public class MainUI {
         ++constraints.gridy;
         grid.add(modeError, constraints);
 
-        JPanel modePanel = new JPanel(new GridLayout(2, 2));
+        JPanel modePanel = new JPanel(new GridLayout(2, 3));
         modePanel.setPreferredSize(new Dimension(400, 50));
         modePanel.add(new JLabel("<html><font color='Black'>Player-1:", SwingConstants.CENTER));
+        modePanel.add(getEmptyLabel(new Dimension(20,50)));
         modePanel.add(new JLabel("<html><font color='Black'>Player-2:", SwingConstants.CENTER));
         modePanel.add(meTextField);
+        modePanel.add(getEmptyLabel(new Dimension(20,50)));
         modePanel.add(blueList);
         meTextField.setText("Your Name");
         meTextField.addMouseListener(clickonit);
 
         blueList.setSelectedIndex(0);
+
         ++constraints.gridy;
         grid.add(modePanel, constraints);
 
@@ -164,12 +167,19 @@ public class MainUI {
         grid.add(sizePanel, constraints);
 
         ++constraints.gridy;
-        grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
+        grid.add(getEmptyLabel(new Dimension(500, 50)), constraints);
 
+        JPanel submisionPanel = new JPanel(new GridLayout(1,3));
         JButton submitButton = new JButton("Start Game");
+        JButton ruleButton = new JButton("Rules");
+        //ruleButton.add(); vistp che si può fare anche la funzione id menu pop up
         submitButton.addActionListener(submitListener);
+        submisionPanel.add(ruleButton);
+        submisionPanel.add(getEmptyLabel(new Dimension(60,25)));
+        submisionPanel.add(submitButton);
         ++constraints.gridy;
-        grid.add(submitButton, constraints);
+        grid.add(submisionPanel, constraints);
+
 
         ++constraints.gridy;
         grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
