@@ -13,18 +13,19 @@ public class MainUI {
     private JFrame frame;
     private JLabel modeError, sizeError;
 
-    String[] players = {"Select player", "Human", "Random Player", "Greedy Player", "Minimax Search", "Alpha-Beta Pruning","Monte Carlo Search"};
+    String[] playerstype = {"Select player", "Human", "Computer Facile", "Computer Difficile", "Random"};
     private JRadioButton[] sizeButton;
 
-    JComboBox<String> redList, blueList;
+    JComboBox<String> blueList;
+    JTextField redList;
     ButtonGroup sizeGroup;
 
     public MainUI() {
 
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        redList = new JComboBox<String>(players);
-        blueList = new JComboBox<String>(players);
+        redList = new JTextField();
+        blueList = new JComboBox<String>(playerstype);
 
         sizeButton = new JRadioButton[8];
         sizeGroup = new ButtonGroup();
@@ -55,16 +56,16 @@ public class MainUI {
     private ActionListener submitListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            int rIndex = redList.getSelectedIndex();
+            String rIndex = redList.getText();
             int bIndex = blueList.getSelectedIndex();
-            if(rIndex==0 || bIndex==0) {
+            if(rIndex.equals("") || bIndex==0) {
                 modeError.setText("You MUST select the players before continuing.");
                 return;
             }
             else {
                 modeError.setText("");
-                redName = players[rIndex];
-                blueName = players[bIndex];
+                redName = rIndex;
+                blueName = playerstype[bIndex];
                 //if(rIndex > 1) redSolver = getSolver(rIndex - 1);
                 //if(bIndex > 1) blueSolver = getSolver(bIndex - 1);
             }
@@ -103,11 +104,11 @@ public class MainUI {
 
         JPanel modePanel = new JPanel(new GridLayout(2, 2));
         modePanel.setPreferredSize(new Dimension(400, 50));
-        modePanel.add(new JLabel("<html><font color='red'>Player-1:", SwingConstants.CENTER));
-        modePanel.add(new JLabel("<html><font color='blue'>Player-2:", SwingConstants.CENTER));
+        modePanel.add(new JLabel("<html><font color='Black'>Player-1:", SwingConstants.CENTER));
+        modePanel.add(new JLabel("<html><font color='Black'>Player-2:", SwingConstants.CENTER));
         modePanel.add(redList);
         modePanel.add(blueList);
-        redList.setSelectedIndex(0);
+        redList.setText("Your Name");
         blueList.setSelectedIndex(0);
         ++constraints.gridy;
         grid.add(modePanel, constraints);
