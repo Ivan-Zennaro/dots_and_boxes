@@ -3,12 +3,16 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-        /*TwoPlayersGame game =new TwoPlayersGame();
-        game.startGame();*/
-        newMain();
+        //consoleGame();
+        guiGame();
     }
 
-    public static void newMain(){
+    public static void consoleGame(){
+        TwoPlayersGame game =new TwoPlayersGame();
+        game.startGame();
+    }
+
+    public static void guiGame(){
         Player p1 = new Player('A', Color.RED);
         Player p2 = new Player('B', Color.BLU);
         JFrame frame = new JFrame();
