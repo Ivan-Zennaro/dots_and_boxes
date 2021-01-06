@@ -21,31 +21,32 @@ public abstract class NewGame {
         ioManager.showWinner(player1, player2);
     }
 
-    private boolean isMoveAllowed(Move move) {
+    protected boolean isMoveAllowed(Move move) {
         return board.isMoveInBoardRange(move) && move.getSide() != Side.INVALID && !board.boxHasAlreadyLine(move);
     }
 
     public void computeMove(Move move) {
-        if (!isMoveAllowed(move)) return;
-        board.drawLine(move);
+        if (isMoveAllowed(move)) {
 
-        ioManager.updateMove(move, currentPlayer);
+            board.drawLine(move);
+            ioManager.updateMove(move, currentPlayer);
 
-        boolean atLeastOnePointScoredByCurrentPlayer = false;
+            boolean atLeastOnePointScoredByCurrentPlayer = false;
 
-        if (board.isBoxCompleted(move)) {
-            currentPlayer.onePointDone();
-            ioManager.updateCompletedBox(move.getX(), move.getY(), currentPlayer);
-            atLeastOnePointScoredByCurrentPlayer = true;
+            if (board.isBoxCompleted(move)) {
+                currentPlayer.onePointDone();
+                ioManager.updateCompletedBox(move.getX(), move.getY(), currentPlayer);
+                atLeastOnePointScoredByCurrentPlayer = true;
+            }
+
+            Move otherMove = board.getNeighbourSideMove(move);
+            if (otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)) {
+                currentPlayer.onePointDone();
+                ioManager.updateCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer);
+                atLeastOnePointScoredByCurrentPlayer = true;
+            }
+            if (!atLeastOnePointScoredByCurrentPlayer) swapPlayers();
         }
-
-        Move otherMove = board.getNeighbourSideMove(move);
-        if (otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)) {
-            currentPlayer.onePointDone();
-            ioManager.updateCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer);
-            atLeastOnePointScoredByCurrentPlayer = true;
-        }
-        if (!atLeastOnePointScoredByCurrentPlayer) swapPlayers();
     }
 
     public void printScoreBoard() {

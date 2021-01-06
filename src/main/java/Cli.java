@@ -31,7 +31,6 @@ public class Cli extends IOManager {
             graphicBoard[mappedX][mappedY] = ColorManager.getColoredString(HORIZONTAL_LINE, color);
         else
             graphicBoard[mappedX][mappedY] = ColorManager.getColoredString(VERTICAL_LINE, color);
-        System.out.println(getStringBoard());
     }
 
     @Override
@@ -39,7 +38,6 @@ public class Cli extends IOManager {
         Color color = player.getColor();
         String coloredId = ColorManager.getColoredString(Character.toString(player.getId()), color);
         graphicBoard[x * 2 + 1][y] = graphicBoard[x * 2 + 1][y].replace("   \u001B[0m", " \u001B[0m" + coloredId + " ");
-        System.out.println(getStringBoard());
     }
 
 

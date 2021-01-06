@@ -2,21 +2,21 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ServerNewGame extends NewGame {
+
+public class ClientNewGame extends NewGame {
 
     private final int PORT = 1234;
+    private String ip;
 
-    public ServerNewGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager) {
+    public ClientNewGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager, String ip) {
         super(nRows, nCols, p1, p2, ioManager);
+        this.ip = ip;
     }
 
     @Override
     public void startGame() {
 
-        try (ServerSocket server = new ServerSocket(PORT)) {
-
-            System.out.println("server ready....");
-            Socket socket = server.accept();
+        try (Socket socket = new Socket(ip, PORT)) {
 
             OutputStream outputStream = socket.getOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
@@ -24,21 +24,20 @@ public class ServerNewGame extends NewGame {
             InputStream inputStream = socket.getInputStream();
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
-
             while (!isGameFinished()) {
 
                 printScoreBoard();
                 Move move;
 
-                if (currentPlayer == player1) {
+                if (currentPlayer == player2) {
                     move = ioManager.readMove();
-
                     if (isMoveAllowed(move)) {
                         objectOutputStream.writeObject(move);
                         objectOutputStream.flush();
                     }
 
                 } else {
+
                     move = (Move) objectInputStream.readObject();
                 }
                 computeMove(move);
@@ -49,10 +48,9 @@ public class ServerNewGame extends NewGame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        finally {
-            System.out.println("Ciao alla prossima");
-        }
-
         //TODO torno al menu iniziale
     }
 }
+
+
+
