@@ -64,7 +64,7 @@ public class TestGameComputer {
     }
 
 
-    /*domanda per fare questo test come faccio?*/
+    /*domanda per fare questo test come faccio?*/  //non potresti solo dare una board dove tutte le box sono nella fase di interesse? Così la mossa del computer sarebbe forzatamente quella che cerchi
    /* @Test
     public void draw_line_in_a_random_box_with_not_2_side_completed(){
         PlayerVsComputerGame game = new PlayerVsComputerGame();
