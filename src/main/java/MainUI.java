@@ -8,7 +8,7 @@ public class MainUI {
     private int n;
    // private GameSolver redSolver, blueSolver;
     private String me, blueName;
-
+    private RulesPage rulesPage = new RulesPage();
     private JFrame frame;
     private JLabel modeError, sizeError;
 
@@ -172,6 +172,8 @@ public class MainUI {
         JPanel submisionPanel = new JPanel(new GridLayout(1,3));
         JButton submitButton = new JButton("Start Game");
         JButton ruleButton = new JButton("Rules");
+        ruleButton.addActionListener(e -> rulesPage.seeFrame());
+
         //ruleButton.add(); vistp che si può fare anche la funzione id menu pop up
         submitButton.addActionListener(submitListener);
         submisionPanel.add(ruleButton);
