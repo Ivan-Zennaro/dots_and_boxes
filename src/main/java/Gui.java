@@ -7,19 +7,14 @@ import java.util.Scanner;
 import java.util.stream.IntStream;
 
 public class Gui extends IOManager {
-    private boolean mouseEnabled;
+
     private JLabel graphicBoard[][];
 
     private final static int size = 8;
     private final static int dist = 40;
-    public static final java.awt.Color TRANSPARENT_COLOR = java.awt.Color.getColor("#ffffff00");
 
     public static final java.awt.Color DEFAULT_BORDER_LINE_COLOR = java.awt.Color.WHITE;
-    public static final java.awt.Color DEFAULT_BACKGROUND_LINE_COLOR = TRANSPARENT_COLOR;
-    public static final java.awt.Color BLUE_COLOR = new java.awt.Color(59, 105, 177);
-    public static final java.awt.Color RED_COLOR = new java.awt.Color(244, 67, 54);
-
-    private int n;
+    public static final java.awt.Color DEFAULT_BACKGROUND_LINE_COLOR = java.awt.Color.getColor("#ffffff00");//transparent
 
     private Move bufferMove;
 
@@ -27,6 +22,9 @@ public class Gui extends IOManager {
     private JLabel redScoreLabel, blueScoreLabel, statusLabel;
     private JLabel[][] box;
     private boolean[][] isSetEdge;
+
+    private java.awt.Color player1Color;
+    private java.awt.Color player2Color;
 
 
     private MouseListener mouseListener = new MouseListener() {
@@ -52,7 +50,7 @@ public class Gui extends IOManager {
             Move move = getSource(mouseEvent.getSource());
             int x = getMappedX(move), y = getMappedY(move);
             if (isSetEdge[x][y]) return;
-            //non cambia piu col player perche non tengo piu traccia del player qui
+
             graphicBoard[x][y].setBackground(java.awt.Color.DARK_GRAY);
         }
 
@@ -184,7 +182,7 @@ public class Gui extends IOManager {
         int mappedX = getMappedX(move);
         int mappedY = getMappedY(move);
         graphicBoard[mappedX][mappedY].setBackground(player.getColor().getAwtColor());
-        isSetEdge[mappedX][mappedX] = true;
+        isSetEdge[mappedX][mappedY] = true;
     }
 
     @Override
@@ -194,16 +192,22 @@ public class Gui extends IOManager {
 
     @Override
     public void updateGameInfo(Player player1, Player player2, Player currentPlayer) {
+       if(player1Color == null){
+           player1Color = player1.getColor().getAwtColor();
+           player2Color = player2.getColor().getAwtColor();
+       }
+
         redScoreLabel.setText(String.valueOf(player1.getPoints()));
         blueScoreLabel.setText(String.valueOf(player2.getPoints()));
         if (currentPlayer == player1) {
             //solver = blueSolver;
+            statusLabel.setForeground(player1Color);
             statusLabel.setText("Player 1's Turn...");
-            statusLabel.setForeground(BLUE_COLOR);
+
         } else {
             //solver = redSolver;
+            statusLabel.setForeground(player2Color);
             statusLabel.setText("Player 2's Turn...");
-            statusLabel.setForeground(RED_COLOR);
         }
 
     }
@@ -212,10 +216,10 @@ public class Gui extends IOManager {
     public void showWinner(Player player1, Player player2) {
         if (player1.getPoints() > player2.getPoints()) {
             statusLabel.setText("Player-1 is the winner!");
-            statusLabel.setForeground(RED_COLOR);
+            statusLabel.setForeground(player1Color);
         } else if (player2.getPoints() > player1.getPoints()) {
             statusLabel.setText("Player-2 is the winner!");
-            statusLabel.setForeground(BLUE_COLOR);
+            statusLabel.setForeground(player2Color);
         } else {
             statusLabel.setText("Game Tied!");
             statusLabel.setForeground(java.awt.Color.BLACK);
@@ -223,17 +227,11 @@ public class Gui extends IOManager {
     }
 
     private void init() {
-        // board = new Board(n - 1, n - 1);
-        n = graphicBoard[0].length;
-        int boardWidth = n * size + (n - 1) * dist;
+        int boardWidth = graphicBoard[0].length * size + (graphicBoard[0].length - 1) * dist;
 
-        /*player1 = new Player('A', Color.RED);
-        player2 = new Player('B', Color.BLU);
-        currentPlayer = player1;
-        solver = redSolver;
-       */
-
-        String redName = "tipoPlayer1";
+        player1Color = null;
+        player2Color = null;
+        String redName = "tipoPlayer1"; //umano, robot etcc...serve?
         String blueName = "tipoPlayer2";
 
         JPanel grid = new JPanel(new GridBagLayout());
@@ -243,12 +241,21 @@ public class Gui extends IOManager {
         grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
 
         JPanel playerPanel = new JPanel(new GridLayout(2, 2));
-        if (n > 3) playerPanel.setPreferredSize(new Dimension(2 * boardWidth, dist));
+        if (graphicBoard[0].length > 3) playerPanel.setPreferredSize(new Dimension(2 * boardWidth, dist));
         else playerPanel.setPreferredSize(new Dimension(2 * boardWidth, 2 * dist));
-        playerPanel.add(new JLabel("<html><font color='red'>Player 1:", SwingConstants.CENTER));
-        playerPanel.add(new JLabel("<html><font color='blue'>Player 2:", SwingConstants.CENTER));
-        playerPanel.add(new JLabel("<html><font color='red'>" + redName, SwingConstants.CENTER));
-        playerPanel.add(new JLabel("<html><font color='blue'>" + blueName, SwingConstants.CENTER));
+
+        JLabel tempLabel = new JLabel("Player 1:", SwingConstants.CENTER);
+        tempLabel.setForeground(player1Color);
+        playerPanel.add(tempLabel);
+        tempLabel = new JLabel("Player 2:", SwingConstants.CENTER);
+        tempLabel.setForeground(player2Color);
+        playerPanel.add(tempLabel);
+        tempLabel = new JLabel(redName, SwingConstants.CENTER);
+        tempLabel.setForeground(player1Color);
+        playerPanel.add(tempLabel);
+        tempLabel = new JLabel(blueName, SwingConstants.CENTER);
+        tempLabel.setForeground(player2Color);
+        playerPanel.add(tempLabel);
         ++constraints.gridy;
         grid.add(playerPanel, constraints);
 
@@ -257,13 +264,18 @@ public class Gui extends IOManager {
 
         JPanel scorePanel = new JPanel(new GridLayout(2, 2));
         scorePanel.setPreferredSize(new Dimension(2 * boardWidth, dist));
-        scorePanel.add(new JLabel("<html><font color='red'>Score:", SwingConstants.CENTER));
-        scorePanel.add(new JLabel("<html><font color='blue'>Score:", SwingConstants.CENTER));
+        tempLabel = new JLabel("Score:", SwingConstants.CENTER);
+        tempLabel.setForeground(player1Color);
+        scorePanel.add(tempLabel);
+        tempLabel = new JLabel("Score:", SwingConstants.CENTER);
+        tempLabel.setForeground(player2Color);
+        scorePanel.add(tempLabel);
+
         redScoreLabel = new JLabel("0", SwingConstants.CENTER);
-        redScoreLabel.setForeground(RED_COLOR);
+        redScoreLabel.setForeground(player1Color);
         scorePanel.add(redScoreLabel);
         blueScoreLabel = new JLabel("0", SwingConstants.CENTER);
-        blueScoreLabel.setForeground(BLUE_COLOR);
+        blueScoreLabel.setForeground(player2Color);
         scorePanel.add(blueScoreLabel);
         ++constraints.gridy;
         grid.add(scorePanel, constraints);
@@ -300,7 +312,7 @@ public class Gui extends IOManager {
         grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
 
         statusLabel = new JLabel("Player-1's Turn...", SwingConstants.CENTER);
-        statusLabel.setForeground(RED_COLOR);
+        statusLabel.setForeground(player1Color);
         statusLabel.setPreferredSize(new Dimension(2 * boardWidth, dist));
         ++constraints.gridy;
         grid.add(statusLabel, constraints);
