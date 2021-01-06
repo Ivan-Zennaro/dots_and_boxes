@@ -1,8 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class MainUI {
 
@@ -52,6 +51,33 @@ public class MainUI {
         else if(level == 5) return new MCSolver();
         else return null;
     }*/
+
+    private MouseListener clickonit = new MouseListener() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            redList.setText("");
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+    };
 
     private ActionListener submitListener = new ActionListener() {
         @Override
@@ -109,6 +135,8 @@ public class MainUI {
         modePanel.add(redList);
         modePanel.add(blueList);
         redList.setText("Your Name");
+        redList.addMouseListener(clickonit);
+
         blueList.setSelectedIndex(0);
         ++constraints.gridy;
         grid.add(modePanel, constraints);
