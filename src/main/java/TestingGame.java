@@ -1,20 +1,21 @@
-public class TestingGame extends Game{
+public class TestingGame extends NewGame{
 
-
-    public int boardSize = 2;
-    public void setBoardSize(int boardSize) {
-        this.boardSize = boardSize;
+    public TestingGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager) {
+        super(nRows, nCols, p1, p2, ioManager);
     }
+
+
     @Override
     public void startGame(){}
 
-    @Override
-    public Board initializeBoard() {
+    public void computeMoveByString(String input){
+        computeMove(Move.parseMove(input));
 
-        board = new Board(boardSize,boardSize);
-        cli = new Cli(boardSize,boardSize);
-        return board;
     }
 
+    public int printCurrentPlayerScore(){
+        return currentPlayer.getPoints();
+
+    }
 
 }
