@@ -1,14 +1,14 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Scanner;
+import java.util.stream.IntStream;
 
-
-public class GameBoardUI extends Game {
-
+public class Gui extends IOManager {
+    private boolean mouseEnabled;
+    private JLabel graphicBoard[][];
 
     private final static int size = 8;
     private final static int dist = 40;
@@ -20,31 +20,20 @@ public class GameBoardUI extends Game {
     public static final java.awt.Color RED_COLOR = new java.awt.Color(244, 67, 54);
 
     private int n;
-    private int nBoxInRows;
-    private int nBoxInCols;
-    private boolean atLeastOnePointScoredByCurrentPlayer;
 
-
-    private boolean mouseEnabled;
-
-
-
-    GameSolver redSolver, blueSolver, solver;
-    String redName, blueName;
-    MainUI parent;
-
-    private JLabel graphicBoard[][];
-    private JLabel[][] box;
-    private boolean[][] isSetEdge;
+    private Move bufferMove;
 
     private JFrame frame;
     private JLabel redScoreLabel, blueScoreLabel, statusLabel;
+    private JLabel[][] box;
+    private boolean[][] isSetEdge;
+
 
     private MouseListener mouseListener = new MouseListener() {
         @Override
         public void mouseClicked(MouseEvent mouseEvent) {
-            if (!mouseEnabled) return;
-            processMove(getSource(mouseEvent.getSource()));
+            //if (!mouseEnabled) return;
+            bufferMove = getSource(mouseEvent.getSource());
         }
 
         @Override
@@ -59,124 +48,57 @@ public class GameBoardUI extends Game {
 
         @Override
         public void mouseEntered(MouseEvent mouseEvent) {
-            if (!mouseEnabled) return;
+            //if (!mouseEnabled) return;
             Move move = getSource(mouseEvent.getSource());
-            int x = mapX(move), y = mapY(move);
+            int x = getMappedX(move), y = getMappedY(move);
             if (isSetEdge[x][y]) return;
-            graphicBoard[x][y].setBackground(currentPlayer.getColor().getAwtColor());
+            //non cambia piu col player perche non tengo piu traccia del player qui
+            graphicBoard[x][y].setBackground(java.awt.Color.DARK_GRAY);
         }
 
         @Override
         public void mouseExited(MouseEvent mouseEvent) {
-            if (!mouseEnabled) return;
+            // if (!mouseEnabled) return;
             Move move = getSource(mouseEvent.getSource());
-            int x = mapX(move), y = mapY(move);
+            int x = getMappedX(move), y = getMappedY(move);
             if (isSetEdge[x][y]) return;
             graphicBoard[x][y].setBackground(DEFAULT_BACKGROUND_LINE_COLOR);
         }
     };
 
+    public Gui(int boardRows, int boardCols, JFrame frame) {
 
-    public Board initializeBoard() {
-        return null;
+        int mappedRows = boardRows * 2 + 1;
+        int mappedCols = boardCols + 1;
+
+        bufferMove = null;
+
+        graphicBoard = IntStream.range(0, mappedRows)
+                .mapToObj(r -> IntStream.range(0, mappedCols)
+                        .mapToObj(c -> r % 2 == 0 ? getHorizontalEdge() : getVerticalEdge())
+                        .toArray(JLabel[]::new))
+                .toArray(JLabel[][]::new);
+
+        isSetEdge = new boolean[mappedRows][mappedCols];
+        box = new JLabel[boardRows][boardCols];
+
+        //provvisorie qui
+        this.frame = frame;
+
+        init();
+
+
     }
 
-
-    public static int mapY(Move move) {
-        if (move.getSide() == Side.RIGHT)
-            return move.getY() + 1;
-        else return move.getY();
-    }
-
-    public static int mapX(Move move) {
-        int tempX = move.getX() * 2 + 1;
-        if (move.getSide() == Side.UP)
-            return tempX - 1;
-        if (move.getSide() == Side.DOWN)
-            return tempX + 1;
-        else return tempX;
-    }
-
-    private void processMove(Move move) {
-        int x = mapX(move), y = mapY(move);
-
-        if (isSetEdge[x][y]) return;
-        board.drawLine(move);
-        graphicBoard[x][y].setBackground(currentPlayer.getColor().getAwtColor()); //otherwise DARK_GREY
-        isSetEdge[x][y] = true;
-
-        cli.updateMove(move, currentPlayer);
-
-        atLeastOnePointScoredByCurrentPlayer = false;
-
-
-        fillBoxIfCompletedAndUpdateScore(move);
-        Move otherMove = board.getNeighbourSideMove(move);
-        fillBoxIfCompletedAndUpdateScore(otherMove);
-
-        printScoreBoard();
-
-        redScoreLabel.setText(String.valueOf(player1.getPoints()));
-        blueScoreLabel.setText(String.valueOf(player2.getPoints()));
-
-        if (isGameFinished()) {
-            finalGraphics();
-            setWinnerLabel();
-        }
-
-        if (!atLeastOnePointScoredByCurrentPlayer) {
-            if (currentPlayer == player1) {
-                currentPlayer = player2;
-                solver = blueSolver;
-                statusLabel.setText("Player-2's Turn...");
-                statusLabel.setForeground(BLUE_COLOR);
-            } else {
-                currentPlayer = player1;
-                solver = redSolver;
-                statusLabel.setText("Player-1's Turn...");
-                statusLabel.setForeground(RED_COLOR);
+    private Move getSource(Object object) {
+        for (int i = 0; i < graphicBoard.length; i++) {
+            for (int j = 0; (i % 2 == 0 && j < graphicBoard[0].length - 1) || (i % 2 != 0 && j < graphicBoard[0].length); j++) {
+                if (graphicBoard[i][j] == object) {
+                    return toMove(i, j);
+                }
             }
         }
-    }
-
-    private void setWinnerLabel() {
-        if (player1.getPoints() > player2.getPoints()) {
-            statusLabel.setText("Player-1 is the winner!");
-            statusLabel.setForeground(RED_COLOR);
-        } else if (player2.getPoints() > player1.getPoints()) {
-            statusLabel.setText("Player-2 is the winner!");
-            statusLabel.setForeground(BLUE_COLOR);
-        } else {
-            statusLabel.setText("Game Tied!");
-            statusLabel.setForeground(java.awt.Color.BLACK);
-        }
-    }
-
-    private void fillBoxIfCompletedAndUpdateScore(Move lastMove){
-        if (lastMove.getSide() != Side.INVALID && board.isBoxCompleted(lastMove)) {
-            currentPlayer.onePointDone();
-            cli.updateCompletedBox(lastMove.getX(), lastMove.getY(), currentPlayer);
-            box[lastMove.getX()][lastMove.getY()].setBackground(currentPlayer.getColor().getAwtColor());
-            atLeastOnePointScoredByCurrentPlayer = true;
-        }
-    }
-
-    private void manageGame() {
-        while (!isGameFinished()) {
-            if (goBack) return;
-            if (solver == null) {
-                mouseEnabled = true;
-            } else {
-                mouseEnabled = false;
-                //processMove(solver.getNextMove(board, turn));
-            }
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
+        return Move.getInvalidMove();
     }
 
     private Move toMove(int x, int y) {
@@ -196,16 +118,6 @@ public class GameBoardUI extends Game {
 
     }
 
-    private Move getSource(Object object) {
-        for (int i = 0; i < graphicBoard.length; i++) {
-            for (int j = 0; (i % 2 == 0 && j < graphicBoard[0].length - 1) || (i % 2 != 0 && j < graphicBoard[0].length); j++) {
-                if (graphicBoard[i][j] == object) {
-                    return toMove(i, j);
-                }
-            }
-        }
-        return Move.getInvalidMove();
-    }
 
     private JLabel getHorizontalEdge() {
         return getjLabel(dist, size);
@@ -247,41 +159,82 @@ public class GameBoardUI extends Game {
         return label;
     }
 
-    public GameBoardUI(MainUI parent, JFrame frame, int numberOfDotsInARow, GameSolver redSolver, GameSolver blueSolver, String redName, String blueName) {
-        this.parent = parent;
-        this.frame = frame;
-        this.n = numberOfDotsInARow;
-        this.nBoxInRows = n - 1;
-        this.nBoxInCols = n - 1;
-        this.redSolver = redSolver;
-        this.blueSolver = blueSolver;
-        this.redName = redName;
-        this.blueName = blueName;
-        startGame();
+    @Override
+    public Move readMove() {
+        while (bufferMove == null) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        Move moveToPass = bufferMove;
+        bufferMove = null;
+        return moveToPass;
+
     }
 
+    @Override
+    public void initialize() {
 
+    }
 
-    private boolean goBack;
+    @Override
+    public void updateMove(Move move, Player player) {
+        int mappedX = getMappedX(move);
+        int mappedY = getMappedY(move);
+        graphicBoard[mappedX][mappedY].setBackground(player.getColor().getAwtColor());
+        isSetEdge[mappedX][mappedX] = true;
+    }
 
-    private ActionListener backListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
-            goBack = true;
+    @Override
+    public void updateCompletedBox(int x, int y, Player player) {
+        box[x][y].setBackground(player.getColor().getAwtColor());
+    }
+
+    @Override
+    public void updateGameInfo(Player player1, Player player2, Player currentPlayer) {
+        redScoreLabel.setText(String.valueOf(player1.getPoints()));
+        blueScoreLabel.setText(String.valueOf(player2.getPoints()));
+        if (currentPlayer == player1) {
+            //solver = blueSolver;
+            statusLabel.setText("Player 1's Turn...");
+            statusLabel.setForeground(BLUE_COLOR);
+        } else {
+            //solver = redSolver;
+            statusLabel.setText("Player 2's Turn...");
+            statusLabel.setForeground(RED_COLOR);
         }
-    };
 
+    }
 
-    public void startGame() {
+    @Override
+    public void showWinner(Player player1, Player player2) {
+        if (player1.getPoints() > player2.getPoints()) {
+            statusLabel.setText("Player-1 is the winner!");
+            statusLabel.setForeground(RED_COLOR);
+        } else if (player2.getPoints() > player1.getPoints()) {
+            statusLabel.setText("Player-2 is the winner!");
+            statusLabel.setForeground(BLUE_COLOR);
+        } else {
+            statusLabel.setText("Game Tied!");
+            statusLabel.setForeground(java.awt.Color.BLACK);
+        }
+    }
 
-        board = new Board(n - 1, n - 1);
+    private void init() {
+        // board = new Board(n - 1, n - 1);
+        n = graphicBoard[0].length;
         int boardWidth = n * size + (n - 1) * dist;
 
-        player1 = new Player('A', Color.RED);
+        /*player1 = new Player('A', Color.RED);
         player2 = new Player('B', Color.BLU);
         currentPlayer = player1;
         solver = redSolver;
-        cli = new Cli(n - 1, n - 1);
+       */
+
+        String redName = "tipoPlayer1";
+        String blueName = "tipoPlayer2";
 
         JPanel grid = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -318,23 +271,10 @@ public class GameBoardUI extends Game {
         ++constraints.gridy;
         grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
 
-/*        hEdge = new JLabel[n - 1][n];
-        isSetHEdge = new boolean[n - 1][n];
 
-        vEdge = new JLabel[n][n - 1];
-        isSetVEdge = new boolean[n][n - 1];*/
-
-        int mappedRows = nBoxInRows * 2 + 1;
-        int mappedCols = nBoxInCols + 1;
-        graphicBoard = new JLabel[mappedRows][mappedCols];
-        isSetEdge = new boolean[mappedRows][mappedCols];
-
-        box = new JLabel[nBoxInRows][nBoxInCols];
-
-
-        for (int i = 0; i < mappedRows; i++) {
+        for (int i = 0; i < graphicBoard.length; i++) {
             JPanel pane = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-            for (int j = 0; (i % 2 == 0 && j < mappedCols - 1) || (i % 2 != 0 && j < mappedCols); j++) {
+            for (int j = 0; (i % 2 == 0 && j < graphicBoard[0].length - 1) || (i % 2 != 0 && j < graphicBoard[0].length); j++) {
                 if (i % 2 == 0) {
                     pane.add(getDot());
                     graphicBoard[i][j] = getHorizontalEdge();
@@ -342,7 +282,7 @@ public class GameBoardUI extends Game {
                 } else {
                     graphicBoard[i][j] = getVerticalEdge();
                     pane.add(graphicBoard[i][j]);
-                    if (j < mappedCols - 1) {
+                    if (j < graphicBoard[0].length - 1) {
                         box[i / 2][j] = getBox();
                         pane.add(box[i / 2][j]);
                     }
@@ -370,9 +310,10 @@ public class GameBoardUI extends Game {
 
         JButton goBackButton = new JButton("Go Back to Main Menu");
         goBackButton.setPreferredSize(new Dimension(boardWidth, dist));
-        goBackButton.addActionListener(backListener);
+        //goBackButton.addActionListener(backListener);
         ++constraints.gridy;
         grid.add(goBackButton, constraints);
+
 
         frame.getContentPane().removeAll();
         frame.revalidate();
@@ -382,7 +323,7 @@ public class GameBoardUI extends Game {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
+/*
         goBack = false;
         manageGame();
 
@@ -393,6 +334,7 @@ public class GameBoardUI extends Game {
                 e.printStackTrace();
             }
         }
-        parent.initGUI();
+        parent.initGUI();  */
     }
 }
+
