@@ -7,7 +7,7 @@ public class MainUI {
 
     private int n;
    // private GameSolver redSolver, blueSolver;
-    private String me, blueName;
+    private String me, otherPlayer;
     private RulesPage rulesPage = new RulesPage();
     private JFrame frame;
     private JLabel modeError, sizeError;
@@ -19,9 +19,13 @@ public class MainUI {
     JTextField meTextField;
     ButtonGroup sizeGroup;
 
+    private JFrame frame1;
+    JTextField humanName;
+    JButton Enter;
+
     public MainUI() {
 
-        frame = new JFrame();
+        frame = new JFrame("Dots and Boxes");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         meTextField = new JTextField();
         blueList = new JComboBox<String>(playersType);
@@ -33,6 +37,11 @@ public class MainUI {
             sizeButton[i] = new JRadioButton(size + " x " + size);
             sizeGroup.add(sizeButton[i]);
         }
+
+        frame1 = new JFrame("Enter Name");
+        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        humanName = new JTextField();
+        Enter = new JButton("Confirm Name");
     }
 
     private JLabel getEmptyLabel(Dimension d) {
@@ -79,6 +88,77 @@ public class MainUI {
         }
     };
 
+    private MouseListener clickonit1 = new MouseListener() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            humanName.setText("");
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+    };
+
+    private ActionListener close = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Enter = (JButton)e.getSource();
+            playersType[1]= humanName.getText();
+            frame1.dispose();
+        }
+    };
+    private ActionListener select = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        if (blueList.getSelectedIndex()==1) {
+            JPanel gridName = new JPanel(new GridBagLayout());
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+
+            ++constraints.gridy;
+            gridName.add(getEmptyLabel(new Dimension(500, 25)), constraints);
+
+            ++constraints.gridy;
+            JPanel namePanel = new JPanel(new GridLayout(3, 1));
+            namePanel.setPreferredSize(new Dimension(400, 50));
+
+            namePanel.add(humanName);
+            namePanel.add(getEmptyLabel(new Dimension(20, 50)));
+            namePanel.add(Enter);
+            humanName.setText("Your Name");
+            humanName.addMouseListener(clickonit1);
+            Enter.addActionListener(close);
+
+            ++constraints.gridy;
+            gridName.add(namePanel, constraints);
+
+
+            frame1.setContentPane(gridName);
+            frame1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+            frame1.pack();
+            frame1.setVisible(true);
+        }
+
+        }
+    };
+
     private ActionListener submitListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -91,7 +171,7 @@ public class MainUI {
             else {
                 modeError.setText("");
                 me = meName;
-                blueName = playersType[bIndex];
+                otherPlayer = playersType[bIndex];
                 //if(meName > 1) redSolver = getSolver(meName - 1);
                 //if(bIndex > 1) blueSolver = getSolver(bIndex - 1);
             }
@@ -140,6 +220,8 @@ public class MainUI {
         meTextField.addMouseListener(clickonit);
 
         blueList.setSelectedIndex(0);
+        blueList.addActionListener(select);
+
 
         ++constraints.gridy;
         grid.add(modePanel, constraints);
@@ -174,7 +256,6 @@ public class MainUI {
         JButton ruleButton = new JButton("Rules");
         ruleButton.addActionListener(e -> rulesPage.seeFrame());
 
-        //ruleButton.add(); vistp che si può fare anche la funzione id menu pop up
         submitButton.addActionListener(submitListener);
         submisionPanel.add(ruleButton);
         submisionPanel.add(getEmptyLabel(new Dimension(60,25)));
@@ -199,7 +280,7 @@ public class MainUI {
                 e.printStackTrace();
             }
         }
-        new GameBoardUI(this, frame, n, null, null, me, blueName);
+        new GameBoardUI(this, frame, n, null, null, me, otherPlayer);
        //new GamePlay(this, frame, n, redSolver, blueSolver, redName, blueName);
     }
 
