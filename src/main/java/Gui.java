@@ -1,9 +1,9 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Scanner;
 import java.util.stream.IntStream;
 
 public class Gui extends IOManager {
@@ -13,8 +13,8 @@ public class Gui extends IOManager {
     private final static int size = 8;
     private final static int dist = 40;
 
-    public static final java.awt.Color DEFAULT_BORDER_LINE_COLOR = java.awt.Color.WHITE;
-    public static final java.awt.Color DEFAULT_BACKGROUND_LINE_COLOR = java.awt.Color.getColor("#ffffff00");//transparent
+    public static final Color DEFAULT_BORDER_LINE_COLOR = Color.WHITE;
+    public static final Color DEFAULT_BACKGROUND_LINE_COLOR = Color.getColor("#ffffff00");//transparent
 
     private Move bufferMove;
 
@@ -23,8 +23,9 @@ public class Gui extends IOManager {
     private JLabel[][] box;
     private boolean[][] isSetEdge;
 
-    private java.awt.Color player1Color;
-    private java.awt.Color player2Color;
+    private Color player1Color;
+    private Color player2Color;
+    private Color currentPlayerColor;
 
 
     private MouseListener mouseListener = new MouseListener() {
@@ -46,22 +47,22 @@ public class Gui extends IOManager {
 
         @Override
         public void mouseEntered(MouseEvent mouseEvent) {
-            //if (!mouseEnabled) return;
-            Move move = getSource(mouseEvent.getSource());
-            int x = getMappedX(move), y = getMappedY(move);
-            if (isSetEdge[x][y]) return;
+            setJlabelBackgroundColorAtMouseEvent(mouseEvent, currentPlayerColor);
 
-            graphicBoard[x][y].setBackground(java.awt.Color.DARK_GRAY);
         }
 
         @Override
         public void mouseExited(MouseEvent mouseEvent) {
-            // if (!mouseEnabled) return;
+            setJlabelBackgroundColorAtMouseEvent(mouseEvent, DEFAULT_BACKGROUND_LINE_COLOR);
+        }
+
+        private void setJlabelBackgroundColorAtMouseEvent(MouseEvent mouseEvent, Color color) {
             Move move = getSource(mouseEvent.getSource());
             int x = getMappedX(move), y = getMappedY(move);
             if (isSetEdge[x][y]) return;
-            graphicBoard[x][y].setBackground(DEFAULT_BACKGROUND_LINE_COLOR);
+            graphicBoard[x][y].setBackground(color);
         }
+
     };
 
     public Gui(int boardRows, int boardCols, JFrame frame) {
@@ -138,9 +139,9 @@ public class Gui extends IOManager {
     private JLabel getDot() {
         JLabel label = new JLabel();
         label.setPreferredSize(new Dimension(size, size));
-        //label.setBackground(java.awt.Color.BLACK);
+        //label.setBackground(Color.BLACK);
         label.setOpaque(true);
-        label.setBorder(new LineBorder(java.awt.Color.BLACK, 10, true));
+        label.setBorder(new LineBorder(Color.BLACK, 10, true));
         return label;
     }
 
@@ -196,6 +197,7 @@ public class Gui extends IOManager {
            player1Color = player1.getColor().getAwtColor();
            player2Color = player2.getColor().getAwtColor();
        }
+       currentPlayerColor = currentPlayer.getColor().getAwtColor();
 
         redScoreLabel.setText(String.valueOf(player1.getPoints()));
         blueScoreLabel.setText(String.valueOf(player2.getPoints()));
@@ -222,7 +224,7 @@ public class Gui extends IOManager {
             statusLabel.setForeground(player2Color);
         } else {
             statusLabel.setText("Game Tied!");
-            statusLabel.setForeground(java.awt.Color.BLACK);
+            statusLabel.setForeground(Color.BLACK);
         }
     }
 
