@@ -10,7 +10,7 @@ public class MainUI {
     private String me, otherPlayer;
     private RulesPage rulesPage = new RulesPage();
     private JFrame frame;
-    private JLabel modeError, sizeError;
+    private JLabel modeError, sizeError, nameError;
 
     String[] playersType = {"Select player", "Human", "Computer Facile", "Computer Difficile", "Random"};
     private JRadioButton[] sizeButton;
@@ -120,32 +120,48 @@ public class MainUI {
     private ActionListener close = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Enter = (JButton)e.getSource();
-            playersType[1]= humanName.getText();
-            blueList.insertElementAt(humanName.getText(),1);
-            blueList.removeElementAt(2);
-            frame1.dispose();
+            if(comboBox.getSelectedIndex()==1 && comboBox.getSelectedItem()== "Human") {
+                Enter = (JButton) e.getSource();
+                playersType[1] = humanName.getText();
+                blueList.insertElementAt(humanName.getText(), 1);
+                blueList.removeElementAt(2);
+                frame1.dispose();
+            }
+            else
+            {
+                nameError.setText("Name already provided");
+            }
         }
     };
     private ActionListener select = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-        if (comboBox.getSelectedIndex()==1) {
+            nameError = new JLabel("", SwingConstants.CENTER);
+            nameError.setForeground(Color.RED);
+            nameError.setPreferredSize(new Dimension(200, 25));
+
             JPanel gridName = new JPanel(new GridBagLayout());
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = 0;
             constraints.gridy = 0;
 
-            JLabel message = new JLabel("Insert the name for the Human Player");
-            message.setPreferredSize(new Dimension(240, 50));
-            gridName.add(message, constraints);
-            ++constraints.gridy;
 
-            JPanel namePanel = new JPanel(new GridLayout(2,1));
-            namePanel.setPreferredSize(new Dimension(150,150));
+            ++constraints.gridy;
+            gridName.add(nameError, constraints);
+
+            JLabel message = new JLabel("Insert the name for the Human Player",SwingConstants.CENTER);
+            message.setPreferredSize(new Dimension(240, 50));
+            ++constraints.gridy;
+            gridName.add(message, constraints);
+
+
+            JPanel namePanel = new JPanel(new GridLayout(4,1));
+            namePanel.setPreferredSize(new Dimension(150,70));
 
             namePanel.add(humanName,constraints);
+            namePanel.add(getEmptyLabel(new Dimension(150,20)));
             namePanel.add(Enter);
+            namePanel.add(getEmptyLabel(new Dimension(150,20)));
             humanName.addMouseListener(clickonit1);
             Enter.addActionListener(close);
             ++constraints.gridy;
@@ -158,7 +174,6 @@ public class MainUI {
             frame1.pack();
             frame1.setLocationRelativeTo(null);//center the frame
             frame1.setVisible(true);
-            }
 
         }
     };
