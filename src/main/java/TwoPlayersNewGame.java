@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class TwoPlayersNewGame extends NewGame {
 
     public TwoPlayersNewGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager) {
@@ -8,15 +6,10 @@ public class TwoPlayersNewGame extends NewGame {
 
     @Override
     public void startGame() {
-
         while (!isGameFinished()) {
             printScoreBoard();
             computeMove(ioManager.readMove());
         }
         endGame();
-
     }
-
-
-
 }
