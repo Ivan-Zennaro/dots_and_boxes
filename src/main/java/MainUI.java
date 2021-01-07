@@ -15,7 +15,7 @@ public class MainUI {
     String[] playersType = {"Select player", "Human", "Computer Facile", "Computer Difficile", "Random"};
     private JRadioButton[] sizeButton;
 
-    DefaultComboBoxModel<String> blueList;
+    DefaultComboBoxModel<String> optionsPlayer2;
     JComboBox<String> comboBox;
     JTextField meTextField;
     ButtonGroup sizeGroup;
@@ -29,8 +29,8 @@ public class MainUI {
         frame = new JFrame("Dots and Boxes");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         meTextField = new JTextField();
-        blueList = new DefaultComboBoxModel<>(playersType);
-        comboBox = new JComboBox<>(blueList);
+        optionsPlayer2 = new DefaultComboBoxModel<>(playersType);
+        comboBox = new JComboBox<>(optionsPlayer2);
 
         sizeButton = new JRadioButton[8];
         sizeGroup = new ButtonGroup();
@@ -120,11 +120,11 @@ public class MainUI {
     private ActionListener close = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(comboBox.getSelectedIndex()==1 && comboBox.getSelectedItem()== "Human") {
+            if(comboBox.getSelectedItem()== "Human") {
                 Enter = (JButton) e.getSource();
                 playersType[1] = humanName.getText();
-                blueList.insertElementAt(humanName.getText(), 1);
-                blueList.removeElementAt(2);
+                optionsPlayer2.insertElementAt(humanName.getText(), 1);
+                optionsPlayer2.removeElementAt(2);
                 frame1.dispose();
             }
             else
@@ -136,44 +136,46 @@ public class MainUI {
     private ActionListener select = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            nameError = new JLabel("", SwingConstants.CENTER);
-            nameError.setForeground(Color.RED);
-            nameError.setPreferredSize(new Dimension(200, 25));
+            if(comboBox.getSelectedIndex()==1) {
+                nameError = new JLabel("", SwingConstants.CENTER);
+                nameError.setForeground(Color.RED);
+                nameError.setPreferredSize(new Dimension(200, 25));
 
-            JPanel gridName = new JPanel(new GridBagLayout());
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = 0;
-
-
-            ++constraints.gridy;
-            gridName.add(nameError, constraints);
-
-            JLabel message = new JLabel("Insert the name for the Human Player",SwingConstants.CENTER);
-            message.setPreferredSize(new Dimension(240, 50));
-            ++constraints.gridy;
-            gridName.add(message, constraints);
+                JPanel gridName = new JPanel(new GridBagLayout());
+                GridBagConstraints constraints = new GridBagConstraints();
+                constraints.gridx = 0;
+                constraints.gridy = 0;
 
 
-            JPanel namePanel = new JPanel(new GridLayout(4,1));
-            namePanel.setPreferredSize(new Dimension(150,70));
+                ++constraints.gridy;
+                gridName.add(nameError, constraints);
 
-            namePanel.add(humanName,constraints);
-            namePanel.add(getEmptyLabel(new Dimension(150,20)));
-            namePanel.add(Enter);
-            namePanel.add(getEmptyLabel(new Dimension(150,20)));
-            humanName.addMouseListener(clickonit1);
-            Enter.addActionListener(close);
-            ++constraints.gridy;
-
-            gridName.add(namePanel,constraints);
+                JLabel message = new JLabel("Insert the name for the Human Player", SwingConstants.CENTER);
+                message.setPreferredSize(new Dimension(240, 50));
+                ++constraints.gridy;
+                gridName.add(message, constraints);
 
 
-            frame1.setContentPane(gridName);
-            frame1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-            frame1.pack();
-            frame1.setLocationRelativeTo(null);//center the frame
-            frame1.setVisible(true);
+                JPanel namePanel = new JPanel(new GridLayout(4, 1));
+                namePanel.setPreferredSize(new Dimension(150, 70));
+
+                namePanel.add(humanName, constraints);
+                namePanel.add(getEmptyLabel(new Dimension(150, 20)));
+                namePanel.add(Enter);
+                namePanel.add(getEmptyLabel(new Dimension(150, 20)));
+                humanName.addMouseListener(clickonit1);
+                Enter.addActionListener(close);
+                ++constraints.gridy;
+
+                gridName.add(namePanel, constraints);
+
+
+                frame1.setContentPane(gridName);
+                frame1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                frame1.pack();
+                frame1.setLocationRelativeTo(null);//center the frame
+                frame1.setVisible(true);
+            }
 
         }
     };
@@ -191,8 +193,8 @@ public class MainUI {
                 modeError.setText("");
                 me = meName;
                 otherPlayer = playersType[bIndex];
-                blueList.removeElementAt(bIndex);
-                blueList.insertElementAt("Human",bIndex);
+                optionsPlayer2.removeElementAt(bIndex);
+                optionsPlayer2.insertElementAt("Human",bIndex);
 
                 //if(meName > 1) redSolver = getSolver(meName - 1);
                 //if(bIndex > 1) blueSolver = getSolver(bIndex - 1);
