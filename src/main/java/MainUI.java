@@ -40,7 +40,7 @@ public class MainUI {
             sizeGroup.add(sizeButton[i]);
         }
 
-        frame1 = new JFrame("Enter Name");
+        frame1 = new JFrame("Player-2");
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         humanName = new JTextField();
         Enter = new JButton("Confirm Name");
@@ -136,27 +136,27 @@ public class MainUI {
             constraints.gridx = 0;
             constraints.gridy = 0;
 
+            JLabel message = new JLabel("Insert the name for the Human Player");
+            message.setPreferredSize(new Dimension(240, 50));
+            gridName.add(message, constraints);
             ++constraints.gridy;
-            gridName.add(getEmptyLabel(new Dimension(500, 25)), constraints);
 
-            ++constraints.gridy;
-            JPanel namePanel = new JPanel(new GridLayout(3, 1));
-            namePanel.setPreferredSize(new Dimension(400, 50));
+            JPanel namePanel = new JPanel(new GridLayout(2,1));
+            namePanel.setPreferredSize(new Dimension(150,150));
 
-            namePanel.add(humanName);
-            namePanel.add(getEmptyLabel(new Dimension(20, 50)));
+            namePanel.add(humanName,constraints);
             namePanel.add(Enter);
-            humanName.setText("Your name");
             humanName.addMouseListener(clickonit1);
             Enter.addActionListener(close);
-
             ++constraints.gridy;
-            gridName.add(namePanel, constraints);
+
+            gridName.add(namePanel,constraints);
 
 
             frame1.setContentPane(gridName);
             frame1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
             frame1.pack();
+            frame1.setLocationRelativeTo(null);//center the frame
             frame1.setVisible(true);
             }
 
@@ -176,6 +176,8 @@ public class MainUI {
                 modeError.setText("");
                 me = meName;
                 otherPlayer = playersType[bIndex];
+                blueList.removeElementAt(bIndex);
+                blueList.insertElementAt("Human",bIndex);
 
                 //if(meName > 1) redSolver = getSolver(meName - 1);
                 //if(bIndex > 1) blueSolver = getSolver(bIndex - 1);
@@ -216,11 +218,12 @@ public class MainUI {
         JPanel modePanel = new JPanel(new GridLayout(2, 3));
         modePanel.setPreferredSize(new Dimension(400, 50));
         modePanel.add(new JLabel("<html><font color='Black'>Player-1:", SwingConstants.CENTER));
-        modePanel.add(getEmptyLabel(new Dimension(20,50)));
+        modePanel.add(getEmptyLabel(new Dimension(50,25)));
         modePanel.add(new JLabel("<html><font color='Black'>Player-2:", SwingConstants.CENTER));
         modePanel.add(meTextField);
-        modePanel.add(getEmptyLabel(new Dimension(20,50)));
+        modePanel.add(getEmptyLabel(new Dimension(50,25)));
         modePanel.add(comboBox);
+
         meTextField.setText("Your Name");
         meTextField.addMouseListener(clickonit);
 
@@ -254,7 +257,7 @@ public class MainUI {
         grid.add(sizePanel, constraints);
 
         ++constraints.gridy;
-        grid.add(getEmptyLabel(new Dimension(500, 50)), constraints);
+        grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
 
         JPanel submisionPanel = new JPanel(new GridLayout(1,3));
         JButton submitButton = new JButton("Start Game");
