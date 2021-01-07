@@ -15,7 +15,8 @@ public class MainUI {
     String[] playersType = {"Select player", "Human", "Computer Facile", "Computer Difficile", "Random"};
     private JRadioButton[] sizeButton;
 
-    JComboBox<String> blueList;
+    DefaultComboBoxModel<String> blueList;
+    JComboBox<String> comboBox;
     JTextField meTextField;
     ButtonGroup sizeGroup;
 
@@ -28,7 +29,8 @@ public class MainUI {
         frame = new JFrame("Dots and Boxes");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         meTextField = new JTextField();
-        blueList = new JComboBox<String>(playersType);
+        blueList = new DefaultComboBoxModel<>(playersType);
+        comboBox = new JComboBox<>(blueList);
 
         sizeButton = new JRadioButton[8];
         sizeGroup = new ButtonGroup();
@@ -120,13 +122,15 @@ public class MainUI {
         public void actionPerformed(ActionEvent e) {
             Enter = (JButton)e.getSource();
             playersType[1]= humanName.getText();
+            blueList.insertElementAt(humanName.getText(),1);
+            blueList.removeElementAt(2);
             frame1.dispose();
         }
     };
     private ActionListener select = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-        if (blueList.getSelectedIndex()==1) {
+        if (comboBox.getSelectedIndex()==1) {
             JPanel gridName = new JPanel(new GridBagLayout());
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = 0;
@@ -142,7 +146,7 @@ public class MainUI {
             namePanel.add(humanName);
             namePanel.add(getEmptyLabel(new Dimension(20, 50)));
             namePanel.add(Enter);
-            humanName.setText("Your Name");
+            humanName.setText("Your name");
             humanName.addMouseListener(clickonit1);
             Enter.addActionListener(close);
 
@@ -154,7 +158,7 @@ public class MainUI {
             frame1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
             frame1.pack();
             frame1.setVisible(true);
-        }
+            }
 
         }
     };
@@ -163,7 +167,7 @@ public class MainUI {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             String meName = meTextField.getText();
-            int bIndex = blueList.getSelectedIndex();
+            int bIndex = comboBox.getSelectedIndex();
             if(meName.equals("") || bIndex==0) {
                 modeError.setText("You MUST select the players before continuing.");
                 return;
@@ -172,6 +176,7 @@ public class MainUI {
                 modeError.setText("");
                 me = meName;
                 otherPlayer = playersType[bIndex];
+
                 //if(meName > 1) redSolver = getSolver(meName - 1);
                 //if(bIndex > 1) blueSolver = getSolver(bIndex - 1);
             }
@@ -215,12 +220,12 @@ public class MainUI {
         modePanel.add(new JLabel("<html><font color='Black'>Player-2:", SwingConstants.CENTER));
         modePanel.add(meTextField);
         modePanel.add(getEmptyLabel(new Dimension(20,50)));
-        modePanel.add(blueList);
+        modePanel.add(comboBox);
         meTextField.setText("Your Name");
         meTextField.addMouseListener(clickonit);
 
-        blueList.setSelectedIndex(0);
-        blueList.addActionListener(select);
+        comboBox.setSelectedIndex(0);
+        comboBox.addActionListener(select);
 
 
         ++constraints.gridy;
