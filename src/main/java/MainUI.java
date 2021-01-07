@@ -10,7 +10,7 @@ public class MainUI {
     private String me, otherPlayer;
     private RulesPage rulesPage = new RulesPage();
     private JFrame frame;
-    private JLabel modeError, sizeError, nameError;
+    private JLabel modeError, sizeError;
 
     String[] playersType = {"Select player", "Human", "Computer Facile", "Computer Difficile", "Random"};
     private JRadioButton[] sizeButton;
@@ -120,35 +120,23 @@ public class MainUI {
     private ActionListener close = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(comboBox.getSelectedItem()== "Human") {
                 Enter = (JButton) e.getSource();
                 playersType[1] = humanName.getText();
                 optionsPlayer2.insertElementAt(humanName.getText(), 1);
                 optionsPlayer2.removeElementAt(2);
                 frame1.dispose();
-            }
-            else
-            {
-                nameError.setText("Name already provided");
-            }
         }
     };
     private ActionListener select = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(comboBox.getSelectedIndex()==1) {
-                nameError = new JLabel("", SwingConstants.CENTER);
-                nameError.setForeground(Color.RED);
-                nameError.setPreferredSize(new Dimension(200, 25));
+            if(comboBox.getSelectedIndex()==1 && comboBox.getSelectedItem()== "Human") {
 
                 JPanel gridName = new JPanel(new GridBagLayout());
                 GridBagConstraints constraints = new GridBagConstraints();
                 constraints.gridx = 0;
                 constraints.gridy = 0;
 
-
-                ++constraints.gridy;
-                gridName.add(nameError, constraints);
 
                 JLabel message = new JLabel("Insert the name for the Human Player", SwingConstants.CENTER);
                 message.setPreferredSize(new Dimension(240, 50));
@@ -177,6 +165,8 @@ public class MainUI {
                 frame1.setVisible(true);
             }
 
+
+
         }
     };
 
@@ -193,8 +183,10 @@ public class MainUI {
                 modeError.setText("");
                 me = meName;
                 otherPlayer = playersType[bIndex];
-                optionsPlayer2.removeElementAt(bIndex);
-                optionsPlayer2.insertElementAt("Human",bIndex);
+                comboBox.removeItemAt(1);
+                comboBox.insertItemAt("Human",1);
+
+
 
                 //if(meName > 1) redSolver = getSolver(meName - 1);
                 //if(bIndex > 1) blueSolver = getSolver(bIndex - 1);
