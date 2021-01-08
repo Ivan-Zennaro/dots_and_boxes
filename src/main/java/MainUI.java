@@ -202,6 +202,10 @@ public class MainUI {
         }
     };
 
+    public static JFrame getFrame(){
+        return frame;
+    }
+
     public void initGUI() {
 
        // redSolver = null;
