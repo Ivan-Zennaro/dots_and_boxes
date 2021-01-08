@@ -65,10 +65,17 @@ public class Gui extends IOManager {
 
     };
 
-    public Gui(int boardRows, int boardCols, JFrame frame) {
+
+
+    public Gui(int boardRows, int boardCols, JFrame frame, Player p1, Player p2) {
 
         int mappedRows = boardRows * 2 + 1;
         int mappedCols = boardCols + 1;
+
+        player1 = p1;
+        player2 = p2;
+        player1Color = p1.getColor().getAwtColor();
+        player2Color = p2.getColor().getAwtColor();
 
         bufferMove = null;
 
@@ -193,11 +200,8 @@ public class Gui extends IOManager {
 
     @Override
     public void updateGameInfo(Player player1, Player player2, Player currentPlayer) {
-       if(player1Color == null){
-           player1Color = player1.getColor().getAwtColor();
-           player2Color = player2.getColor().getAwtColor();
-       }
-       currentPlayerColor = currentPlayer.getColor().getAwtColor();
+
+        currentPlayerColor = currentPlayer.getColor().getAwtColor();
 
         redScoreLabel.setText(String.valueOf(player1.getPoints()));
         blueScoreLabel.setText(String.valueOf(player2.getPoints()));

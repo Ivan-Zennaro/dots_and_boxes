@@ -7,6 +7,8 @@ public abstract class IOManager{
     public abstract void updateGameInfo (Player p1, Player p2, Player currentPlayer);
     public abstract void showWinner (Player p1, Player p2);
 
+    public Player player1, player2;
+
     public static int getMappedY(Move move) {
         if (move.getSide() == Side.RIGHT)
             return move.getY() + 1;
