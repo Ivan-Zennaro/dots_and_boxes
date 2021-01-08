@@ -9,7 +9,7 @@ public class MainUI {
    // private GameSolver redSolver, blueSolver;
     private String me, otherPlayer;
     private RulesPage rulesPage = new RulesPage();
-    private JFrame frame;
+    private static JFrame frame;
     private JLabel modeError, sizeError;
 
     String[] playersType = {"Select player", "Human", "Computer Facile", "Computer Difficile", "Random"};
