@@ -21,7 +21,6 @@ public class Gui extends IOManager {
     private JFrame frame;
     private JLabel redScoreLabel, blueScoreLabel, statusLabel;
     private JLabel[][] box;
-    private boolean[][] isSetEdge;
 
     private Color player1Color;
     private Color player2Color;
@@ -31,7 +30,7 @@ public class Gui extends IOManager {
     private MouseListener mouseListener = new MouseListener() {
         @Override
         public void mouseClicked(MouseEvent mouseEvent) {
-            //if (!mouseEnabled) return;
+            // if (!mouseEnabled) return;
             bufferMove = getSource(mouseEvent.getSource());
         }
 
@@ -59,7 +58,7 @@ public class Gui extends IOManager {
         private void setJlabelBackgroundColorAtMouseEvent(MouseEvent mouseEvent, Color color) {
             Move move = getSource(mouseEvent.getSource());
             int x = getMappedX(move), y = getMappedY(move);
-            if (isSetEdge[x][y]) return;
+            if ( isSetEdge(x, y) ) return;
             graphicBoard[x][y].setBackground(color);
         }
 
@@ -85,7 +84,7 @@ public class Gui extends IOManager {
                         .toArray(JLabel[]::new))
                 .toArray(JLabel[][]::new);
 
-        isSetEdge = new boolean[mappedRows][mappedCols];
+
         box = new JLabel[boardRows][boardCols];
 
         //provvisorie qui
@@ -94,6 +93,12 @@ public class Gui extends IOManager {
         init();
 
 
+    }
+    public boolean isSetEdge(int x, int y) {
+        return  graphicBoard[x][y].getBackground().equals(player1Color)  || graphicBoard[x][y].getBackground().equals(player2Color);
+    }
+    public boolean isSetBox(int x, int y){
+        return box[x][y].getBackground().equals(player1Color)  || box[x][y].getBackground().equals(player2Color);
     }
 
     private Move getSource(Object object) {
@@ -190,7 +195,6 @@ public class Gui extends IOManager {
         int mappedX = getMappedX(move);
         int mappedY = getMappedY(move);
         graphicBoard[mappedX][mappedY].setBackground(player.getColor().getAwtColor());
-        isSetEdge[mappedX][mappedY] = true;
     }
 
     @Override
@@ -235,8 +239,6 @@ public class Gui extends IOManager {
     private void init() {
         int boardWidth = graphicBoard[0].length * size + (graphicBoard[0].length - 1) * dist;
 
-        player1Color = null;
-        player2Color = null;
         String redName = "tipoPlayer1"; //umano, robot etcc...serve?
         String blueName = "tipoPlayer2";
 
