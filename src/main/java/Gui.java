@@ -21,6 +21,7 @@ public class Gui extends IOManager {
     private JFrame frame;
     private JLabel redScoreLabel, blueScoreLabel, statusLabel;
     private JLabel[][] box;
+    private boolean isSetEdge[][];
 
     private Color player1Color;
     private Color player2Color;
@@ -84,18 +85,22 @@ public class Gui extends IOManager {
                         .toArray(JLabel[]::new))
                 .toArray(JLabel[][]::new);
 
-
+        isSetEdge = new boolean[mappedRows][mappedCols];
         box = new JLabel[boardRows][boardCols];
 
         //provvisorie qui
-        this.frame = frame;
+        //this.frame = frame;
+        this.frame = new JFrame();
 
         init();
 
 
     }
     public boolean isSetEdge(int x, int y) {
-        return  graphicBoard[x][y].getBackground().equals(player1Color)  || graphicBoard[x][y].getBackground().equals(player2Color);
+        return  isSetEdge[x][y] ;
+    }
+    private void setEdge(int x, int y){
+        isSetEdge[x][y] = true;
     }
     public boolean isSetBox(int x, int y){
         return box[x][y].getBackground().equals(player1Color)  || box[x][y].getBackground().equals(player2Color);
@@ -195,6 +200,7 @@ public class Gui extends IOManager {
         int mappedX = getMappedX(move);
         int mappedY = getMappedY(move);
         graphicBoard[mappedX][mappedY].setBackground(player.getColor().getAwtColor());
+        setEdge(mappedX, mappedY);
     }
 
     @Override
