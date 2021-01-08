@@ -9,6 +9,8 @@ public class MainUI {
    // private GameSolver redSolver, blueSolver;
     private String me, otherPlayer;
     private RulesPage rulesPage = new RulesPage();
+
+
     private static JFrame frame;
     private JLabel modeError, sizeError;
 
@@ -202,8 +204,14 @@ public class MainUI {
         }
     };
 
+    //TO DO
+    //these two methods are for manual test only...TO REMOVE!!
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public static JFrame getFrame(){
         return frame;
+    }
+    public static void setFrame(JFrame frame) {
+        MainUI.frame = frame;
     }
 
     public void initGUI() {
