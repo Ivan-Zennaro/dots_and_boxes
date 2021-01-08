@@ -59,15 +59,14 @@ public class Gui extends IOManager {
         private void setJlabelBackgroundColorAtMouseEvent(MouseEvent mouseEvent, Color color) {
             Move move = getSource(mouseEvent.getSource());
             int x = getMappedX(move), y = getMappedY(move);
-            if ( isSetEdge(x, y) ) return;
+            if (isSetEdge(x, y)) return;
             graphicBoard[x][y].setBackground(color);
         }
 
     };
 
 
-
-    public Gui(int boardRows, int boardCols, JFrame frame, Player p1, Player p2) {
+    public Gui(int boardRows, int boardCols, Player p1, Player p2) {
 
         int mappedRows = boardRows * 2 + 1;
         int mappedCols = boardCols + 1;
@@ -88,22 +87,24 @@ public class Gui extends IOManager {
         isSetEdge = new boolean[mappedRows][mappedCols];
         box = new JLabel[boardRows][boardCols];
 
-        //provvisorie qui
-        //this.frame = frame;
-        this.frame = new JFrame();
+
+        frame = MainUI.getFrame();
 
         init();
 
 
     }
+
     public boolean isSetEdge(int x, int y) {
-        return  isSetEdge[x][y] ;
+        return isSetEdge[x][y];
     }
-    private void setEdge(int x, int y){
+
+    private void setEdge(int x, int y) {
         isSetEdge[x][y] = true;
     }
-    public boolean isSetBox(int x, int y){
-        return box[x][y].getBackground().equals(player1Color)  || box[x][y].getBackground().equals(player2Color);
+
+    public boolean isSetBox(int x, int y) {
+        return box[x][y].getBackground().equals(player1Color) || box[x][y].getBackground().equals(player2Color);
     }
 
     private Move getSource(Object object) {
@@ -341,14 +342,16 @@ public class Gui extends IOManager {
         grid.add(goBackButton, constraints);
 
 
-        frame.getContentPane().removeAll();
-        frame.revalidate();
-        frame.repaint();
+        if (frame != null) {
+            frame.getContentPane().removeAll();
+            frame.revalidate();
+            frame.repaint();
 
-        frame.setContentPane(grid);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+            frame.setContentPane(grid);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        }
 /*
         goBack = false;
         manageGame();

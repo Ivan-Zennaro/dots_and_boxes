@@ -10,9 +10,8 @@ public class TestGui {
     public void a_line_isnt_colored_at_init() {
         Player p1 = new Player('A', Color.RED);
         Player p2 = new Player('B', Color.BLU);
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Gui g = new Gui(3, 3, frame, p1, p2);
+
+        Gui g = new Gui(3, 3, p1, p2);
         Move testMove = new Move(1, 1, Side.UP);
         Assertions.assertFalse(g.isSetEdge(IOManager.getMappedX(testMove), IOManager.getMappedY(testMove)));
     }
@@ -21,11 +20,8 @@ public class TestGui {
     public void line_colored_when_move_inserted() {
         Player p1 = new Player('A', Color.RED);
         Player p2 = new Player('B', Color.BLU);
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Gui g = new Gui(3, 3, frame, p1, p2);
-/*        TwoPlayersNewGame t = new TwoPlayersNewGame(3,3, p1, p2, g);
-        t.startGame();*/
+
+        Gui g = new Gui(3, 3, p1, p2);
         Move testMove = new Move(1, 1, Side.UP);
         g.updateMove(testMove, p1);
         Assertions.assertTrue(g.isSetEdge(IOManager.getMappedX(testMove), IOManager.getMappedY(testMove)));
@@ -35,11 +31,8 @@ public class TestGui {
     public void box_colored_when_requested() {
         Player p1 = new Player('A', Color.RED);
         Player p2 = new Player('B', Color.BLU);
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Gui g = new Gui(3, 3, frame, p1, p2);
-/*        TwoPlayersNewGame t = new TwoPlayersNewGame(3,3, p1, p2, g);
-        t.startGame();*/
+
+        Gui g = new Gui(3, 3, p1, p2);
         Move moveThatCompletesABox = new Move(1, 1, Side.UP);
         int x = moveThatCompletesABox.getX();
         int y = moveThatCompletesABox.getX();

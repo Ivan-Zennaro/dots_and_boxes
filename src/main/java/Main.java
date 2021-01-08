@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.lang.reflect.InvocationTargetException;
 
 public class Main {
 
@@ -18,7 +17,7 @@ public class Main {
         Player p2 = new Player('B', Color.BLU);
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Gui g = new Gui(3,3, frame, p1, p2);
+        Gui g = new Gui(3,3, p1, p2);
         TwoPlayersNewGame t = null;
         try {
             t = new TwoPlayersNewGame(3,3, p1, p2, Gui.class);
