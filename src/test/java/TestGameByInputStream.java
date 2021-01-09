@@ -16,29 +16,14 @@ public class TestGameByInputStream {
     private final Player player1 = new Player('A', Color.BLU);
     private final Player player2 = new Player('B', Color.RED);
 
-
-    /*
-    @ParameterizedTest
-    @ValueSource(strings = {"2","3","5"}) //Value Source quando ho solo un parametro
-    public void check_input_grid_dimensions(String choice){
-        ByteArrayInputStream in = new ByteArrayInputStream(choice.getBytes());
-        System.setIn(in);
-        Game game = new TwoPlayersGame();
-        Board board = game.initializeBoard();
-
-        assertAll(
-                () -> Assertions.assertEquals(Integer.parseInt(choice), board.getBoardRows()),
-                () -> Assertions.assertEquals(Integer.parseInt(choice), board.getBoardColumns())
-        );
-    }*/
-
     @Test
-    public void game_run_from_input_stream() {
+    public void game_run_from_input_stream_with_repeated_moves() {
         String inputString = """
                 0 0 L
                 0 0 R
                 0 0 U
                 0 0 D
+                0 0 D 
                 0 1 U
                 0 1 D
                 0 1 R
@@ -46,6 +31,7 @@ public class TestGameByInputStream {
                 1 1 R
                 1 1 D
                 1 0 D
+                1 1 R
                 1 0 L""";
         System.setIn(new ByteArrayInputStream(inputString.getBytes()));
         Cli cli = new Cli(boardSize, boardSize);
