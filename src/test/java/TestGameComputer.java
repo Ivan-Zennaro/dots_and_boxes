@@ -38,6 +38,23 @@ public class TestGameComputer {
 
 
     @Test
+    public void draw_line_that_allow_to_close_to_consecutive_boxes() {
+        ComputerGame game = new ComputerGame(3, 3, p1, p2, new Cli(3, 3));
+        game.computeMove(new Move(0, 0, Side.UP));
+        game.computeMove(new Move(0, 0, Side.DOWN));
+        game.computeMove(new Move(0, 0, Side.LEFT));
+
+        game.computeMove(new Move(2, 0, Side.LEFT));
+        game.computeMove(new Move(2, 0, Side.DOWN));
+        game.computeMove(new Move(2, 0, Side.UP));
+
+        game.computeMove(new Move(2, 1, Side.RIGHT));
+        game.computeMove(new Move(2, 1, Side.UP));
+        Assertions.assertEquals(new Move(2, 0, Side.RIGHT), game.getComputerMove());
+    }
+
+
+    @Test
     public void draw_line_in_a_missing_position_of_a_box() {
         ComputerGame game = new ComputerGame(2, 2, p1, p2, new Cli(2, 2));
         game.computeMove(new Move(1, 1, Side.LEFT));
