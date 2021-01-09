@@ -119,7 +119,7 @@ public class TestCli {
 
     @ParameterizedTest
     @CsvSource({"0,2,2", "2,5,2", "1,1,0", "6,3,1"})
-    public void chech_if_the_winner_is_correct(int points1, int points2, int indexWinner) {
+    public void check_if_the_winner_is_correct(int points1, int points2, int indexWinner) {
 
         ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStreamCaptor));

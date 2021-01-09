@@ -21,7 +21,7 @@ public class Gui extends IOManager {
     private JFrame frame;
     private JLabel redScoreLabel, blueScoreLabel, statusLabel;
     private JLabel[][] box;
-    private boolean isSetEdge[][];
+    private boolean isSetLine[][];
 
     private Color player1Color;
     private Color player2Color;
@@ -59,7 +59,7 @@ public class Gui extends IOManager {
         private void setJlabelBackgroundColorAtMouseEvent(MouseEvent mouseEvent, Color color) {
             Move move = getSource(mouseEvent.getSource());
             int x = getMappedX(move), y = getMappedY(move);
-            if (isSetEdge(x, y)) return;
+            if (isSetLine(x, y)) return;
             graphicBoard[x][y].setBackground(color);
         }
 
@@ -84,7 +84,7 @@ public class Gui extends IOManager {
                         .toArray(JLabel[]::new))
                 .toArray(JLabel[][]::new);
 
-        isSetEdge = new boolean[mappedRows][mappedCols];
+        isSetLine = new boolean[mappedRows][mappedCols];
         box = new JLabel[boardRows][boardCols];
 
 
@@ -95,12 +95,12 @@ public class Gui extends IOManager {
 
     }
 
-    public boolean isSetEdge(int x, int y) {
-        return isSetEdge[x][y];
+    public boolean isSetLine(int x, int y) {
+        return isSetLine[x][y];
     }
 
-    private void setEdge(int x, int y) {
-        isSetEdge[x][y] = true;
+    private void setLine(int x, int y) {
+        isSetLine[x][y] = true;
     }
 
     public boolean isSetBox(int x, int y) {
@@ -201,7 +201,7 @@ public class Gui extends IOManager {
         int mappedX = getMappedX(move);
         int mappedY = getMappedY(move);
         graphicBoard[mappedX][mappedY].setBackground(player.getColor().getAwtColor());
-        setEdge(mappedX, mappedY);
+        setLine(mappedX, mappedY);
     }
 
     @Override
