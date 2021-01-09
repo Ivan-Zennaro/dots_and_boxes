@@ -5,28 +5,21 @@ import java.util.stream.Collectors;
 
 public class ComputerGame extends NewGame {
 
-
     public ComputerGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager) {
         super(nRows, nCols, p1, p2, ioManager);
     }
 
     @Override
     public void startGame() {
-
+        printScoreBoard();
         while (!isGameFinished()) {
-
-            /*
+            if (currentPlayer == player1)
+                computeMove(ioManager.readMove());
+            else
+                computeMove(getComputerMove());
             printScoreBoard();
-            turn(getComputerMove());
-            try {
-                Thread.sleep(2000);
-            } catch (Exception e) {
-            }*/
         }
-    }
-
-    public boolean validCoordinate(int boardSize) {
-        return boardSize > 0;
+        endGame();
     }
 
     public Move getComputerMove() {
