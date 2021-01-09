@@ -24,7 +24,19 @@ public class TestGameByInputStream {
 
     @Test
     public void game_run_from_input_stream(){
-        String inputString = "2\n0 0 L\n0 0 R\n0 0 U\n0 0 D\n0 1 U\n0 1 D\n0 1 R\n1 1 L\n1 1 R\n1 1 D\n1 0 D\n1 0 L\n";
+        String inputString = "2"+System.lineSeparator()+
+                                "0 0 L"+System.lineSeparator()+
+                             "0 0 R"+System.lineSeparator()+
+                "0 0 U"+System.lineSeparator()+
+                "0 0 D"+System.lineSeparator()+
+                "0 1 U"+System.lineSeparator()+
+                "0 1 D"+System.lineSeparator()+
+                "0 1 R"+System.lineSeparator()+
+                "1 1 L" +System.lineSeparator()+
+                "1 1 R" +System.lineSeparator()+
+                "1 1 D" +System.lineSeparator()+
+                "1 0 D" +System.lineSeparator()+
+                "1 0 L"+System.lineSeparator();
         ByteArrayInputStream in = new ByteArrayInputStream(inputString.getBytes());
         System.setIn(in);
         TwoPlayersGame game = new TwoPlayersGame();
