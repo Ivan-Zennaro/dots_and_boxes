@@ -212,7 +212,7 @@ public class MainUI {
         }
     };
 
-    //TO DO
+    //TODO
     //these two methods are for manual test only...TO REMOVE!!
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public static JFrame getFrame(){
