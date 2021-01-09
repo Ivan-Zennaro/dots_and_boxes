@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Color;
 import java.awt.event.*;
+
 
 public class MainUI {
 
@@ -15,10 +15,15 @@ public class MainUI {
     private JLabel modeError, sizeError;
 
     String[] playersType = {"Select player", "Human", "Computer Facile", "Computer Difficile", "Random"};
+    String[] colors = {"<html><font color='Red'>RED","<html><font color='blue'>BLUE","<html><font color='green'>GREEN","<html><font color='purple'>PURPLE"};
     private JRadioButton[] sizeButton;
 
     DefaultComboBoxModel<String> optionsPlayer2;
     JComboBox<String> comboBox;
+    JComboBox<String> colorBoxPlayer1;
+    JComboBox<String> colorBoxPlayer2;
+
+
     JTextField meTextField;
     ButtonGroup sizeGroup;
 
@@ -33,6 +38,9 @@ public class MainUI {
         meTextField = new JTextField();
         optionsPlayer2 = new DefaultComboBoxModel<>(playersType);
         comboBox = new JComboBox<>(optionsPlayer2);
+
+        colorBoxPlayer1 = new JComboBox<>(colors);
+        colorBoxPlayer2 = new JComboBox<>(colors);
 
         sizeButton = new JRadioButton[8];
         sizeGroup = new ButtonGroup();
@@ -231,7 +239,7 @@ public class MainUI {
         grid.add(getEmptyLabel(new Dimension(500,25)), constraints);
 
         modeError = new JLabel("", SwingConstants.CENTER);
-        modeError.setForeground(Color.RED);
+        modeError.setForeground(Color.RED.getAwtColor());
         modeError.setPreferredSize(new Dimension(500, 25));
         ++constraints.gridy;
         grid.add(modeError, constraints);
@@ -259,10 +267,23 @@ public class MainUI {
         grid.add(getEmptyLabel(new Dimension(500,25)), constraints);
 
         sizeError = new JLabel("", SwingConstants.CENTER);
-        sizeError.setForeground(Color.RED);
+        sizeError.setForeground(Color.RED.getAwtColor());
         sizeError.setPreferredSize(new Dimension(500, 25));
         ++constraints.gridy;
         grid.add(sizeError, constraints);
+
+        JPanel colorPanel = new JPanel(new GridLayout(2, 3));
+        colorPanel.setPreferredSize(new Dimension(400, 50));
+        colorPanel.add(new JLabel("<html><font color='Black'>Color-Player-1:", SwingConstants.CENTER));
+        colorPanel.add(getEmptyLabel(new Dimension(50,25)));
+        colorPanel.add(new JLabel("<html><font color='Black'>Color-Player-2:", SwingConstants.CENTER));
+        colorPanel.add(colorBoxPlayer1);
+        colorPanel.add(getEmptyLabel(new Dimension(50,25)));
+        colorPanel.add(colorBoxPlayer2);
+
+        ++constraints.gridy;
+        grid.add(colorPanel,constraints);
+
 
         ++constraints.gridy;
         JLabel messageLabel = new JLabel("Select the size of the board:");
