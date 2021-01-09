@@ -65,7 +65,6 @@ public class ComputerGame extends NewGame {
         return getMoveWithConstraint((box) -> true, (box, side) -> true, boxes);
     }
 
-
     private Move getMoveWithConstraint(Predicate<Box> predicateBox, BiPredicate<Box, Side> predicateSide, List<Box> boxes) {
         List<Box> candidateBoxes = boxes.stream().filter(box -> !box.isCompleted()).filter(predicateBox).collect(Collectors.toList());
         if (candidateBoxes.size() == 0) return Move.getInvalidMove();
@@ -88,29 +87,6 @@ public class ComputerGame extends NewGame {
         return Move.getInvalidMove();
     }
 
-
-    public static <T> List<T> matrixToList(T[][] matrix) {
-        List<T> list = new ArrayList<T>();
-        for (T[] array : matrix)
-            list.addAll(Arrays.asList(array));
-        return list;
-    }
-
-    public static Side getMissingSideFromBox(Box box) {
-        if (box.getNumberOfDrawLine() != 3) return Side.INVALID;
-        if (!box.hasLineLeft()) return Side.LEFT;
-        if (!box.hasLineDown()) return Side.DOWN;
-        if (!box.hasLineRight()) return Side.RIGHT;
-        if (!box.hasLineUp()) return Side.UP;
-        return Side.INVALID;
-    }
-
-    public static <T> T getRandomElementFromList(List<T> list) {
-        if (list == null || list.size() < 1) return null;
-        Random rand = new Random();
-        return list.get(rand.nextInt(list.size()));
-    }
-
     public int getRowBox_b_in_boxes(List<Box> boxes, Box b) {
         return boxes.indexOf(b) / board.getBoardColumns();
     }
@@ -125,6 +101,28 @@ public class ComputerGame extends NewGame {
         Move sideMove = board.getNeighbourSideMove(new Move(row, col, side));
         if (!sideMove.isValid()) return null;
         return board.getBoxByMove(sideMove);
+    }
+
+    public static Side getMissingSideFromBox(Box box) {
+        if (box.getNumberOfDrawLine() != 3) return Side.INVALID;
+        if (!box.hasLineLeft()) return Side.LEFT;
+        if (!box.hasLineDown()) return Side.DOWN;
+        if (!box.hasLineRight()) return Side.RIGHT;
+        if (!box.hasLineUp()) return Side.UP;
+        return Side.INVALID;
+    }
+
+    public static <T> List<T> matrixToList(T[][] matrix) {
+        List<T> list = new ArrayList<T>();
+        for (T[] array : matrix)
+            list.addAll(Arrays.asList(array));
+        return list;
+    }
+
+    public static <T> T getRandomElementFromList(List<T> list) {
+        if (list == null || list.size() < 1) return null;
+        Random rand = new Random();
+        return list.get(rand.nextInt(list.size()));
     }
 
 }
