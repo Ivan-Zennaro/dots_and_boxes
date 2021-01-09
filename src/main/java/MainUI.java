@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.reflect.InvocationTargetException;
 
 
 public class MainUI {
@@ -331,7 +332,12 @@ public class MainUI {
             }
         }
         //new GameBoardUI(this, frame, n, null, null, me, otherPlayer);
-        TwoPlayersNewGame game = new TwoPlayersNewGame(3,3,new Player('A',Color.BLU),new Player('A',Color.RED),new Gui(3,3,new Player('A',Color.RED),new Player('A',Color.BLU)));
+        TwoPlayersNewGame game = null;
+        try {
+            game = new TwoPlayersNewGame(3,3,new Player('A',Color.RED), new Player('A',Color.BLU), Gui.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         game.startGame();
     }
 
