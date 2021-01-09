@@ -24,9 +24,11 @@ public class ClientNewGame extends NewGame {
             InputStream inputStream = socket.getInputStream();
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
+
+            printScoreBoard();
             while (!isGameFinished()) {
 
-                printScoreBoard();
+
                 Move move;
 
                 if (currentPlayer == player2) {
@@ -41,6 +43,7 @@ public class ClientNewGame extends NewGame {
                     move = (Move) objectInputStream.readObject();
                 }
                 computeMove(move);
+                printScoreBoard();
             }
 
             endGame();

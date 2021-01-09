@@ -25,9 +25,11 @@ public class ServerNewGame extends NewGame {
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
 
+            printScoreBoard();
+
             while (!isGameFinished()) {
 
-                printScoreBoard();
+
                 Move move;
 
                 if (currentPlayer == player1) {
@@ -42,6 +44,7 @@ public class ServerNewGame extends NewGame {
                     move = (Move) objectInputStream.readObject();
                 }
                 computeMove(move);
+                printScoreBoard();
             }
 
             endGame();
