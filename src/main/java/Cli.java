@@ -28,15 +28,15 @@ public class Cli extends IOManager {
         int mappedX = getMappedX(move);
         int mappedY = getMappedY(move);
         if (mappedX % 2 == 0)
-            graphicBoard[mappedX][mappedY] = ColorManager.getColoredString(HORIZONTAL_LINE, color);
+            graphicBoard[mappedX][mappedY] = Color.getColoredString(HORIZONTAL_LINE, color);
         else
-            graphicBoard[mappedX][mappedY] = ColorManager.getColoredString(VERTICAL_LINE, color);
+            graphicBoard[mappedX][mappedY] = Color.getColoredString(VERTICAL_LINE, color);
     }
 
     @Override
     public void updateCompletedBox(int x, int y, Player player) {
         Color color = player.getColor();
-        String coloredId = ColorManager.getColoredString(Character.toString(player.getId()), color);
+        String coloredId = Color.getColoredString(Character.toString(player.getId()), color);
         graphicBoard[x * 2 + 1][y] = graphicBoard[x * 2 + 1][y].replace("   \u001B[0m", " \u001B[0m" + coloredId + " ");
     }
 

@@ -57,7 +57,7 @@ public class TestCli {
         String boardString_2x2 =
                 System.lineSeparator() +
                         "    0   1   "+System.lineSeparator() +
-                        "  "+ ColorManager.getColoredString(" ---",Color.BLU) + " ---"+System.lineSeparator() +
+                        "  "+ Color.getColoredString(" ---",Color.BLU) + " ---"+System.lineSeparator() +
                         "0 |   |   |   "+System.lineSeparator() +
                         "   --- ---"+System.lineSeparator() +
                         "1 |   |   |   "+System.lineSeparator() +
@@ -77,7 +77,7 @@ public class TestCli {
                 "   --- --- ---"+System.lineSeparator() +
                 "1 |   |   |   |   "+System.lineSeparator() +
                 "   --- --- ---"+System.lineSeparator() +
-                "2 |   |   |   " + ColorManager.getColoredString("|   ", Color.BLU) + System.lineSeparator() +
+                "2 |   |   |   " + Color.getColoredString("|   ", Color.BLU) + System.lineSeparator() +
                 "   --- --- ---"+System.lineSeparator();
 
         Assertions.assertEquals(boardString_3x3, cli.getStringBoard());
@@ -94,8 +94,8 @@ public class TestCli {
         String boardString_3x3 =
                 System.lineSeparator() +"    0   1   2   " +  System.lineSeparator() +
                         "   --- --- ---" + System.lineSeparator() +
-                        "0 " +ColorManager.getColoredString("| ", Color.GREEN) +ColorManager.getColoredString("A", Color.GREEN) + " |   |   |   "+ System.lineSeparator() +
-                        "  " + ColorManager.getColoredString(" ---", Color.GREEN) + " --- ---" + System.lineSeparator() +
+                        "0 " + Color.getColoredString("| ", Color.GREEN) + Color.getColoredString("A", Color.GREEN) + " |   |   |   "+ System.lineSeparator() +
+                        "  " + Color.getColoredString(" ---", Color.GREEN) + " --- ---" + System.lineSeparator() +
                         "1 |   |   |   |   " + System.lineSeparator() +
                         "   --- --- ---" + System.lineSeparator() +
                         "2 |   |   |   |   " + System.lineSeparator() +
