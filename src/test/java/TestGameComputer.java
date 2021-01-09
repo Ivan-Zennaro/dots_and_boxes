@@ -1,10 +1,11 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,11 +18,7 @@ public class TestGameComputer {
     @Test
     public void matrix_converted_into_list() {
         Integer[][] matrix = {{1, 2}, {3, 4}};
-        List<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        list.add(4);
+        List<Integer> list = Arrays.asList(1,2,3,4);
         Assertions.assertEquals(list, ComputerGame.matrixToList(matrix));
     }
 
@@ -35,7 +32,6 @@ public class TestGameComputer {
                 () -> assertEquals(Side.INVALID, ComputerGame.getMissingSideFromBox(new Box(false, false, true, true)))
         );
     }
-
 
     @Test
     public void draw_line_that_allow_to_close_to_consecutive_boxes() {
