@@ -3,13 +3,15 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class PlayerVsComputerGame extends Game {
-    Scanner keyboard;
+public class ComputerGame extends NewGame {
+
+
+    public ComputerGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager) {
+        super(nRows, nCols, p1, p2, ioManager);
+    }
 
     @Override
     public void startGame() {
-
-        initializeBoard();
 
         while (!isGameFinished()) {
 
@@ -20,53 +22,7 @@ public class PlayerVsComputerGame extends Game {
                 Thread.sleep(2000);
             } catch (Exception e) {
             }*/
-
-
-            if (currentPlayer == player1) {
-                printScoreBoard();
-                System.out.println("Insert move [x y side:U,D,L,R]?");
-                turn(keyboard.nextLine());
-            } else {
-                printScoreBoard();
-                turn(getComputerMove());
-                try {
-                    Thread.sleep(400);
-                } catch (Exception e) {
-                }
-            }
         }
-        keyboard.close();
-    }
-
-    public void defaultInitialize() {
-        board = new Board(2, 2);
-        cli = new Cli(2, 2);
-    }
-
-    @Override
-    public Board initializeBoard() {
-        keyboard = new Scanner(System.in);
-        int boardRow = 0, boardCols = 0;
-        do {
-            System.out.println("Insert boardRow:");
-            try {
-                boardRow = Integer.parseInt(keyboard.nextLine());
-            } catch (NumberFormatException e) {
-            }
-        } while (!validCoordinate(boardRow));
-
-        do {
-            System.out.println("Insert boardCols:");
-            try {
-                boardCols = Integer.parseInt(keyboard.nextLine());
-            } catch (NumberFormatException e) {
-            }
-        } while (!validCoordinate(boardCols));
-
-        board = new Board(boardRow, boardCols);
-        cli = new Cli(boardRow, boardCols);
-
-        return board;
     }
 
     public boolean validCoordinate(int boardSize) {

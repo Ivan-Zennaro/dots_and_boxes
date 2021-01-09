@@ -1,9 +1,9 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Scanner;
 import java.util.stream.IntStream;
 
 public class Gui extends IOManager {
@@ -13,24 +13,25 @@ public class Gui extends IOManager {
     private final static int size = 8;
     private final static int dist = 40;
 
-    public static final java.awt.Color DEFAULT_BORDER_LINE_COLOR = java.awt.Color.WHITE;
-    public static final java.awt.Color DEFAULT_BACKGROUND_LINE_COLOR = java.awt.Color.getColor("#ffffff00");//transparent
+    public static final Color DEFAULT_BORDER_LINE_COLOR = Color.WHITE;
+    public static final Color DEFAULT_BACKGROUND_LINE_COLOR = Color.getColor("#ffffff00");//transparent
 
     private Move bufferMove;
 
     private JFrame frame;
     private JLabel redScoreLabel, blueScoreLabel, statusLabel;
     private JLabel[][] box;
-    private boolean[][] isSetEdge;
+    private boolean isSetEdge[][];
 
-    private java.awt.Color player1Color;
-    private java.awt.Color player2Color;
+    private Color player1Color;
+    private Color player2Color;
+    private Color currentPlayerColor;
 
 
     private MouseListener mouseListener = new MouseListener() {
         @Override
         public void mouseClicked(MouseEvent mouseEvent) {
-            //if (!mouseEnabled) return;
+            // if (!mouseEnabled) return;
             bufferMove = getSource(mouseEvent.getSource());
         }
 
@@ -46,28 +47,34 @@ public class Gui extends IOManager {
 
         @Override
         public void mouseEntered(MouseEvent mouseEvent) {
-            //if (!mouseEnabled) return;
-            Move move = getSource(mouseEvent.getSource());
-            int x = getMappedX(move), y = getMappedY(move);
-            if (isSetEdge[x][y]) return;
+            setJlabelBackgroundColorAtMouseEvent(mouseEvent, currentPlayerColor);
 
-            graphicBoard[x][y].setBackground(java.awt.Color.DARK_GRAY);
         }
 
         @Override
         public void mouseExited(MouseEvent mouseEvent) {
-            // if (!mouseEnabled) return;
+            setJlabelBackgroundColorAtMouseEvent(mouseEvent, DEFAULT_BACKGROUND_LINE_COLOR);
+        }
+
+        private void setJlabelBackgroundColorAtMouseEvent(MouseEvent mouseEvent, Color color) {
             Move move = getSource(mouseEvent.getSource());
             int x = getMappedX(move), y = getMappedY(move);
-            if (isSetEdge[x][y]) return;
-            graphicBoard[x][y].setBackground(DEFAULT_BACKGROUND_LINE_COLOR);
+            if (isSetEdge(x, y)) return;
+            graphicBoard[x][y].setBackground(color);
         }
+
     };
 
-    public Gui(int boardRows, int boardCols, JFrame frame) {
+
+    public Gui(int boardRows, int boardCols, Player p1, Player p2) {
 
         int mappedRows = boardRows * 2 + 1;
         int mappedCols = boardCols + 1;
+
+        player1 = p1;
+        player2 = p2;
+        player1Color = p1.getColor().getAwtColor();
+        player2Color = p2.getColor().getAwtColor();
 
         bufferMove = null;
 
@@ -80,12 +87,24 @@ public class Gui extends IOManager {
         isSetEdge = new boolean[mappedRows][mappedCols];
         box = new JLabel[boardRows][boardCols];
 
-        //provvisorie qui
-        this.frame = frame;
+
+        frame = MainUI.getFrame();
 
         init();
 
 
+    }
+
+    public boolean isSetEdge(int x, int y) {
+        return isSetEdge[x][y];
+    }
+
+    private void setEdge(int x, int y) {
+        isSetEdge[x][y] = true;
+    }
+
+    public boolean isSetBox(int x, int y) {
+        return box[x][y].getBackground().equals(player1Color) || box[x][y].getBackground().equals(player2Color);
     }
 
     private Move getSource(Object object) {
@@ -138,9 +157,9 @@ public class Gui extends IOManager {
     private JLabel getDot() {
         JLabel label = new JLabel();
         label.setPreferredSize(new Dimension(size, size));
-        //label.setBackground(java.awt.Color.BLACK);
+        //label.setBackground(Color.BLACK);
         label.setOpaque(true);
-        label.setBorder(new LineBorder(java.awt.Color.BLACK, 10, true));
+        label.setBorder(new LineBorder(Color.BLACK, 10, true));
         return label;
     }
 
@@ -182,7 +201,7 @@ public class Gui extends IOManager {
         int mappedX = getMappedX(move);
         int mappedY = getMappedY(move);
         graphicBoard[mappedX][mappedY].setBackground(player.getColor().getAwtColor());
-        isSetEdge[mappedX][mappedY] = true;
+        setEdge(mappedX, mappedY);
     }
 
     @Override
@@ -192,10 +211,8 @@ public class Gui extends IOManager {
 
     @Override
     public void updateGameInfo(Player player1, Player player2, Player currentPlayer) {
-       if(player1Color == null){
-           player1Color = player1.getColor().getAwtColor();
-           player2Color = player2.getColor().getAwtColor();
-       }
+
+        currentPlayerColor = currentPlayer.getColor().getAwtColor();
 
         redScoreLabel.setText(String.valueOf(player1.getPoints()));
         blueScoreLabel.setText(String.valueOf(player2.getPoints()));
@@ -222,15 +239,13 @@ public class Gui extends IOManager {
             statusLabel.setForeground(player2Color);
         } else {
             statusLabel.setText("Game Tied!");
-            statusLabel.setForeground(java.awt.Color.BLACK);
+            statusLabel.setForeground(Color.BLACK);
         }
     }
 
     private void init() {
         int boardWidth = graphicBoard[0].length * size + (graphicBoard[0].length - 1) * dist;
 
-        player1Color = null;
-        player2Color = null;
         String redName = "tipoPlayer1"; //umano, robot etcc...serve?
         String blueName = "tipoPlayer2";
 
@@ -327,14 +342,16 @@ public class Gui extends IOManager {
         grid.add(goBackButton, constraints);
 
 
-        frame.getContentPane().removeAll();
-        frame.revalidate();
-        frame.repaint();
+        if (frame != null) {
+            frame.getContentPane().removeAll();
+            frame.revalidate();
+            frame.repaint();
 
-        frame.setContentPane(grid);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+            frame.setContentPane(grid);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        }
 /*
         goBack = false;
         manageGame();
