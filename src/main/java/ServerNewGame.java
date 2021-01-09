@@ -6,8 +6,8 @@ public class ServerNewGame extends NewGame {
 
     private final int PORT = 1234;
 
-    public ServerNewGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager) {
-        super(nRows, nCols, p1, p2, ioManager);
+    public ServerNewGame(int nRows, int nCols, Player player1, Player player2, IOManager ioManager) {
+        super(nRows, nCols, player1, player2, ioManager);
     }
 
     @Override
@@ -15,7 +15,7 @@ public class ServerNewGame extends NewGame {
 
         try (ServerSocket server = new ServerSocket(PORT)) {
 
-            System.out.println("server ready....");
+            System.out.println("Server ready....");
             Socket socket = server.accept();
 
             OutputStream outputStream = socket.getOutputStream();
@@ -24,36 +24,35 @@ public class ServerNewGame extends NewGame {
             InputStream inputStream = socket.getInputStream();
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
-
             printScoreBoard();
 
             while (!isGameFinished()) {
-
-
                 Move move;
 
                 if (currentPlayer == player1) {
                     move = ioManager.readMove();
 
-                    if (isMoveAllowed(move)) {
+                    if (isMoveAllowed(move)) {  //...send the move to the other client
                         objectOutputStream.writeObject(move);
                         objectOutputStream.flush();
                     }
-
                 } else {
                     move = (Move) objectInputStream.readObject();
                 }
+
                 computeMove(move);
                 printScoreBoard();
             }
 
             endGame();
 
+        } catch (IOException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
-            System.out.println("Ciao alla prossima");
+        } finally {
+            System.out.println("Server is closed.");
+            System.out.println("Goodbye, see you next time!");
         }
 
         //TODO torno al menu iniziale
