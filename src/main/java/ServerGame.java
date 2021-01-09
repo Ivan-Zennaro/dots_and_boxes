@@ -35,7 +35,7 @@ public class ServerGame {
 
 
                             // istance new game
-                            ClientPlayerGame gameForClient = new ClientPlayerGame(br, bw);
+                            ClientPlayerNewGame gameForClient = new ClientPlayerNewGame(br, bw);
 
                             bw.write("Welcome on Server 'Dot and Boxes'!" + System.lineSeparator());
                             bw.write("Now you can play a game in your terminal!" + System.lineSeparator());
@@ -72,7 +72,7 @@ public class ServerGame {
                                 }
 
                                 if (command.equals("NEW")) {
-                                    gameForClient = new ClientPlayerGame(br, bw);
+                                    gameForClient = new ClientPlayerNewGame(br, bw);
                                     gameForClient.startGameServer(quitCommand);
                                 }
 
