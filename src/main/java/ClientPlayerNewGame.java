@@ -2,14 +2,17 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public class ClientPlayerGame extends Game {
+public class ClientPlayerNewGame extends NewGame {
     BufferedReader keyboard;
     BufferedWriter outputServer;
+    Cli cli;
 
-    ClientPlayerGame(BufferedReader keyboard, BufferedWriter outputFromServer) {
-        super();
+    ClientPlayerNewGame(BufferedReader keyboard, BufferedWriter outputFromServer) {
+        super(3,3, new Player('A', Color.RED), new Player('B', Color.BLU), new Cli (3,3));
         this.keyboard = keyboard;
         this.outputServer = outputFromServer;
+        //TODO aggiungere metodo abstract che compare in Cli (getStringBoard) in IOmanager
+        this.ioManager = new Cli(3, 3);
     }
 
     public void startGameServer(String quitCommand) throws IOException {
@@ -39,7 +42,8 @@ public class ClientPlayerGame extends Game {
                     return;
                 }
 
-                turn(command);
+                //TODO - compute move deve leggere dal buffered reader!!
+                computeMove(cli.readMove());
             }
             endGame();
         }
@@ -96,7 +100,6 @@ public class ClientPlayerGame extends Game {
         }
     }
 
-    @Override
     public void finalGraphics() {
         String finalGraphicForClient;
         finalGraphicForClient = cli.getStringBoard() + System.lineSeparator();
@@ -130,6 +133,7 @@ public class ClientPlayerGame extends Game {
         }
     }
 
+    //TODO
     //NON SERVE A NIENTE, SOLO PERCHE GAME E' ABSTRACT...Come ottimizzare???
     public void startGame() {
         return;
