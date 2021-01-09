@@ -330,8 +330,9 @@ public class MainUI {
                 e.printStackTrace();
             }
         }
-        new GameBoardUI(this, frame, n, null, null, me, otherPlayer);
-       //new GamePlay(this, frame, n, redSolver, blueSolver, redName, blueName);
+        //new GameBoardUI(this, frame, n, null, null, me, otherPlayer);
+        TwoPlayersNewGame game = new TwoPlayersNewGame(3,3,new Player('A',Color.BLU),new Player('A',Color.RED),new Gui(3,3,new Player('A',Color.RED),new Player('A',Color.BLU)));
+        game.startGame();
     }
 
     public static void main(String[] args) {
