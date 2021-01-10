@@ -322,17 +322,17 @@ public class MainUI {
         ++constraints.gridy;
         grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
 
-        JPanel submisionPanel = new JPanel(new GridLayout(1,3));
+        JPanel submissionPanel = new JPanel(new GridLayout(1,3));
         JButton submitButton = new JButton("Start Game");
         JButton ruleButton = new JButton("Rules");
         ruleButton.addActionListener(e -> rulesPage.seeFrame());
 
         submitButton.addActionListener(submitListener);
-        submisionPanel.add(ruleButton);
-        submisionPanel.add(getEmptyLabel(new Dimension(60,25)));
-        submisionPanel.add(submitButton);
+        submissionPanel.add(ruleButton);
+        submissionPanel.add(getEmptyLabel(new Dimension(60,25)));
+        submissionPanel.add(submitButton);
         ++constraints.gridy;
-        grid.add(submisionPanel, constraints);
+        grid.add(submissionPanel, constraints);
 
 
         ++constraints.gridy;

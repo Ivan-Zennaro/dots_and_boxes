@@ -29,3 +29,6 @@ Set goals to complete the project including presentation and future refactoring
 
 05/01/2021 
 Found important code smell, code duplication and consequent shotgun surgery.
+
+9/01/2021
+Adapted some tests to the new configuration of the code, still need to delete dead code and refactor the whole project
