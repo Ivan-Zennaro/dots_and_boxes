@@ -8,7 +8,8 @@ public class MainUI {
 
     private int n;
    // private GameSolver redSolver, blueSolver;
-    private String me, otherPlayer;
+    private String me, otherPlayer, address;
+    private Color color1, color2;
     private RulesPage rulesPage = new RulesPage();
 
 
@@ -16,7 +17,8 @@ public class MainUI {
     private JLabel modeError, sizeError;
 
     String[] playersType = {"Select player", "Human", "Computer Facile", "Computer Difficile", "Random"};
-    String[] colors = {"<html><font color='Red'>RED","<html><font color='blue'>BLUE","<html><font color='green'>GREEN","<html><font color='purple'>PURPLE"};
+    String[] colors = {"<html><font color='Red'>RED","<html><font color='blue'>BLU","<html><font color='green'>GREEN","<html><font color='purple'>PURPLE"};
+    Color[] colors2 = {Color.RED,Color.BLU,Color.GREEN,Color.PURPLE};
     private JRadioButton[] sizeButton;
 
     JTextField meTextField;
@@ -186,6 +188,7 @@ public class MainUI {
         }
     };
 
+
     private ActionListener submitListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -199,6 +202,8 @@ public class MainUI {
                 modeError.setText("");
                 me = meName;
                 otherPlayer = playersType[bIndex];
+                color1=colors2[colorBoxPlayer1.getSelectedIndex()];
+                color2=colors2[colorBoxPlayer2.getSelectedIndex()];
                 comboBox.removeItemAt(1);
                 comboBox.insertItemAt("Human",1);
 
@@ -354,10 +359,11 @@ public class MainUI {
         //new GameBoardUI(this, frame, n, null, null, me, otherPlayer);
         TwoPlayersNewGame game = null;
         try {
-            new TwoPlayersNewGame(n,n,new Player(me, Color.RED), new Player(otherPlayer, Color.BLU), Gui.class).startGame();
+            new TwoPlayersNewGame(n,n,new Player(me, color1), new Player(otherPlayer,color2), Gui.class).startGame();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        game.startGame();
     }
 
     public static void main(String[] args) {
