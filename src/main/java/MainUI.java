@@ -17,7 +17,7 @@ public class MainUI {
     private JLabel modeError, sizeError,colorError;
 
     String[] playersType = {"Select player", "Human", "Computer Facile", "Computer Difficile", "Random"};
-    String[] colors = {"<html><font color='Red'>RED","<html><font color='blue'>BLU","<html><font color='green'>GREEN","<html><font color='purple'>PURPLE"};
+    String[] colors = {"<html><font color='Red'>RED","<html><font color='blue'>BLU","<html><font color='green'>GREEN","<html><font color='rgb(255, 0, 255)'>PURPLE"};
     Color[] colors2 = {Color.RED,Color.BLU,Color.GREEN,Color.PURPLE};
     private JRadioButton[] sizeButton;
 
