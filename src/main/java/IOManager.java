@@ -1,6 +1,7 @@
 public abstract class IOManager{
 
     public abstract Move readMove ();
+    //public abstract Move readMove(String move);
     public abstract void initialize ();
     public abstract void updateMove (Move move, Player p);
     public abstract void updateCompletedBox (int x, int y, Player p);
@@ -23,4 +24,10 @@ public abstract class IOManager{
             return tempX + 1;
         else return tempX;
     }
+
+    public Move readMove(String move) {
+        return Move.parseMove(move);
+    }
+
+
 }
