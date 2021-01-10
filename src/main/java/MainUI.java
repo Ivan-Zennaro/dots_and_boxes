@@ -14,7 +14,7 @@ public class MainUI {
 
 
     private static JFrame frame;
-    private JLabel modeError, sizeError;
+    private JLabel modeError, sizeError,colorError;
 
     String[] playersType = {"Select player", "Human", "Computer Facile", "Computer Difficile", "Random"};
     String[] colors = {"<html><font color='Red'>RED","<html><font color='blue'>BLU","<html><font color='green'>GREEN","<html><font color='purple'>PURPLE"};
@@ -192,25 +192,24 @@ public class MainUI {
     private ActionListener submitListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            String meName = meTextField.getText();
+            me = meTextField.getText();
             int bIndex = comboBox.getSelectedIndex();
-            if(meName.equals("") || bIndex==0) {
+            color1=colors2[colorBoxPlayer1.getSelectedIndex()];
+            color2=colors2[colorBoxPlayer2.getSelectedIndex()];
+            if(me.equals("") || bIndex==0) {
                 modeError.setText("You MUST select the players before continuing.");
+                return;
+            }
+            else if(color1.equals(color2)){
+                colorError.setText("You MUST select 2 different colors for players");
                 return;
             }
             else {
                 modeError.setText("");
-                me = meName;
                 otherPlayer = playersType[bIndex];
-                color1=colors2[colorBoxPlayer1.getSelectedIndex()];
-                color2=colors2[colorBoxPlayer2.getSelectedIndex()];
                 comboBox.removeItemAt(1);
                 comboBox.insertItemAt("Human",1);
 
-
-
-                //if(meName > 1) redSolver = getSolver(meName - 1);
-                //if(bIndex > 1) blueSolver = getSolver(bIndex - 1);
             }
             for(int i=0; i<8; i++) {
                 if(sizeButton[i].isSelected()) {
@@ -277,12 +276,12 @@ public class MainUI {
         ++constraints.gridy;
         grid.add(getEmptyLabel(new Dimension(500,25)), constraints);
 
-        sizeError = new JLabel("", SwingConstants.CENTER);
-        sizeError.setForeground(Color.RED.getAwtColor());
-        sizeError.setPreferredSize(new Dimension(500, 25));
+        colorError = new JLabel("", SwingConstants.CENTER);
+        colorError.setForeground(Color.RED.getAwtColor());
+        colorError.setPreferredSize(new Dimension(500, 25));
 
         ++constraints.gridy;
-        grid.add(sizeError, constraints);
+        grid.add(colorError, constraints);
 
         JPanel colorPanel = new JPanel(new GridLayout(2, 3));
         colorPanel.setPreferredSize(new Dimension(400, 50));
@@ -310,6 +309,16 @@ public class MainUI {
         grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
         ++constraints.gridy;
         grid.add(serverPanel,constraints);
+
+        ++constraints.gridy;
+        grid.add(getEmptyLabel(new Dimension(500,25)), constraints);
+
+        sizeError = new JLabel("", SwingConstants.CENTER);
+        sizeError.setForeground(Color.RED.getAwtColor());
+        sizeError.setPreferredSize(new Dimension(500, 25));
+
+        ++constraints.gridy;
+        grid.add(sizeError, constraints);
 
         ++constraints.gridy;
         JLabel messageLabel = new JLabel("Select the size of the board:");
