@@ -354,11 +354,10 @@ public class MainUI {
         //new GameBoardUI(this, frame, n, null, null, me, otherPlayer);
         TwoPlayersNewGame game = null;
         try {
-            game = new TwoPlayersNewGame(3,3,new Player('A',Color.RED), new Player('A',Color.BLU), Gui.class);
+            new TwoPlayersNewGame(n,n,new Player(me, Color.RED), new Player(otherPlayer, Color.BLU), Gui.class).startGame();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        game.startGame();
     }
 
     public static void main(String[] args) {

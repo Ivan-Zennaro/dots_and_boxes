@@ -246,8 +246,7 @@ public class Gui extends IOManager {
     private void init() {
         int boardWidth = graphicBoard[0].length * size + (graphicBoard[0].length - 1) * dist;
 
-        String redName = "tipoPlayer1"; //umano, robot etcc...serve?
-        String blueName = "tipoPlayer2";
+
 
         JPanel grid = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -265,10 +264,10 @@ public class Gui extends IOManager {
         tempLabel = new JLabel("Player 2:", SwingConstants.CENTER);
         tempLabel.setForeground(player2Color);
         playerPanel.add(tempLabel);
-        tempLabel = new JLabel(redName, SwingConstants.CENTER);
+        tempLabel = new JLabel(player1.getName(), SwingConstants.CENTER);
         tempLabel.setForeground(player1Color);
         playerPanel.add(tempLabel);
-        tempLabel = new JLabel(blueName, SwingConstants.CENTER);
+        tempLabel = new JLabel(player2.getName(), SwingConstants.CENTER);
         tempLabel.setForeground(player2Color);
         playerPanel.add(tempLabel);
         ++constraints.gridy;
