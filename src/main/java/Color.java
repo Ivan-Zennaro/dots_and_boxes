@@ -20,7 +20,7 @@ public enum Color {
         if(this == RED) return new java.awt.Color(244, 67, 54);
         if(this == BLU) return new java.awt.Color(59, 105, 177);
         if(this == GREEN) return java.awt.Color.GREEN;
-        if(this == PURPLE) return java.awt.Color.PINK;
+        if(this == PURPLE) return java.awt.Color.MAGENTA;
         return null;
     }
 }
