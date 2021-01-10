@@ -19,14 +19,16 @@ public class MainUI {
     String[] colors = {"<html><font color='Red'>RED","<html><font color='blue'>BLUE","<html><font color='green'>GREEN","<html><font color='purple'>PURPLE"};
     private JRadioButton[] sizeButton;
 
+    JTextField meTextField;
     DefaultComboBoxModel<String> optionsPlayer2;
     JComboBox<String> comboBox;
     JComboBox<String> colorBoxPlayer1;
     JComboBox<String> colorBoxPlayer2;
-
-
-    JTextField meTextField;
     ButtonGroup sizeGroup;
+    JButton hostGame;
+    JButton joinGame;
+    JTextField ipAddress;
+
 
     private JFrame frame1;
     JTextField humanName;
@@ -39,6 +41,9 @@ public class MainUI {
         meTextField = new JTextField();
         optionsPlayer2 = new DefaultComboBoxModel<>(playersType);
         comboBox = new JComboBox<>(optionsPlayer2);
+        hostGame = new JButton("Host Game");
+        joinGame = new JButton("Join Game");
+        ipAddress = new JTextField("Your IP");
 
         colorBoxPlayer1 = new JComboBox<>(colors);
         colorBoxPlayer2 = new JComboBox<>(colors);
@@ -270,6 +275,7 @@ public class MainUI {
         sizeError = new JLabel("", SwingConstants.CENTER);
         sizeError.setForeground(Color.RED.getAwtColor());
         sizeError.setPreferredSize(new Dimension(500, 25));
+
         ++constraints.gridy;
         grid.add(sizeError, constraints);
 
@@ -285,6 +291,20 @@ public class MainUI {
         ++constraints.gridy;
         grid.add(colorPanel,constraints);
 
+
+        JPanel serverPanel = new JPanel(new GridLayout(2,3));
+        serverPanel.setPreferredSize(new Dimension(400,50));
+        serverPanel.add(joinGame);
+        serverPanel.add(getEmptyLabel(new Dimension(50,25)));
+        serverPanel.add(getEmptyLabel(new Dimension(50,25)));
+        serverPanel.add(hostGame);
+        serverPanel.add(getEmptyLabel(new Dimension(50,25)));
+        serverPanel.add(ipAddress);
+
+        ++constraints.gridy;
+        grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
+        ++constraints.gridy;
+        grid.add(serverPanel,constraints);
 
         ++constraints.gridy;
         JLabel messageLabel = new JLabel("Select the size of the board:");
