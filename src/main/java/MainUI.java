@@ -207,18 +207,19 @@ public class MainUI {
             else {
                 modeError.setText("");
                 otherPlayer = playersType[bIndex];
-                comboBox.removeItemAt(1);
-                comboBox.insertItemAt("Human",1);
+                for(int i=0; i<8; i++) {
+                    if(sizeButton[i].isSelected()) {
+                        n = i+3;
+                        startGame = true;
+                        comboBox.removeItemAt(1);
+                        comboBox.insertItemAt("Human",1);
+                        return;
+                    }
+                }
+                sizeError.setText("You MUST select the size of board before continuing.");
 
             }
-            for(int i=0; i<8; i++) {
-                if(sizeButton[i].isSelected()) {
-                    n = i+3;
-                    startGame = true;
-                    return;
-                }
-            }
-            sizeError.setText("You MUST select the size of board before continuing.");
+
         }
     };
 
