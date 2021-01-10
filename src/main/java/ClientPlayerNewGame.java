@@ -5,14 +5,12 @@ import java.io.IOException;
 public class ClientPlayerNewGame extends NewGame {
     BufferedReader keyboard;
     BufferedWriter outputServer;
-    Cli cli;
+    CliTelnet cliTelnet;
 
-    ClientPlayerNewGame(BufferedReader keyboard, BufferedWriter outputFromServer) {
-        super(3,3, new Player('A', Color.RED), new Player('B', Color.BLU), new Cli (3,3));
+    ClientPlayerNewGame(BufferedReader keyboard, BufferedWriter outputFromServer, CliTelnet cTelnet) {
+        super(3,3, new Player('A', Color.RED), new Player('B', Color.BLU), cTelnet);
         this.keyboard = keyboard;
         this.outputServer = outputFromServer;
-        //TODO aggiungere metodo abstract che compare in Cli (getStringBoard) in IOmanager
-        this.ioManager = new Cli(3, 3);
     }
 
     public void startGameServer(String quitCommand) throws IOException {
@@ -20,10 +18,9 @@ public class ClientPlayerNewGame extends NewGame {
         completedInitializationBoard = initializeBoard(quitCommand);
 
         if (completedInitializationBoard) {
+            printScoreBoard();
             while (!isGameFinished()) {
 
-                outputServer.write(printScoreBoardOnClient());
-                outputServer.flush();
                 outputServer.write("Insert move [x y side:U,D,L,R]?" + System.lineSeparator());
                 outputServer.flush();
 
@@ -42,8 +39,8 @@ public class ClientPlayerNewGame extends NewGame {
                     return;
                 }
 
-                //TODO - compute move deve leggere dal buffered reader!!
-                computeMove(cli.readMove());
+                computeMove(ioManager.readMove(command));
+                printScoreBoard();
             }
             endGame();
         }
@@ -51,9 +48,10 @@ public class ClientPlayerNewGame extends NewGame {
 
 
     public boolean initializeBoard(String quitCmd) throws IOException {
-        int optionGrid = 0;
+        int optionGrid = 3;
         String inputLineClient;
 
+        /*
         do {
             outputServer.write("How big the grid? 2:[2x2]  3:[3x3] 5:[5x5]" + System.lineSeparator());
             outputServer.flush();
@@ -72,22 +70,27 @@ public class ClientPlayerNewGame extends NewGame {
                 e.getStackTrace();
             }
         } while (!(optionGrid == 2 || optionGrid == 3 || optionGrid == 5));
-
+*/
         board = new Board(optionGrid, optionGrid);
-        cli = new Cli(optionGrid, optionGrid);
+    //    cliTelnet = new CliTelnet(optionGrid,optionGrid, this.keyboard, this.outputServer);
+
+        System.out.println("fine initialization");
 
         return true;
     }
 
+    /*
     public String printScoreBoardOnClient() {
         String printableScoreBoard;
-        printableScoreBoard = cli.getStringBoard() + System.lineSeparator();
+        printableScoreBoard = ioManager.getStringBoard() + System.lineSeparator();
         printableScoreBoard += "Player " + player1.getId() + " got " + player1.getPoints() + " points" + System.lineSeparator();
         printableScoreBoard += "Player " + player2.getId() + " got " + player2.getPoints() + " points" + System.lineSeparator();
         printableScoreBoard += "Is the turn of Player" + currentPlayer.getId() + System.lineSeparator();
         return printableScoreBoard;
     }
+*/
 
+    /*
     @Override
     public void endGame() {
         finalGraphics();
@@ -102,7 +105,7 @@ public class ClientPlayerNewGame extends NewGame {
 
     public void finalGraphics() {
         String finalGraphicForClient;
-        finalGraphicForClient = cli.getStringBoard() + System.lineSeparator();
+        finalGraphicForClient = cliTelnet.getStringBoard() + System.lineSeparator();
         finalGraphicForClient += "Player " + player1.getId() + " got " + player1.getPoints() + " points" + System.lineSeparator();
         finalGraphicForClient += "Player " + player2.getId() + " got " + player2.getPoints() + " points" + System.lineSeparator();
 
@@ -132,7 +135,7 @@ public class ClientPlayerNewGame extends NewGame {
             e.printStackTrace();
         }
     }
-
+*/
     //TODO
     //NON SERVE A NIENTE, SOLO PERCHE GAME E' ABSTRACT...Come ottimizzare???
     public void startGame() {
