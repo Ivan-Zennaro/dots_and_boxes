@@ -81,56 +81,41 @@ public class MainUI {
         else return null;
     }*/
 
-    private MouseListener clickonit = new MouseListener() {
+    private KeyListener key = new KeyListener() {
         @Override
-        public void mouseClicked(MouseEvent e) {
-            meTextField.setText("");
+        public void keyTyped(KeyEvent e) {
+            if(meTextField.getText().equals("Your Name"))
+                meTextField.setText("");
+
+            meTextField.setText(meTextField.getText());
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
+        public void keyPressed(KeyEvent e) {
 
         }
 
         @Override
-        public void mouseExited(MouseEvent e) {
+        public void keyReleased(KeyEvent e) {
 
         }
     };
-
-    private MouseListener clickonit1 = new MouseListener() {
+    private KeyListener key1 = new KeyListener() {
         @Override
-        public void mouseClicked(MouseEvent e) {
-            humanName.setText("");
+        public void keyTyped(KeyEvent e) {
+            if(humanName.getText().equals("Human Name"))
+                humanName.setText("");
+
+            humanName.setText(humanName.getText());
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
+        public void keyPressed(KeyEvent e) {
 
         }
 
         @Override
-        public void mouseExited(MouseEvent e) {
+        public void keyReleased(KeyEvent e) {
 
         }
     };
@@ -169,7 +154,8 @@ public class MainUI {
                 namePanel.add(getEmptyLabel(new Dimension(150, 20)));
                 namePanel.add(Enter);
                 namePanel.add(getEmptyLabel(new Dimension(150, 20)));
-                humanName.addMouseListener(clickonit1);
+                humanName.setText("Human Name");
+                humanName.addKeyListener(key1);
                 Enter.addActionListener(close);
                 ++constraints.gridy;
 
@@ -265,7 +251,7 @@ public class MainUI {
         modePanel.add(comboBox);
 
         meTextField.setText("Your Name");
-        meTextField.addMouseListener(clickonit);
+        meTextField.addKeyListener(key);
 
         comboBox.setSelectedIndex(0);
         comboBox.addActionListener(select);
