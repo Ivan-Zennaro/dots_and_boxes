@@ -2,6 +2,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.stream.IntStream;
@@ -63,6 +65,13 @@ public class Gui extends IOManager {
             graphicBoard[x][y].setBackground(color);
         }
 
+    };
+
+    private ActionListener backListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            frame.dispose();
+        }
     };
 
 
@@ -336,7 +345,7 @@ public class Gui extends IOManager {
 
         JButton goBackButton = new JButton("Go Back to Main Menu");
         goBackButton.setPreferredSize(new Dimension(boardWidth, dist));
-        //goBackButton.addActionListener(backListener);
+        goBackButton.addActionListener(backListener);
         ++constraints.gridy;
         grid.add(goBackButton, constraints);
 
