@@ -8,7 +8,6 @@ import java.util.stream.IntStream;
 
 public class Gui extends IOManager {
 
-    private JLabel graphicBoard[][];
 
     private final static int size = 8;
     private final static int dist = 40;
