@@ -23,7 +23,7 @@ public class ComputerSolver {
         if (move.isValid() && difficulty >= 2 ) return move;
 
         move = getMove_thatClosesABox(boxes);
-        if (move.isValid() && difficulty >= 1) return move;
+        if (move.isValid()) return move;
 
         move = getMove_thatDoesNotPutTheThirdLineInABox(boxes);
         if (move.isValid() && difficulty >= 1 ) return move;
