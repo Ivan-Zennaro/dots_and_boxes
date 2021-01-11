@@ -22,6 +22,7 @@ public class Gui extends IOManager {
     private JLabel redScoreLabel, blueScoreLabel, statusLabel;
     private JLabel[][] box;
     private boolean isSetLine[][];
+    private JLabel graphicBoard[][];
 
     private Color player1Color;
     private Color player2Color;
@@ -88,7 +89,7 @@ public class Gui extends IOManager {
         box = new JLabel[boardRows][boardCols];
 
 
-        frame = MainUI.getFrame();
+        frame = new JFrame();
 
         init();
 
