@@ -281,7 +281,7 @@ public class GameBoardUI extends Game {
         player2 = new Player('B', Color.BLU);
         currentPlayer = player1;
         solver = redSolver;
-        cli = new Cli(n - 1, n - 1);
+        cli = new Cli(n - 1, n - 1, player1, player2);
 
         JPanel grid = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();

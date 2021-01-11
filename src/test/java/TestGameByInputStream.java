@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 public class TestGameByInputStream {
 
     private final int boardSize = 2;
-    private final Player player1 = new Player('A', Color.BLU);
-    private final Player player2 = new Player('B', Color.RED);
+    private final Player p1 = UtilityTest.getMockP1();
+    private final Player p2 = UtilityTest.getMockP2();
 
     @Test
     public void game_run_from_input_stream_with_repeated_moves() {
@@ -34,8 +34,8 @@ public class TestGameByInputStream {
                 1 1 R
                 1 0 L""";
         System.setIn(new ByteArrayInputStream(inputString.getBytes()));
-        Cli cli = new Cli(boardSize, boardSize);
-        TwoPlayersNewGame game = new TwoPlayersNewGame(2, 2, player1, player2, cli);
+        Cli cli = new Cli(boardSize, boardSize,p1,p2);
+        TwoPlayersNewGame game = new TwoPlayersNewGame(2, 2, p1, p2, cli);
 
         //cli.initialize();
         game.startGame();
