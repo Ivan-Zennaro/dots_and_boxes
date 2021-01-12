@@ -17,6 +17,11 @@ public class GameFactory {
         Gui gui = new Gui(nRow ,nCols, p1, p2);
         return new ServerNewGame(nRow, nCols, p1, p2, gui);
     }
+    public static NewGame createComputerVsComputerWithGUI(int nRow, int nCols, Player p1, Player p2) {
+        Gui gui = new Gui(nRow, nCols, p1, p2);
+        return new ComputerVsComputerGame(nRow, nCols, p1, p2, gui, 1);
+    }
+
 
     //CLI Games
     public static NewGame create2PlayerGameWithCLI(int nRow, int nCols, Player p1, Player p2) {
