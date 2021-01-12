@@ -190,32 +190,27 @@ public class MainUI {
     private ActionListener submitListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            if (validateInputPlayersAndGrid()) {
+            me = meTextField.getText();
+            int typeOfPlayerIndex = comboBox.getSelectedIndex();
+            color1 = colors2[colorBoxPlayer1.getSelectedIndex()];
+            color2 = colors2[colorBoxPlayer2.getSelectedIndex()];
+            if (me.equals("") || typeOfPlayerIndex == 0) {
+                modeError.setText("You MUST select the players before continuing.");
+                return;
+            } else if (color1.equals(color2)) {
+                colorError.setText("You MUST select 2 different colors for players");
+                return;
+            } else {
+                modeError.setText("");
+                otherPlayer = playersType[typeOfPlayerIndex];
+                colum = Integer.parseInt(colSelection.getSelectedItem().toString());
+                rows = Integer.parseInt(rowSelection.getSelectedItem().toString());
                 startGame = "pvp";
             }
 
         }
     };
 
-    private boolean validateInputPlayersAndGrid() {
-        me = meTextField.getText();
-        int bIndex = comboBox.getSelectedIndex();
-        color1 = colors2[colorBoxPlayer1.getSelectedIndex()];
-        color2 = colors2[colorBoxPlayer2.getSelectedIndex()];
-        if (me.equals("") || bIndex == 0) {
-            modeError.setText("You MUST select the players before continuing.");
-            return false;
-        } else if (color1.equals(color2)) {
-            colorError.setText("You MUST select 2 different colors for players");
-            return false;
-        } else {
-            modeError.setText("");
-            otherPlayer = playersType[bIndex];
-            colum = Integer.parseInt(colSelection.getSelectedItem().toString());
-            rows = Integer.parseInt(rowSelection.getSelectedItem().toString());
-            return true;
-        }
-    }
 
 
     public void initGUI() {
@@ -350,18 +345,20 @@ public class MainUI {
         }
 
         frame.dispose();
+
         if (startGame.equals("pvp")) {
             try {
                 frame.dispose();
-                new TwoPlayersNewGame(rows, colum, new Player(me, color1), new Player(otherPlayer, color2), Gui.class).startGame();
+                GameFactory.create2PlayerGameWithGUI(rows, colum, new Player(me, color1), new Player(otherPlayer, color2)).startGame();
 
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (startGame.equals("demo")) {
-            new ComputerVsComputerGame(3, 3, new Player("Player 1", Color.BLU), new Player("Payer 2", Color.RED), new Gui(3, 3, new Player("Player 1", Color.BLU), new Player("Player 2", Color.RED)), 1).startGame();
-
+            GameFactory.createComputerVsComputerWithGUI(3,3,  new Player("Player 1", Color.BLU), new Player("Payer 2", Color.RED)).startGame();
+        } else if (startGame.equals("playerVcomputer")){
+            GameFactory.createComputerGameWithGUI(rows, colum, new Player(me, color1), new Player(otherPlayer, color2)).startGame();
         }
     }
 
