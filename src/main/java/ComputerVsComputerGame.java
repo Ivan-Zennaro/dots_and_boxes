@@ -11,11 +11,15 @@ public class ComputerVsComputerGame extends Game {
     public void startGame(){
         printScoreBoard();
         while (!isGameFinished()) {
-            computeMove(computerSolver.getComputerMove());
+            computeMove(getComputerMove());
             printScoreBoard();
             try{Thread.sleep(300);}catch (Exception e){}
         }
         endGame();
+    }
+
+    public Move getComputerMove(){
+        return computerSolver.getComputerMove();
     }
 
 
