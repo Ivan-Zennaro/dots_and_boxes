@@ -17,6 +17,7 @@ public class GameFactory {
         Gui gui = new Gui(nRow ,nCols, p1, p2);
         return new ServerNewGame(nRow, nCols, p1, p2, gui);
     }
+   //TODO Add the method to instantiate ComputerVSComputerGame to use when demo button is pressed
 
     //CLI Games
     public static NewGame create2PlayerGameWithCLI(int nRow, int nCols, Player p1, Player p2) {
