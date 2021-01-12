@@ -27,6 +27,10 @@ public class GameFactory {
         Cli cli = new Cli(nRow ,nCols, p1, p2);
         return new ComputerGame(nRow, nCols, p1, p2, cli);
     }
+    public static NewGame createComputerVsComputerGameWithCLI(int nRow, int nCols, Player p1, Player p2) {
+        Cli cli = new Cli(nRow ,nCols, p1, p2);
+        return new ComputerVsComputerGame(nRow, nCols, p1, p2, cli,2);
+    }
     public static NewGame createClientGameWithCLI(int nRow, int nCols, Player p1, Player p2, String ip) {
         Cli cli = new Cli(nRow ,nCols, p1, p2);
         return new ClientNewGame(nRow, nCols, p1, p2, cli, ip);
