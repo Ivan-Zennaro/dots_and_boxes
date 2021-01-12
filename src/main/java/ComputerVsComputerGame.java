@@ -13,6 +13,11 @@ public class ComputerVsComputerGame extends NewGame {
         while (!isGameFinished()) {
             computeMove(computerSolver.getComputerMove());
             printScoreBoard();
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         endGame();
     }

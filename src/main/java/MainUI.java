@@ -77,7 +77,7 @@ public class MainUI {
         return label;
     }
 
-    private boolean startGame;
+    private String startGame = null;
 
     /*private GameSolver getSolver(int level) {
         if(level == 1) return new RandomSolver();
@@ -130,8 +130,7 @@ public class MainUI {
     private ActionListener demo = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            frame.dispose();
-            GameFactory.createComputerVsComputerWithGUI(3,3, new Player("Player-1",Color.BLU), new Player("Payer-2",Color.RED));
+            startGame = "demo";
         }
     };
     private ActionListener close = new ActionListener() {
@@ -192,7 +191,7 @@ public class MainUI {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             if (validateInputPlayersAndGrid()) {
-                startGame = true;
+                startGame = "pvp";
             }
 
         }
@@ -341,21 +340,28 @@ public class MainUI {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        startGame = false;
-        while (!startGame) {
+
+        while (startGame == null) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        try {
-            frame.dispose();
-            new TwoPlayersNewGame(rows, colum, new Player(me, color1), new Player(otherPlayer, color2), Gui.class).startGame();
+
+        frame.dispose();
+        if (startGame.equals("pvp")) {
+            try {
+                frame.dispose();
+                new TwoPlayersNewGame(rows, colum, new Player(me, color1), new Player(otherPlayer, color2), Gui.class).startGame();
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (startGame.equals("demo")) {
+            new ComputerVsComputerGame(3, 3, new Player("Player 1", Color.BLU), new Player("Payer 2", Color.RED), new Gui(3, 3, new Player("Player 1", Color.BLU), new Player("Player 2", Color.RED)), 1).startGame();
+
         }
     }
 
