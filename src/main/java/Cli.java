@@ -62,15 +62,10 @@ public class Cli extends IOManager {
 
     @Override
     public void updateGameInfo(Player currentPlayer) {
+        System.out.println(getStringBoard());
         System.out.println("Player " + player1.getFirstLetterName() + " got " + player1.getPoints() + " points");
         System.out.println("Player " + player2.getFirstLetterName() + " got " + player2.getPoints() + " points");
         System.out.println("Is the turn of Player" + currentPlayer.getFirstLetterName());
-    }
-
-    @Override
-    public void initialize() {
-
-        System.out.println(getStringBoard());
     }
 
     public String getStringBoard() {

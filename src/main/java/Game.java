@@ -50,7 +50,6 @@ public abstract class Game {
     }
 
     public void printScoreBoard() {
-        ioManager.initialize();
         ioManager.updateGameInfo(currentPlayer);
     }
 
