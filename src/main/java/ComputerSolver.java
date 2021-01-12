@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 public class ComputerSolver {
 
     private Board board;
-    private int difficulty;
+    private Difficulty difficulty;
 
-    public ComputerSolver(Board board, int difficulty) {
+    public ComputerSolver(Board board, Difficulty difficulty) {
         this.board = board;
         this.difficulty = difficulty;
     }
@@ -20,13 +20,13 @@ public class ComputerSolver {
         List<Box> boxes = matrixToList(board.getBoard());
 
         Move move = getMove_thatCloseAtLeast2Boxes(boxes);
-        if (move.isValid() && difficulty >= 2 ) return move;
+        if (move.isValid() && difficulty == Difficulty.HARD ) return move;
 
         move = getMove_thatClosesABox(boxes);
         if (move.isValid()) return move;
 
         move = getMove_thatDoesNotPutTheThirdLineInABox(boxes);
-        if (move.isValid() && difficulty >= 1 ) return move;
+        if (move.isValid() && difficulty != Difficulty.EASY  ) return move;
 
         move = getRandomMove(boxes);
         if (move.isValid()) return move;

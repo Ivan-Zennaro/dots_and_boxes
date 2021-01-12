@@ -2,10 +2,9 @@ public class PlayerVsComputerGame extends NewGame {
 
     private ComputerSolver computerSolver;
 
-    public PlayerVsComputerGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager, int difficulty) {
+    public PlayerVsComputerGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager, Difficulty difficulty) {
         super(nRows, nCols, p1, p2, ioManager);
         this.computerSolver = new ComputerSolver(board,difficulty);
-
     }
 
     @Override
@@ -17,6 +16,7 @@ public class PlayerVsComputerGame extends NewGame {
             else
                 computeMove(computerSolver.getComputerMove());
             printScoreBoard();
+            try{Thread.sleep(300);}catch (Exception e){}
         }
         endGame();
     }

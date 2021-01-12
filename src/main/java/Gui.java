@@ -11,8 +11,8 @@ import java.util.stream.IntStream;
 public class Gui extends IOManager {
 
 
-    private final static int size = 8;
-    private final static int dist = 40;
+    private final static int size = 16;
+    private final static int dist = 80;
 
     public static final Color DEFAULT_BORDER_LINE_COLOR = Color.WHITE;
     public static final Color DEFAULT_BACKGROUND_LINE_COLOR = Color.getColor("#ffffff00");//transparent
@@ -108,7 +108,6 @@ public class Gui extends IOManager {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         init();
-
 
     }
 
