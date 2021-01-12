@@ -31,6 +31,7 @@ public class RulesPage {
 
         frame.add(panel);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setResizable(false);
     }
 
