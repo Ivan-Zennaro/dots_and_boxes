@@ -12,6 +12,9 @@ public class Cli extends IOManager {
     public Cli(int boardRows, int boardCols, Player p1, Player p2) {
         keyboard = new Scanner(System.in);
 
+        player1 = p1;
+        player2 = p2;
+
         int mappedRows = boardRows * 2 + 1;
         int mappedCols = boardCols + 1;
 
@@ -48,11 +51,11 @@ public class Cli extends IOManager {
     }
 
     @Override
-    public void showWinner(Player p1, Player p2) {
-        if (p1.getPoints() == p2.getPoints())
+    public void showWinner() {
+        if (player1.getPoints() == player2.getPoints())
             System.out.println("TIE!");
         else {
-            Player winner = (p1.getPoints() > p2.getPoints() ? p1 : p2);
+            Player winner = (player1.getPoints() > player2.getPoints() ? player1 : player2);
             System.out.println("Player " + winner.getId() + " WON!");
         }
     }

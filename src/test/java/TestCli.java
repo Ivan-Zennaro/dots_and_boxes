@@ -145,7 +145,7 @@ public class TestCli {
             default:
                 winnerString = "TIE!";
         }
-        new Cli(0, 0,player1,player2).showWinner(player1, player2);
+        new Cli(0, 0,player1,player2).showWinner();
         Assertions.assertEquals(winnerString, outputStreamCaptor.toString().trim());
     }
 }

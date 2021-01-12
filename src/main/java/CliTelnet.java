@@ -51,13 +51,13 @@ public class CliTelnet extends IOManager {
     }
 
     @Override
-    public void showWinner(Player p1, Player p2) {
+    public void showWinner() {
         try {
-            if (p1.getPoints() == p2.getPoints()) {
+            if (player1.getPoints() == player2.getPoints()) {
                 outputServer.write("TIE!" + System.lineSeparator());
                 outputServer.flush();
             } else {
-                Player winner = (p1.getPoints() > p2.getPoints() ? p1 : p2);
+                Player winner = (player1.getPoints() > player2.getPoints() ? player1 : player2);
                 outputServer.write("Player " + winner.getId() + " WON!" + System.lineSeparator());
                 outputServer.flush();
             }

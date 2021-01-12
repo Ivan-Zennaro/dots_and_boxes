@@ -250,7 +250,7 @@ public class Gui extends IOManager {
     }
 
     @Override
-    public void showWinner(Player player1, Player player2) {
+    public void showWinner() {
         if (player1.getPoints() > player2.getPoints()) {
             statusLabel.setText("Player-1 is the winner!");
             statusLabel.setForeground(player1Color);

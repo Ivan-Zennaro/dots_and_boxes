@@ -5,7 +5,7 @@ public abstract class IOManager{
     public abstract void updateMove (Move move, Player p);
     public abstract void updateCompletedBox (int x, int y, Player p);
     public abstract void updateGameInfo (Player p1, Player p2, Player currentPlayer);
-    public abstract void showWinner (Player p1, Player p2);
+    public abstract void showWinner ();
 
     public Player player1, player2;
 
@@ -27,6 +27,4 @@ public abstract class IOManager{
     public Move readMove(String move) {
         return Move.parseMove(move);
     }
-
-
 }

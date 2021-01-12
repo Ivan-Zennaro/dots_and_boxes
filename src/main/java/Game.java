@@ -18,7 +18,7 @@ public abstract class Game {
     public abstract void startGame();
 
     public void endGame() {
-        ioManager.showWinner(player1, player2);
+        ioManager.showWinner();
     }
 
     protected boolean isMoveAllowed(Move move) {
