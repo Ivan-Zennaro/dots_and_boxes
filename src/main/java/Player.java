@@ -1,6 +1,5 @@
 public class Player {
 
-
     private int points = 0;
     private Color color;
     private String name;

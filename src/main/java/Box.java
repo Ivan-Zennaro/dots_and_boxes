@@ -1,16 +1,11 @@
+import java.util.Arrays;
+
 public class Box {
 
     private boolean lineUp;
     private boolean lineDown;
     private boolean lineLeft;
     private boolean lineRight;
-
-    /*
-        Dont know if could be useful, depends on the implementation.
-        If class Game keep track of which player close a box then this is useless.
-        [Dario]
-     */
-    private Player closedByPlayer;
 
     public Box() {
         this.lineUp = false;
@@ -20,12 +15,6 @@ public class Box {
 
     }
 
-
-    /*
-        ---
-        Maybe useless.
-        [Dario]
-     */
     public Box(boolean lineUp, boolean lineLeft, boolean lineDown, boolean lineRight) {
         this.lineUp = lineUp;
         this.lineDown = lineDown;
@@ -85,27 +74,23 @@ public class Box {
     public void drawLine(Side line) {
         switch (line) {
             case UP:
-                this.lineUp=true;
+                this.lineUp = true;
                 break;
             case RIGHT:
-                this.lineRight=true;
+                this.lineRight = true;
                 break;
             case DOWN:
-                this.lineDown=true;
+                this.lineDown = true;
                 break;
             case LEFT:
-                this.lineLeft=true;
+                this.lineLeft = true;
                 break;
         }
     }
 
-    public int getNumberOfDrawLine(){
-        int tot = 0;
-        tot = lineLeft ? tot + 1 : tot;
-        tot = lineDown ? tot + 1 : tot;
-        tot = lineUp ? tot + 1 : tot;
-        tot = lineRight ? tot + 1 : tot;
-        return tot;
+    public int getNumberOfDrawLine() {
+        Boolean [] lines = {lineLeft,lineDown,lineRight,lineUp};
+        return (int) Arrays.stream(lines).filter(c -> c).count();
     }
 
     public boolean isCompleted() {
