@@ -113,7 +113,6 @@ public class Gui extends IOManager {
 
         init();
 
-
     }
 
     public boolean isSetLine(int x, int y) {

@@ -43,7 +43,7 @@ public class TerminalMainUI {
 
                     Player player1 = new Player('1', Color.RED);
                     Player player2 = new Player('2', Color.BLU);
-                    NewGame game = GameFactory.createComputerVsComputerGameWithCLI(4, 4, player1, player2);
+                    NewGame game = GameFactory.createComputerVsComputerGameWithCli(4, 4, player1, player2);
                     game.startGame();
                     System.out.println("\n--------------------------\nGAME ENDED\n--------------------------\n");
                 }
@@ -81,7 +81,7 @@ public class TerminalMainUI {
         }
          Player player1 = new Player('1', Color.RED);
          Player player2 = new Player('2', Color.BLU);
-        NewGame game = GameFactory.create2PlayerGameWithCLI(input, input, player1, player2);
+        NewGame game = GameFactory.create2PlayerGameWithCli(input, input, player1, player2);
         game.startGame();
     }
 
@@ -95,7 +95,7 @@ public class TerminalMainUI {
         }
         Player player1 = new Player('1', Color.RED);
         Player player2 = new Player('2', Color.BLU);
-        NewGame game = GameFactory.createComputerGameWithCLI(input, input, player1, player2);
+        NewGame game = GameFactory.create2PlayerGameWithCli(input, input, player1, player2);
         game.startGame();
     }
 }

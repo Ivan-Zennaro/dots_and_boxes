@@ -356,9 +356,8 @@ public class MainUI {
                 e.printStackTrace();
             }
         } else if (startGame.equals("demo")) {
-            GameFactory.createComputerVsComputerWithGUI(3,3,  new Player("Player 1", Color.BLU), new Player("Payer 2", Color.RED)).startGame();
-        } else if (startGame.equals("playerVcomputer")){
-            GameFactory.createComputerGameWithGUI(rows, colum, new Player(me, color1), new Player(otherPlayer, color2)).startGame();
+            new ComputerVsComputerGame(3, 3, new Player("Player 1", Color.BLU), new Player("Payer 2", Color.RED), new Gui(3, 3, new Player("Player 1", Color.BLU), new Player("Player 2", Color.RED)), 1).startGame();
+
         }
     }
 
