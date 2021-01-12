@@ -1,4 +1,4 @@
-public class ComputerVsComputerGame extends NewGame {
+public class ComputerVsComputerGame extends Game {
 
     private ComputerSolver computerSolver;
 

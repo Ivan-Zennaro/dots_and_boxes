@@ -1,13 +1,12 @@
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ClientNewGame extends NewGame {
+public class ClientGame extends Game {
 
     private final int PORT = 1234;
     private String ip;
 
-    public ClientNewGame(int nRows, int nCols, Player player1, Player player2, IOManager ioManager, String ip) {
+    public ClientGame(int nRows, int nCols, Player player1, Player player2, IOManager ioManager, String ip) {
         super(nRows, nCols, player1, player2, ioManager);
         this.ip = ip;
     }
