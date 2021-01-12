@@ -133,7 +133,7 @@ public class MainUI {
         @Override
         public void actionPerformed(ActionEvent e) {
             frame.dispose();
-            new ComputerVsComputerGame(3, 3, new Player("Player 1",Color.BLU), new Player("Payer 2",Color.RED), new Gui(3, 3, new Player("Player 1",Color.BLU), new Player("Player 2",Color.RED)),1 ).startGame();
+            GameFactory.createComputerVsComputerWithGUI(3,3, new Player("Player-1",Color.BLU), new Player("Payer-2",Color.RED));
         }
     };
     private ActionListener close = new ActionListener() {
