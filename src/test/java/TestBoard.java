@@ -1,26 +1,28 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBoard {
 
-    @Test
-    public void checkboxHasAlreadyLineUP() {
+    @ParameterizedTest
+    @ValueSource(strings = {"UP", "DOWN", "LEFT"})
+    public void checkboxHasAlreadyLineUP(Side side) {
         Board board = new Board(1, 1);
-        Move move = new Move(0, 0, Side.UP);
+        Move move = new Move(0, 0, side);
         board.drawLine(move);
         assertTrue(board.boxHasAlreadyLine(move));
     }
 
-    @Test
-    public void boxIsUpdated() {
+    @ParameterizedTest
+    @ValueSource(strings = {"UP", "DOWN", "LEFT", "RIGHT"})
+    public void boxIsUpdated(Side side) {
         Board board = new Board(1, 2);
-        Move move = new Move(0, 0, Side.RIGHT);
+        Move move = new Move(0, 0, side);
         board.drawLine(move);
         assertTrue(board.boxHasAlreadyLine(move));
     }
-
 
     @Test
     public void neighbourBoxIsUpdated() {
@@ -41,7 +43,7 @@ public class TestBoard {
     }
 
     @Test
-    public void zeroCompletedBox() {
+    public void boxIsNotCompleted() {
         Board board = new Board(2, 2);
         Move move = new Move(0, 0, Side.UP);
         board.drawLine(move);
@@ -49,7 +51,7 @@ public class TestBoard {
     }
 
     @Test
-    public void oneCompletedBox() {
+    public void boxIsCompleted() {
         Board board = new Board(2, 2);
         Move move = new Move(0, 0, Side.UP);
         board.drawLine(move);
@@ -88,7 +90,4 @@ public class TestBoard {
                 () -> Assertions.assertTrue(board.isBoxCompleted(moveInBox2))
         );
     }
-
-
-
 }
