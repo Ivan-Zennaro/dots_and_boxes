@@ -32,3 +32,7 @@ Found important code smell, code duplication and consequent shotgun surgery.
 
 9/01/2021
 Adapted some tests to the new configuration of the code, still need to delete dead code and refactor the whole project
+
+12/01/2021
+Worked together to continue the Server-Client version.
+Adapted Main Menus for Gui and Terminal to call the various game modes
