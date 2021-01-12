@@ -6,8 +6,7 @@ import java.awt.event.*;
 public class MainUI {
 
     private int n;
-    // private GameSolver redSolver, blueSolver;
-    private String me, otherPlayer, address;
+    private String me, otherPlayer;
     private Color color1, color2;
     private RulesPage rulesPage = new RulesPage();
 
