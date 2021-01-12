@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class TestGame {
     private final int boardSize = 2;
-    private final Player player1 = new Player('A',Color.BLU);
-    private final Player player2 = new Player('B',Color.RED);
+    private final Player player1 = new Player("A",Color.BLU);
+    private final Player player2 = new Player("B",Color.RED);
     private final Cli cli = new Cli(boardSize,boardSize,player1, player2);
     private final TestingGame game = new TestingGame(2,2,player1,player2,cli);
 
@@ -63,7 +63,7 @@ public class TestGame {
     @Test
     public void game_first_turn_player(){
         System.out.println("TEST GAME FIRST TURN");
-        Assertions.assertEquals(game.player1.getId(),game.currentPlayer.getId());
+        Assertions.assertEquals(game.player1.getFirstLetterPlayerName(),game.currentPlayer.getFirstLetterPlayerName());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class TestGame {
         System.out.println("TEST GAME SECOND TURN");
 
         game.computeMoveByString("0 0 L");
-        Assertions.assertEquals(game.player2.getId(),game.currentPlayer.getId());
+        Assertions.assertEquals(game.player2.getFirstLetterPlayerName(),game.currentPlayer.getFirstLetterPlayerName());
     }
 
     @Test
@@ -84,8 +84,8 @@ public class TestGame {
         game.computeMoveByString("0 1 L");
 
         assertAll(
-                ()->Assertions.assertEquals(game.player2.getId(),game.currentPlayer.getId()),
-                ()->Assertions.assertNotEquals(game.player1.getId(),game.currentPlayer.getId())
+                ()->Assertions.assertEquals(game.player2.getFirstLetterPlayerName(),game.currentPlayer.getFirstLetterPlayerName()),
+                ()->Assertions.assertNotEquals(game.player1.getFirstLetterPlayerName(),game.currentPlayer.getFirstLetterPlayerName())
         );
 
     }

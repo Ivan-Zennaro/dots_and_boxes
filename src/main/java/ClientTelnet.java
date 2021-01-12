@@ -8,7 +8,7 @@ public class ClientTelnet extends Game {
     CliTelnet cliTelnet;
 
     ClientTelnet(BufferedReader keyboard, BufferedWriter outputFromServer, CliTelnet cTelnet) {
-        super(3,3, new Player('A', Color.RED), new Player('B', Color.BLU), cTelnet);
+        super(3,3, new Player("A", Color.RED), new Player("B", Color.BLU), cTelnet);
         this.keyboard = keyboard;
         this.outputServer = outputFromServer;
     }

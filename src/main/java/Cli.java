@@ -39,7 +39,7 @@ public class Cli extends IOManager {
     @Override
     public void updateCompletedBox(int x, int y, Player player) {
         Color color = player.getColor();
-        String coloredId = color.getColoredString(Character.toString(player.getId()));
+        String coloredId = color.getColoredString(Character.toString(player.getFirstLetterPlayerName()));
         graphicBoard[x * 2 + 1][y] = graphicBoard[x * 2 + 1][y].replace("   \u001B[0m", " \u001B[0m" + coloredId + " ");
     }
 
@@ -56,15 +56,15 @@ public class Cli extends IOManager {
             System.out.println("TIE!");
         else {
             Player winner = (player1.getPoints() > player2.getPoints() ? player1 : player2);
-            System.out.println("Player " + winner.getId() + " WON!");
+            System.out.println("Player " + winner.getFirstLetterPlayerName() + " WON!");
         }
     }
 
     @Override
     public void updateGameInfo(Player p1, Player p2, Player currentPlayer) {
-        System.out.println("Player " + p1.getId() + " got " + p1.getPoints() + " points");
-        System.out.println("Player " + p2.getId() + " got " + p2.getPoints() + " points");
-        System.out.println("Is the turn of Player" + currentPlayer.getId());
+        System.out.println("Player " + p1.getFirstLetterPlayerName() + " got " + p1.getPoints() + " points");
+        System.out.println("Player " + p2.getFirstLetterPlayerName() + " got " + p2.getPoints() + " points");
+        System.out.println("Is the turn of Player" + currentPlayer.getFirstLetterPlayerName());
     }
 
     @Override
