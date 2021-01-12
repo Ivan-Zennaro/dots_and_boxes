@@ -18,17 +18,16 @@ public enum Color {
 
     public java.awt.Color getAwtColor() {
         switch (this) {
-            case BLU -> { return new java.awt.Color(59, 105, 177); }
-            case RED -> { return new java.awt.Color(244, 67, 54); }
-            case PURPLE -> { return new java.awt.Color(135, 23, 191); }
-            case GREEN -> { return new java.awt.Color(117, 181, 43); }
+            case BLU : return new java.awt.Color(59, 105, 177);
+            case RED : return new java.awt.Color(244, 67, 54);
+            case PURPLE : return new java.awt.Color(135, 23, 191);
+            case GREEN : return new java.awt.Color(117, 181, 43);
         }
         return null;
     }
 
     public String getRGBstring() {
         java.awt.Color awtColor = this.getAwtColor();
-
         return "rgb(" + awtColor.getRed() + "," + awtColor.getGreen() + "," + awtColor.getBlue() + ")";
     }
 }
