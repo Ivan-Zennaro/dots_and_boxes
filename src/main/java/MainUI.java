@@ -27,6 +27,9 @@ public class MainUI {
     JComboBox<String> colSelection;
     JComboBox<String> rowSelection;
 
+    private JRadioButton[] localOrRemote;
+    ButtonGroup sizeGroup;
+
     JButton hostGame;
     JButton joinGame;
     JTextField ipAddress;
@@ -34,6 +37,8 @@ public class MainUI {
     private JFrame frame1;
     JTextField humanName;
     JButton Enter;
+
+    String ip;
 
     public MainUI() {
 
@@ -44,8 +49,6 @@ public class MainUI {
         optionsPlayer2 = new DefaultComboBoxModel<>(playersType);
         comboBox = new JComboBox<>(optionsPlayer2);
 
-        hostGame = new JButton("Host Game");
-        joinGame = new JButton("Join Game");
         ipAddress = new JTextField("Your IP");
 
         colorBoxPlayer1 = new JComboBox<>(colors);
@@ -57,13 +60,14 @@ public class MainUI {
         rowSelection = new JComboBox<>(size);
         rowSelection.setSelectedIndex(2);
 
-        /*sizeButton = new JRadioButton[8];
+        localOrRemote = new JRadioButton[3];
         sizeGroup = new ButtonGroup();
-        for (int i = 0; i < 8; i++) {
-            String size = String.valueOf(i + 3);
-            sizeButton[i] = new JRadioButton(size + " x " + size);
-            sizeGroup.add(sizeButton[i]);
-        }*/
+        localOrRemote[0] = new JRadioButton("Local");
+        localOrRemote[1] = new JRadioButton("Host");
+        localOrRemote[2] = new JRadioButton("Join");
+        sizeGroup.add(localOrRemote[0]);
+        sizeGroup.add(localOrRemote[1]);
+        sizeGroup.add(localOrRemote[2]);
 
         frame1 = new JFrame("Player-2");
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -199,26 +203,34 @@ public class MainUI {
 
             } else if (color1.equals(color2)) {
                 colorError.setText("You MUST select 2 different colors for players");
-                
+
             } else {
                 modeError.setText("");
                 otherPlayer = playersType[typeOfPlayerIndex];
                 cols = Integer.parseInt(colSelection.getSelectedItem().toString());
                 rows = Integer.parseInt(rowSelection.getSelectedItem().toString());
-                startGame =
-                        switch (typeOfPlayerIndex) {
-                            case 0 -> "pvp";
-                            case 1 -> "pvc1";
-                            case 2 -> "pvc2";
-                            case 3 -> "pvc3";
-                            default -> "pvp";
-                        };
+
+                if (localOrRemote[0].isSelected()) {
+                    startGame =
+                            switch (typeOfPlayerIndex) {
+                                case 0 -> "pvp";
+                                case 1 -> "pvc1";
+                                case 2 -> "pvc2";
+                                case 3 -> "pvc3";
+                                default -> "pvp";
+                            };
+                } else if (localOrRemote[1].isSelected()) {
+                    startGame = "host";
+                } else if (localOrRemote[2].isSelected()) {
+                    ip = ipAddress.getText();
+                    startGame = "join";
+                }
+
 
             }
 
         }
     };
-
 
 
     public void initGUI() {
@@ -280,7 +292,7 @@ public class MainUI {
         grid.add(colorPanel, constraints);
 
         ++constraints.gridy;
-        JLabel messageLabel = new JLabel("Select the size of the board:");
+        JLabel messageLabel = new JLabel("Select the size of the board:", SwingConstants.CENTER);
         messageLabel.setPreferredSize(new Dimension(400, 50));
         grid.add(messageLabel, constraints);
 
@@ -292,25 +304,38 @@ public class MainUI {
         sizePanel.add(rowSelection);
         sizePanel.add(getEmptyLabel(new Dimension(50, 25)));
         sizePanel.add(colSelection);
-
         ++constraints.gridy;
         grid.add(sizePanel, constraints);
 
+        ++constraints.gridy;
+        grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
 
-        JPanel serverPanel = new JPanel(new GridLayout(2, 3));
-        serverPanel.setPreferredSize(new Dimension(400, 50));
-        serverPanel.add(joinGame);
-        serverPanel.add(getEmptyLabel(new Dimension(50, 25)));
-        serverPanel.add(getEmptyLabel(new Dimension(50, 25)));
-        // hostGame.addActionListener(hostGameListener);
-        serverPanel.add(hostGame);
-        serverPanel.add(getEmptyLabel(new Dimension(50, 25)));
-        serverPanel.add(ipAddress);
+        ++constraints.gridy;
+        JLabel messageLabel2 = new JLabel("Select Local or Remote Game?:");
+        messageLabel.setPreferredSize(new Dimension(400, 50));
+        grid.add(messageLabel2, constraints);
 
         ++constraints.gridy;
         grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
+
+
+        ++constraints.gridy;
+        JPanel serverPanel = new JPanel(new GridLayout(2, 3));
+        serverPanel.setPreferredSize(new Dimension(400, 50));
+        for (int i = 0; i < 3; i++)
+            serverPanel.add(localOrRemote[i]);
+        serverPanel.add(new JLabel());
+        serverPanel.add(new JLabel());
+        serverPanel.add(ipAddress);
+        //sizeGroup.clearSelection();
         ++constraints.gridy;
         grid.add(serverPanel, constraints);
+
+
+        ++constraints.gridy;/*
+        grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
+        ++constraints.gridy;
+        grid.add(serverPanel, constraints);*/
 
         ++constraints.gridy;
         grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
@@ -356,10 +381,13 @@ public class MainUI {
 
         switch (startGame) {
             case "demo" -> GameFactory.createComputerVsComputerGameWithGUI(3, 3, new Player("Player 1", Color.BLU), new Player("Payer 2", Color.RED)).startGame();
-            case "pvp"  -> GameFactory.create2PlayerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2)).startGame();
+            case "pvp" -> GameFactory.create2PlayerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2)).startGame();
             case "pvc1" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.EASY).startGame();
             case "pvc2" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.MEDIUM).startGame();
             case "pvc3" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.HARD).startGame();
+            case "host" -> GameFactory.createServerGameWithGUI(3, 3, new Player(me, color1), new Player("Batman", Color.BLU)).startGame();
+            case "join" -> GameFactory.createClientGameWithGUI(3, 3, new Player("Batman", Color.BLU), new Player(me, color1), ip).startGame();
+
         }
     }
 

@@ -17,7 +17,7 @@ public class GameFactory {
         Gui gui = new Gui(nRow ,nCols, p1, p2);
         return new ClientNewGame(nRow, nCols, p1, p2, gui, ip);
     }
-    public static NewGame createServerGameWithGUI(int nRow, int nCols, Player p1, Player p2, String ip) {
+    public static NewGame createServerGameWithGUI(int nRow, int nCols, Player p1, Player p2) {
         Gui gui = new Gui(nRow ,nCols, p1, p2);
         return new ServerNewGame(nRow, nCols, p1, p2, gui);
     }
