@@ -9,7 +9,6 @@ public class Cli extends IOManager {
     private String graphicBoard[][];
     private Scanner keyboard;
 
-
     public Cli(int boardRows, int boardCols, Player p1, Player p2) {
         keyboard = new Scanner(System.in);
 
@@ -67,6 +66,7 @@ public class Cli extends IOManager {
 
     @Override
     public void initialize() {
+
         System.out.println(getStringBoard());
     }
 

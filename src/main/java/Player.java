@@ -3,9 +3,6 @@ public class Player {
     private char id;
     private int points = 0;
     private Color color;
-
-
-
     private String name;
 
     public Player(char id, Color color) {

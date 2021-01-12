@@ -4,7 +4,7 @@ public class PlayerVsComputerGame extends Game {
 
     public PlayerVsComputerGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager, Difficulty difficulty) {
         super(nRows, nCols, p1, p2, ioManager);
-        this.computerSolver = new ComputerSolver(board,difficulty);
+        this.computerSolver = new ComputerSolver(board, difficulty);
     }
 
     @Override

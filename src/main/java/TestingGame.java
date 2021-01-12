@@ -4,18 +4,15 @@ public class TestingGame extends Game {
         super(nRows, nCols, p1, p2, ioManager);
     }
 
-
     @Override
     public void startGame(){}
 
     public void computeMoveByString(String input){
         computeMove(Move.parseMove(input));
-
     }
 
     public int printCurrentPlayerScore(){
         return currentPlayer.getPoints();
-
     }
 
 }
