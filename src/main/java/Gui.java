@@ -71,6 +71,13 @@ public class Gui extends IOManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             frame.dispose();
+            Thread thread = new Thread(){
+                public void run(){
+                    new MainUI().initGUI();
+                }
+            };
+            thread.start();
+
         }
     };
 
@@ -97,7 +104,8 @@ public class Gui extends IOManager {
         box = new JLabel[boardRows][boardCols];
 
 
-        frame = new JFrame();
+        frame = new JFrame("dots andf ");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         init();
 
