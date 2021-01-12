@@ -18,10 +18,7 @@ public class Main {
     public static void guiGame(){
         Player p1 = new Player('A', Color.RED);
         Player p2 = new Player('B', Color.BLU);
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        MainUI.setFrame(frame) ;
 
         Gui g = new Gui(3,3, p1, p2);
         TwoPlayersNewGame t = null;
