@@ -353,7 +353,7 @@ public class MainUI {
         if (startGame.equals("pvp")) {
             try {
                 frame.dispose();
-                new TwoPlayersNewGame(rows, colum, new Player(me, color1), new Player(otherPlayer, color2), Gui.class).startGame();
+                new TwoPlayersGame(rows, colum, new Player(me, color1), new Player(otherPlayer, color2), Gui.class).startGame();
 
 
             } catch (Exception e) {

@@ -1,101 +1,60 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
+public class ServerGame extends Game {
 
-public class ServerGame {
+    private final int PORT = 1234;
 
-    private final int port;
-    private final String quitCommand;
-    private final ExecutorService executorService;
-
-
-    public ServerGame(int port, String quitCommand) {
-        this.port = port;
-        this.quitCommand = quitCommand;
-        executorService = Executors.newCachedThreadPool();
+    public ServerGame(int nRows, int nCols, Player player1, Player player2, IOManager ioManager) {
+        super(nRows, nCols, player1, player2, ioManager);
     }
 
-    public void start() throws IOException {
-        try (ServerSocket serverSocket = new ServerSocket(port)) {
+    @Override
+    public void startGame() {
 
+        try (ServerSocket server = new ServerSocket(PORT)) {
 
-            while (true) {
-                try {
-                    final Socket socket = serverSocket.accept();
-                    /* ---- START CLIENT HANDLING HERE ---- */
-                    executorService.submit(() -> {
-                        try (socket) {
-                            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-                            System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
-                            System.out.println("New connection from: " + socket.getInetAddress().getHostName()); // Log the new connection client
+            System.out.println("Server ready....");
+            Socket socket = server.accept();
 
+            OutputStream outputStream = socket.getOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 
-                            // istance new game
-                            CliTelnet cliTelnet = new CliTelnet(3,3, br, bw);
-                            ClientPlayerNewGame gameForClient = new ClientPlayerNewGame(br, bw, cliTelnet);
+            InputStream inputStream = socket.getInputStream();
+            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
-                            bw.write("Welcome on Server 'Dot and Boxes'!" + System.lineSeparator());
-                            bw.write("Now you can play a game in your terminal!" + System.lineSeparator());
-                            bw.write("If you wanna exit the game type 'QUIT'" + System.lineSeparator());
-                            bw.flush();
-                            gameForClient.startGameServer(quitCommand);
+            printScoreBoard();
 
-                            while (true) {
-                                bw.write("you can restart a new game (type 'NEW') or actually quit (type 'QUIT')" + System.lineSeparator());
-                                bw.flush();
+            while (!isGameFinished()) {
+                Move move;
 
-                                String command = br.readLine();
+                if (currentPlayer == player1) {
+                    move = ioManager.readMove();
 
-                                if (command == null) {
-                                    System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
-                                    System.out.println("Client abruptly closed connection " + socket.getInetAddress().getHostName());
-                                    break;
-                                }
-
-                                command = command.trim();
-                                if (command.equals(quitCommand)) {
-                                    bw.write("You chose to close the connection with the Server!" + System.lineSeparator());
-                                    bw.write("Thank you, we hope that enjoyed your game! See you! "+ System.lineSeparator());
-                                    bw.write("Type whatever you want to close the connection." + System.lineSeparator());
-                                    bw.flush();
-                                    try{
-                                        br.readLine();
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-                                    System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
-                                    System.out.println("Client " + socket.getInetAddress().getHostName() + " disconnected");
-                                    break;
-                                }
-
-                                if (command.equals("NEW")) {
-                                    gameForClient = new ClientPlayerNewGame(br, bw, new CliTelnet(3,3, br, bw));
-                                    gameForClient.startGameServer(quitCommand);
-                                }
-
-                            }
-                        } catch (IOException e) {
-                            System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
-                            System.out.printf("IO error (Client " + socket.getInetAddress().getHostName() +"): %s", e.getMessage() + "\n");
-                        } catch (Exception e) {
-                            System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
-                            System.out.printf("EXCEPTION: %s", e.getMessage() + "\n");
-                        }
-                    });
-                } catch (IOException e) {
-                    System.out.print(String.format("[%1$tY-%1$tm-%1$td %1$tT] ", System.currentTimeMillis()));
-                    System.out.printf("Cannot accept connection due to %s", e);
+                    if (isMoveAllowed(move)) {  //...send the move to the other client
+                        objectOutputStream.writeObject(move);
+                        objectOutputStream.flush();
+                    }
+                } else {
+                    move = (Move) objectInputStream.readObject();
                 }
+
+                computeMove(move);
+                printScoreBoard();
             }
 
+            endGame();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
-            executorService.shutdown();
+            System.out.println("Server is closed.");
+            System.out.println("Goodbye, see you next time!");
         }
 
-
+        //TODO torno al menu iniziale
     }
 }

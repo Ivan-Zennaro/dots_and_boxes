@@ -3,7 +3,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class ComputerGame extends NewGame {
+public class ComputerGame extends Game {
 
     public ComputerGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager) {
         super(nRows, nCols, p1, p2, ioManager);

@@ -2,12 +2,12 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public class ClientPlayerNewGame extends NewGame {
+public class ClientTelnet extends Game {
     BufferedReader keyboard;
     BufferedWriter outputServer;
     CliTelnet cliTelnet;
 
-    ClientPlayerNewGame(BufferedReader keyboard, BufferedWriter outputFromServer, CliTelnet cTelnet) {
+    ClientTelnet(BufferedReader keyboard, BufferedWriter outputFromServer, CliTelnet cTelnet) {
         super(3,3, new Player('A', Color.RED), new Player('B', Color.BLU), cTelnet);
         this.keyboard = keyboard;
         this.outputServer = outputFromServer;

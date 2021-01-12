@@ -1,12 +1,8 @@
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -35,7 +31,7 @@ public class TestGameByInputStream {
                 1 0 L""";
         System.setIn(new ByteArrayInputStream(inputString.getBytes()));
         Cli cli = new Cli(boardSize, boardSize,p1,p2);
-        TwoPlayersNewGame game = new TwoPlayersNewGame(2, 2, p1, p2, cli);
+        TwoPlayersGame game = new TwoPlayersGame(2, 2, p1, p2, cli);
 
         //cli.initialize();
         game.startGame();

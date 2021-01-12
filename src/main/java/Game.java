@@ -1,5 +1,5 @@
 
-public abstract class NewGame {
+public abstract class Game {
 
     protected Player player1;
     protected Player player2;
@@ -8,7 +8,7 @@ public abstract class NewGame {
     protected Board board;
     protected IOManager ioManager;
 
-    public NewGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager) {
+    public Game(int nRows, int nCols, Player p1, Player p2, IOManager ioManager) {
         this.player1 = this.currentPlayer = p1;
         this.player2 = p2;
         this.ioManager = ioManager;
