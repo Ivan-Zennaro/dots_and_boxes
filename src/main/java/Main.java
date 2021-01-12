@@ -21,7 +21,7 @@ public class Main {
         Gui g = new Gui(3,3, p1, p2);
         TwoPlayersGame t = null;
         try {
-            t = new TwoPlayersGame(3,3, p1, p2, Gui.class);
+            t = new TwoPlayersGame(3,3, p1, p2, g);
         } catch (Exception e) {
             e.printStackTrace();
         }
