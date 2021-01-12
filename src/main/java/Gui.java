@@ -218,8 +218,9 @@ public class Gui extends IOManager {
 
         currentPlayerColor = currentPlayer.getAwtColor();
 
-        p2ScoreLabel.setText(String.valueOf(player1.getPoints()));
-        p1ScoreLabel.setText(String.valueOf(player2.getPoints()));
+        p1ScoreLabel.setText(String.valueOf(player1.getPoints()));
+        p2ScoreLabel.setText(String.valueOf(player2.getPoints()));
+
         if (currentPlayer == player1) {
             statusLabel.setForeground(player1.getAwtColor());
             statusLabel.setText("Player 1's Turn...");
