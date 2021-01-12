@@ -41,8 +41,8 @@ public class TerminalMainUI {
                 }
                 case "3" -> {
 
-                    Player player1 = new Player('1', Color.RED);
-                    Player player2 = new Player('2', Color.BLU);
+                    Player player1 = new Player("1", Color.RED);
+                    Player player2 = new Player("2", Color.BLU);
                     Game game = GameFactory.createComputerVsComputerGameWithCli(4, 4, player1, player2);
                     game.startGame();
                     System.out.println("\n--------------------------\nGAME ENDED\n--------------------------\n");
@@ -79,8 +79,8 @@ public class TerminalMainUI {
         } catch (Exception e) {
             System.out.println("Invalid Insertion. Default is taken.");
         }
-         Player player1 = new Player('1', Color.RED);
-         Player player2 = new Player('2', Color.BLU);
+         Player player1 = new Player("1", Color.RED);
+         Player player2 = new Player("2", Color.BLU);
         Game game = GameFactory.create2PlayerGameWithCli(input, input, player1, player2);
         game.startGame();
     }
@@ -93,8 +93,8 @@ public class TerminalMainUI {
         } catch (Exception e) {
             System.out.println("Invalid Insertion. Default is taken.");
         }
-        Player player1 = new Player('1', Color.RED);
-        Player player2 = new Player('2', Color.BLU);
+        Player player1 = new Player("1", Color.RED);
+        Player player2 = new Player("2", Color.BLU);
         Game game = GameFactory.create2PlayerGameWithCli(input, input, player1, player2);
         game.startGame();
     }

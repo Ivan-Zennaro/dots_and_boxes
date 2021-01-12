@@ -56,7 +56,7 @@ public class TestCli {
     @Test
     public void update_blu_move_in_2x2_board() {
         Cli cli = new Cli(2, 2, p1, p2);
-        cli.updateMove(new Move(0, 0, Side.UP), new Player('A', Color.BLU));
+        cli.updateMove(new Move(0, 0, Side.UP), new Player("A", Color.BLU));
         String boardString_2x2 =
                 System.lineSeparator() +
                         "    0   1   " + System.lineSeparator() +
@@ -72,7 +72,7 @@ public class TestCli {
     @Test
     public void update_blu_move_in_3x3_board() {
         Cli cli = new Cli(3, 3, p1, p2);
-        cli.updateMove(new Move(2, 2, Side.RIGHT), new Player('A', Color.BLU));
+        cli.updateMove(new Move(2, 2, Side.RIGHT), new Player("A", Color.BLU));
         String boardString_3x3 = System.lineSeparator() +
                 "    0   1   2   " + System.lineSeparator() +
                 "   --- --- ---" + System.lineSeparator() +
@@ -90,7 +90,7 @@ public class TestCli {
     @Test
     public void update_blu_move_in_3x3_board_and_draw_a_taken_box() {
         Cli cli = new Cli(3, 3,p1 ,p2);
-        Player player = new Player('A', Color.GREEN);
+        Player player = new Player("A", Color.GREEN);
         cli.updateMove(new Move(0, 0, Side.DOWN), player);
         cli.updateMove(new Move(0, 0, Side.LEFT), player);
         cli.updateCompletedBox(0, 0, player);
@@ -127,20 +127,20 @@ public class TestCli {
         ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStreamCaptor));
 
-        Player player1 = new Player('A', Color.BLU);
+        Player player1 = new Player("A", Color.BLU);
         while (points1-- > 0) player1.onePointDone();
 
-        Player player2 = new Player('B', Color.RED);
+        Player player2 = new Player("B", Color.RED);
         while (points2-- > 0) player2.onePointDone();
 
         String winnerString = "";
 
         switch (indexWinner) {
             case 1:
-                winnerString = "Player " + player1.getId() + " WON!";
+                winnerString = "Player " + player1.getFirstLetterName() + " WON!";
                 break;
             case 2:
-                winnerString = "Player " + player2.getId() + " WON!";
+                winnerString = "Player " + player2.getFirstLetterName() + " WON!";
                 break;
             default:
                 winnerString = "TIE!";

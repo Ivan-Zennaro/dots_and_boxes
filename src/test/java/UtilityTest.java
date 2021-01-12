@@ -1,9 +1,9 @@
 public class UtilityTest {
 
     public static Player getMockP1 (){
-        return new Player('A',Color.RED);
+        return new Player("A",Color.RED);
     }
     public static Player getMockP2 (){
-        return new Player('B',Color.BLU);
+        return new Player("B",Color.BLU);
     }
 }

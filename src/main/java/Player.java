@@ -1,14 +1,10 @@
 public class Player {
 
-    private char id;
+
     private int points = 0;
     private Color color;
     private String name;
 
-    public Player(char id, Color color) {
-        this.id = id;
-        this.color = color;
-    }
 
     public Player(String name, Color color) {
         this.color = color;
@@ -23,8 +19,8 @@ public class Player {
         return this.color;
     }
 
-    public char getId() {
-        return this.id;
+    public char getFirstLetterName() {
+        return this.name.charAt(0);
     }
 
     public String getName() {
