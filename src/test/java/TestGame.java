@@ -63,7 +63,7 @@ public class TestGame {
     @Test
     public void game_first_turn_player(){
         System.out.println("TEST GAME FIRST TURN");
-        Assertions.assertEquals(game.player1.getFirstLetterPlayerName(),game.currentPlayer.getFirstLetterPlayerName());
+        Assertions.assertEquals(game.player1.getFirstLetterName(),game.currentPlayer.getFirstLetterName());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class TestGame {
         System.out.println("TEST GAME SECOND TURN");
 
         game.computeMoveByString("0 0 L");
-        Assertions.assertEquals(game.player2.getFirstLetterPlayerName(),game.currentPlayer.getFirstLetterPlayerName());
+        Assertions.assertEquals(game.player2.getFirstLetterName(),game.currentPlayer.getFirstLetterName());
     }
 
     @Test
@@ -84,8 +84,8 @@ public class TestGame {
         game.computeMoveByString("0 1 L");
 
         assertAll(
-                ()->Assertions.assertEquals(game.player2.getFirstLetterPlayerName(),game.currentPlayer.getFirstLetterPlayerName()),
-                ()->Assertions.assertNotEquals(game.player1.getFirstLetterPlayerName(),game.currentPlayer.getFirstLetterPlayerName())
+                ()->Assertions.assertEquals(game.player2.getFirstLetterName(),game.currentPlayer.getFirstLetterName()),
+                ()->Assertions.assertNotEquals(game.player1.getFirstLetterName(),game.currentPlayer.getFirstLetterName())
         );
 
     }

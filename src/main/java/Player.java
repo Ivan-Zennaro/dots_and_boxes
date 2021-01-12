@@ -19,7 +19,7 @@ public class Player {
         return this.color;
     }
 
-    public char getFirstLetterPlayerName() {
+    public char getFirstLetterName() {
         return this.name.charAt(0);
     }
 

@@ -137,10 +137,10 @@ public class TestCli {
 
         switch (indexWinner) {
             case 1:
-                winnerString = "Player " + player1.getFirstLetterPlayerName() + " WON!";
+                winnerString = "Player " + player1.getFirstLetterName() + " WON!";
                 break;
             case 2:
-                winnerString = "Player " + player2.getFirstLetterPlayerName() + " WON!";
+                winnerString = "Player " + player2.getFirstLetterName() + " WON!";
                 break;
             default:
                 winnerString = "TIE!";
