@@ -34,15 +34,15 @@ public class CliTelnet extends IOManager {
         int mappedX = getMappedX(move);
         int mappedY = getMappedY(move);
         if (mappedX % 2 == 0)
-            graphicBoard[mappedX][mappedY] = Color.getColoredString(HORIZONTAL_LINE, color);
+            graphicBoard[mappedX][mappedY] = color.getColoredString(HORIZONTAL_LINE);
         else
-            graphicBoard[mappedX][mappedY] = Color.getColoredString(VERTICAL_LINE, color);
+            graphicBoard[mappedX][mappedY] = color.getColoredString(VERTICAL_LINE);
     }
 
     @Override
     public void updateCompletedBox(int x, int y, Player player) {
         Color color = player.getColor();
-        String coloredId = Color.getColoredString(Character.toString(player.getId()), color);
+        String coloredId = color.getColoredString(Character.toString(player.getId()));
         graphicBoard[x * 2 + 1][y] = graphicBoard[x * 2 + 1][y].replace("   \u001B[0m", " \u001B[0m" + coloredId + " ");
     }
 

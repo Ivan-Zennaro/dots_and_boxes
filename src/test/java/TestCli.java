@@ -60,7 +60,7 @@ public class TestCli {
         String boardString_2x2 =
                 System.lineSeparator() +
                         "    0   1   " + System.lineSeparator() +
-                        "  " + Color.getColoredString(" ---", Color.BLU) + " ---" + System.lineSeparator() +
+                        "  " + Color.BLU.getColoredString(" ---") + " ---" + System.lineSeparator() +
                         "0 |   |   |   " + System.lineSeparator() +
                         "   --- ---" + System.lineSeparator() +
                         "1 |   |   |   " + System.lineSeparator() +
@@ -80,7 +80,7 @@ public class TestCli {
                 "   --- --- ---" + System.lineSeparator() +
                 "1 |   |   |   |   " + System.lineSeparator() +
                 "   --- --- ---" + System.lineSeparator() +
-                "2 |   |   |   " + Color.getColoredString("|   ", Color.BLU) + System.lineSeparator() +
+                "2 |   |   |   " + Color.BLU.getColoredString("|   ") + System.lineSeparator() +
                 "   --- --- ---" + System.lineSeparator();
 
         Assertions.assertEquals(boardString_3x3, cli.getStringBoard());
@@ -97,8 +97,8 @@ public class TestCli {
         String boardString_3x3 =
                 System.lineSeparator() + "    0   1   2   " + System.lineSeparator() +
                         "   --- --- ---" + System.lineSeparator() +
-                        "0 " + Color.getColoredString("| ", Color.GREEN) + Color.getColoredString("A", Color.GREEN) + " |   |   |   " + System.lineSeparator() +
-                        "  " + Color.getColoredString(" ---", Color.GREEN) + " --- ---" + System.lineSeparator() +
+                        "0 " + Color.GREEN.getColoredString("| ") + Color.GREEN.getColoredString("A") + " |   |   |   " + System.lineSeparator() +
+                        "  " + Color.GREEN.getColoredString(" ---") + " --- ---" + System.lineSeparator() +
                         "1 |   |   |   |   " + System.lineSeparator() +
                         "   --- --- ---" + System.lineSeparator() +
                         "2 |   |   |   |   " + System.lineSeparator() +
