@@ -360,7 +360,7 @@ public class MainUI {
                 e.printStackTrace();
             }
         } else if (startGame.equals("demo")) {
-            new ComputerVsComputerGame(3, 3, new Player("Player 1", Color.BLU), new Player("Payer 2", Color.RED), new Gui(3, 3, new Player("Player 1", Color.BLU), new Player("Player 2", Color.RED)), 1).startGame();
+            new ComputerVsComputerGame(3, 3, new Player("Player 1", Color.BLU), new Player("Payer 2", Color.RED), new Gui(3, 3, new Player("Player 1", Color.BLU), new Player("Player 2", Color.RED))).startGame();
 
         }
     }
