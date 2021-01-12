@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.stream.IntStream;
 
 public class CliTelnet extends IOManager {
@@ -41,7 +42,7 @@ public class CliTelnet extends IOManager {
     @Override
     public void updateCompletedBox(int x, int y, Player player) {
         Color color = player.getColor();
-        String coloredId = color.getColoredString(Character.toString(player.getFirstLetterPlayerName()));
+        String coloredId = color.getColoredString(Character.toString(player.getId()));
         graphicBoard[x * 2 + 1][y] = graphicBoard[x * 2 + 1][y].replace("   \u001B[0m", " \u001B[0m" + coloredId + " ");
     }
 
@@ -57,7 +58,7 @@ public class CliTelnet extends IOManager {
                 outputServer.flush();
             } else {
                 Player winner = (player1.getPoints() > player2.getPoints() ? player1 : player2);
-                outputServer.write("Player " + winner.getFirstLetterPlayerName() + " WON!" + System.lineSeparator());
+                outputServer.write("Player " + winner.getId() + " WON!" + System.lineSeparator());
                 outputServer.flush();
             }
         } catch (IOException e) {
@@ -68,11 +69,11 @@ public class CliTelnet extends IOManager {
     @Override
     public void updateGameInfo(Player p1, Player p2, Player currentPlayer) {
         try {
-            outputServer.write("Player " + p1.getFirstLetterPlayerName() + " got " + p1.getPoints() + " points" + System.lineSeparator());
+            outputServer.write("Player " + p1.getId() + " got " + p1.getPoints() + " points" + System.lineSeparator());
             outputServer.flush();
-            outputServer.write("Player " + p2.getFirstLetterPlayerName() + " got " + p2.getPoints() + " points" + System.lineSeparator());
+            outputServer.write("Player " + p2.getId() + " got " + p2.getPoints() + " points" + System.lineSeparator());
             outputServer.flush();
-            outputServer.write("Is the turn of Player" + currentPlayer.getFirstLetterPlayerName() + System.lineSeparator());
+            outputServer.write("Is the turn of Player" + currentPlayer.getId() + System.lineSeparator());
             outputServer.flush();
         } catch (IOException e) {
             e.printStackTrace();

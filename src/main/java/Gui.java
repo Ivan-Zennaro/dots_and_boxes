@@ -230,7 +230,7 @@ public class Gui extends IOManager {
     }
 
     @Override
-    public void updateGameInfo(Player player1, Player player2, Player currentPlayer) {
+    public void updateGameInfo(Player currentPlayer) {
 
         currentPlayerColor = currentPlayer.getColor().getAwtColor();
 
