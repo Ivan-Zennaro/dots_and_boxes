@@ -5,30 +5,31 @@ import java.awt.event.*;
 
 public class MainUI {
 
-    private int n;
+    private int rows, colum;
     private String me, otherPlayer;
     private Color color1, color2;
     private RulesPage rulesPage = new RulesPage();
 
-
     private static JFrame frame;
-    private JLabel modeError, sizeError, colorError;
+    private JLabel modeError,colorError;
 
-    String[] playersType = {"Select player", "Human", "Computer Facile", "Computer Difficile", "Random"};
+    String[] playersType = {"Select player", "Human", "Computer Easy", "Computer Medium", "Computer Hard"};
     String[] colors = {"<html><font color='" + Color.RED.getRGBstring() + "'>RED", "<html><font color='" + Color.BLU.getRGBstring() + "'>BLU", "<html><font color='" + Color.GREEN.getRGBstring() + "'>GREEN", "<html><font color='" + Color.PURPLE.getRGBstring() + "'>PURPLE"};
     Color[] colors2 = {Color.RED, Color.BLU, Color.GREEN, Color.PURPLE};
-    private JRadioButton[] sizeButton;
+    String[] size ={"1","2","3","4","5"};
+
 
     JTextField meTextField;
     DefaultComboBoxModel<String> optionsPlayer2;
     JComboBox<String> comboBox;
     JComboBox<String> colorBoxPlayer1;
     JComboBox<String> colorBoxPlayer2;
-    ButtonGroup sizeGroup;
+    JComboBox<String> colSelection;
+    JComboBox<String> rowSelection;
+
     JButton hostGame;
     JButton joinGame;
     JTextField ipAddress;
-
 
     private JFrame frame1;
     JTextField humanName;
@@ -42,6 +43,7 @@ public class MainUI {
         meTextField = new JTextField();
         optionsPlayer2 = new DefaultComboBoxModel<>(playersType);
         comboBox = new JComboBox<>(optionsPlayer2);
+
         hostGame = new JButton("Host Game");
         joinGame = new JButton("Join Game");
         ipAddress = new JTextField("Your IP");
@@ -50,13 +52,18 @@ public class MainUI {
         colorBoxPlayer2 = new JComboBox<>(colors);
         colorBoxPlayer2.setSelectedIndex(1);
 
-        sizeButton = new JRadioButton[8];
+        colSelection = new JComboBox<>(size);
+        colSelection.setSelectedIndex(2);
+        rowSelection = new JComboBox<>(size);
+        rowSelection.setSelectedIndex(2);
+
+        /*sizeButton = new JRadioButton[8];
         sizeGroup = new ButtonGroup();
         for (int i = 0; i < 8; i++) {
             String size = String.valueOf(i + 3);
             sizeButton[i] = new JRadioButton(size + " x " + size);
             sizeGroup.add(sizeButton[i]);
-        }
+        }*/
 
         frame1 = new JFrame("Player-2");
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,7 +77,7 @@ public class MainUI {
         return label;
     }
 
-    private boolean startGame;
+    private String startGame = null;
 
     /*private GameSolver getSolver(int level) {
         if(level == 1) return new RandomSolver();
@@ -100,7 +107,8 @@ public class MainUI {
 
         }
     };
-    private KeyListener key1 = new KeyListener() {
+
+    private KeyListener keyHuman = new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
             if (humanName.getText().equals("Human Name"))
@@ -119,7 +127,12 @@ public class MainUI {
 
         }
     };
-
+    private ActionListener demo = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            startGame = "demo";
+        }
+    };
     private ActionListener close = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -155,7 +168,7 @@ public class MainUI {
                 namePanel.add(Enter);
                 namePanel.add(getEmptyLabel(new Dimension(150, 20)));
                 humanName.setText("Human Name");
-                humanName.addKeyListener(key1);
+                humanName.addKeyListener(keyHuman);
                 Enter.addActionListener(close);
                 ++constraints.gridy;
 
@@ -178,7 +191,7 @@ public class MainUI {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             if (validateInputPlayersAndGrid()) {
-                startGame = true;
+                startGame = "pvp";
             }
 
         }
@@ -198,20 +211,10 @@ public class MainUI {
         } else {
             modeError.setText("");
             otherPlayer = playersType[bIndex];
-            for (int i = 0; i < 8; i++) {
-                if (sizeButton[i].isSelected()) {
-                    n = i + 3;
-                    comboBox.removeItemAt(1);
-                    comboBox.insertItemAt("Human", 1);
-                    return true;
-                }
-            }
-            sizeError.setText("You MUST select the size of board before continuing.");
-
+            colum = Integer.parseInt(colSelection.getSelectedItem().toString());
+            rows = Integer.parseInt(rowSelection.getSelectedItem().toString());
+            return true;
         }
-        return false;
-
-
     }
 
 
@@ -273,6 +276,23 @@ public class MainUI {
         ++constraints.gridy;
         grid.add(colorPanel, constraints);
 
+        ++constraints.gridy;
+        JLabel messageLabel = new JLabel("Select the size of the board:");
+        messageLabel.setPreferredSize(new Dimension(400, 50));
+        grid.add(messageLabel, constraints);
+
+        JPanel sizePanel = new JPanel(new GridLayout(2, 3));
+        sizePanel.setPreferredSize(new Dimension(400, 50));
+        sizePanel.add(new JLabel("<html><font color='Black'>Rows:", SwingConstants.CENTER));
+        sizePanel.add(getEmptyLabel(new Dimension(50, 25)));
+        sizePanel.add(new JLabel("<html><font color='Black'>Column:", SwingConstants.CENTER));
+        sizePanel.add(rowSelection);
+        sizePanel.add(getEmptyLabel(new Dimension(50, 25)));
+        sizePanel.add(colSelection);
+
+        ++constraints.gridy;
+        grid.add(sizePanel, constraints);
+
 
         JPanel serverPanel = new JPanel(new GridLayout(2, 3));
         serverPanel.setPreferredSize(new Dimension(400, 50));
@@ -292,37 +312,21 @@ public class MainUI {
         ++constraints.gridy;
         grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
 
-        sizeError = new JLabel("", SwingConstants.CENTER);
-        sizeError.setForeground(Color.RED.getAwtColor());
-        sizeError.setPreferredSize(new Dimension(500, 25));
-
-        ++constraints.gridy;
-        grid.add(sizeError, constraints);
-
-        ++constraints.gridy;
-        JLabel messageLabel = new JLabel("Select the size of the board:");
-        messageLabel.setPreferredSize(new Dimension(400, 50));
-        grid.add(messageLabel, constraints);
-
-        JPanel sizePanel = new JPanel(new GridLayout(4, 2));
-        sizePanel.setPreferredSize(new Dimension(400, 100));
-        for (int i = 0; i < 8; i++)
-            sizePanel.add(sizeButton[i]);
-        sizeGroup.clearSelection();
-        ++constraints.gridy;
-        grid.add(sizePanel, constraints);
 
         ++constraints.gridy;
         grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
 
         JPanel submissionPanel = new JPanel(new GridLayout(1, 3));
-        JButton submitButton = new JButton("Start Game");
         JButton ruleButton = new JButton("Rules");
+        JButton demoButton = new JButton("Demo");
+        JButton submitButton = new JButton("Start Game");
+
         ruleButton.addActionListener(e -> rulesPage.seeFrame());
+        demoButton.addActionListener(demo);
 
         submitButton.addActionListener(submitListener);
         submissionPanel.add(ruleButton);
-        submissionPanel.add(getEmptyLabel(new Dimension(60, 25)));
+        submissionPanel.add(demoButton);
         submissionPanel.add(submitButton);
         ++constraints.gridy;
         grid.add(submissionPanel, constraints);
@@ -336,21 +340,28 @@ public class MainUI {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        startGame = false;
-        while (!startGame) {
+
+        while (startGame == null) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        try {
-            frame.dispose();
-            new TwoPlayersNewGame(n, n, new Player(me, color1), new Player(otherPlayer, color2), Gui.class).startGame();
+
+        frame.dispose();
+        if (startGame.equals("pvp")) {
+            try {
+                frame.dispose();
+                new TwoPlayersNewGame(rows, colum, new Player(me, color1), new Player(otherPlayer, color2), Gui.class).startGame();
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (startGame.equals("demo")) {
+            new ComputerVsComputerGame(3, 3, new Player("Player 1", Color.BLU), new Player("Payer 2", Color.RED), new Gui(3, 3, new Player("Player 1", Color.BLU), new Player("Player 2", Color.RED)), 1).startGame();
+
         }
     }
 

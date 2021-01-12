@@ -20,7 +20,7 @@ public class Gui extends IOManager {
     private Move bufferMove;
 
     private JFrame frame;
-    private JLabel redScoreLabel, blueScoreLabel, statusLabel;
+    private JLabel p1ScoreLabel, p2ScoreLabel, statusLabel;
     private JLabel[][] box;
     private boolean isSetLine[][];
     private JLabel graphicBoard[][];
@@ -33,13 +33,11 @@ public class Gui extends IOManager {
     private MouseListener mouseListener = new MouseListener() {
         @Override
         public void mouseClicked(MouseEvent mouseEvent) {
-            // if (!mouseEnabled) return;
-            bufferMove = getSource(mouseEvent.getSource());
         }
 
         @Override
         public void mousePressed(MouseEvent mouseEvent) {
-
+            bufferMove = getSource(mouseEvent.getSource());
         }
 
         @Override
@@ -49,20 +47,26 @@ public class Gui extends IOManager {
 
         @Override
         public void mouseEntered(MouseEvent mouseEvent) {
-            setJlabelBackgroundColorAtMouseEvent(mouseEvent, currentPlayerColor);
+            setJlabelBackgroundColorAtMouseEvent(mouseEvent, currentPlayerColor, true);
 
         }
 
         @Override
         public void mouseExited(MouseEvent mouseEvent) {
-            setJlabelBackgroundColorAtMouseEvent(mouseEvent, DEFAULT_BACKGROUND_LINE_COLOR);
+            setJlabelBackgroundColorAtMouseEvent(mouseEvent, DEFAULT_BACKGROUND_LINE_COLOR, false);
         }
 
-        private void setJlabelBackgroundColorAtMouseEvent(MouseEvent mouseEvent, Color color) {
+        private void setJlabelBackgroundColorAtMouseEvent(MouseEvent mouseEvent, Color color, boolean mouseEntered) {
             Move move = getSource(mouseEvent.getSource());
             int x = getMappedX(move), y = getMappedY(move);
-            if (isSetLine(x, y)) return;
-            graphicBoard[x][y].setBackground(color);
+
+            if (mouseEntered && !isSetLine(x, y))
+                graphicBoard[x][y].setCursor(new Cursor(Cursor.HAND_CURSOR));
+            else
+                graphicBoard[x][y].setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+            if (!isSetLine(x, y))
+                graphicBoard[x][y].setBackground(color);
         }
 
     };
@@ -71,8 +75,8 @@ public class Gui extends IOManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             frame.dispose();
-            Thread thread = new Thread(){
-                public void run(){
+            Thread thread = new Thread() {
+                public void run() {
                     new MainUI().initGUI();
                 }
             };
@@ -230,8 +234,8 @@ public class Gui extends IOManager {
 
         currentPlayerColor = currentPlayer.getColor().getAwtColor();
 
-        redScoreLabel.setText(String.valueOf(player1.getPoints()));
-        blueScoreLabel.setText(String.valueOf(player2.getPoints()));
+        p2ScoreLabel.setText(String.valueOf(player1.getPoints()));
+        p1ScoreLabel.setText(String.valueOf(player2.getPoints()));
         if (currentPlayer == player1) {
             //solver = blueSolver;
             statusLabel.setForeground(player1Color);
@@ -259,10 +263,21 @@ public class Gui extends IOManager {
         }
     }
 
+    private JLabel getNewP1Label(String text){
+        JLabel tempLabel = new JLabel(text, SwingConstants.CENTER);
+        tempLabel.setForeground(player1Color);
+        tempLabel.setFont(new Font("Verdana", Font.BOLD, 15));
+        return tempLabel;
+    }
+    private JLabel getNewP2Label(String text){
+        JLabel tempLabel = new JLabel(text, SwingConstants.CENTER);
+        tempLabel.setForeground(player2Color);
+        tempLabel.setFont(new Font("Verdana", Font.BOLD, 15));
+        return tempLabel;
+    }
+
     private void init() {
         int boardWidth = graphicBoard[0].length * size + (graphicBoard[0].length - 1) * dist;
-
-
 
         JPanel grid = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -274,18 +289,11 @@ public class Gui extends IOManager {
         if (graphicBoard[0].length > 3) playerPanel.setPreferredSize(new Dimension(2 * boardWidth, dist));
         else playerPanel.setPreferredSize(new Dimension(2 * boardWidth, 2 * dist));
 
-        JLabel tempLabel = new JLabel("Player 1:", SwingConstants.CENTER);
-        tempLabel.setForeground(player1Color);
-        playerPanel.add(tempLabel);
-        tempLabel = new JLabel("Player 2:", SwingConstants.CENTER);
-        tempLabel.setForeground(player2Color);
-        playerPanel.add(tempLabel);
-        tempLabel = new JLabel(player1.getName(), SwingConstants.CENTER);
-        tempLabel.setForeground(player1Color);
-        playerPanel.add(tempLabel);
-        tempLabel = new JLabel(player2.getName(), SwingConstants.CENTER);
-        tempLabel.setForeground(player2Color);
-        playerPanel.add(tempLabel);
+
+        playerPanel.add(getNewP1Label("Player 1:"));
+        playerPanel.add(getNewP2Label("Player 2:"));
+        playerPanel.add(getNewP1Label(player1.getName()));
+        playerPanel.add(getNewP2Label(player2.getName()));
         ++constraints.gridy;
         grid.add(playerPanel, constraints);
 
@@ -294,19 +302,14 @@ public class Gui extends IOManager {
 
         JPanel scorePanel = new JPanel(new GridLayout(2, 2));
         scorePanel.setPreferredSize(new Dimension(2 * boardWidth, dist));
-        tempLabel = new JLabel("Score:", SwingConstants.CENTER);
-        tempLabel.setForeground(player1Color);
-        scorePanel.add(tempLabel);
-        tempLabel = new JLabel("Score:", SwingConstants.CENTER);
-        tempLabel.setForeground(player2Color);
-        scorePanel.add(tempLabel);
 
-        redScoreLabel = new JLabel("0", SwingConstants.CENTER);
-        redScoreLabel.setForeground(player1Color);
-        scorePanel.add(redScoreLabel);
-        blueScoreLabel = new JLabel("0", SwingConstants.CENTER);
-        blueScoreLabel.setForeground(player2Color);
-        scorePanel.add(blueScoreLabel);
+        scorePanel.add(getNewP1Label("Score:"));
+        scorePanel.add(getNewP2Label("Score:"));
+
+        p1ScoreLabel = getNewP1Label("0");
+        scorePanel.add(p1ScoreLabel);
+        p2ScoreLabel = getNewP2Label("0");
+        scorePanel.add(p2ScoreLabel);
         ++constraints.gridy;
         grid.add(scorePanel, constraints);
 
@@ -341,9 +344,7 @@ public class Gui extends IOManager {
         ++constraints.gridy;
         grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
 
-        statusLabel = new JLabel("Player-1's Turn...", SwingConstants.CENTER);
-        statusLabel.setForeground(player1Color);
-        statusLabel.setPreferredSize(new Dimension(2 * boardWidth, dist));
+        statusLabel = getNewP1Label("Player-1's Turn...");
         ++constraints.gridy;
         grid.add(statusLabel, constraints);
 
