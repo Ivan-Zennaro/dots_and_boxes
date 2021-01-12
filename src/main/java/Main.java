@@ -10,7 +10,7 @@ public class Main {
     public static void consoleGame(){
         Player p1 = new Player('A', Color.RED);
         Player p2 = new Player('B', Color.BLU);
-        Cli cli = new Cli (3,3);
+        Cli cli = new Cli (3,3, p1, p2);
         TwoPlayersNewGame game =new TwoPlayersNewGame(3,3,p1,p2,cli);
         game.startGame();
     }

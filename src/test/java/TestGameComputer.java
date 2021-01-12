@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestGameComputer {
 
-    Player p1 = new Player('A', Color.RED);
-    Player p2 = new Player('B', Color.BLU);
+    Player p1 = UtilityTest.getMockP1();
+    Player p2 = UtilityTest.getMockP2();
 
     @Test
     public void matrix_converted_into_list() {
@@ -35,7 +35,7 @@ public class TestGameComputer {
 
     @Test
     public void draw_line_that_allow_to_close_to_consecutive_boxes() {
-        ComputerGame game = new ComputerGame(3, 3, p1, p2, new Cli(3, 3));
+        ComputerGame game = new ComputerGame(3, 3, p1, p2, new Cli(3, 3,p1,p2));
         game.computeMove(new Move(0, 0, Side.UP));
         game.computeMove(new Move(0, 0, Side.DOWN));
         game.computeMove(new Move(0, 0, Side.LEFT));
@@ -52,7 +52,7 @@ public class TestGameComputer {
 
     @Test
     public void draw_line_in_a_missing_position_of_a_box() {
-        ComputerGame game = new ComputerGame(2, 2, p1, p2, new Cli(2, 2));
+        ComputerGame game = new ComputerGame(2, 2, p1, p2, new Cli(2, 2,p1,p2));
         game.computeMove(new Move(1, 1, Side.LEFT));
         game.computeMove(new Move(1, 1, Side.RIGHT));
         game.computeMove(new Move(1, 1, Side.DOWN));
@@ -61,7 +61,7 @@ public class TestGameComputer {
 
     @Test
     public void draw_line_in_a_random_box_with_not_2_side_completed() {
-        ComputerGame game = new ComputerGame(2, 2, p1, p2, new Cli(2, 2));
+        ComputerGame game = new ComputerGame(2, 2, p1, p2, new Cli(2, 2,p1,p2));
         game.computeMove(new Move(1, 1, Side.LEFT));
         game.computeMove(new Move(1, 1, Side.DOWN));
         game.computeMove(new Move(0, 0, Side.UP));

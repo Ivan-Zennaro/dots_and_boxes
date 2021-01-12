@@ -9,7 +9,8 @@ public class Cli extends IOManager {
     private String graphicBoard[][];
     private Scanner keyboard;
 
-    public Cli(int boardRows, int boardCols) {
+
+    public Cli(int boardRows, int boardCols, Player p1, Player p2) {
         keyboard = new Scanner(System.in);
 
         int mappedRows = boardRows * 2 + 1;
