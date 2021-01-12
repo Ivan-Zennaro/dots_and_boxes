@@ -51,7 +51,7 @@ public abstract class Game {
 
     public void printScoreBoard() {
         ioManager.initialize();
-        ioManager.updateGameInfo(player1, player2, currentPlayer);
+        ioManager.updateGameInfo(currentPlayer);
     }
 
     public void swapPlayers() {

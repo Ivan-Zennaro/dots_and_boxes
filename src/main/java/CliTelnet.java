@@ -67,11 +67,11 @@ public class CliTelnet extends IOManager {
     }
 
     @Override
-    public void updateGameInfo(Player p1, Player p2, Player currentPlayer) {
+    public void updateGameInfo(Player currentPlayer) {
         try {
-            outputServer.write("Player " + p1.getId() + " got " + p1.getPoints() + " points" + System.lineSeparator());
+            outputServer.write("Player " + player1.getId() + " got " + player1.getPoints() + " points" + System.lineSeparator());
             outputServer.flush();
-            outputServer.write("Player " + p2.getId() + " got " + p2.getPoints() + " points" + System.lineSeparator());
+            outputServer.write("Player " + player2.getId() + " got " + player2.getPoints() + " points" + System.lineSeparator());
             outputServer.flush();
             outputServer.write("Is the turn of Player" + currentPlayer.getId() + System.lineSeparator());
             outputServer.flush();
