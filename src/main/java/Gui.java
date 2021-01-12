@@ -25,10 +25,7 @@ public class Gui extends IOManager {
     private boolean isSetLine[][];
     private JLabel graphicBoard[][];
 
-    private Color player1Color;
-    private Color player2Color;
     private Color currentPlayerColor;
-
 
     private MouseListener mouseListener = new MouseListener() {
         @Override
@@ -42,13 +39,11 @@ public class Gui extends IOManager {
 
         @Override
         public void mouseReleased(MouseEvent mouseEvent) {
-
         }
 
         @Override
         public void mouseEntered(MouseEvent mouseEvent) {
             setJlabelBackgroundColorAtMouseEvent(mouseEvent, currentPlayerColor, true);
-
         }
 
         @Override
@@ -75,11 +70,7 @@ public class Gui extends IOManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             frame.dispose();
-            Thread thread = new Thread() {
-                public void run() {
-                    new MainUI().initGUI();
-                }
-            };
+            Thread thread = new Thread(() -> new MainUI().initGUI());
             thread.start();
 
         }
@@ -93,8 +84,6 @@ public class Gui extends IOManager {
 
         player1 = p1;
         player2 = p2;
-        player1Color = p1.getColor().getAwtColor();
-        player2Color = p2.getColor().getAwtColor();
 
         bufferMove = null;
 
@@ -124,7 +113,7 @@ public class Gui extends IOManager {
     }
 
     public boolean isSetBox(int x, int y) {
-        return box[x][y].getBackground().equals(player1.getColor().getAwtColor()) || box[x][y].getBackground().equals(player2.getColor().getAwtColor());
+        return box[x][y].getBackground().equals(player1.getAwtColor()) || box[x][y].getBackground().equals(player2.getAwtColor());
     }
 
     private Move getSource(Object object) {
@@ -208,7 +197,6 @@ public class Gui extends IOManager {
         Move moveToPass = bufferMove;
         bufferMove = null;
         return moveToPass;
-
     }
 
 
@@ -216,58 +204,56 @@ public class Gui extends IOManager {
     public void updateMove(Move move, Player player) {
         int mappedX = getMappedX(move);
         int mappedY = getMappedY(move);
-        graphicBoard[mappedX][mappedY].setBackground(player.getColor().getAwtColor());
+        graphicBoard[mappedX][mappedY].setBackground(player.getAwtColor());
         setLine(mappedX, mappedY);
     }
 
     @Override
     public void updateCompletedBox(int x, int y, Player player) {
-        box[x][y].setBackground(player.getColor().getAwtColor());
+        box[x][y].setBackground(player.getAwtColor());
     }
 
     @Override
     public void updateGameInfo(Player currentPlayer) {
 
-        currentPlayerColor = currentPlayer.getColor().getAwtColor();
+        currentPlayerColor = currentPlayer.getAwtColor();
 
         p2ScoreLabel.setText(String.valueOf(player1.getPoints()));
         p1ScoreLabel.setText(String.valueOf(player2.getPoints()));
         if (currentPlayer == player1) {
-            //solver = blueSolver;
-            statusLabel.setForeground(player1Color);
+            statusLabel.setForeground(player1.getAwtColor());
             statusLabel.setText("Player 1's Turn...");
-
         } else {
-            //solver = redSolver;
-            statusLabel.setForeground(player2Color);
+            statusLabel.setForeground(player2.getAwtColor());
             statusLabel.setText("Player 2's Turn...");
         }
-
     }
 
     @Override
     public void showWinner() {
+
         if (player1.getPoints() > player2.getPoints()) {
             statusLabel.setText("Player-1 is the winner!");
-            statusLabel.setForeground(player1Color);
+            statusLabel.setForeground(player1.getAwtColor());
         } else if (player2.getPoints() > player1.getPoints()) {
             statusLabel.setText("Player-2 is the winner!");
-            statusLabel.setForeground(player2Color);
+            statusLabel.setForeground(player2.getAwtColor());
         } else {
             statusLabel.setText("Game Tied!");
             statusLabel.setForeground(Color.BLACK);
         }
     }
 
-    private JLabel getNewP1Label(String text){
+    private JLabel getNewP1Label(String text) {
         JLabel tempLabel = new JLabel(text, SwingConstants.CENTER);
-        tempLabel.setForeground(player1Color);
+        tempLabel.setForeground(player1.getAwtColor());
         tempLabel.setFont(new Font("Verdana", Font.BOLD, 15));
         return tempLabel;
     }
-    private JLabel getNewP2Label(String text){
+
+    private JLabel getNewP2Label(String text) {
         JLabel tempLabel = new JLabel(text, SwingConstants.CENTER);
-        tempLabel.setForeground(player2Color);
+        tempLabel.setForeground(player2.getAwtColor());
         tempLabel.setFont(new Font("Verdana", Font.BOLD, 15));
         return tempLabel;
     }
