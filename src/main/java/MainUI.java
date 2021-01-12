@@ -384,7 +384,7 @@ public class MainUI {
             case "pvc1" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.EASY).startGame();
             case "pvc2" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.MEDIUM).startGame();
             case "pvc3" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.HARD).startGame();
-            case "host" -> GameFactory.createServerGameWithGUI(3, 3, new Player(me, color1), new Player("Batman", Color.BLU)).startGame();
+            case "host" -> GameFactory.createServerGameWithGUI(3, 3, new Player(me, color1), new Player("Batman", Color.BLU), ip).startGame();
             case "join" -> GameFactory.createClientGameWithGUI(3, 3, new Player("Batman", Color.BLU), new Player(me, color1), ip).startGame();
 
         }
