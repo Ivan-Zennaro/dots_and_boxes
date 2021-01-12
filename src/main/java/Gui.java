@@ -368,18 +368,7 @@ public class Gui extends IOManager {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         }
-/*
-        goBack = false;
-        manageGame();
 
-        while (!goBack) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        parent.initGUI();  */
     }
 }
 

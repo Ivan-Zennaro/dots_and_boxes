@@ -19,9 +19,15 @@ public enum Color {
     public java.awt.Color getAwtColor(){
         if(this == RED) return new java.awt.Color(244, 67, 54);
         if(this == BLU) return new java.awt.Color(59, 105, 177);
-        if(this == GREEN) return java.awt.Color.GREEN;
-        if(this == PURPLE) return java.awt.Color.MAGENTA;
+        if(this == GREEN) return new java.awt.Color(117, 181, 43);
+        if(this == PURPLE) return new java.awt.Color(135, 23, 191);
         return null;
+    }
+
+    public String getRGBstring(){
+        java.awt.Color awtColor =  this.getAwtColor();
+
+        return "rgb(" + awtColor.getRed() + "," + awtColor.getGreen() + ","+ awtColor.getBlue()  + ")";
     }
 }
 
