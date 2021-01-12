@@ -15,7 +15,7 @@ public class MainUI {
     private JLabel modeError, sizeError, colorError;
 
     String[] playersType = {"Select player", "Human", "Computer Facile", "Computer Difficile", "Random"};
-    String[] colors = {"<html><font color='"+ Color.RED.getRGBstring()+"'>RED", "<html><font color='"+ Color.BLU.getRGBstring()+"'>BLU", "<html><font color='"+ Color.GREEN.getRGBstring()+"'>GREEN", "<html><font color='"+ Color.PURPLE.getRGBstring()+"'>PURPLE"};
+    String[] colors = {"<html><font color='" + Color.RED.getRGBstring() + "'>RED", "<html><font color='" + Color.BLU.getRGBstring() + "'>BLU", "<html><font color='" + Color.GREEN.getRGBstring() + "'>GREEN", "<html><font color='" + Color.PURPLE.getRGBstring() + "'>PURPLE"};
     Color[] colors2 = {Color.RED, Color.BLU, Color.GREEN, Color.PURPLE};
     private JRadioButton[] sizeButton;
 
@@ -177,36 +177,43 @@ public class MainUI {
     private ActionListener submitListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            me = meTextField.getText();
-            int bIndex = comboBox.getSelectedIndex();
-            color1 = colors2[colorBoxPlayer1.getSelectedIndex()];
-            color2 = colors2[colorBoxPlayer2.getSelectedIndex()];
-            if (me.equals("") || bIndex == 0) {
-                modeError.setText("You MUST select the players before continuing.");
-                return;
-            } else if (color1.equals(color2)) {
-                colorError.setText("You MUST select 2 different colors for players");
-                return;
-            } else {
-                modeError.setText("");
-                otherPlayer = playersType[bIndex];
-                for (int i = 0; i < 8; i++) {
-                    if (sizeButton[i].isSelected()) {
-                        n = i + 3;
-                        startGame = true;
-                        comboBox.removeItemAt(1);
-                        comboBox.insertItemAt("Human",1);
-                        return;
-                    }
-                }
-                sizeError.setText("You MUST select the size of board before continuing.");
-
+            if (validateInputPlayersAndGrid()) {
+                startGame = true;
             }
 
         }
-
-
     };
+
+    private boolean validateInputPlayersAndGrid() {
+        me = meTextField.getText();
+        int bIndex = comboBox.getSelectedIndex();
+        color1 = colors2[colorBoxPlayer1.getSelectedIndex()];
+        color2 = colors2[colorBoxPlayer2.getSelectedIndex()];
+        if (me.equals("") || bIndex == 0) {
+            modeError.setText("You MUST select the players before continuing.");
+            return false;
+        } else if (color1.equals(color2)) {
+            colorError.setText("You MUST select 2 different colors for players");
+            return false;
+        } else {
+            modeError.setText("");
+            otherPlayer = playersType[bIndex];
+            for (int i = 0; i < 8; i++) {
+                if (sizeButton[i].isSelected()) {
+                    n = i + 3;
+                    comboBox.removeItemAt(1);
+                    comboBox.insertItemAt("Human", 1);
+                    return true;
+                }
+            }
+            sizeError.setText("You MUST select the size of board before continuing.");
+
+        }
+        return false;
+
+
+    }
+
 
     public void initGUI() {
 
@@ -272,6 +279,7 @@ public class MainUI {
         serverPanel.add(joinGame);
         serverPanel.add(getEmptyLabel(new Dimension(50, 25)));
         serverPanel.add(getEmptyLabel(new Dimension(50, 25)));
+       // hostGame.addActionListener(hostGameListener);
         serverPanel.add(hostGame);
         serverPanel.add(getEmptyLabel(new Dimension(50, 25)));
         serverPanel.add(ipAddress);
@@ -314,7 +322,7 @@ public class MainUI {
 
         submitButton.addActionListener(submitListener);
         submissionPanel.add(ruleButton);
-        submissionPanel.add(getEmptyLabel(new Dimension(60,25)));
+        submissionPanel.add(getEmptyLabel(new Dimension(60, 25)));
         submissionPanel.add(submitButton);
         ++constraints.gridy;
         grid.add(submissionPanel, constraints);
@@ -329,7 +337,7 @@ public class MainUI {
         frame.setVisible(true);
 
         startGame = false;
-        while(!startGame) {
+        while (!startGame) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -338,7 +346,9 @@ public class MainUI {
         }
         try {
             frame.dispose();
-            new TwoPlayersNewGame(n,n,new Player(me, color1), new Player(otherPlayer,color2), Gui.class).startGame();
+            new TwoPlayersNewGame(n, n, new Player(me, color1), new Player(otherPlayer, color2), Gui.class).startGame();
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
