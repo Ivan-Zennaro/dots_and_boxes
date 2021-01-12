@@ -211,6 +211,7 @@ public class Gui extends IOManager {
 
     }
 
+
     @Override
     public void updateMove(Move move, Player player) {
         int mappedX = getMappedX(move);

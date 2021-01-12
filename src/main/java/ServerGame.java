@@ -32,13 +32,12 @@ public class ServerGame extends Game {
                 if (currentPlayer == player1) {
                     move = ioManager.readMove();
 
-                    if (isMoveAllowed(move)) {  //...send the move to the other client
+                    if (isMoveAllowed(move)) {
                         objectOutputStream.writeObject(move);
                         objectOutputStream.flush();
                     }
-                } else {
+                } else
                     move = (Move) objectInputStream.readObject();
-                }
 
                 computeMove(move);
                 printScoreBoard();
@@ -54,7 +53,5 @@ public class ServerGame extends Game {
             System.out.println("Server is closed.");
             System.out.println("Goodbye, see you next time!");
         }
-
-        //TODO torno al menu iniziale
     }
 }

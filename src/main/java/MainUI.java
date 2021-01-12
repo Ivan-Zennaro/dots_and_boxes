@@ -130,12 +130,10 @@ public class MainUI {
 
         }
     };
-    private ActionListener demo = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            startGame = "demo";
-        }
-    };
+
+    private ActionListener demo = e -> startGame = "demo";
+
+
     private ActionListener close = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
