@@ -82,32 +82,20 @@ public class MainUI {
 
     private String startGame = null;
 
-    /*private GameSolver getSolver(int level) {
-        if(level == 1) return new RandomSolver();
-        else if(level == 2) return new GreedySolver();
-        else if(level == 3) return new MinimaxSolver();
-        else if(level == 4) return new AlphaBetaSolver();
-        else if(level == 5) return new MCSolver();
-        else return null;
-    }*/
-
     private KeyListener key = new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
             if (meTextField.getText().equals("Your Name"))
                 meTextField.setText("");
-
             meTextField.setText(meTextField.getText());
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-
         }
     };
 
@@ -122,12 +110,10 @@ public class MainUI {
 
         @Override
         public void keyPressed(KeyEvent e) {
-
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-
         }
     };
 
@@ -222,10 +208,7 @@ public class MainUI {
                     ip = ipAddress.getText();
                     startGame = "join";
                 }
-
-
             }
-
         }
     };
 
