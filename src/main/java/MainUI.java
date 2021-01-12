@@ -5,18 +5,18 @@ import java.awt.event.*;
 
 public class MainUI {
 
-    private int rows, colum;
+    private int rows, cols;
     private String me, otherPlayer;
     private Color color1, color2;
     private RulesPage rulesPage = new RulesPage();
 
     private static JFrame frame;
-    private JLabel modeError,colorError;
+    private JLabel modeError, colorError;
 
     String[] playersType = {"Select player", "Human", "Computer Easy", "Computer Medium", "Computer Hard"};
     String[] colors = {"<html><font color='" + Color.RED.getRGBstring() + "'>RED", "<html><font color='" + Color.BLU.getRGBstring() + "'>BLU", "<html><font color='" + Color.GREEN.getRGBstring() + "'>GREEN", "<html><font color='" + Color.PURPLE.getRGBstring() + "'>PURPLE"};
     Color[] colors2 = {Color.RED, Color.BLU, Color.GREEN, Color.PURPLE};
-    String[] size ={"1","2","3","4","5"};
+    String[] size = {"1", "2", "3", "4", "5"};
 
 
     JTextField meTextField;
@@ -196,16 +196,24 @@ public class MainUI {
             color2 = colors2[colorBoxPlayer2.getSelectedIndex()];
             if (me.equals("") || typeOfPlayerIndex == 0) {
                 modeError.setText("You MUST select the players before continuing.");
-                return;
+
             } else if (color1.equals(color2)) {
                 colorError.setText("You MUST select 2 different colors for players");
-                return;
+                
             } else {
                 modeError.setText("");
                 otherPlayer = playersType[typeOfPlayerIndex];
-                colum = Integer.parseInt(colSelection.getSelectedItem().toString());
+                cols = Integer.parseInt(colSelection.getSelectedItem().toString());
                 rows = Integer.parseInt(rowSelection.getSelectedItem().toString());
-                startGame = "pvp";
+                startGame =
+                        switch (typeOfPlayerIndex) {
+                            case 0 -> "pvp";
+                            case 1 -> "pvc1";
+                            case 2 -> "pvc2";
+                            case 3 -> "pvc3";
+                            default -> "pvp";
+                        };
+
             }
 
         }
@@ -294,7 +302,7 @@ public class MainUI {
         serverPanel.add(joinGame);
         serverPanel.add(getEmptyLabel(new Dimension(50, 25)));
         serverPanel.add(getEmptyLabel(new Dimension(50, 25)));
-       // hostGame.addActionListener(hostGameListener);
+        // hostGame.addActionListener(hostGameListener);
         serverPanel.add(hostGame);
         serverPanel.add(getEmptyLabel(new Dimension(50, 25)));
         serverPanel.add(ipAddress);
@@ -346,18 +354,12 @@ public class MainUI {
 
         frame.dispose();
 
-        if (startGame.equals("pvp")) {
-            try {
-                frame.dispose();
-                GameFactory.create2PlayerGameWithGUI(rows, colum, new Player(me, color1), new Player(otherPlayer, color2)).startGame();
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (startGame.equals("demo")) {
-            new ComputerVsComputerGame(3, 3, new Player("Player 1", Color.BLU), new Player("Payer 2", Color.RED), new Gui(3, 3, new Player("Player 1", Color.BLU), new Player("Player 2", Color.RED)), 1).startGame();
-
+        switch (startGame) {
+            case "demo" -> GameFactory.createComputerVsComputerGameWithGUI(3, 3, new Player("Player 1", Color.BLU), new Player("Payer 2", Color.RED)).startGame();
+            case "pvp"  -> GameFactory.create2PlayerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2)).startGame();
+            case "pvc1" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.EASY).startGame();
+            case "pvc2" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.MEDIUM).startGame();
+            case "pvc3" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.HARD).startGame();
         }
     }
 
