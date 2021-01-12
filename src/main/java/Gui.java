@@ -108,7 +108,7 @@ public class Gui extends IOManager {
         box = new JLabel[boardRows][boardCols];
 
 
-        frame = new JFrame("dots andf ");
+        frame = new JFrame("Dots and Boxes");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         init();
