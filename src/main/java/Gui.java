@@ -125,7 +125,7 @@ public class Gui extends IOManager {
     }
 
     public boolean isSetBox(int x, int y) {
-        return box[x][y].getBackground().equals(player1Color) || box[x][y].getBackground().equals(player2Color);
+        return box[x][y].getBackground().equals(player1.getColor().getAwtColor()) || box[x][y].getBackground().equals(player2.getColor().getAwtColor());
     }
 
     private Move getSource(Object object) {

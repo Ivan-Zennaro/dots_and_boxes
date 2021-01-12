@@ -27,6 +27,7 @@ public class TestGui {
 
     @Test
     public void box_colored_when_requested() {
+
         Player p1 = new Player('A', Color.RED);
         Player p2 = new Player('B', Color.BLU);
 
