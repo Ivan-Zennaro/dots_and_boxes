@@ -10,15 +10,13 @@ public class MainUI {
     private Color color1, color2;
     private RulesPage rulesPage = new RulesPage();
 
-
     private static JFrame frame;
-    private JLabel modeError, sizeError, colorError;
+    private JLabel modeError,colorError;
 
     String[] playersType = {"Select player", "Human", "Computer Easy", "Computer Medium", "Computer Hard"};
     String[] colors = {"<html><font color='" + Color.RED.getRGBstring() + "'>RED", "<html><font color='" + Color.BLU.getRGBstring() + "'>BLU", "<html><font color='" + Color.GREEN.getRGBstring() + "'>GREEN", "<html><font color='" + Color.PURPLE.getRGBstring() + "'>PURPLE"};
     Color[] colors2 = {Color.RED, Color.BLU, Color.GREEN, Color.PURPLE};
     String[] size ={"1","2","3","4","5"};
-    private JRadioButton[] sizeButton;
 
 
     JTextField meTextField;
