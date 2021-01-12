@@ -16,7 +16,7 @@ public class PlayerVsComputerGame extends NewGame {
             else
                 computeMove(computerSolver.getComputerMove());
             printScoreBoard();
-            try{Thread.sleep(300);}catch (Exception e){}
+            try{Thread.sleep(200);}catch (Exception e){}
         }
         endGame();
     }
