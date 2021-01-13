@@ -36,3 +36,6 @@ Adapted some tests to the new configuration of the code, still need to delete de
 12/01/2021
 Worked together to continue the Server-Client version.
 Adapted Main Menus for Gui and Terminal to call the various game modes
+
+13/01/2021
+Worked in pair programming to continue the Server-Client version.
