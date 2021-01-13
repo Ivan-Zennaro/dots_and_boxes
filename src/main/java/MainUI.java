@@ -177,35 +177,35 @@ public class MainUI {
             int typeOfPlayerIndex = comboBox.getSelectedIndex();
             color1 = colors2[colorBoxPlayer1.getSelectedIndex()];
             color2 = colors2[colorBoxPlayer2.getSelectedIndex()];
-            if (me.equals("") || typeOfPlayerIndex == 0) {
-                modeError.setText("You MUST select the players before continuing.");
+            cols = Integer.parseInt(colSelection.getSelectedItem().toString());
+            rows = Integer.parseInt(rowSelection.getSelectedItem().toString());
 
+
+            if (me.equals("")) {
+                modeError.setText("You MUST type player1 name");
             } else if (color1.equals(color2)) {
                 colorError.setText("You MUST select 2 different colors for players");
-
+            } else if (localOrRemote[2].isSelected()) {
+                ip = ipAddress.getText();
+                startGame = "join";
+            } else if (localOrRemote[1].isSelected()) {
+                startGame = "host";
+            } else if (typeOfPlayerIndex == 0) {
+                modeError.setText("You MUST select player2 type");
             } else {
                 modeError.setText("");
                 otherPlayer = playersType[typeOfPlayerIndex];
-                cols = Integer.parseInt(colSelection.getSelectedItem().toString());
-                rows = Integer.parseInt(rowSelection.getSelectedItem().toString());
-
-                if (localOrRemote[0].isSelected()) {
-                    startGame =
-                            switch (typeOfPlayerIndex) {
-                                case 0 -> "pvp";
-                                case 1 -> "pvc1";
-                                case 2 -> "pvc2";
-                                case 3 -> "pvc3";
-                                default -> "pvp";
-                            };
-                } else if (localOrRemote[1].isSelected()) {
-                    startGame = "host";
-                } else if (localOrRemote[2].isSelected()) {
-                    ip = ipAddress.getText();
-                    startGame = "join";
-                }
+                startGame =
+                        switch (typeOfPlayerIndex) {
+                            case 1 -> "pvp";
+                            case 2 -> "pvc1";
+                            case 3 -> "pvc2";
+                            case 4 -> "pvc3";
+                            default -> "pvp";
+                        };
             }
         }
+
     };
 
 
