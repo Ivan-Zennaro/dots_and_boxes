@@ -48,7 +48,7 @@ Worked in pair programming to continue the Server-Client version.
   4. Two players compete to complete most boxes in the game grid\sand to get more points!
   5.You can also choose to host or join a server-based game on the main menu.
                         
-  Enjoy the game!
+  ### Enjoy the game!
 
 ## Cli version
 con convenzione per inserire la mossa 
