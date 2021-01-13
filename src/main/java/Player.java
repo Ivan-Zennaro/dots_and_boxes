@@ -26,9 +26,8 @@ public class Player {
         return name;
     }
 
-    public int onePointDone() {
-        this.points += 1;
-        return this.points;
+    public void onePointDone() {
+        this.points ++;
     }
 
 
