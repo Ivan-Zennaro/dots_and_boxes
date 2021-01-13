@@ -61,12 +61,13 @@ public class MainUI {
 
         localOrRemote = new JRadioButton[3];
         sizeGroup = new ButtonGroup();
-        localOrRemote[0] = new JRadioButton("Local");
+        localOrRemote[0] = new JRadioButton("Local", true);
         localOrRemote[1] = new JRadioButton("Host");
         localOrRemote[2] = new JRadioButton("Join");
         sizeGroup.add(localOrRemote[0]);
         sizeGroup.add(localOrRemote[1]);
         sizeGroup.add(localOrRemote[2]);
+
 
         frame1 = new JFrame("Player-2");
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
