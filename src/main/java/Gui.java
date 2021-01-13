@@ -104,7 +104,6 @@ public class Gui extends IOManager {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         init();
-
     }
 
     public boolean isSetLine(int x, int y) {
@@ -116,7 +115,7 @@ public class Gui extends IOManager {
     }
 
     public boolean isSetBox(int x, int y) {
-        return box[x][y].getBackground().equals(player1.getAwtColor()) || box[x][y].getBackground().equals(player2.getAwtColor());
+        return box[x][y].getBackground().equals(player1.getColor().getAwtColor()) || box[x][y].getBackground().equals(player2.getColor().getAwtColor());
     }
 
     private Move getSource(Object object) {
@@ -207,28 +206,28 @@ public class Gui extends IOManager {
     public void updateMove(Move move, Player player) {
         int mappedX = getMappedX(move);
         int mappedY = getMappedY(move);
-        graphicBoard[mappedX][mappedY].setBackground(player.getAwtColor());
+        graphicBoard[mappedX][mappedY].setBackground(player.getColor().getAwtColor());
         setLine(mappedX, mappedY);
     }
 
     @Override
     public void updateCompletedBox(int x, int y, Player player) {
-        box[x][y].setBackground(player.getAwtColor());
+        box[x][y].setBackground(player.getColor().getAwtColor());
     }
 
     @Override
     public void updateGameInfo(Player currentPlayer) {
 
-        currentPlayerColor = currentPlayer.getAwtColor();
+        currentPlayerColor = currentPlayer.getColor().getAwtColor();
 
         p1ScoreLabel.setText(String.valueOf(player1.getPoints()));
         p2ScoreLabel.setText(String.valueOf(player2.getPoints()));
 
         if (currentPlayer == player1) {
-            statusLabel.setForeground(player1.getAwtColor());
+            statusLabel.setForeground(player1.getColor().getAwtColor());
             statusLabel.setText("Player 1's Turn...");
         } else {
-            statusLabel.setForeground(player2.getAwtColor());
+            statusLabel.setForeground(player2.getColor().getAwtColor());
             statusLabel.setText("Player 2's Turn...");
         }
     }
@@ -238,10 +237,10 @@ public class Gui extends IOManager {
 
         if (player1.getPoints() > player2.getPoints()) {
             statusLabel.setText("Player-1 is the winner!");
-            statusLabel.setForeground(player1.getAwtColor());
+            statusLabel.setForeground(player1.getColor().getAwtColor());
         } else if (player2.getPoints() > player1.getPoints()) {
             statusLabel.setText("Player-2 is the winner!");
-            statusLabel.setForeground(player2.getAwtColor());
+            statusLabel.setForeground(player2.getColor().getAwtColor());
         } else {
             statusLabel.setText("Game Tied!");
             statusLabel.setForeground(Color.BLACK);
@@ -260,14 +259,14 @@ public class Gui extends IOManager {
 
     private JLabel getNewP1Label(String text) {
         JLabel tempLabel = new JLabel(text, SwingConstants.CENTER);
-        tempLabel.setForeground(player1.getAwtColor());
+        tempLabel.setForeground(player1.getColor().getAwtColor());
         tempLabel.setFont(new Font("Verdana", Font.BOLD, 15));
         return tempLabel;
     }
 
     private JLabel getNewP2Label(String text) {
         JLabel tempLabel = new JLabel(text, SwingConstants.CENTER);
-        tempLabel.setForeground(player2.getAwtColor());
+        tempLabel.setForeground(player2.getColor().getAwtColor());
         tempLabel.setFont(new Font("Verdana", Font.BOLD, 15));
         return tempLabel;
     }

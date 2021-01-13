@@ -16,6 +16,6 @@ public class TestPlayer {
     @CsvSource({"RED", "BLU", "PURPLE", "GREEN"})
     public void color_is_mapped_to_the_correct_awtColor(Color color){
         Player player = new Player("A", color);
-        Assertions.assertEquals(color.getAwtColor(), player.getAwtColor());
+        Assertions.assertEquals(color.getAwtColor(), player.getColor().getAwtColor());
     }
 }

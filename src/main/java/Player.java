@@ -18,10 +18,6 @@ public class Player {
         return this.color;
     }
 
-    public java.awt.Color getAwtColor(){
-        return this.color.getAwtColor();
-    }
-
     public char getFirstLetterName() {
         return this.name.charAt(0);
     }
