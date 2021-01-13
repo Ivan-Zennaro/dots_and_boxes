@@ -16,21 +16,20 @@ public class ClientGame extends Game {
         try (Socket socket = new Socket(ip, PORT)) {
 
             new Thread(() -> {
-                while (true){
+                boolean timeToStopThread = false;
+                while (!timeToStopThread){
                     if (ioManager.getBackPress()){
                         try {
                             socket.close();
-                            Thread.currentThread().interrupt();
-                            Thread.currentThread().stop();
+                            timeToStopThread = true;
                         } catch (IOException e){
-                            System.out.println("errore in server.close()");
+                            e.printStackTrace();
                         }
                     }
-                    System.out.println(ioManager.getBackPress());
                     try {
-                        Thread.sleep(1000);
+                        Thread.currentThread().sleep(200);
                     } catch (Exception e){
-                        System.out.println("errore in sleep");
+                        e.printStackTrace();
                     }
                 }
             }).start();
