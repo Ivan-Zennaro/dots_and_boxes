@@ -12,8 +12,28 @@ public class ClientGame extends Game {
     }
 
     @Override
-    public void startGame() {
+    public void startGame(){
         try (Socket socket = new Socket(ip, PORT)) {
+
+            new Thread(() -> {
+                while (true){
+                    if (ioManager.getBackPress()){
+                        try {
+                            socket.close();
+                            Thread.currentThread().interrupt();
+                            Thread.currentThread().stop();
+                        } catch (IOException e){
+                            System.out.println("errore in server.close()");
+                        }
+                    }
+                    System.out.println(ioManager.getBackPress());
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e){
+                        System.out.println("errore in sleep");
+                    }
+                }
+            }).start();
 
             OutputStream outputStream = socket.getOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
@@ -40,16 +60,14 @@ public class ClientGame extends Game {
                 computeMove(move);
                 printScoreBoard();
             }
-
+            socket.close();
             endGame();
 
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+            ioManager.errorHandler("Impossible to connect to Server");
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-        //TODO torno al menu iniziale
     }
 }
 

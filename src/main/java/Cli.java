@@ -61,6 +61,11 @@ public class Cli extends IOManager {
     }
 
     @Override
+    public void errorHandler(String msg) {
+        System.out.println(msg);
+    }
+
+    @Override
     public void updateGameInfo(Player currentPlayer) {
         System.out.println(getStringBoard());
         System.out.println("Player " + player1.getFirstLetterName() + " got " + player1.getPoints() + " points");

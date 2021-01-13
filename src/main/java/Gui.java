@@ -69,6 +69,9 @@ public class Gui extends IOManager {
     private ActionListener backListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+
+            backPress = true;
+
             frame.dispose();
             Thread thread = new Thread(() -> new MainUI().initGUI());
             thread.start();
@@ -245,6 +248,16 @@ public class Gui extends IOManager {
         }
     }
 
+    @Override
+    public void errorHandler(String msg) {
+        if (!getBackPress()){
+            JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.INFORMATION_MESSAGE);
+            frame.setVisible(false);
+            frame.dispose();
+            new Thread(() -> new MainUI().initGUI()).start();
+        }
+    }
+
     private JLabel getNewP1Label(String text) {
         JLabel tempLabel = new JLabel(text, SwingConstants.CENTER);
         tempLabel.setForeground(player1.getAwtColor());
@@ -346,10 +359,13 @@ public class Gui extends IOManager {
             frame.revalidate();
             frame.repaint();
 
+
             frame.setContentPane(grid);
             frame.pack();
             frame.setLocationRelativeTo(null);
+            frame.setResizable(false);
             frame.setVisible(true);
+
         }
 
     }

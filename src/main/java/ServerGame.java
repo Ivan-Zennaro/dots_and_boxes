@@ -18,6 +18,28 @@ public class ServerGame extends Game {
             System.out.println("Server ready....");
             Socket socket = server.accept();
 
+            new Thread(() -> {
+                while (true){
+                    if (ioManager.getBackPress()){
+                        try {
+                            server.close();
+                            socket.close();
+                            Thread.currentThread().interrupt();
+                            Thread.currentThread().stop();
+                        } catch (IOException e){
+                            System.out.println("errore in server.close()");
+                        }
+                    }
+                    System.out.println(ioManager.getBackPress());
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e){
+                        System.out.println("errore in sleep");
+                    }
+                }
+            }).start();
+
+
             OutputStream outputStream = socket.getOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 
@@ -35,6 +57,7 @@ public class ServerGame extends Game {
                     if (isMoveAllowed(move)) {
                         objectOutputStream.writeObject(move);
                         objectOutputStream.flush();
+
                     }
                 } else
                     move = (Move) objectInputStream.readObject();
@@ -43,15 +66,15 @@ public class ServerGame extends Game {
                 printScoreBoard();
             }
 
+            socket.close();
+            server.close();
             endGame();
 
         } catch (IOException e) {
+            ioManager.errorHandler("Port already used");
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println("Server is closed.");
-            System.out.println("Goodbye, see you next time!");
         }
+
     }
 }
