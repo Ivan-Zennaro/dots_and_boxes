@@ -18,23 +18,19 @@ public class MainUI {
     String[] size = {"1", "2", "3", "4", "5"};
 
 
-    JTextField meTextField;
+    JTextField player1Name;
     DefaultComboBoxModel<String> optionsPlayer2;
     JComboBox<String> comboBox;
     JComboBox<String> colorBoxPlayer1;
     JComboBox<String> colorBoxPlayer2;
     JComboBox<String> colSelection;
     JComboBox<String> rowSelection;
-
     private JRadioButton[] localOrRemote;
     ButtonGroup sizeGroup;
-
-    JButton hostGame;
-    JButton joinGame;
     JTextField ipAddress;
-
-    private JFrame frame1;
     JTextField humanName;
+    private JFrame frame1;
+
     JButton Enter;
 
     String ip;
@@ -44,7 +40,7 @@ public class MainUI {
         frame = new JFrame("Dots and Boxes");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        meTextField = new JTextField();
+        player1Name = new JTextField();
         optionsPlayer2 = new DefaultComboBoxModel<>(playersType);
         comboBox = new JComboBox<>(optionsPlayer2);
 
@@ -61,12 +57,13 @@ public class MainUI {
 
         localOrRemote = new JRadioButton[3];
         sizeGroup = new ButtonGroup();
-        localOrRemote[0] = new JRadioButton("Local");
+        localOrRemote[0] = new JRadioButton("Local", true);
         localOrRemote[1] = new JRadioButton("Host");
         localOrRemote[2] = new JRadioButton("Join");
         sizeGroup.add(localOrRemote[0]);
         sizeGroup.add(localOrRemote[1]);
         sizeGroup.add(localOrRemote[2]);
+
 
         frame1 = new JFrame("Player-2");
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,9 +82,9 @@ public class MainUI {
     private KeyListener key = new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
-            if (meTextField.getText().equals("Your Name"))
-                meTextField.setText("");
-            meTextField.setText(meTextField.getText());
+            if (player1Name.getText().equals("Your Name"))
+                player1Name.setText("");
+            player1Name.setText(player1Name.getText());
         }
 
         @Override
@@ -104,7 +101,6 @@ public class MainUI {
         public void keyTyped(KeyEvent e) {
             if (humanName.getText().equals("Human Name"))
                 humanName.setText("");
-
             humanName.setText(humanName.getText());
         }
 
@@ -177,39 +173,39 @@ public class MainUI {
     private ActionListener submitListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            me = meTextField.getText();
+            me = player1Name.getText();
             int typeOfPlayerIndex = comboBox.getSelectedIndex();
             color1 = colors2[colorBoxPlayer1.getSelectedIndex()];
             color2 = colors2[colorBoxPlayer2.getSelectedIndex()];
-            if (me.equals("") || typeOfPlayerIndex == 0) {
-                modeError.setText("You MUST select the players before continuing.");
+            cols = Integer.parseInt(colSelection.getSelectedItem().toString());
+            rows = Integer.parseInt(rowSelection.getSelectedItem().toString());
 
+
+            if (me.equals("")) {
+                modeError.setText("You MUST type player1 name");
             } else if (color1.equals(color2)) {
                 colorError.setText("You MUST select 2 different colors for players");
-
+            } else if (localOrRemote[2].isSelected()) {
+                ip = ipAddress.getText();
+                startGame = "join";
+            } else if (localOrRemote[1].isSelected()) {
+                startGame = "host";
+            } else if (typeOfPlayerIndex == 0) {
+                modeError.setText("You MUST select player2 type");
             } else {
                 modeError.setText("");
                 otherPlayer = playersType[typeOfPlayerIndex];
-                cols = Integer.parseInt(colSelection.getSelectedItem().toString());
-                rows = Integer.parseInt(rowSelection.getSelectedItem().toString());
-
-                if (localOrRemote[0].isSelected()) {
-                    startGame =
-                            switch (typeOfPlayerIndex) {
-                                case 0 -> "pvp";
-                                case 1 -> "pvc1";
-                                case 2 -> "pvc2";
-                                case 3 -> "pvc3";
-                                default -> "pvp";
-                            };
-                } else if (localOrRemote[1].isSelected()) {
-                    startGame = "host";
-                } else if (localOrRemote[2].isSelected()) {
-                    ip = ipAddress.getText();
-                    startGame = "join";
-                }
+                startGame =
+                        switch (typeOfPlayerIndex) {
+                            case 1 -> "pvp";
+                            case 2 -> "pvc1";
+                            case 3 -> "pvc2";
+                            case 4 -> "pvc3";
+                            default -> "pvp";
+                        };
             }
         }
+
     };
 
 
@@ -235,12 +231,12 @@ public class MainUI {
         modePanel.add(new JLabel("<html><font color='Black'>Player-1:", SwingConstants.CENTER));
         modePanel.add(getEmptyLabel(new Dimension(50, 25)));
         modePanel.add(new JLabel("<html><font color='Black'>Player-2:", SwingConstants.CENTER));
-        modePanel.add(meTextField);
+        modePanel.add(player1Name);
         modePanel.add(getEmptyLabel(new Dimension(50, 25)));
         modePanel.add(comboBox);
 
-        meTextField.setText("Your Name");
-        meTextField.addKeyListener(key);
+        player1Name.setText("Your Name");
+        player1Name.addKeyListener(key);
 
         comboBox.setSelectedIndex(0);
         comboBox.addActionListener(select);
@@ -346,7 +342,6 @@ public class MainUI {
         frame.setContentPane(grid);
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
         frame.setVisible(true);
 
 
@@ -367,7 +362,7 @@ public class MainUI {
             case "pvc2" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.MEDIUM).startGame();
             case "pvc3" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.HARD).startGame();
             case "host" -> GameFactory.createServerGameWithGUI(3, 3, new Player(me, color1), new Player("Batman", Color.BLU)).startGame();
-            case "join" -> GameFactory.createClientGameWithGUI(3, 3, new Player("Batman", Color.BLU),new Player(me, color1), ip).startGame();
+            case "join" -> GameFactory.createClientGameWithGUI(3, 3, new Player("Batman", Color.BLU), new Player(me, color1), ip).startGame();
 
         }
     }

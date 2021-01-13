@@ -13,7 +13,7 @@ public class ComputerVsComputerGame extends Game {
         while (!isGameFinished()) {
             computeMove(getComputerMove());
             printScoreBoard();
-            try{Thread.sleep(300);}catch (Exception e){}
+            try{Thread.sleep(500);}catch (Exception e){}
         }
         endGame();
     }

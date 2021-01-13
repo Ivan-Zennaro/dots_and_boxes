@@ -47,6 +47,16 @@ public class TerminalMainUI {
                     game.startGame();
                     System.out.println("\n--------------------------\nGAME ENDED\n--------------------------\n");
                 }
+                case "4" ->{
+                    startServerGameWithCli();
+                    System.out.println("\n--------------------------\nSERVER CLOSED\n--------------------------\n");
+
+                }
+                case "5" ->{
+                    startClientGameWithCli();
+                    System.out.println("\n--------------------------\nGAME ENDED\n--------------------------\n");
+
+                }
                 case "quit" -> flagEndProgram = true;
                 default -> System.out.println("INVALID INPUT");
             }
@@ -109,5 +119,52 @@ public class TerminalMainUI {
         Player player2 = new Player("2", Color.BLU);
         Game game = GameFactory.createPlayerVsComputerGameWithCli(input, input, player1, player2,difficulty);
         game.startGame();
+    }
+    public static void startServerGameWithCli() {
+        int input = 3;
+        System.out.println("Insert board size (Default: 3):");
+        try {
+            input = Integer.parseInt(keyboard.nextLine());
+        } catch (Exception e) {
+            System.out.println("Invalid Insertion. Default is taken.");
+        }
+
+        Player player1 = new Player("1", Color.RED);
+        Player player2 = new Player("2", Color.BLU);
+        Game game = GameFactory.createServerGameWithCli(input, input, player1, player2);
+        game.startGame();
+    }
+    public static void startClientGameWithCli() {
+        int input = 3;
+        System.out.println("Insert board size (Default: 3):");
+        try {
+            input = Integer.parseInt(keyboard.nextLine());
+        } catch (Exception e) {
+            System.out.println("Invalid Insertion. Default is taken.");
+        }
+        String ipDefault = "127.0.0.1";
+        //System.out.println("Insert IP address (Default: 127.0.0.1 LOCAL):");
+        try {
+            //String ip = keyboard.nextLine();
+
+
+        Player player1 = new Player("1", Color.RED);
+        Player player2 = new Player("2", Color.BLU);
+        System.out.println("Connecting...");
+        Game game = GameFactory.createClientGameWithCli(input, input, player1, player2,ipDefault);
+
+        game.startGame();
+        } //catch (Exception e1) {
+        //System.out.println("Invalid Insertion. Default is taken.");
+        //Player player1 = new Player("1", Color.RED);
+        //Player player2 = new Player("2", Color.BLU);
+        //Game game = GameFactory.createClientGameWithCli(input, input, player1, player2,ipDefault);
+        //try {
+        //    game.startGame();
+        //}
+        catch (Exception e2){
+            System.out.println("Local address invalid. No server has been started on local.");
+        }
+        //}
     }
 }
