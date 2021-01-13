@@ -4,10 +4,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.Scanner;
-
 public class TestMoveParsing {
 
     @ParameterizedTest
@@ -34,56 +30,6 @@ public class TestMoveParsing {
         Move testMove = new Move(-1,-1,Side.INVALID);
 
         Assertions.assertEquals(testMove,inputMove);
-    }
-
-    @Test
-    public void testPlayerInput() {
-        String data = "4 5 U";
-        InputStream stdin = System.in;
-        try {
-            System.setIn(new ByteArrayInputStream(data.getBytes()));
-            Scanner scanner = new Scanner(System.in);
-            Move inputMove = Move.parseMove(scanner.nextLine());
-            Move testMove = new Move(4,5,Side.UP);
-
-            Assertions.assertEquals(testMove,inputMove);
-
-        } finally {
-            System.setIn(stdin);
-        }
-
-
-    }
-
-    @Test
-    public void testPlayerMultipleInput() {
-        String data = "4 5 U \n3 5 D \n10 11 L";
-        InputStream stdin = System.in;
-        try {
-            System.setIn(new ByteArrayInputStream(data.getBytes()));
-            Scanner scanner = new Scanner(System.in);
-
-
-            Move inputMove = Move.parseMove(scanner.nextLine());
-            Move testMove = new Move(4,5,Side.UP);
-
-            Assertions.assertEquals(testMove,inputMove);
-            inputMove = Move.parseMove(scanner.nextLine());
-            testMove = new Move(3,5,Side.DOWN);
-
-            Assertions.assertEquals(testMove,inputMove);
-
-
-            inputMove = Move.parseMove(scanner.nextLine());
-            testMove = new Move(10,11,Side.LEFT);
-
-            Assertions.assertEquals(testMove,inputMove);
-
-        } finally {
-            System.setIn(stdin);
-        }
-
-
     }
 }
 
