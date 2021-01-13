@@ -39,3 +39,19 @@ Adapted Main Menus for Gui and Terminal to call the various game modes
 
 13/01/2021
 Worked in pair programming to continue the Server-Client version.
+
+## Rules
+Regole del gioco
+
+## Cli version
+con convenzione per inserire la mossa 
+
+![Graphical Game Play Screenshot](images/dots-and-boxes-Cli-screenshot.png)
+
+## Gui version
+menu
+![Graphical Game Play Screenshot](images/dots-and-boxes-Gui-Menu.png)
+
+
+e schermata di gioco
+![Graphical Game Play Screenshot](images/dots-and-boxes-Cli-Board.png)
