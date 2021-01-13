@@ -23,12 +23,11 @@ public class TestMoveParsing {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"4 5 k", "u p k", "487 K", "01D", "0", "", "0 0 D"})
+    @ValueSource(strings = {"4 5 k", "u p k", "487 K", "01D", "0", "", "0 0 0"})
     public void string_to_invalid_move(String input) {
         Move inputMove = Move.parseMove(input);
-        Move testMove = new Move(-1, -1, Side.INVALID);
 
-        Assertions.assertEquals(testMove, inputMove);
+        Assertions.assertEquals(Move.getInvalidMove(), inputMove);
     }
 }
 
