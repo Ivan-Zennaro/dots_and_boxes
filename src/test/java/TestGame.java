@@ -8,7 +8,7 @@ public class TestGame {
     private final Player player1 = new Player("A", Color.BLU);
     private final Player player2 = new Player("B", Color.RED);
     private final Cli cli = new Cli(boardSize, boardSize, player1, player2);
-    private final GameStub game = new GameStub(2, 2, player1, player2, cli);
+    private final TwoPlayersGame game = new TwoPlayersGame(2, 2, player1, player2, cli);
 
     @Test
     public void is_not_ended() {
