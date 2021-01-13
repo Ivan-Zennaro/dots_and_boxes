@@ -18,23 +18,19 @@ public class MainUI {
     String[] size = {"1", "2", "3", "4", "5"};
 
 
-    JTextField meTextField;
+    JTextField player1Name;
     DefaultComboBoxModel<String> optionsPlayer2;
     JComboBox<String> comboBox;
     JComboBox<String> colorBoxPlayer1;
     JComboBox<String> colorBoxPlayer2;
     JComboBox<String> colSelection;
     JComboBox<String> rowSelection;
-
     private JRadioButton[] localOrRemote;
     ButtonGroup sizeGroup;
-
-    JButton hostGame;
-    JButton joinGame;
     JTextField ipAddress;
-
-    private JFrame frame1;
     JTextField humanName;
+    private JFrame frame1;
+
     JButton Enter;
 
     String ip;
@@ -44,7 +40,7 @@ public class MainUI {
         frame = new JFrame("Dots and Boxes");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        meTextField = new JTextField();
+        player1Name = new JTextField();
         optionsPlayer2 = new DefaultComboBoxModel<>(playersType);
         comboBox = new JComboBox<>(optionsPlayer2);
 
@@ -86,9 +82,9 @@ public class MainUI {
     private KeyListener key = new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
-            if (meTextField.getText().equals("Your Name"))
-                meTextField.setText("");
-            meTextField.setText(meTextField.getText());
+            if (player1Name.getText().equals("Your Name"))
+                player1Name.setText("");
+            player1Name.setText(player1Name.getText());
         }
 
         @Override
@@ -105,7 +101,6 @@ public class MainUI {
         public void keyTyped(KeyEvent e) {
             if (humanName.getText().equals("Human Name"))
                 humanName.setText("");
-
             humanName.setText(humanName.getText());
         }
 
@@ -178,7 +173,7 @@ public class MainUI {
     private ActionListener submitListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            me = meTextField.getText();
+            me = player1Name.getText();
             int typeOfPlayerIndex = comboBox.getSelectedIndex();
             color1 = colors2[colorBoxPlayer1.getSelectedIndex()];
             color2 = colors2[colorBoxPlayer2.getSelectedIndex()];
@@ -236,12 +231,12 @@ public class MainUI {
         modePanel.add(new JLabel("<html><font color='Black'>Player-1:", SwingConstants.CENTER));
         modePanel.add(getEmptyLabel(new Dimension(50, 25)));
         modePanel.add(new JLabel("<html><font color='Black'>Player-2:", SwingConstants.CENTER));
-        modePanel.add(meTextField);
+        modePanel.add(player1Name);
         modePanel.add(getEmptyLabel(new Dimension(50, 25)));
         modePanel.add(comboBox);
 
-        meTextField.setText("Your Name");
-        meTextField.addKeyListener(key);
+        player1Name.setText("Your Name");
+        player1Name.addKeyListener(key);
 
         comboBox.setSelectedIndex(0);
         comboBox.addActionListener(select);
