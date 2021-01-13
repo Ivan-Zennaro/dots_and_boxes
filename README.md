@@ -50,8 +50,10 @@ con convenzione per inserire la mossa
 
 ## Gui version
 menu
+
 ![Graphical Game Play Screenshot](images/dots-and-boxes-GUI-Menu.PNG)
 
 
 e schermata di gioco
+
 ![Graphical Game Play Screenshot](images/dots-and-boxes-GUI-Board.PNG)
