@@ -1,43 +1,41 @@
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 
 public class TestGui {
 
-    @Test
-    public void a_line_isnt_colored_at_init() {
-        Player p1 = new Player("A", Color.RED);
-        Player p2 = new Player("B", Color.BLU);
+    Player p1 = UtilityTest.getMockP1();
+    Player p2 = UtilityTest.getMockP2();
 
-        Gui g = new Gui(3, 3, p1, p2);
-        Move testMove = new Move(1, 1, Side.UP);
+    @ParameterizedTest
+    @ValueSource(strings = {"UP", "DOWN", "LEFT", "RIGHT"})
+    public void a_line_isnt_colored_at_init(Side side) {
+        Gui g = new Gui(1, 1, p1, p2);
+        Move testMove = new Move(0, 0, side);
         Assertions.assertFalse(g.isSetLine(IOManager.getMappedX(testMove), IOManager.getMappedY(testMove)));
     }
 
-    @Test
-    public void line_colored_when_move_inserted() {
-        Player p1 = new Player("A", Color.RED);
-        Player p2 = new Player("B", Color.BLU);
-
+    @ParameterizedTest
+    @CsvSource({"0,0,LEFT", "1,1,RIGHT", "1,2,LEFT", "0,0,DOWN","2,2,UP"})
+    public void line_colored_when_move_inserted(int x, int y, Side side) {
         Gui g = new Gui(3, 3, p1, p2);
-        Move testMove = new Move(1, 1, Side.UP);
+        Move testMove = new Move(x, y, side);
         g.updateMove(testMove, p1);
         Assertions.assertTrue(g.isSetLine(IOManager.getMappedX(testMove), IOManager.getMappedY(testMove)));
     }
 
-    @Test
-    public void box_colored_when_requested() {
-
-        Player p1 = new Player("A", Color.RED);
-        Player p2 = new Player("B", Color.BLU);
-
+    @ParameterizedTest
+    @CsvSource({"0,0,LEFT", "1,1,RIGHT", "1,2,LEFT", "0,0,DOWN","2,2,UP"})
+    public void box_colored_when_requested(int x, int y, Side side) {
         Gui g = new Gui(3, 3, p1, p2);
-        Move moveThatCompletesABox = new Move(1, 1, Side.UP);
-        int x = moveThatCompletesABox.getX();
-        int y = moveThatCompletesABox.getX();
-        g.updateCompletedBox(x, y, p1);
+        Move moveThatCompletesABox = new Move(x, y, side);
+        int xBox = moveThatCompletesABox.getX();
+        int yBox = moveThatCompletesABox.getX();
+        g.updateCompletedBox(xBox, yBox, p1);
 
-        Assertions.assertTrue( g.isSetBox(x, y) );
+        Assertions.assertTrue( g.isSetBox(xBox, yBox) );
     }
 
 
