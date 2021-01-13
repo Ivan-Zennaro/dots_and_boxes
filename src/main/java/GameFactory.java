@@ -13,14 +13,15 @@ public class GameFactory {
         Gui gui = new Gui(nRow ,nCols, p1, p2);
         return new PlayerVsComputerGame(nRow, nCols, p1, p2, gui,difficulty);
     }
+    public static Game createServerGameWithGUI(int nRow, int nCols, Player p1, Player p2) {
+        Gui gui = new Gui(nRow ,nCols, p1, p2);
+        return new ServerGame(nRow, nCols, p1, p2, gui);
+    }
     public static Game createClientGameWithGUI(int nRow, int nCols, Player p1, Player p2, String ip) {
         Gui gui = new Gui(nRow ,nCols, p1, p2);
         return new ClientGame(nRow, nCols, p1, p2, gui, ip);
     }
-    public static Game createServerGameWithGUI(int nRow, int nCols, Player p1, Player p2, String ip) {
-        Gui gui = new Gui(nRow ,nCols, p1, p2);
-        return new ServerGame(nRow, nCols, p1, p2, gui);
-    }
+
 
     //CLI Games
     public static Game create2PlayerGameWithCli(int nRow, int nCols, Player p1, Player p2) {
@@ -35,13 +36,14 @@ public class GameFactory {
         Cli cli = new Cli(nRow ,nCols, p1, p2);
         return new PlayerVsComputerGame(nRow, nCols, p1, p2, cli,difficulty);
     }
+    public static Game createServerGameWithCli(int nRow, int nCols, Player p1, Player p2) {
+        Cli cli = new Cli(nRow ,nCols, p1, p2);
+        return new ServerGame(nRow, nCols, p1, p2, cli);
+    }
     public static Game createClientGameWithCli(int nRow, int nCols, Player p1, Player p2, String ip) {
         Cli cli = new Cli(nRow ,nCols, p1, p2);
         return new ClientGame(nRow, nCols, p1, p2, cli, ip);
     }
-    public static Game createServerGameWithCli(int nRow, int nCols, Player p1, Player p2, String ip) {
-        Cli cli = new Cli(nRow ,nCols, p1, p2);
-        return new ServerGame(nRow, nCols, p1, p2, cli);
-    }
+
 
 }
