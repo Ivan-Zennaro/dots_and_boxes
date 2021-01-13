@@ -44,7 +44,7 @@ public class MainUI {
         optionsPlayer2 = new DefaultComboBoxModel<>(playersType);
         comboBox = new JComboBox<>(optionsPlayer2);
 
-        ipAddress = new JTextField("Your IP");
+        ipAddress = new JTextField("Opponent IP address");
 
         colorBoxPlayer1 = new JComboBox<>(colors);
         colorBoxPlayer2 = new JComboBox<>(colors);
@@ -208,7 +208,6 @@ public class MainUI {
 
     };
 
-
     public void initGUI() {
 
 
@@ -308,11 +307,6 @@ public class MainUI {
         grid.add(serverPanel, constraints);
 
 
-        ++constraints.gridy;/*
-        grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
-        ++constraints.gridy;
-        grid.add(serverPanel, constraints);*/
-
         ++constraints.gridy;
         grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
 
@@ -342,19 +336,17 @@ public class MainUI {
         frame.setContentPane(grid);
         frame.pack();
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
         frame.setVisible(true);
 
-
-        while (startGame == null) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        waitForCorrectUserAction();
 
         frame.dispose();
 
+        startGame();
+    }
+
+    private void startGame() {
         switch (startGame) {
             case "demo" -> GameFactory.createComputerVsComputerGameWithGUI(3, 3, new Player("Player 1", Color.BLU), new Player("Payer 2", Color.RED)).startGame();
             case "pvp" -> GameFactory.create2PlayerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2)).startGame();
@@ -364,6 +356,16 @@ public class MainUI {
             case "host" -> GameFactory.createServerGameWithGUI(3, 3, new Player(me, color1), new Player("Batman", Color.BLU)).startGame();
             case "join" -> GameFactory.createClientGameWithGUI(3, 3, new Player("Batman", Color.BLU), new Player(me, color1), ip).startGame();
 
+        }
+    }
+
+    private void waitForCorrectUserAction() {
+        while (startGame == null) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
