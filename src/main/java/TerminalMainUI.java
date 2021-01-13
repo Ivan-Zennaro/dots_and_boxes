@@ -86,16 +86,28 @@ public class TerminalMainUI {
     }
 
     public static void startComputerGameWithCLI() {
-        int input = 2;
-        System.out.println("Insert board size (Default: 2):");
+        int input = 3;
+        System.out.println("Insert board size (Default: 3):");
         try {
             input = Integer.parseInt(keyboard.nextLine());
         } catch (Exception e) {
             System.out.println("Invalid Insertion. Default is taken.");
         }
+        Difficulty difficulty = Difficulty.EASY;
+        System.out.println("Insert game difficulty: EASY, MEDIUM or HARD(Default: EASY):");
+        try {
+            String inputString = keyboard.nextLine();
+            switch (inputString) {
+                case "MEDIUM" -> difficulty = Difficulty.MEDIUM;
+                case "HARD" -> difficulty = Difficulty.HARD;
+                default -> System.out.println("Invalid Insertion. Default is taken.");
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid Insertion. Default is taken.");
+        }
         Player player1 = new Player("1", Color.RED);
         Player player2 = new Player("2", Color.BLU);
-        Game game = GameFactory.create2PlayerGameWithCli(input, input, player1, player2);
+        Game game = GameFactory.createPlayerVsComputerGameWithCli(input, input, player1, player2,difficulty);
         game.startGame();
     }
 }
