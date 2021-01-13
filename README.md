@@ -46,12 +46,12 @@ Regole del gioco
 ## Cli version
 con convenzione per inserire la mossa 
 
-![Graphical Game Play Screenshot](images/dots-and-boxes-Cli-screenshot.png)
+![Graphical Game Play Screenshot](images/dots-and-boxes-Cli-screenshot.PNG)
 
 ## Gui version
 menu
-![Graphical Game Play Screenshot](images/dots-and-boxes-Gui-Menu.png)
+![Graphical Game Play Screenshot](images/dots-and-boxes-Gui-Menu.PNG)
 
 
 e schermata di gioco
-![Graphical Game Play Screenshot](images/dots-and-boxes-Cli-Board.png)
+![Graphical Game Play Screenshot](images/dots-and-boxes-Cli-Board.PNG)
