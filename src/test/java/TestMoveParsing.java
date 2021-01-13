@@ -7,29 +7,28 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class TestMoveParsing {
 
     @ParameterizedTest
-    @CsvSource({"10,5,UP,10 5 U", "0,0,DOWN,0 0 D", "1,0,RIGHT,1 0 R", "1,1,LEFT, 1 1 L"})
-    public void string_to_move(int x, int y, Side side, String stringMove){
+    @CsvSource({"10 5 U,10,5,UP", "0 0 D,0,0,DOWN", "1 0 R,1,0,RIGHT", "1 1 L,1,1,LEFT"})
+    public void string_to_move(String stringMove, int x, int y, Side side) {
         Move inputMove = Move.parseMove(stringMove);
-        Move testMove = new Move(x,y,side);
+        Move testMove = new Move(x, y, side);
 
-        Assertions.assertEquals(testMove,inputMove);
+        Assertions.assertEquals(testMove, inputMove);
     }
 
     @Test
-    public void null_to_invalid_move(){
+    public void null_to_invalid_move() {
         Move inputMove = Move.parseMove(null);
-        Move testMove = new Move(-1,-1,Side.INVALID);
 
-        Assertions.assertEquals(testMove,inputMove);
+        Assertions.assertEquals(Move.getInvalidMove(), inputMove);
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"4 5 k", "u p k", "487 K", "01D", "0", "", "0 0 D"}) //L'input è per le stringhe di lunghezza 3, la convenzione si può modificare come preferiamo, basta decidere
-    public void string_to_invalid_move(String input){
+    @ValueSource(strings = {"4 5 k", "u p k", "487 K", "01D", "0", "", "0 0 D"})
+    public void string_to_invalid_move(String input) {
         Move inputMove = Move.parseMove(input);
-        Move testMove = new Move(-1,-1,Side.INVALID);
+        Move testMove = new Move(-1, -1, Side.INVALID);
 
-        Assertions.assertEquals(testMove,inputMove);
+        Assertions.assertEquals(testMove, inputMove);
     }
 }
 
