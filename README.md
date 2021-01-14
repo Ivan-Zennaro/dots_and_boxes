@@ -42,25 +42,43 @@ Worked in pair programming to continue the Server-Client version.
 
 ## Rules
 
-  1. Choose the players' identity and colour and the grid size;
+  1. Choose the players' identity and color, and the grid size;
   2. At each Player's turn, a line from the game grid must be selected;
   3. The player who completes a box gets a point and has an extra turn;
   4. Two players compete to complete most boxes in the game grid\sand to get more points!
-  5.You can also choose to host or join a server-based game on the main menu.
+  5. You can also choose to host or join a server-based game on the main menu.
                         
   ### Enjoy the game!
 
 ## Cli version
-con convenzione per inserire la mossa 
+You can select which type of game to start from the menu.
 
-![Graphical Game Play Screenshot](images/dots-and-boxes-Cli-screenshot.PNG)
+The following is the representation of the board in the Command Line version.
+
+To insert a line there are 3 parameters [*x*, *y*, *side*]:
+- *x*,*y* are the coordinates of one of the two adjacent boxes composed by that line
+- *side* = [U, R, L, R] is the position of the line with respect to that box: Up, Down, Left, Right.
+
+![Command Line Game Screenshot](images/dots-and-boxes-Cli-screenshot.PNG)
 
 ## Gui version
-menu
+From this menu you can select:
+1. player1 name
+2. player2 name if human, or the difficulty of the computer player
+3. player colors
+4. board dimensions
+    1. Local: to play the game in your machine
+    2. Host:  to start hosting a 3x3 board and wait for another player in LAN to join the game
+    3. Join:  to join a hosted game by another user present in LAN, specifying his internal IP address.
 
-![Graphical Game Play Screenshot](images/dots-and-boxes-GUI-Menu.PNG)
+Then press "Start Game!". 
+
+To view a game demonstration press "Demo"
+
+![Graphical User Interface Menu Screenshot](images/dots-and-boxes-GUI-Menu.PNG)
 
 
-e schermata di gioco
+Once a game has started this window will pop up. To insert a line use your mouse. 
+Check if it is your turn with the label under the grid.
 
-![Graphical Game Play Screenshot](images/dots-and-boxes-GUI-Board.PNG)
+![Graphical User Interface Board Screenshot](images/dots-and-boxes-GUI-Board.PNG)
