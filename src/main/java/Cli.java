@@ -6,7 +6,7 @@ public class Cli extends IOManager {
     private final String HORIZONTAL_LINE = " ---";
     private final String VERTICAL_LINE = "|   ";
 
-    private String graphicBoard[][];
+    private String[][] graphicBoard;
     private Scanner keyboard;
 
     public Cli(int boardRows, int boardCols, Player p1, Player p2) {

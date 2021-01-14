@@ -127,7 +127,7 @@ public class TerminalMainUI {
         game.startGame();
     }
     public static void startClientGameWithCli() {
-        String ip = "";
+        String ip;
         System.out.println("Insert IP address:");
         ip = keyboard.nextLine();
 

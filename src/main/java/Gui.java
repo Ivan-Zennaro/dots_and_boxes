@@ -21,8 +21,8 @@ public class Gui extends IOManager {
     private JFrame frame;
     private JLabel p1ScoreLabel, p2ScoreLabel, statusLabel;
     private JLabel[][] box;
-    private boolean isSetLine[][];
-    private JLabel graphicBoard[][];
+    private boolean[][] isSetLine;
+    private JLabel[][] graphicBoard;
 
     private Color currentPlayerColor;
 

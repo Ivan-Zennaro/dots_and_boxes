@@ -139,7 +139,7 @@ public class TestCli {
     }
 
     private String getWinnerString(int indexWinner, Player player1, Player player2) {
-        String winnerString = "";
+        String winnerString;
 
         switch (indexWinner) {
             case 1:

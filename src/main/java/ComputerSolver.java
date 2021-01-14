@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ComputerSolver {
 
@@ -69,7 +70,7 @@ public class ComputerSolver {
             int indexCandidate = boxes.indexOf(box);
             int rowCandidate = indexCandidate / board.getBoardColumns();
             int colCandidate = indexCandidate % board.getBoardColumns();
-            List<Side> candidateSides = Arrays.asList(Side.DOWN, Side.UP, Side.LEFT, Side.RIGHT).stream().filter(side -> !box.hasLineBySide(side)).filter(side -> predicateSide.test(box, side)).collect(Collectors.toList());
+            List<Side> candidateSides = Stream.of(Side.DOWN, Side.UP, Side.LEFT, Side.RIGHT).filter(side -> !box.hasLineBySide(side)).filter(side -> predicateSide.test(box, side)).collect(Collectors.toList());
             for (Side side : candidateSides) {
                 candidateMoves.add(new Move(rowCandidate, colCandidate, side));
             }
