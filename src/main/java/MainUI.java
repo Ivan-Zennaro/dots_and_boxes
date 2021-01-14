@@ -5,44 +5,39 @@ import java.awt.event.*;
 public class MainUI {
 
     private int rows, cols;
-    private String me, otherPlayer;
+    private String me, otherPlayer,ip;
     private Color color1, color2;
     private RulesPage rulesPage = new RulesPage();
 
     private static JFrame frame;
-    private JLabel modeError, colorError;
+    private JLabel playerError, colorError;
 
     String[] playersType = {"Select player", "Human", "Computer Easy", "Computer Medium", "Computer Hard"};
     String[] colors = {"<html><font color='" + Color.RED.getRGBstring() + "'>RED", "<html><font color='" + Color.BLU.getRGBstring() + "'>BLU", "<html><font color='" + Color.GREEN.getRGBstring() + "'>GREEN", "<html><font color='" + Color.PURPLE.getRGBstring() + "'>PURPLE"};
-    Color[] colors2 = {Color.RED, Color.BLU, Color.GREEN, Color.PURPLE};
+    Color[] colorsObject = {Color.RED, Color.BLU, Color.GREEN, Color.PURPLE};
     String[] size = {"1", "2", "3", "4", "5"};
 
 
-    JTextField player1Name;
-    DefaultComboBoxModel<String> optionsPlayer2;
-    JComboBox<String> comboBox;
-    JComboBox<String> colorBoxPlayer1;
-    JComboBox<String> colorBoxPlayer2;
-    JComboBox<String> colSelection;
-    JComboBox<String> rowSelection;
+    private JTextField player1Name,ipAddress,humanName;
+    private DefaultComboBoxModel<String> optionsPlayer2Model;
+    private JComboBox<String> optionsPlayer2,colorBoxPlayer1,colorBoxPlayer2,colSelection,rowSelection;
+
     private JRadioButton[] localOrRemote;
-    ButtonGroup sizeGroup;
-    JTextField ipAddress;
-    JTextField humanName;
+    private ButtonGroup sizeGroup;
+
     private JFrame frame1;
+    private JButton confirmPlayer2HumanName;
 
-    JButton Enter;
-
-    String ip;
 
     public MainUI() {
 
         frame = new JFrame("Dots and Boxes");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        player1Name = new JTextField();
-        optionsPlayer2 = new DefaultComboBoxModel<>(playersType);
-        comboBox = new JComboBox<>(optionsPlayer2);
+        player1Name = new JTextField("Your Name");
+        optionsPlayer2Model = new DefaultComboBoxModel<>(playersType);
+        optionsPlayer2 = new JComboBox<>(optionsPlayer2Model);
+        optionsPlayer2.setSelectedIndex(0);
 
         ipAddress = new JTextField("Opponent IP address");
 
@@ -67,8 +62,7 @@ public class MainUI {
 
         frame1 = new JFrame("Player-2");
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        humanName = new JTextField();
-        Enter = new JButton("Confirm Name");
+        humanName = new JTextField("Human Name");
     }
 
     private JLabel getEmptyLabel(Dimension d) {
@@ -92,7 +86,6 @@ public class MainUI {
         public void keyTyped(KeyEvent e) {
             if(fieldTxt.getText().equals(string))
                 fieldTxt.setText("");
-            fieldTxt.setText(fieldTxt.getText());
         }
     }
 
@@ -100,19 +93,20 @@ public class MainUI {
 
 
     private ActionListener close = new ActionListener() {
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            Enter = (JButton) e.getSource();
+            confirmPlayer2HumanName = (JButton) e.getSource();
             playersType[1] = humanName.getText();
-            optionsPlayer2.insertElementAt(humanName.getText(), 1);
-            optionsPlayer2.removeElementAt(2);
+            optionsPlayer2Model.insertElementAt(humanName.getText(), 1);
+            optionsPlayer2Model.removeElementAt(2);
             frame1.dispose();
         }
     };
     private ActionListener select = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (comboBox.getSelectedIndex() == 1 && comboBox.getSelectedItem() == "Human") {
+            if (optionsPlayer2.getSelectedIndex() == 1 && optionsPlayer2.getSelectedItem() == "Human") {
 
                 JPanel gridName = new JPanel(new GridBagLayout());
                 GridBagConstraints constraints = new GridBagConstraints();
@@ -131,13 +125,14 @@ public class MainUI {
 
                 namePanel.add(humanName, constraints);
                 namePanel.add(getEmptyLabel(new Dimension(150, 20)));
-                namePanel.add(Enter);
+                confirmPlayer2HumanName = new JButton("Confirm");
+                namePanel.add(confirmPlayer2HumanName);
                 namePanel.add(getEmptyLabel(new Dimension(150, 20)));
-                humanName.setText("Human Name");
-                humanName.addKeyListener(new resetTextField(humanName,"Human Name"));
-                Enter.addActionListener(close);
-                ++constraints.gridy;
 
+                humanName.addKeyListener(new resetTextField(humanName,"Human Name"));
+                confirmPlayer2HumanName.addActionListener(close);
+
+                ++constraints.gridy;
                 gridName.add(namePanel, constraints);
 
 
@@ -157,15 +152,15 @@ public class MainUI {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             me = player1Name.getText();
-            int typeOfPlayerIndex = comboBox.getSelectedIndex();
-            color1 = colors2[colorBoxPlayer1.getSelectedIndex()];
-            color2 = colors2[colorBoxPlayer2.getSelectedIndex()];
+            int typeOfPlayerIndex = optionsPlayer2.getSelectedIndex();
+            color1 = colorsObject[colorBoxPlayer1.getSelectedIndex()];
+            color2 = colorsObject[colorBoxPlayer2.getSelectedIndex()];
             cols = Integer.parseInt(colSelection.getSelectedItem().toString());
             rows = Integer.parseInt(rowSelection.getSelectedItem().toString());
 
 
             if (me.equals("")) {
-                modeError.setText("You MUST type player1 name");
+                playerError.setText("You MUST type player1 name");
             } else if (color1.equals(color2)) {
                 colorError.setText("You MUST select 2 different colors for players");
             } else if (localOrRemote[2].isSelected()) {
@@ -174,9 +169,9 @@ public class MainUI {
             } else if (localOrRemote[1].isSelected()) {
                 startGame = "host";
             } else if (typeOfPlayerIndex == 0) {
-                modeError.setText("You MUST select player2 type");
+                playerError.setText("You MUST select player2 type");
             } else {
-                modeError.setText("");
+                playerError.setText("");
                 otherPlayer = playersType[typeOfPlayerIndex];
                 startGame =
                         switch (typeOfPlayerIndex) {
@@ -202,11 +197,11 @@ public class MainUI {
         ++constraints.gridy;
         grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
 
-        modeError = new JLabel("", SwingConstants.CENTER);
-        modeError.setForeground(Color.RED.getAwtColor());
-        modeError.setPreferredSize(new Dimension(500, 25));
+        playerError = new JLabel("", SwingConstants.CENTER);
+        playerError.setForeground(Color.RED.getAwtColor());
+        playerError.setPreferredSize(new Dimension(500, 25));
         ++constraints.gridy;
-        grid.add(modeError, constraints);
+        grid.add(playerError, constraints);
 
         JPanel modePanel = new JPanel(new GridLayout(2, 3));
         modePanel.setPreferredSize(new Dimension(400, 50));
@@ -215,14 +210,11 @@ public class MainUI {
         modePanel.add(new JLabel("<html><font color='Black'>Player-2:", SwingConstants.CENTER));
         modePanel.add(player1Name);
         modePanel.add(getEmptyLabel(new Dimension(50, 25)));
-        modePanel.add(comboBox);
+        modePanel.add(optionsPlayer2);
 
 
-        player1Name.setText("Your Name");
         player1Name.addKeyListener(new resetTextField(player1Name,"Your Name"));
-
-        comboBox.setSelectedIndex(0);
-        comboBox.addActionListener(select);
+        optionsPlayer2.addActionListener(select);
 
 
         ++constraints.gridy;
@@ -305,8 +297,8 @@ public class MainUI {
 
         ruleButton.addActionListener(e -> rulesPage.seeFrame());
         demoButton.addActionListener(demo);
-
         submitButton.addActionListener(submitListener);
+
         submissionPanel.add(ruleButton);
         submissionPanel.add(demoButton);
         submissionPanel.add(submitButton);
