@@ -63,17 +63,18 @@ To insert a line there are 3 parameters [*x*, *y*, *side*]:
 
 ## Gui version
 From this menu you can select:
-1. player1 name
-2. player2 name if human, or the difficulty of the computer player
-3. player colors
-4. board dimensions
+1. Player-1 name
+2. Player-2 name if human, or the difficulty of the computer player
+3. Player colors
+4. Board dimensions
 5. Local: to play the game in your machine
 6. Host:  to start hosting a 3x3 game and wait for another player in LAN to join the game
 7. Join:  to join a hosted game by another user present in LAN, specifying his internal IP address.
+8. "Demo" button to view a game demonstration
 
 Then press "Start Game!". 
 
-To view a game demonstration press "Demo"
+
 
 ![Graphical User Interface Menu Screenshot](images/dots-and-boxes-GUI-Menu.PNG)
 
