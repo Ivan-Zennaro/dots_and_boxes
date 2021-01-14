@@ -79,39 +79,22 @@ public class MainUI {
 
     private String startGame = null;
 
-    private KeyListener key = new KeyListener() {
+    private static final class resetTextField extends KeyAdapter{
+        JTextField fieldTxt;
+        String string;
+        public resetTextField(JTextField fieldTxt, String string){
+            super();
+            this.fieldTxt = fieldTxt;
+            this.string = string;
+        }
+
         @Override
         public void keyTyped(KeyEvent e) {
-            if (player1Name.getText().equals("Your Name"))
-                player1Name.setText("");
-            player1Name.setText(player1Name.getText());
+            if(fieldTxt.getText().equals(string))
+                fieldTxt.setText("");
+            fieldTxt.setText(fieldTxt.getText());
         }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-        }
-    };
-
-    private KeyListener keyHuman = new KeyListener() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-            if (humanName.getText().equals("Human Name"))
-                humanName.setText("");
-            humanName.setText(humanName.getText());
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-        }
-    };
+    }
 
     private ActionListener demo = e -> startGame = "demo";
 
@@ -151,7 +134,7 @@ public class MainUI {
                 namePanel.add(Enter);
                 namePanel.add(getEmptyLabel(new Dimension(150, 20)));
                 humanName.setText("Human Name");
-                humanName.addKeyListener(keyHuman);
+                humanName.addKeyListener(new resetTextField(humanName,"Human Name"));
                 Enter.addActionListener(close);
                 ++constraints.gridy;
 
@@ -161,7 +144,7 @@ public class MainUI {
                 frame1.setContentPane(gridName);
                 frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame1.pack();
-                frame1.setLocationRelativeTo(null);//center the frame
+                frame1.setLocationRelativeTo(null);
                 frame1.setVisible(true);
             }
 
@@ -234,8 +217,9 @@ public class MainUI {
         modePanel.add(getEmptyLabel(new Dimension(50, 25)));
         modePanel.add(comboBox);
 
+
         player1Name.setText("Your Name");
-        player1Name.addKeyListener(key);
+        player1Name.addKeyListener(new resetTextField(player1Name,"Your Name"));
 
         comboBox.setSelectedIndex(0);
         comboBox.addActionListener(select);
@@ -301,8 +285,8 @@ public class MainUI {
             serverPanel.add(localOrRemote[i]);
         serverPanel.add(new JLabel());
         serverPanel.add(new JLabel());
+        ipAddress.addKeyListener(new resetTextField(ipAddress,"Opponent IP address"));
         serverPanel.add(ipAddress);
-        //sizeGroup.clearSelection();
         ++constraints.gridy;
         grid.add(serverPanel, constraints);
 
