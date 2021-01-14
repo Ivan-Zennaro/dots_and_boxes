@@ -52,51 +52,40 @@ public class Move implements Serializable {
 
     public static Move parseMove(String input) {
         try {
-
             String[] splitInput = input.split(" ");
-            if (splitInput.length != 3 && splitInput[2].length() != 1)
-                throw new Exception();
-            int x = Integer.parseInt(String.valueOf(splitInput[0]));
-            int y = Integer.parseInt(String.valueOf(splitInput[1]));
-            char sideAsChar = splitInput[2].charAt(0);
-            for (Side refSide : Side.values()) {
-                if (refSide.asChar() == sideAsChar)
-                    return new Move(x, y, refSide);
+            if (!(splitInput.length != 3 && splitInput[2].length() != 1)) {
+                int x = Integer.parseInt(String.valueOf(splitInput[0]));
+                int y = Integer.parseInt(String.valueOf(splitInput[1]));
+                char sideAsChar = splitInput[2].charAt(0);
+
+                for (Side refSide : Side.values()) {
+                    if (refSide.asChar() == sideAsChar)
+                        return new Move(x, y, refSide);
+                }
             }
         } catch (Exception e) {
             return getInvalidMove();
         }
         return getInvalidMove();
+
     }
 
     public int getCoordShift() {
-        switch (this.getSide()) {
-            case UP:
-                return -1;
-            case DOWN:
-                return +1;
-            case LEFT:
-                return -1;
-            case RIGHT:
-                return +1;
-            default:
-                return 0;
-        }
+        return switch (this.getSide()) {
+            case UP, LEFT -> -1;
+            case DOWN, RIGHT -> +1;
+            default -> 0;
+        };
     }
 
     public Side getInvertedSide() {
-        switch (this.getSide()) {
-            case UP:
-                return Side.DOWN;
-            case DOWN:
-                return Side.UP;
-            case LEFT:
-                return Side.RIGHT;
-            case RIGHT:
-                return Side.LEFT;
-            default:
-                return Side.INVALID;
-        }
+        return switch (this.getSide()) {
+            case UP -> Side.DOWN;
+            case DOWN -> Side.UP;
+            case LEFT -> Side.RIGHT;
+            case RIGHT -> Side.LEFT;
+            default -> Side.INVALID;
+        };
     }
 
 }
