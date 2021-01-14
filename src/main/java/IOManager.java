@@ -1,17 +1,23 @@
-public abstract class IOManager{
+public abstract class IOManager {
 
-    public abstract Move readMove ();
-    public abstract void updateMove (Move move, Player p);
-    public abstract void updateCompletedBox (int x, int y, Player p);
-    public abstract void updateGameInfo (Player currentPlayer);
-    public abstract void showWinner ();
+    public abstract Move readMove();
+
+    public abstract void updateMove(Move move, Player p);
+
+    public abstract void updateCompletedBox(int x, int y, Player p);
+
+    public abstract void updateGameInfo(Player currentPlayer);
+
+    public abstract void showWinner();
+
     public abstract void errorHandler(String msg);
 
     public Player player1, player2;
 
 
     protected boolean backPress = false;
-    public boolean getBackPress(){
+
+    public boolean getBackPress() {
         return backPress;
     }
 

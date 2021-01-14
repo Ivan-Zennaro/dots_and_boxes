@@ -5,7 +5,7 @@ import java.awt.event.*;
 public class MainUI {
 
     private int rows, cols;
-    private String me, otherPlayer,ip;
+    private String me, otherPlayer, ip;
     private Color color1, color2;
     private RulesPage rulesPage = new RulesPage();
     private String startGame = null;
@@ -19,9 +19,9 @@ public class MainUI {
     String[] size = {"1", "2", "3", "4", "5"};
 
 
-    private JTextField player1Name,ipAddress,humanName;
+    private JTextField player1Name, ipAddress, humanName;
     private DefaultComboBoxModel<String> optionsPlayer2Model;
-    private JComboBox<String> optionsPlayer2,colorBoxPlayer1,colorBoxPlayer2,colSelection,rowSelection;
+    private JComboBox<String> optionsPlayer2, colorBoxPlayer1, colorBoxPlayer2, colSelection, rowSelection;
 
     private JRadioButton[] localOrRemote;
     private ButtonGroup sizeGroup;
@@ -29,10 +29,11 @@ public class MainUI {
     private JFrame frame1;
     private JButton confirmPlayer2HumanName;
 
-    private static final class resetTextField extends FocusAdapter{
+    private static final class resetTextField extends FocusAdapter {
         JTextField fieldTxt;
         String text;
-        public resetTextField(JTextField fieldTxt, String text){
+
+        public resetTextField(JTextField fieldTxt, String text) {
             super();
             this.fieldTxt = fieldTxt;
             this.text = text;
@@ -40,13 +41,13 @@ public class MainUI {
 
         @Override
         public void focusGained(FocusEvent e) {
-            if(fieldTxt.getText().equals(text))
+            if (fieldTxt.getText().equals(text))
                 fieldTxt.setText("");
         }
 
         @Override
         public void focusLost(FocusEvent e) {
-            if(fieldTxt.getText().equals(""))
+            if (fieldTxt.getText().equals(""))
                 fieldTxt.setText(text);
         }
     }
@@ -91,7 +92,7 @@ public class MainUI {
                 namePanel.add(confirmPlayer2HumanName);
                 namePanel.add(getEmptyLabel(new Dimension(150, 20)));
 
-                humanName.addFocusListener(new resetTextField(humanName,"Human Name"));
+                humanName.addFocusListener(new resetTextField(humanName, "Human Name"));
                 confirmPlayer2HumanName.addActionListener(close);
 
                 ++constraints.gridy;
@@ -214,7 +215,7 @@ public class MainUI {
         modePanel.add(optionsPlayer2);
 
 
-        player1Name.addFocusListener(new resetTextField(player1Name,"Your Name"));
+        player1Name.addFocusListener(new resetTextField(player1Name, "Your Name"));
         optionsPlayer2.addActionListener(select);
 
 
@@ -278,7 +279,7 @@ public class MainUI {
             serverPanel.add(localOrRemote[i]);
         serverPanel.add(new JLabel());
         serverPanel.add(new JLabel());
-        ipAddress.addFocusListener(new resetTextField(ipAddress,"Opponent IP address"));
+        ipAddress.addFocusListener(new resetTextField(ipAddress, "Opponent IP address"));
         serverPanel.add(ipAddress);
         ++constraints.gridy;
         grid.add(serverPanel, constraints);

@@ -12,23 +12,23 @@ public class ClientGame extends Game {
     }
 
     @Override
-    public void startGame(){
+    public void startGame() {
         try (Socket socket = new Socket(ip, PORT)) {
 
             new Thread(() -> {
                 boolean timeToStopThread = false;
-                while (!timeToStopThread){
-                    if (ioManager.getBackPress()){
+                while (!timeToStopThread) {
+                    if (ioManager.getBackPress()) {
                         try {
                             socket.close();
                             timeToStopThread = true;
-                        } catch (IOException e){
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
                     try {
                         Thread.currentThread().sleep(200);
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }

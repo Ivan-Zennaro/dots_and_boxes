@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBoard {
@@ -25,11 +26,11 @@ public class TestBoard {
     }
 
     @ParameterizedTest
-    @CsvSource({"0,0,RIGHT,0,1,LEFT", "0,0,DOWN,1,0,UP", "1,1,RIGHT,1,2,LEFT", "1,2,UP,0,2,DOWN","0,0,UP,-1,-1,INVALID"})
+    @CsvSource({"0,0,RIGHT,0,1,LEFT", "0,0,DOWN,1,0,UP", "1,1,RIGHT,1,2,LEFT", "1,2,UP,0,2,DOWN", "0,0,UP,-1,-1,INVALID"})
     public void move_represents_the_same_line_as_neighbourMove(int x_1, int y_1, Side side_1, int x_2, int y_2, Side side_2) {
         Board board = new Board(3, 3);
         Move move = new Move(x_1, y_1, side_1);
-        Move neighbourMove = new Move(x_2,y_2,side_2);
+        Move neighbourMove = new Move(x_2, y_2, side_2);
         assertEquals(neighbourMove, board.getNeighbourSideMove(move));
     }
 
@@ -38,7 +39,7 @@ public class TestBoard {
     public void neighbourMove_is_correctly_update_in_the_board(int x_1, int y_1, Side side_1, int x_2, int y_2, Side side_2) {
         Board board = new Board(10, 10);
         Move move = new Move(x_1, y_1, side_1);
-        Move neighbourMove = new Move(x_2,y_2,side_2);
+        Move neighbourMove = new Move(x_2, y_2, side_2);
         board.drawLine(move);
         assertTrue(board.boxHasAlreadyLine(neighbourMove));
     }

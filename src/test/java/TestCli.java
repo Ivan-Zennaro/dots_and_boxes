@@ -89,7 +89,7 @@ public class TestCli {
 
     @Test
     public void update_blu_move_in_3x3_board_and_draw_a_taken_box() {
-        Cli cli = new Cli(3, 3,p1 ,p2);
+        Cli cli = new Cli(3, 3, p1, p2);
         Player player = new Player("A", Color.GREEN);
         cli.updateMove(new Move(0, 0, Side.DOWN), player);
         cli.updateMove(new Move(0, 0, Side.LEFT), player);
@@ -134,7 +134,7 @@ public class TestCli {
         while (points2-- > 0) player2.onePointDone();
 
         String winnerString = getWinnerString(indexWinner, player1, player2);
-        new Cli(0, 0,player1,player2).showWinner();
+        new Cli(0, 0, player1, player2).showWinner();
         Assertions.assertEquals(winnerString, outputStreamCaptor.toString().trim());
     }
 

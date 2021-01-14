@@ -27,7 +27,7 @@ public class Player {
     }
 
     public void onePointDone() {
-        this.points ++;
+        this.points++;
     }
 
 

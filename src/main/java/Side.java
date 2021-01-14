@@ -6,6 +6,8 @@ public enum Side {
     RIGHT,
     INVALID;
 
-    public char asChar(){return name().charAt(0);}
+    public char asChar() {
+        return name().charAt(0);
+    }
 
 }

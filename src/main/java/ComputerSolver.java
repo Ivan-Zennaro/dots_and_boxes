@@ -21,13 +21,13 @@ public class ComputerSolver {
         List<Box> boxes = matrixToList(board.getBoard());
 
         Move move = getMove_thatCloseAtLeast2Boxes(boxes);
-        if (move.isValid() && difficulty == Difficulty.HARD ) return move;
+        if (move.isValid() && difficulty == Difficulty.HARD) return move;
 
         move = getMove_thatClosesABox(boxes);
         if (move.isValid()) return move;
 
         move = getMove_thatDoesNotPutTheThirdLineInABox(boxes);
-        if (move.isValid() && difficulty != Difficulty.EASY  ) return move;
+        if (move.isValid() && difficulty != Difficulty.EASY) return move;
 
         move = getRandomMove(boxes);
         if (move.isValid()) return move;

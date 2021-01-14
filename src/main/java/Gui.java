@@ -230,8 +230,7 @@ public class Gui extends IOManager {
         if (player1.getPoints() == player2.getPoints()) {
             statusLabel.setText("Game Tied!");
             statusLabel.setForeground(Color.BLACK);
-        }
-        else {
+        } else {
             Player winner = (player1.getPoints() > player2.getPoints() ? player1 : player2);
             statusLabel.setText(winner.getName() + " is the winner!");
             statusLabel.setForeground(winner.getColor().getAwtColor());
@@ -240,7 +239,7 @@ public class Gui extends IOManager {
 
     @Override
     public void errorHandler(String msg) {
-        if (!getBackPress()){
+        if (!getBackPress()) {
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.INFORMATION_MESSAGE);
             frame.setVisible(false);
             frame.dispose();
@@ -269,10 +268,10 @@ public class Gui extends IOManager {
         else playerPanel.setPreferredSize(new Dimension(2 * boardWidth, 2 * dist));
 
 
-        playerPanel.add(getNewPlayerLabel("Player 1:",player1));
-        playerPanel.add(getNewPlayerLabel("Player 2:",player2));
-        playerPanel.add(getNewPlayerLabel(player1.getName(),player1));
-        playerPanel.add(getNewPlayerLabel(player2.getName(),player2));
+        playerPanel.add(getNewPlayerLabel("Player 1:", player1));
+        playerPanel.add(getNewPlayerLabel("Player 2:", player2));
+        playerPanel.add(getNewPlayerLabel(player1.getName(), player1));
+        playerPanel.add(getNewPlayerLabel(player2.getName(), player2));
         ++constraints.gridy;
         grid.add(playerPanel, constraints);
 
@@ -282,12 +281,12 @@ public class Gui extends IOManager {
         JPanel scorePanel = new JPanel(new GridLayout(2, 2));
         scorePanel.setPreferredSize(new Dimension(2 * boardWidth, dist));
 
-        scorePanel.add(getNewPlayerLabel("Score:",player1));
-        scorePanel.add(getNewPlayerLabel("Score:",player2));
+        scorePanel.add(getNewPlayerLabel("Score:", player1));
+        scorePanel.add(getNewPlayerLabel("Score:", player2));
 
-        p1ScoreLabel = getNewPlayerLabel("0",player1);
+        p1ScoreLabel = getNewPlayerLabel("0", player1);
         scorePanel.add(p1ScoreLabel);
-        p2ScoreLabel = getNewPlayerLabel("0",player2);
+        p2ScoreLabel = getNewPlayerLabel("0", player2);
         scorePanel.add(p2ScoreLabel);
         ++constraints.gridy;
         grid.add(scorePanel, constraints);
@@ -323,7 +322,7 @@ public class Gui extends IOManager {
         ++constraints.gridy;
         grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
 
-        statusLabel = getNewPlayerLabel(player1.getName()+"'s Turn...",player1);
+        statusLabel = getNewPlayerLabel(player1.getName() + "'s Turn...", player1);
         ++constraints.gridy;
         grid.add(statusLabel, constraints);
 
