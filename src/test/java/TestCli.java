@@ -133,6 +133,12 @@ public class TestCli {
         while (points1-- > 0) player1.onePointDone();
         while (points2-- > 0) player2.onePointDone();
 
+        String winnerString = getWinnerString(indexWinner, player1, player2);
+        new Cli(0, 0,player1,player2).showWinner();
+        Assertions.assertEquals(winnerString, outputStreamCaptor.toString().trim());
+    }
+
+    private String getWinnerString(int indexWinner, Player player1, Player player2) {
         String winnerString = "";
 
         switch (indexWinner) {
@@ -145,7 +151,6 @@ public class TestCli {
             default:
                 winnerString = "TIE!";
         }
-        new Cli(0, 0,player1,player2).showWinner();
-        Assertions.assertEquals(winnerString, outputStreamCaptor.toString().trim());
+        return winnerString;
     }
 }
