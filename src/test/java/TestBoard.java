@@ -9,7 +9,7 @@ public class TestBoard {
 
     @ParameterizedTest
     @ValueSource(strings = {"UP", "DOWN", "LEFT", "RIGHT"})
-    public void a_line_is_correctly_draw_in_a_box(Side side) {
+    public void a_line_is_correctly_drawn_in_a_box(Side side) {
         Board board = new Board(1, 1);
         Move move = new Move(0, 0, side);
         board.drawLine(move);
@@ -26,7 +26,7 @@ public class TestBoard {
 
     @ParameterizedTest
     @CsvSource({"0,0,RIGHT,0,1,LEFT", "0,0,DOWN,1,0,UP", "1,1,RIGHT,1,2,LEFT", "1,2,UP,0,2,DOWN","0,0,UP,-1,-1,INVALID"})
-    public void move_represent_the_same_line_as_neighbourMove(int x_1, int y_1, Side side_1, int x_2, int y_2, Side side_2) {
+    public void move_represents_the_same_line_as_neighbourMove(int x_1, int y_1, Side side_1, int x_2, int y_2, Side side_2) {
         Board board = new Board(3, 3);
         Move move = new Move(x_1, y_1, side_1);
         Move neighbourMove = new Move(x_2,y_2,side_2);
@@ -45,7 +45,7 @@ public class TestBoard {
 
     @ParameterizedTest
     @CsvSource({"0,0,RIGHT", "0,0,DOWN", "0,0,UP", "0,1,UP", "1,1,UP"})
-    public void box_of_the_draw_line_is_not_completed(int x, int y, Side side) {
+    public void box_of_the_drawn_line_is_not_completed(int x, int y, Side side) {
         Board board = new Board(2, 2);
         Move move = new Move(x, y, side);
         board.drawLine(move);

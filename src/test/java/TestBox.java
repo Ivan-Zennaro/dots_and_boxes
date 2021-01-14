@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestBox {
 
     @Test
-    public void empty_instance() {
+    public void is_empty_at_creation() {
         Box box = new Box();
         assertAll(
                 () -> assertFalse(box.hasLineUp()),
@@ -19,7 +19,7 @@ public class TestBox {
     }
 
     @Test
-    public void drawSomeLines() {
+    public void has_correct_lines_drawn() {
         Box box = new Box();
         box.drawLineUp();
         box.drawLineLeft();
@@ -41,18 +41,24 @@ public class TestBox {
 
     @ParameterizedTest
     @MethodSource("boxAndMoveGenerator")
-    public void checkLineInBoxByMove(Box box,Move move) {
+    public void has_line_drawn(Box box,Move move) {
         assertTrue(box.hasLineBySide(move.getSide()));
     }
 
-    @Test
-    public void correct_numeber_of_draw_line_in_box(){
-        assertAll(
-                () -> assertEquals(4,new Box(true,true,true,true).getNumberOfDrawLine()),
-                () -> assertEquals(3,new Box(false,true,true,true).getNumberOfDrawLine()),
-                () -> assertEquals(0,new Box(false,false,false,false).getNumberOfDrawLine()),
-                () -> assertEquals(1,new Box(true,false,false,false).getNumberOfDrawLine())
+
+    private static Stream<Arguments> boxAndNumberOfDrawnLinesGenerator() {
+        return Stream.of(
+                Arguments.of(new Box(true,true,true,true), 4),
+                Arguments.of(new Box(false,true,true,true), 3),
+                Arguments.of(new Box(true,false,false,false), 1),
+                Arguments.of(new Box(false,false,false,false), 0)
         );
+    }
+
+    @ParameterizedTest
+    @MethodSource("boxAndNumberOfDrawnLinesGenerator")
+    public void has_correct_number_of_drawn_line(Box box, int n){
+         assertEquals(n, box.getNumberOfDrawnLine());
     }
 
 }

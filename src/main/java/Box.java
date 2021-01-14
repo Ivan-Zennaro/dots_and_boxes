@@ -88,7 +88,7 @@ public class Box {
         }
     }
 
-    public int getNumberOfDrawLine() {
+    public int getNumberOfDrawnLine() {
         Boolean [] lines = {lineLeft,lineDown,lineRight,lineUp};
         return (int) Arrays.stream(lines).filter(c -> c).count();
     }

@@ -11,7 +11,7 @@ public class TestGui {
 
     @ParameterizedTest
     @ValueSource(strings = {"UP", "DOWN", "LEFT", "RIGHT"})
-    public void a_line_isnt_colored_at_init(Side side) {
+    public void a_line_is_not_colored_at_init(Side side) {
         Gui g = new Gui(1, 1, p1, p2);
         Move testMove = new Move(0, 0, side);
         Assertions.assertFalse(g.isSetLine(IOManager.getMappedX(testMove), IOManager.getMappedY(testMove)));

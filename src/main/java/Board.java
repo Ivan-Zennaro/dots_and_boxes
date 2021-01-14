@@ -16,13 +16,13 @@ public class Board {
     }
 
     public boolean boxHasAlreadyLine(Move move) {
-        Box choosenBox = board[move.getX()][move.getY()];
-        return choosenBox.hasLineBySide(move.getSide());
+        Box chosenBox = board[move.getX()][move.getY()];
+        return chosenBox.hasLineBySide(move.getSide());
     }
 
     public void drawLine(Move move) {
-        Box choosenBox = board[move.getX()][move.getY()];
-        choosenBox.drawLine(move.getSide());
+        Box chosenBox = board[move.getX()][move.getY()];
+        chosenBox.drawLine(move.getSide());
 
         Move otherMove = getNeighbourSideMove(move);
         if (otherMove.getSide() != Side.INVALID) {

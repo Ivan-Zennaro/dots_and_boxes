@@ -35,23 +35,23 @@ public class ComputerSolver {
     }
 
     private Move getMove_thatCloseAtLeast2Boxes(List<Box> boxes) {
-        return getMoveWithConstraint(box -> box.getNumberOfDrawLine() == 3, (box, side) -> {
+        return getMoveWithConstraint(box -> box.getNumberOfDrawnLine() == 3, (box, side) -> {
             Box sideBox = getNeighbourBox(box, side, boxes);
             if (sideBox == null) return false;
-            return sideBox.getNumberOfDrawLine() == 2;
+            return sideBox.getNumberOfDrawnLine() == 2;
         }, boxes);
     }
 
     private Move getMove_thatClosesABox(List<Box> boxes) {
-        return getMoveWithConstraint(box -> box.getNumberOfDrawLine() == 3, (box, side) -> true, boxes);
+        return getMoveWithConstraint(box -> box.getNumberOfDrawnLine() == 3, (box, side) -> true, boxes);
     }
 
     private Move getMove_thatDoesNotPutTheThirdLineInABox(List<Box> boxes) {
-        return getMoveWithConstraint(box -> box.getNumberOfDrawLine() != 2,
+        return getMoveWithConstraint(box -> box.getNumberOfDrawnLine() != 2,
                 (box, side) -> {
                     Box sideBox = getNeighbourBox(box, side, boxes);
                     if (sideBox == null) return true;
-                    return sideBox.getNumberOfDrawLine() != 2;
+                    return sideBox.getNumberOfDrawnLine() != 2;
                 }, boxes);
     }
 
@@ -98,7 +98,7 @@ public class ComputerSolver {
     }
 
     public static Side getMissingSideFromBox(Box box) {
-        if (box.getNumberOfDrawLine() != 3) return Side.INVALID;
+        if (box.getNumberOfDrawnLine() != 3) return Side.INVALID;
         if (!box.hasLineLeft()) return Side.LEFT;
         if (!box.hasLineDown()) return Side.DOWN;
         if (!box.hasLineRight()) return Side.RIGHT;
