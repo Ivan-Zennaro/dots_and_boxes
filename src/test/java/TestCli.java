@@ -121,16 +121,16 @@ public class TestCli {
     }
 
     @ParameterizedTest
-    @CsvSource({"0,2,2", "2,5,2", "1,1,0", "6,3,1"})
+    @CsvSource({"0,2,2", "2,5,2", "1,1,0", "6,3,1", "4,5,2"})
     public void check_if_the_winner_is_correct(int points1, int points2, int indexWinner) {
 
         ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStreamCaptor));
 
-        Player player1 = new Player("A", Color.BLU);
-        while (points1-- > 0) player1.onePointDone();
+        Player player1 = UtilityTest.getMockP1();
+        Player player2 = UtilityTest.getMockP2();
 
-        Player player2 = new Player("B", Color.RED);
+        while (points1-- > 0) player1.onePointDone();
         while (points2-- > 0) player2.onePointDone();
 
         String winnerString = "";
