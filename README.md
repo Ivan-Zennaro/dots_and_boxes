@@ -79,7 +79,8 @@ Then press "Start Game!".
 ![Graphical User Interface Menu Screenshot](images/dots-and-boxes-GUI-Menu.PNG)
 
 
-Once a game has started this window will pop up. To insert a line use your mouse. 
-Check if it is your turn with the label under the grid.
+Once a game has started this window will pop up. 
+Click on a line to play your turn. 
+Check if it is your turn on the label under the grid.
 
 ![Graphical User Interface Board Screenshot](images/dots-and-boxes-GUI-Board.PNG)
