@@ -8,6 +8,7 @@ public class MainUI {
     private String me, otherPlayer,ip;
     private Color color1, color2;
     private RulesPage rulesPage = new RulesPage();
+    private String startGame = null;
 
     private static JFrame frame;
     private JLabel playerError, colorError;
@@ -27,51 +28,6 @@ public class MainUI {
 
     private JFrame frame1;
     private JButton confirmPlayer2HumanName;
-
-
-    public MainUI() {
-
-        frame = new JFrame("Dots and Boxes");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        player1Name = new JTextField("Your Name");
-        optionsPlayer2Model = new DefaultComboBoxModel<>(playersType);
-        optionsPlayer2 = new JComboBox<>(optionsPlayer2Model);
-        optionsPlayer2.setSelectedIndex(0);
-
-        ipAddress = new JTextField("Opponent IP address");
-
-        colorBoxPlayer1 = new JComboBox<>(colors);
-        colorBoxPlayer2 = new JComboBox<>(colors);
-        colorBoxPlayer2.setSelectedIndex(1);
-
-        colSelection = new JComboBox<>(size);
-        colSelection.setSelectedIndex(2);
-        rowSelection = new JComboBox<>(size);
-        rowSelection.setSelectedIndex(2);
-
-        localOrRemote = new JRadioButton[3];
-        sizeGroup = new ButtonGroup();
-        localOrRemote[0] = new JRadioButton("Local", true);
-        localOrRemote[1] = new JRadioButton("Host");
-        localOrRemote[2] = new JRadioButton("Join");
-        sizeGroup.add(localOrRemote[0]);
-        sizeGroup.add(localOrRemote[1]);
-        sizeGroup.add(localOrRemote[2]);
-
-
-        frame1 = new JFrame("Player-2");
-        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        humanName = new JTextField("Human Name");
-    }
-
-    private JLabel getEmptyLabel(Dimension d) {
-        JLabel label = new JLabel();
-        label.setPreferredSize(d);
-        return label;
-    }
-
-    private String startGame = null;
 
     private static final class resetTextField extends FocusAdapter{
         JTextField fieldTxt;
@@ -153,7 +109,6 @@ public class MainUI {
         }
     };
 
-
     private ActionListener submitListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -192,9 +147,49 @@ public class MainUI {
 
     };
 
+    public MainUI() {
+
+        frame = new JFrame("Dots and Boxes");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        player1Name = new JTextField("Your Name");
+        optionsPlayer2Model = new DefaultComboBoxModel<>(playersType);
+        optionsPlayer2 = new JComboBox<>(optionsPlayer2Model);
+        optionsPlayer2.setSelectedIndex(0);
+
+        ipAddress = new JTextField("Opponent IP address");
+
+        colorBoxPlayer1 = new JComboBox<>(colors);
+        colorBoxPlayer2 = new JComboBox<>(colors);
+        colorBoxPlayer2.setSelectedIndex(1);
+
+        colSelection = new JComboBox<>(size);
+        colSelection.setSelectedIndex(2);
+        rowSelection = new JComboBox<>(size);
+        rowSelection.setSelectedIndex(2);
+
+        localOrRemote = new JRadioButton[3];
+        sizeGroup = new ButtonGroup();
+        localOrRemote[0] = new JRadioButton("Local", true);
+        localOrRemote[1] = new JRadioButton("Host");
+        localOrRemote[2] = new JRadioButton("Join");
+        sizeGroup.add(localOrRemote[0]);
+        sizeGroup.add(localOrRemote[1]);
+        sizeGroup.add(localOrRemote[2]);
+
+
+        frame1 = new JFrame("Player-2");
+        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        humanName = new JTextField("Human Name");
+    }
+
+    private JLabel getEmptyLabel(Dimension d) {
+        JLabel label = new JLabel();
+        label.setPreferredSize(d);
+        return label;
+    }
+
     public void initGUI() {
-
-
         JPanel grid = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 

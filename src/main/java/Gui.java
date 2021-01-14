@@ -42,15 +42,15 @@ public class Gui extends IOManager {
 
         @Override
         public void mouseEntered(MouseEvent mouseEvent) {
-            setJlabelBackgroundColorAtMouseEvent(mouseEvent, currentPlayerColor, true);
+            setLabelBackgroundColorAtMouseEvent(mouseEvent, currentPlayerColor, true);
         }
 
         @Override
         public void mouseExited(MouseEvent mouseEvent) {
-            setJlabelBackgroundColorAtMouseEvent(mouseEvent, DEFAULT_BACKGROUND_LINE_COLOR, false);
+            setLabelBackgroundColorAtMouseEvent(mouseEvent, DEFAULT_BACKGROUND_LINE_COLOR, false);
         }
 
-        private void setJlabelBackgroundColorAtMouseEvent(MouseEvent mouseEvent, Color color, boolean mouseEntered) {
+        private void setLabelBackgroundColorAtMouseEvent(MouseEvent mouseEvent, Color color, boolean mouseEntered) {
             Move move = getSource(mouseEvent.getSource());
             int x = getMappedX(move), y = getMappedY(move);
 
@@ -146,14 +146,14 @@ public class Gui extends IOManager {
 
 
     private JLabel getHorizontalEdge() {
-        return getjLabel(dist, size);
+        return getLabel(dist, size);
     }
 
     private JLabel getVerticalEdge() {
-        return getjLabel(size, dist);
+        return getLabel(size, dist);
     }
 
-    private JLabel getjLabel(int size, int dist) {
+    private JLabel getLabel(int size, int dist) {
         JLabel label = new JLabel();
         label.setPreferredSize(new Dimension(size, dist));
         label.setBorder(BorderFactory.createLineBorder(DEFAULT_BORDER_LINE_COLOR));
