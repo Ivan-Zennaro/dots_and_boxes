@@ -79,20 +79,25 @@ public class MainUI {
 
     private String startGame = null;
 
-    private static final class resetTextField extends KeyAdapter{
+    private static final class resetTextField extends FocusAdapter{
         JTextField fieldTxt;
-        String string;
-        public resetTextField(JTextField fieldTxt, String string){
+        String text;
+        public resetTextField(JTextField fieldTxt, String text){
             super();
             this.fieldTxt = fieldTxt;
-            this.string = string;
+            this.text = text;
         }
 
         @Override
-        public void keyTyped(KeyEvent e) {
-            if(fieldTxt.getText().equals(string))
+        public void focusGained(FocusEvent e) {
+            if(fieldTxt.getText().equals(text))
                 fieldTxt.setText("");
-            fieldTxt.setText(fieldTxt.getText());
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            if(fieldTxt.getText().equals(""))
+                fieldTxt.setText(text);
         }
     }
 
@@ -134,7 +139,7 @@ public class MainUI {
                 namePanel.add(Enter);
                 namePanel.add(getEmptyLabel(new Dimension(150, 20)));
                 humanName.setText("Human Name");
-                humanName.addKeyListener(new resetTextField(humanName,"Human Name"));
+                humanName.addFocusListener(new resetTextField(humanName,"Human Name"));
                 Enter.addActionListener(close);
                 ++constraints.gridy;
 
@@ -219,7 +224,7 @@ public class MainUI {
 
 
         player1Name.setText("Your Name");
-        player1Name.addKeyListener(new resetTextField(player1Name,"Your Name"));
+        player1Name.addFocusListener(new resetTextField(player1Name,"Your Name"));
 
         comboBox.setSelectedIndex(0);
         comboBox.addActionListener(select);
@@ -285,7 +290,7 @@ public class MainUI {
             serverPanel.add(localOrRemote[i]);
         serverPanel.add(new JLabel());
         serverPanel.add(new JLabel());
-        ipAddress.addKeyListener(new resetTextField(ipAddress,"Opponent IP address"));
+        ipAddress.addFocusListener(new resetTextField(ipAddress,"Opponent IP address"));
         serverPanel.add(ipAddress);
         ++constraints.gridy;
         grid.add(serverPanel, constraints);
