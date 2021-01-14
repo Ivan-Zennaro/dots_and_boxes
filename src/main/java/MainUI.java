@@ -113,6 +113,26 @@ public class MainUI {
         }
     };
 
+    private KeyListener keyIp = new KeyListener() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            if (ipAddress.getText().equals("Opponent IP address"))
+                ipAddress.setText("");
+            ipAddress.setText(ipAddress.getText());
+
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+        }
+    };
+
     private ActionListener demo = e -> startGame = "demo";
 
 
@@ -161,7 +181,7 @@ public class MainUI {
                 frame1.setContentPane(gridName);
                 frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame1.pack();
-                frame1.setLocationRelativeTo(null);//center the frame
+                frame1.setLocationRelativeTo(null);
                 frame1.setVisible(true);
             }
 
@@ -301,8 +321,8 @@ public class MainUI {
             serverPanel.add(localOrRemote[i]);
         serverPanel.add(new JLabel());
         serverPanel.add(new JLabel());
+        ipAddress.addKeyListener(keyIp);
         serverPanel.add(ipAddress);
-        //sizeGroup.clearSelection();
         ++constraints.gridy;
         grid.add(serverPanel, constraints);
 
