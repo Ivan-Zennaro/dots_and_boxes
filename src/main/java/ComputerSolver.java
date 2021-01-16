@@ -12,6 +12,8 @@ public class ComputerSolver {
     private Board board;
     private Difficulty difficulty;
 
+    private static Random rand = new Random();
+
     public ComputerSolver(Board board, Difficulty difficulty) {
         this.board = board;
         this.difficulty = difficulty;
@@ -60,9 +62,16 @@ public class ComputerSolver {
         return getMoveWithConstraint((box) -> true, (box, side) -> true, boxes);
     }
 
-    private Move getMoveWithConstraint(Predicate<Box> predicateBox, BiPredicate<Box, Side> predicateSide, List<Box> boxes) {
-        List<Box> candidateBoxes = boxes.stream().filter(box -> !box.isCompleted()).filter(predicateBox).collect(Collectors.toList());
-        if (candidateBoxes.size() == 0) return Move.getInvalidMove();
+    private Move getMoveWithConstraint(Predicate<Box> predicateBox,
+                                       BiPredicate<Box, Side> predicateSide,
+                                       List<Box> boxes) {
+
+        List<Box> candidateBoxes = boxes.stream()
+                .filter(box -> !box.isCompleted())
+                .filter(predicateBox)
+                .collect(Collectors.toList());
+
+        if (candidateBoxes.isEmpty()) return Move.getInvalidMove();
 
         List<Move> candidateMoves = new ArrayList<>();
 
@@ -70,7 +79,10 @@ public class ComputerSolver {
             int indexCandidate = boxes.indexOf(box);
             int rowCandidate = indexCandidate / board.getBoardColumns();
             int colCandidate = indexCandidate % board.getBoardColumns();
-            List<Side> candidateSides = Stream.of(Side.DOWN, Side.UP, Side.LEFT, Side.RIGHT).filter(side -> !box.hasLineBySide(side)).filter(side -> predicateSide.test(box, side)).collect(Collectors.toList());
+            List<Side> candidateSides = Stream.of(Side.DOWN, Side.UP, Side.LEFT, Side.RIGHT)
+                    .filter(side -> !box.hasLineBySide(side))
+                    .filter(side -> predicateSide.test(box, side))
+                    .collect(Collectors.toList());
             for (Side side : candidateSides) {
                 candidateMoves.add(new Move(rowCandidate, colCandidate, side));
             }
@@ -108,15 +120,15 @@ public class ComputerSolver {
     }
 
     public static <T> List<T> matrixToList(T[][] matrix) {
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
         for (T[] array : matrix)
             list.addAll(Arrays.asList(array));
         return list;
     }
 
     public static <T> T getRandomElementFromList(List<T> list) {
-        if (list == null || list.size() < 1) return null;
-        Random rand = new Random();
+        if (list == null || list.isEmpty()) return null;
+
         return list.get(rand.nextInt(list.size()));
     }
 
