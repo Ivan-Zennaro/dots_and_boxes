@@ -8,7 +8,7 @@ public class Box {
         drawnSides = new HashSet<>();
     }
 
-    public Box(HashSet<Side> sides) {
+    public Box(Set<Side> sides) {
         drawnSides = sides;
     }
 
