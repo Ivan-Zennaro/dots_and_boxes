@@ -30,12 +30,9 @@ public class TestGui {
     @CsvSource({"0,0,LEFT", "1,1,RIGHT", "1,2,LEFT", "0,0,DOWN", "2,2,UP"})
     public void box_colored_when_requested(int x, int y, Side side) {
         Gui g = new Gui(3, 3, p1, p2);
-        Move moveThatCompletesABox = new Move(x, y, side);
-        int xBox = moveThatCompletesABox.getX();
-        int yBox = moveThatCompletesABox.getX();
-        g.updateCompletedBox(xBox, yBox, p1);
+        g.updateCompletedBox(new Move(x, y, side), p1);
 
-        Assertions.assertTrue(g.isSetBox(xBox, yBox));
+        Assertions.assertTrue(g.isSetBox(x, y));
     }
 
 

@@ -93,7 +93,7 @@ public class TestCli {
         Player player = new Player("A", Color.GREEN);
         cli.updateMove(new Move(0, 0, Side.DOWN), player);
         cli.updateMove(new Move(0, 0, Side.LEFT), player);
-        cli.updateCompletedBox(0, 0, player);
+        cli.updateCompletedBox(new Move(0, 0, Side.LEFT), player);
         String boardString_3x3 =
                 System.lineSeparator() + "    0   1   2   " + System.lineSeparator() +
                         "   --- --- ---" + System.lineSeparator() +

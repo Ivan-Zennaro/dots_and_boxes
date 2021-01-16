@@ -81,13 +81,7 @@ public class Gui extends IOManager {
 
     public Gui(int boardRows, int boardCols, Player p1, Player p2) {
 
-        int mappedRows = boardRows * 2 + 1;
-        int mappedCols = boardCols + 1;
-
-        player1 = p1;
-        player2 = p2;
-
-        bufferMove = null;
+        super(boardRows,boardCols,p1,p2);
 
         graphicBoard = IntStream.range(0, mappedRows)
                 .mapToObj(r -> IntStream.range(0, mappedCols)
@@ -118,7 +112,7 @@ public class Gui extends IOManager {
 
     private Move getSource(Object object) {
         for (int i = 0; i < graphicBoard.length; i++) {
-            for (int j = 0; (i % 2 == 0 && j < graphicBoard[0].length - 1) || (i % 2 != 0 && j < graphicBoard[0].length); j++) {
+            for (int j = 0; isValidPositionInMatrix(i,j) ; j++) {
                 if (graphicBoard[i][j] == object) {
                     return toMove(i, j);
                 }
@@ -209,7 +203,8 @@ public class Gui extends IOManager {
     }
 
     @Override
-    public void updateCompletedBox(int x, int y, Player player) {
+    public void updateCompletedBox(Move move, Player player) {
+        int x = move.getX(), y = move.getY();
         box[x][y].setBackground(player.getColor().getAwtColor());
     }
 

@@ -35,14 +35,14 @@ public abstract class Game {
 
             if (board.isBoxCompleted(move)) {
                 currentPlayer.onePointDone();
-                ioManager.updateCompletedBox(move.getX(), move.getY(), currentPlayer);
+                ioManager.updateCompletedBox(move, currentPlayer);
                 atLeastOnePointScoredByCurrentPlayer = true;
             }
 
             Move otherMove = board.getNeighbourSideMove(move);
             if (otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)) {
                 currentPlayer.onePointDone();
-                ioManager.updateCompletedBox(otherMove.getX(), otherMove.getY(), currentPlayer);
+                ioManager.updateCompletedBox(otherMove, currentPlayer);
                 atLeastOnePointScoredByCurrentPlayer = true;
             }
             if (!atLeastOnePointScoredByCurrentPlayer) swapPlayers();

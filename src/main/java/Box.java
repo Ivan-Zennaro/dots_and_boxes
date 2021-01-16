@@ -17,7 +17,8 @@ public class Box {
     }
 
     public void drawLine(Side line) {
-        drawnSides.add(line);
+        if (line != Side.INVALID)
+            drawnSides.add(line);
     }
 
     public int getNumberOfDrawnLine() {
