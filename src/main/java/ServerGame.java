@@ -1,4 +1,5 @@
 import java.io.*;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -18,26 +19,7 @@ public class ServerGame extends Game {
             System.out.println("Server ready....");
             Socket socket = server.accept();
 
-            new Thread(() -> {
-                boolean timeToStopThread = false;
-                while (!timeToStopThread) {
-                    if (ioManager.getBackPress()) {
-                        try {
-                            server.close();
-                            socket.close();
-                            timeToStopThread = true;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    try {
-                        Thread.currentThread().sleep(200);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-
+            serverAndSocketCloserWhenBackButtonPressed(server, socket);
 
             OutputStream outputStream = socket.getOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
@@ -69,11 +51,36 @@ public class ServerGame extends Game {
             server.close();
             endGame();
 
-        } catch (IOException e) {
+        }catch (BindException e){
             ioManager.errorHandler("Port already used");
+        }
+        catch (IOException e) {
+            ioManager.errorHandler("Impossible to connect to Client");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void serverAndSocketCloserWhenBackButtonPressed(ServerSocket server, Socket socket) {
+        new Thread(() -> {
+            boolean timeToStopThread = false;
+            while (!timeToStopThread) {
+                if (ioManager.getBackPress()) {
+                    try {
+                        server.close();
+                        socket.close();
+                        timeToStopThread = true;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    Thread.sleep(200);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

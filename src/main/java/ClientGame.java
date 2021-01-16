@@ -15,24 +15,7 @@ public class ClientGame extends Game {
     public void startGame() {
         try (Socket socket = new Socket(ip, PORT)) {
 
-            new Thread(() -> {
-                boolean timeToStopThread = false;
-                while (!timeToStopThread) {
-                    if (ioManager.getBackPress()) {
-                        try {
-                            socket.close();
-                            timeToStopThread = true;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    try {
-                        Thread.currentThread().sleep(200);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+            socketCloserWhenBackButtonPressed(socket);
 
             OutputStream outputStream = socket.getOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
@@ -48,7 +31,7 @@ public class ClientGame extends Game {
                 if (currentPlayer == player2) {
                     move = ioManager.readMove();
 
-                    if (isMoveAllowed(move)) { //...send the move to the Server
+                    if (isMoveAllowed(move)) {
                         objectOutputStream.writeObject(move);
                         objectOutputStream.flush();
                     }
@@ -67,6 +50,27 @@ public class ClientGame extends Game {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void socketCloserWhenBackButtonPressed(Socket socket) {
+        new Thread(() -> {
+            boolean timeToStopThread = false;
+            while (!timeToStopThread) {
+                if (ioManager.getBackPress()) {
+                    try {
+                        socket.close();
+                        timeToStopThread = true;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    Thread.sleep(200);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }
 
