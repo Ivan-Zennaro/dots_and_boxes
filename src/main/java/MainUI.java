@@ -150,6 +150,18 @@ public class MainUI {
 
     public MainUI() {
 
+        instantiateFrameObject();
+
+        instantiateFrame1Objects();
+    }
+
+    private void instantiateFrame1Objects() {
+        frame1 = new JFrame("Player-2");
+        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        humanName = new JTextField("Human Name");
+    }
+
+    private void instantiateFrameObject() {
         frame = new JFrame("Dots and Boxes");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -177,11 +189,6 @@ public class MainUI {
         sizeGroup.add(localOrRemote[0]);
         sizeGroup.add(localOrRemote[1]);
         sizeGroup.add(localOrRemote[2]);
-
-
-        frame1 = new JFrame("Player-2");
-        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        humanName = new JTextField("Human Name");
     }
 
     private JLabel getEmptyLabel(Dimension d) {
