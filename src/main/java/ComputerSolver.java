@@ -100,10 +100,10 @@ public class ComputerSolver {
 
     public static Side getMissingSideFromBox(Box box) {
         if (box.getNumberOfDrawnLine() != 3) return Side.INVALID;
-        if (!box.hasLineLeft()) return Side.LEFT;
-        if (!box.hasLineDown()) return Side.DOWN;
-        if (!box.hasLineRight()) return Side.RIGHT;
-        if (!box.hasLineUp()) return Side.UP;
+        if (!box.hasLineBySide(Side.LEFT)) return Side.LEFT;
+        if (!box.hasLineBySide(Side.DOWN)) return Side.DOWN;
+        if (!box.hasLineBySide(Side.RIGHT)) return Side.RIGHT;
+        if (!box.hasLineBySide(Side.UP)) return Side.UP;
         return Side.INVALID;
     }
 

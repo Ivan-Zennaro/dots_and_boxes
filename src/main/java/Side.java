@@ -4,7 +4,7 @@ public enum Side {
     DOWN,
     LEFT,
     RIGHT,
-    INVALID;
+    INVALID, List;
 
     public char asChar() {
         return name().charAt(0);

@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -22,11 +23,11 @@ public class TestGameComputer {
     @Test
     public void get_missing_side_from_box() {
         assertAll(
-                () -> assertEquals(Side.LEFT, ComputerSolver.getMissingSideFromBox(new Box(true, false, true, true))),
-                () -> assertEquals(Side.RIGHT, ComputerSolver.getMissingSideFromBox(new Box(true, true, true, false))),
-                () -> assertEquals(Side.DOWN, ComputerSolver.getMissingSideFromBox(new Box(true, true, false, true))),
-                () -> assertEquals(Side.UP, ComputerSolver.getMissingSideFromBox(new Box(false, true, true, true))),
-                () -> assertEquals(Side.INVALID, ComputerSolver.getMissingSideFromBox(new Box(false, false, true, true)))
+                () -> assertEquals(Side.LEFT, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.UP,Side.RIGHT,Side.DOWN))))),
+                () -> assertEquals(Side.RIGHT, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.UP,Side.LEFT,Side.DOWN))))),
+                () -> assertEquals(Side.DOWN, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.UP,Side.LEFT,Side.RIGHT))))),
+                () -> assertEquals(Side.UP, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.LEFT,Side.RIGHT,Side.DOWN))))),
+                () -> assertEquals(Side.INVALID, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.RIGHT,Side.DOWN)))))
         );
     }
 
