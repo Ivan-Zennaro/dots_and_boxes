@@ -12,6 +12,13 @@ public class Move implements Serializable {
         this.side = side;
     }
 
+    public boolean isVerticalSide(){
+        return side == Side.UP || side == Side.DOWN;
+    }
+    public boolean isHorizontalSide(){
+        return side == Side.RIGHT || side == Side.LEFT;
+    }
+
     public static Move getInvalidMove() {
         return new Move(-1, -1, Side.INVALID);
     }
