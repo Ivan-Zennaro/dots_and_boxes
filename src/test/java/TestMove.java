@@ -6,15 +6,15 @@ public class TestMove {
 
     @ParameterizedTest
     @CsvSource({"UP,true", "DOWN,true", "RIGHT,false", "LEFT,false"})
-    public void is_a_vertical_move(Side side, boolean isVertical) {
+    public void is_a_horizontal_move(Side side, boolean isHorizontal) {
         Move move = new Move(0,0,side);
-        Assertions.assertEquals(isVertical, move.isVerticalSide());
+        Assertions.assertEquals(isHorizontal, move.isSideHorizontal());
     }
 
     @ParameterizedTest
     @CsvSource({"UP,false", "DOWN,false", "RIGHT,true", "LEFT,true"})
-    public void is_a_horizontal_move(Side side, boolean isHorizontal) {
+    public void is_a_vertical_move(Side side, boolean isVertical) {
         Move move = new Move(0,0,side);
-        Assertions.assertEquals(isHorizontal, move.isHorizontalSide());
+        Assertions.assertEquals(isVertical, move.isSideVertical());
     }
 }

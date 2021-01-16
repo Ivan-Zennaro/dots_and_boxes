@@ -18,7 +18,7 @@ public class ComputerSolver {
     }
 
     public Move getComputerMove() {
-        List<Box> boxes = matrixToList(board.getBoard());
+        List<Box> boxes = matrixToList(board.getBoxes());
 
         Move move = getMove_thatCloseAtLeast2Boxes(boxes);
         if (move.isValid() && difficulty == Difficulty.HARD) return move;

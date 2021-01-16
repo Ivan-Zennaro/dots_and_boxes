@@ -1,32 +1,32 @@
 public class Board {
 
-    private Box[][] board;
+    private Box[][] boxes;
     private int boardRows;
     private int boardColumns;
 
     public Board(int numberOfBoxesInARow, int numberOfBoxesInAColumn) {
-        this.board = new Box[numberOfBoxesInARow][numberOfBoxesInAColumn];
+        this.boxes = new Box[numberOfBoxesInARow][numberOfBoxesInAColumn];
         this.boardRows = numberOfBoxesInARow;
         this.boardColumns = numberOfBoxesInAColumn;
         for (int i = 0; i < numberOfBoxesInARow; i++) {
             for (int j = 0; j < numberOfBoxesInAColumn; j++) {
-                board[i][j] = new Box();
+                boxes[i][j] = new Box();
             }
         }
     }
 
     public boolean boxHasAlreadyLine(Move move) {
-        Box chosenBox = board[move.getX()][move.getY()];
+        Box chosenBox = boxes[move.getX()][move.getY()];
         return chosenBox.hasLineBySide(move.getSide());
     }
 
     public void drawLine(Move move) {
-        Box chosenBox = board[move.getX()][move.getY()];
+        Box chosenBox = getBoxByMove(move);
         chosenBox.drawLine(move.getSide());
 
         Move otherMove = getNeighbourSideMove(move);
         if (otherMove.getSide() != Side.INVALID) {
-            Box otherBox = board[otherMove.getX()][otherMove.getY()];
+            Box otherBox = getBoxByMove(otherMove);
             otherBox.drawLine(otherMove.getSide());
         }
     }
@@ -36,29 +36,34 @@ public class Board {
     }
 
     public Move getNeighbourSideMove(Move move) {
-        if (move.getSide() == Side.UP || move.getSide() == Side.DOWN)
-            if (isMoveInBoardRange(new Move(move.getX() + move.getCoordShift(), move.getY(), move.getInvertedSide()))) {
-                return new Move(move.getX() + move.getCoordShift(), move.getY(), move.getInvertedSide());
 
+        if (move.isSideHorizontal()) {
+            Move neighbourHorizontalMove = new Move(move.getX() + move.getCoordShift(), move.getY(), move.getInvertedSide());
+            if (isMoveInBoardRange(neighbourHorizontalMove)) {
+                return neighbourHorizontalMove;
             }
-        if (move.getSide() == Side.LEFT || move.getSide() == Side.RIGHT)
-            if (isMoveInBoardRange(new Move(move.getX(), move.getY() + move.getCoordShift(), move.getInvertedSide()))) {
-                return new Move(move.getX(), move.getY() + move.getCoordShift(), move.getInvertedSide());
-            }
+        }
 
-        return new Move(-1, -1, Side.INVALID);
+        if (move.isSideVertical()) {
+            Move neighbourVerticalMove = new Move(move.getX(), move.getY() + move.getCoordShift(), move.getInvertedSide());
+            if (isMoveInBoardRange(neighbourVerticalMove)) {
+                return neighbourVerticalMove;
+            }
+        }
+
+        return Move.getInvalidMove();
     }
 
     public Box getBoxByMove(Move move) {
-        return board[move.getX()][move.getY()];
+        return boxes[move.getX()][move.getY()];
     }
 
     public boolean isBoxCompleted(Move move) {
         return getBoxByMove(move).isCompleted();
     }
 
-    public Box[][] getBoard() {
-        return board;
+    public Box[][] getBoxes() {
+        return boxes;
     }
 
     public int getBoardRows() {
