@@ -74,17 +74,17 @@ public class Cli extends IOManager {
     }
 
     public String getStringBoard() {
-        String s = System.lineSeparator() + "    ";
+        String boardAsString = System.lineSeparator() + "    ";
         for (int i = 0; i < graphicBoard[0].length - 1; i++)
-            s += i + "   ";
+            boardAsString += i + "   ";
         for (int i = 0; i < graphicBoard.length; i++) {
-            if (i % 2 == 0) s += System.lineSeparator() + "  ";
-            else s += System.lineSeparator() + (((i + 1) / 2) - 1) + " ";
+            if (i % 2 == 0) boardAsString += System.lineSeparator() + "  ";
+            else boardAsString += System.lineSeparator() + (((i + 1) / 2) - 1) + " ";
             for (int j = 0; (i % 2 == 0 && j < graphicBoard[0].length - 1) || (i % 2 != 0 && j < graphicBoard[0].length); j++) {
-                s += graphicBoard[i][j];
+                boardAsString += graphicBoard[i][j];
             }
         }
-        return s + System.lineSeparator();
+        return boardAsString + System.lineSeparator();
     }
 }
 
