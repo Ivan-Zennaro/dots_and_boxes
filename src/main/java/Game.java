@@ -33,7 +33,7 @@ public abstract class Game {
             Move otherMove = board.getNeighbourSideMove(move);
 
             boolean atLeastOnePointScoredByCurrentPlayer =
-                    boxOfTheMoveHasBeenClosed(move) || boxOfTheMoveHasBeenClosed(otherMove);
+                    boxOfTheMoveHasBeenClosed(move) | boxOfTheMoveHasBeenClosed(otherMove);
 
             if (!atLeastOnePointScoredByCurrentPlayer)
                 swapPlayers();

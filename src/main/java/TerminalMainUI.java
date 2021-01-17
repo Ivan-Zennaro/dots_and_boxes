@@ -1,9 +1,10 @@
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class TerminalMainUI {
     private static Scanner keyboard = new Scanner(System.in);
 
-    private static String rulesAndHelp = """
+    private static final String rulesAndHelp = """
                                     
             !!Help and Rules!!                   
                   
@@ -29,6 +30,7 @@ public class TerminalMainUI {
 
         boolean flagEndProgram = false;
         System.out.println("Welcome to Dots and Boxes!\n");
+        System.out.println(rulesAndHelp);
         while (!flagEndProgram) {
             String input = getInput();
             switch (input) {
@@ -45,16 +47,16 @@ public class TerminalMainUI {
 
                     Player player1 = new Player("Albert", Color.RED);
                     Player player2 = new Player("Ben", Color.BLU);
-                    Game game = GameFactory.createComputerVsComputerGameWithCli(4, 4, player1, player2);
+                    Game game = GameFactory.createComputerVsComputerGameWithCli(2, 2, player1, player2);
                     game.startGame();
                     System.out.println("\n--------------------------\nGAME ENDED\n--------------------------\n");
                 }
-                case "4" ->{
+                case "4" -> {
                     startServerGameWithCli();
                     System.out.println("\n--------------------------\nSERVER CLOSED\n--------------------------\n");
 
                 }
-                case "5" ->{
+                case "5" -> {
                     startClientGameWithCli();
                     System.out.println("\n--------------------------\nGAME ENDED\n--------------------------\n");
 
@@ -69,13 +71,13 @@ public class TerminalMainUI {
     }
 
 
-    public static String getInput(){
+    public static String getInput() {
         String input = "";
         System.out.println("Insert Game Mode (Insert \"?\" for Help,\"quit\" to quit the game)");
         try {
             input = keyboard.nextLine();
-        } catch (Exception e) {
-            System.out.println("Input Error: "+e.toString());
+        } catch (NoSuchElementException | IllegalStateException e) {
+            System.out.println("Input Error: " + e.toString());
         }
         return input;
     }
@@ -85,12 +87,11 @@ public class TerminalMainUI {
         System.out.println("Insert board size (Default: 2):");
         try {
             input = Integer.parseInt(keyboard.nextLine());
-
-        } catch (Exception e) {
+        } catch (NumberFormatException | IllegalStateException | NoSuchElementException e) {
             System.out.println("Invalid Insertion. Default is taken.");
         }
-         Player player1 = new Player("Albert", Color.RED);
-         Player player2 = new Player("Ben", Color.BLU);
+        Player player1 = new Player("Albert", Color.RED);
+        Player player2 = new Player("Ben", Color.BLU);
         Game game = GameFactory.create2PlayerGameWithCli(input, input, player1, player2);
         game.startGame();
     }
@@ -100,7 +101,7 @@ public class TerminalMainUI {
         System.out.println("Insert board size (Default: 3):");
         try {
             input = Integer.parseInt(keyboard.nextLine());
-        } catch (Exception e) {
+        } catch (NumberFormatException | IllegalStateException | NoSuchElementException e) {
             System.out.println("Invalid Insertion. Default is taken.");
         }
         Difficulty difficulty = Difficulty.EASY;
@@ -112,20 +113,22 @@ public class TerminalMainUI {
                 case "HARD" -> difficulty = Difficulty.HARD;
                 default -> System.out.println("Invalid Insertion. Default is taken.");
             }
-        } catch (Exception e) {
+        } catch (IllegalStateException | NoSuchElementException e) {
             System.out.println("Invalid Insertion. Default is taken.");
         }
         Player player1 = new Player("Albert", Color.RED);
         Player player2 = new Player("Ben", Color.BLU);
-        Game game = GameFactory.createPlayerVsComputerGameWithCli(input, input, player1, player2,difficulty);
+        Game game = GameFactory.createPlayerVsComputerGameWithCli(input, input, player1, player2, difficulty);
         game.startGame();
     }
+
     public static void startServerGameWithCli() {
         Player player1 = new Player("Albert", Color.RED);
         Player player2 = new Player("Ben", Color.BLU);
         Game game = GameFactory.createServerGameWithCli(player1, player2);
         game.startGame();
     }
+
     public static void startClientGameWithCli() {
         String ip;
         System.out.println("Insert IP address:");
@@ -134,7 +137,7 @@ public class TerminalMainUI {
         Player player1 = new Player("Albert", Color.RED);
         Player player2 = new Player("Ben", Color.BLU);
         System.out.println("Connecting...");
-        Game game = GameFactory.createClientGameWithCli(player1, player2,ip);
+        Game game = GameFactory.createClientGameWithCli(player1, player2, ip);
         game.startGame();
 
     }

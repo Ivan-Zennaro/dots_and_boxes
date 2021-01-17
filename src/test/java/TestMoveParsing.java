@@ -15,15 +15,9 @@ public class TestMoveParsing {
         Assertions.assertEquals(testMove, inputMove);
     }
 
-    @Test
-    public void null_to_invalid_move() {
-        Move inputMove = Move.parseMove(null);
-
-        Assertions.assertEquals(Move.getInvalidMove(), inputMove);
-    }
 
     @ParameterizedTest
-    @ValueSource(strings = {"4 5 k", "u p k", "487 K", "01D", "0", "", "0 0 0"})
+    @ValueSource(strings = {"4 5 k", "u p k", "487 K", "01D", "0", "", "0 0 0", "1 1 CA"})
     public void string_to_invalid_move(String input) {
         Move inputMove = Move.parseMove(input);
 

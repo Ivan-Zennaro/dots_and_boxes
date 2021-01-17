@@ -16,7 +16,11 @@ public class PlayerVsComputerGame extends Game {
             else
                 computeMove(computerSolver.getComputerMove());
             printScoreBoard();
-            try{Thread.sleep(200);}catch (Exception e){}
+            try{
+                Thread.sleep(200);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         endGame();
     }

@@ -1,13 +1,13 @@
 public class Player {
 
-    private int points = 0;
-    private Color color;
     private String name;
-
+    private Color color;
+    private int points;
 
     public Player(String name, Color color) {
-        this.color = color;
         this.name = name;
+        this.color = color;
+        this.points = 0;
     }
 
     public int getPoints() {

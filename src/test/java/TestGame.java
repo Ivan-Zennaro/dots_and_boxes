@@ -32,12 +32,13 @@ public class TestGame {
         game.computeMove(new Move(0, 1, Side.DOWN));
         game.computeMove(new Move(0, 1, Side.RIGHT));
 
-        game.computeMove(new Move(1, 1, Side.LEFT));
         game.computeMove(new Move(1, 1, Side.RIGHT));
         game.computeMove(new Move(1, 1, Side.DOWN));
 
         game.computeMove(new Move(1, 0, Side.DOWN));
         game.computeMove(new Move(1, 0, Side.LEFT));
+
+        game.computeMove(new Move(1, 1, Side.LEFT));
         game.endGame();
 
         Assertions.assertTrue(game.isGameFinished());

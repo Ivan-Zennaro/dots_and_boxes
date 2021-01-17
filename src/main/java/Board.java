@@ -38,20 +38,28 @@ public class Board {
     public Move getNeighbourSideMove(Move move) {
 
         if (move.isSideHorizontal()) {
-            Move neighbourHorizontalMove = new Move(move.getX() + move.getCoordShift(), move.getY(), move.getInvertedSide());
+            Move neighbourHorizontalMove = new Move(move.getX() + getCoordShift(move.getSide()), move.getY(), move.getSide().reverse());
             if (isMoveInBoardRange(neighbourHorizontalMove)) {
                 return neighbourHorizontalMove;
             }
         }
 
         if (move.isSideVertical()) {
-            Move neighbourVerticalMove = new Move(move.getX(), move.getY() + move.getCoordShift(), move.getInvertedSide());
+            Move neighbourVerticalMove = new Move(move.getX(), move.getY() + getCoordShift(move.getSide()), move.getSide().reverse());
             if (isMoveInBoardRange(neighbourVerticalMove)) {
                 return neighbourVerticalMove;
             }
         }
 
         return Move.getInvalidMove();
+    }
+
+    private int getCoordShift(Side side) {
+        return switch (side) {
+            case LEFT,UP -> -1;
+            case DOWN,RIGHT -> +1;
+            default -> 0;
+        };
     }
 
     public Box getBoxByMove(Move move) {

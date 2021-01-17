@@ -17,7 +17,7 @@ public abstract class IOManager {
     protected boolean backPress = false;
 
 
-    public IOManager (int boardRows, int boardCols, Player p1, Player p2){
+    protected IOManager (int boardRows, int boardCols, Player p1, Player p2){
         this.player1 = p1;
         this.player2 = p2;
 
@@ -25,15 +25,12 @@ public abstract class IOManager {
         this.mappedCols = boardCols + 1;
     }
 
-
     public boolean getBackPress() {
         return backPress;
     }
 
     public static int getMappedY(Move move) {
-        if (move.getSide() == Side.RIGHT)
-            return move.getY() + 1;
-        else return move.getY();
+        return move.getSide() == Side.RIGHT ? move.getY() + 1 : move.getY();
     }
 
     public static int getMappedX(Move move) {

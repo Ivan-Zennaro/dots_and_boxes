@@ -60,7 +60,9 @@ public class Move implements Serializable {
     public static Move parseMove(String input) {
         try {
             String[] splitInput = input.split(" ");
-            if (!(splitInput.length != 3 && splitInput[2].length() != 1)) {
+
+            if (splitInput.length == 3 && splitInput[2].length() == 1) {
+
                 int x = Integer.parseInt(String.valueOf(splitInput[0]));
                 int y = Integer.parseInt(String.valueOf(splitInput[1]));
                 char sideAsChar = splitInput[2].charAt(0);
@@ -70,29 +72,10 @@ public class Move implements Serializable {
                         return new Move(x, y, refSide);
                 }
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             return getInvalidMove();
         }
         return getInvalidMove();
 
     }
-
-    public int getCoordShift() {
-        return switch (this.getSide()) {
-            case UP, LEFT -> -1;
-            case DOWN, RIGHT -> +1;
-            default -> 0;
-        };
-    }
-
-    public Side getInvertedSide() {
-        return switch (this.getSide()) {
-            case UP -> Side.DOWN;
-            case DOWN -> Side.UP;
-            case LEFT -> Side.RIGHT;
-            case RIGHT -> Side.LEFT;
-            default -> Side.INVALID;
-        };
-    }
-
 }

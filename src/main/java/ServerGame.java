@@ -77,7 +77,7 @@ public class ServerGame extends Game {
                 }
                 try {
                     Thread.sleep(200);
-                } catch (Exception e) {
+                } catch (IllegalArgumentException | InterruptedException e) {
                     e.printStackTrace();
                 }
             }
