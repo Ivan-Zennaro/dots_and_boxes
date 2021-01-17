@@ -54,8 +54,24 @@ public class TestGame {
         game.computeMove(new Move(0, 1, Side.LEFT));
 
         Assertions.assertEquals(1, game.player2.getPoints());
-
     }
+
+    @Test
+    public void two_points_to_player1() {
+        Game game = new TwoPlayersGame(2, 2, player1, player2, cli);
+
+        game.computeMove(new Move(0, 0, Side.LEFT));
+        game.computeMove(new Move(0, 0, Side.DOWN));
+        game.computeMove(new Move(0, 0, Side.UP));
+
+        game.computeMove(new Move(0, 1, Side.RIGHT));
+        game.computeMove(new Move(0, 1, Side.DOWN));
+        game.computeMove(new Move(0, 1, Side.UP));
+        game.computeMove(new Move(0, 1, Side.LEFT));
+
+        Assertions.assertEquals(2, game.player1.getPoints());
+    }
+
 
     @Test
     public void player1_plays_first() {
