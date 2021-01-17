@@ -1,29 +1,25 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import java.awt.*;
 import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.stream.IntStream;
 
 public class Gui extends IOManager {
 
-    private final static int size = 16;
-    private final static int dist = 80;
-
+    private final static int DOT_SIZE = 16;
+    private final static int BOX_SIZE = 80;
     public static final Color DEFAULT_BORDER_LINE_COLOR = Color.WHITE;
-    public static final Color DEFAULT_BACKGROUND_LINE_COLOR = Color.getColor("#ffffff00");//transparent
-
-    private Move bufferMove;
+    public static final Color DEFAULT_BACKGROUND_LINE_COLOR = Color.getColor("#ffffff00");
 
     private JFrame frame;
     private JLabel p1ScoreLabel, p2ScoreLabel, statusLabel;
-    private JLabel[][] box;
-    private boolean[][] isSetLine;
-    private JLabel[][] graphicBoard;
+    private JLabel[][] box, graphicBoard;
 
+    private boolean[][] isSetLine;
+    private Move bufferMove;
     private Color currentPlayerColor;
 
     private MouseListener mouseListener = new MouseListener() {
@@ -33,7 +29,7 @@ public class Gui extends IOManager {
 
         @Override
         public void mousePressed(MouseEvent mouseEvent) {
-            bufferMove = getSource(mouseEvent.getSource());
+            bufferMove = getCoordinateOfTheClickedLine(mouseEvent.getSource());
         }
 
         @Override
@@ -51,7 +47,7 @@ public class Gui extends IOManager {
         }
 
         private void setLabelBackgroundColorAtMouseEvent(MouseEvent mouseEvent, Color color, boolean mouseEntered) {
-            Move move = getSource(mouseEvent.getSource());
+            Move move = getCoordinateOfTheClickedLine(mouseEvent.getSource());
             int x = getMappedX(move), y = getMappedY(move);
 
             if (mouseEntered && !isSetLine(x, y))
@@ -72,7 +68,7 @@ public class Gui extends IOManager {
             backPress = true;
 
             frame.dispose();
-            Thread thread = new Thread(() -> new MainUI().initGUI());
+            Thread thread = new Thread(() -> new MainUI().initMenu());
             thread.start();
 
         }
@@ -80,14 +76,9 @@ public class Gui extends IOManager {
 
 
     public Gui(int boardRows, int boardCols, Player p1, Player p2) {
+        super(boardRows, boardCols, p1, p2);
 
-        super(boardRows,boardCols,p1,p2);
-
-        graphicBoard = IntStream.range(0, mappedRows)
-                .mapToObj(r -> IntStream.range(0, mappedCols)
-                        .mapToObj(c -> r % 2 == 0 ? getHorizontalEdge() : getVerticalEdge())
-                        .toArray(JLabel[]::new))
-                .toArray(JLabel[][]::new);
+        graphicBoard = new JLabel[mappedRows][mappedCols];
 
         isSetLine = new boolean[mappedRows][mappedCols];
         box = new JLabel[boardRows][boardCols];
@@ -95,7 +86,12 @@ public class Gui extends IOManager {
         frame = new JFrame("Dots and Boxes");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        init();
+        prepareGrid();
+
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        frame.setVisible(true);
     }
 
     public boolean isSetLine(int x, int y) {
@@ -110,19 +106,19 @@ public class Gui extends IOManager {
         return box[x][y].getBackground().equals(player1.getColor().getAwtColor()) || box[x][y].getBackground().equals(player2.getColor().getAwtColor());
     }
 
-    private Move getSource(Object object) {
+    private Move getCoordinateOfTheClickedLine(Object object) {
         for (int i = 0; i < graphicBoard.length; i++) {
-            for (int j = 0; isValidPositionInMatrix(i,j) ; j++) {
+            for (int j = 0; isValidPositionInMatrix(i, j); j++) {
                 if (graphicBoard[i][j] == object) {
-                    return toMove(i, j);
+                    return getMoveFromGraphicBoardCoordinates(i, j);
                 }
             }
         }
         return Move.getInvalidMove();
     }
 
-    private Move toMove(int x, int y) {
-        if (x % 2 == 0) {
+    private Move getMoveFromGraphicBoardCoordinates(int x, int y) {
+        if (isaRawOfHorizontalLines(x)) {
             if (x < graphicBoard.length - 1) {
                 return new Move(x / 2, y, Side.UP);
             } else {
@@ -135,16 +131,14 @@ public class Gui extends IOManager {
                 return new Move(x / 2, y - 1, Side.RIGHT);
             }
         }
-
     }
 
-
     private JLabel getHorizontalEdge() {
-        return getLabel(dist, size);
+        return getLabel(BOX_SIZE, DOT_SIZE);
     }
 
     private JLabel getVerticalEdge() {
-        return getLabel(size, dist);
+        return getLabel(DOT_SIZE, BOX_SIZE);
     }
 
     private JLabel getLabel(int size, int dist) {
@@ -158,17 +152,13 @@ public class Gui extends IOManager {
     }
 
     private JLabel getDot() {
-        JLabel label = new JLabel();
-        label.setPreferredSize(new Dimension(size, size));
-        //label.setBackground(Color.BLACK);
-        label.setOpaque(true);
+        JLabel label = getEmptyLabel(new Dimension(DOT_SIZE, DOT_SIZE));
         label.setBorder(new LineBorder(Color.BLACK, 10, true));
         return label;
     }
 
     private JLabel getBox() {
-        JLabel label = new JLabel();
-        label.setPreferredSize(new Dimension(dist, dist));
+        JLabel label = getEmptyLabel(new Dimension(BOX_SIZE, BOX_SIZE));
         label.setOpaque(true);
         return label;
     }
@@ -210,7 +200,6 @@ public class Gui extends IOManager {
 
     @Override
     public void updateGameInfo(Player currentPlayer) {
-
         currentPlayerColor = currentPlayer.getColor().getAwtColor();
 
         p1ScoreLabel.setText(String.valueOf(player1.getPoints()));
@@ -238,7 +227,7 @@ public class Gui extends IOManager {
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.INFORMATION_MESSAGE);
             frame.setVisible(false);
             frame.dispose();
-            new Thread(() -> new MainUI().initGUI()).start();
+            new Thread(() -> new MainUI().initMenu()).start();
         }
     }
 
@@ -249,8 +238,8 @@ public class Gui extends IOManager {
         return tempLabel;
     }
 
-    private void init() {
-        int boardWidth = graphicBoard[0].length * size + (graphicBoard[0].length - 1) * dist;
+    private void prepareGrid() {
+        int boardWidth = graphicBoard[0].length * DOT_SIZE + (graphicBoard[0].length - 1) * BOX_SIZE;
 
         JPanel grid = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -259,8 +248,8 @@ public class Gui extends IOManager {
         grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
 
         JPanel playerPanel = new JPanel(new GridLayout(2, 2));
-        if (graphicBoard[0].length > 3) playerPanel.setPreferredSize(new Dimension(2 * boardWidth, dist));
-        else playerPanel.setPreferredSize(new Dimension(2 * boardWidth, 2 * dist));
+        if (graphicBoard[0].length > 3) playerPanel.setPreferredSize(new Dimension(2 * boardWidth, BOX_SIZE));
+        else playerPanel.setPreferredSize(new Dimension(2 * boardWidth, 2 * BOX_SIZE));
 
 
         playerPanel.add(getNewPlayerLabel("Player 1:", player1));
@@ -274,7 +263,7 @@ public class Gui extends IOManager {
         grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
 
         JPanel scorePanel = new JPanel(new GridLayout(2, 2));
-        scorePanel.setPreferredSize(new Dimension(2 * boardWidth, dist));
+        scorePanel.setPreferredSize(new Dimension(2 * boardWidth, BOX_SIZE));
 
         scorePanel.add(getNewPlayerLabel("Score:", player1));
         scorePanel.add(getNewPlayerLabel("Score:", player2));
@@ -290,10 +279,32 @@ public class Gui extends IOManager {
         grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
 
 
+        addGraphicBoardDesign(grid, constraints);
+
+        ++constraints.gridy;
+        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
+
+        statusLabel = getNewPlayerLabel(player1.getName() + "'s Turn...", player1);
+        ++constraints.gridy;
+        grid.add(statusLabel, constraints);
+
+        ++constraints.gridy;
+        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
+
+        JButton goBackButton = new JButton("Go Back to Main Menu");
+        goBackButton.setPreferredSize(new Dimension(boardWidth, BOX_SIZE));
+        goBackButton.addActionListener(backListener);
+        ++constraints.gridy;
+        grid.add(goBackButton, constraints);
+
+        frame.setContentPane(grid);
+    }
+
+    private void addGraphicBoardDesign(JPanel grid, GridBagConstraints constraints) {
         for (int i = 0; i < graphicBoard.length; i++) {
             JPanel pane = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-            for (int j = 0; (i % 2 == 0 && j < graphicBoard[0].length - 1) || (i % 2 != 0 && j < graphicBoard[0].length); j++) {
-                if (i % 2 == 0) {
+            for (int j = 0; isValidPositionInMatrix(i, j); j++) {
+                if (isaRawOfHorizontalLines(i)) {
                     pane.add(getDot());
                     graphicBoard[i][j] = getHorizontalEdge();
                     pane.add(graphicBoard[i][j]);
@@ -307,44 +318,16 @@ public class Gui extends IOManager {
                 }
 
             }
-            if (i % 2 == 0)
+            if (isaRawOfHorizontalLines(i))
                 pane.add(getDot());
 
             ++constraints.gridy;
             grid.add(pane, constraints);
         }
+    }
 
-        ++constraints.gridy;
-        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
-
-        statusLabel = getNewPlayerLabel(player1.getName() + "'s Turn...", player1);
-        ++constraints.gridy;
-        grid.add(statusLabel, constraints);
-
-        ++constraints.gridy;
-        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
-
-        JButton goBackButton = new JButton("Go Back to Main Menu");
-        goBackButton.setPreferredSize(new Dimension(boardWidth, dist));
-        goBackButton.addActionListener(backListener);
-        ++constraints.gridy;
-        grid.add(goBackButton, constraints);
-
-
-        if (frame != null) {
-            frame.getContentPane().removeAll();
-            frame.revalidate();
-            frame.repaint();
-
-
-            frame.setContentPane(grid);
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setResizable(false);
-            frame.setVisible(true);
-
-        }
-
+    private boolean isaRawOfHorizontalLines(int i) {
+        return i % 2 == 0;
     }
 }
 

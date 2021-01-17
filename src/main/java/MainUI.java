@@ -197,7 +197,7 @@ public class MainUI {
         return label;
     }
 
-    public void initGUI() {
+    public void initMenu() {
         JPanel grid = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -355,7 +355,7 @@ public class MainUI {
     }
 
     public static void main(String[] args) {
-        new MainUI().initGUI();
+        new MainUI().initMenu();
     }
 
 }
