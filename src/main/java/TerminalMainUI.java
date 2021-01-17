@@ -123,7 +123,7 @@ public class TerminalMainUI {
     public static void startServerGameWithCli() {
         Player player1 = new Player("Albert", Color.RED);
         Player player2 = new Player("Ben", Color.BLU);
-        Game game = GameFactory.createServerGameWithCli(3 ,3, player1, player2);
+        Game game = GameFactory.createServerGameWithCli(player1, player2);
         game.startGame();
     }
     public static void startClientGameWithCli() {
@@ -134,7 +134,7 @@ public class TerminalMainUI {
         Player player1 = new Player("Albert", Color.RED);
         Player player2 = new Player("Ben", Color.BLU);
         System.out.println("Connecting...");
-        Game game = GameFactory.createClientGameWithCli(3, 3, player1, player2,ip);
+        Game game = GameFactory.createClientGameWithCli(player1, player2,ip);
         game.startGame();
 
     }
