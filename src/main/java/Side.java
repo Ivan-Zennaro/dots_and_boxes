@@ -6,14 +6,17 @@ public enum Side {
     RIGHT,
     INVALID;
 
+    private Side inverse;
+
+    static {
+        UP.inverse = DOWN;
+        DOWN.inverse = UP;
+        RIGHT.inverse = LEFT;
+        LEFT.inverse = RIGHT;
+    }
+
     public Side reverse() {
-        return switch (this) {
-            case UP -> Side.DOWN;
-            case DOWN -> Side.UP;
-            case LEFT -> Side.RIGHT;
-            case RIGHT -> Side.LEFT;
-            default -> Side.INVALID;
-        };
+        return inverse;
     }
 
     public char asChar() {
