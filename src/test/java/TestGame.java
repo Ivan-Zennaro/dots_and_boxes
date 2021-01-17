@@ -1,17 +1,19 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class TestGame {
     private final int boardSize = 2;
-    private final Player player1 = new Player("A", Color.BLU);
-    private final Player player2 = new Player("B", Color.RED);
+    private final Player player1 = UtilityTest.getMockP1();
+    private final Player player2 = UtilityTest.getMockP2();
     private final Cli cli = new Cli(boardSize, boardSize, player1, player2);
-    private final TwoPlayersGame game = new TwoPlayersGame(2, 2, player1, player2, cli);
 
     @Test
     public void is_not_ended() {
+        Game game = new TwoPlayersGame(2, 2, player1, player2, cli);
         game.computeMove(new Move(0, 0, Side.UP));
 
         Assertions.assertFalse(game.isGameFinished());
@@ -19,11 +21,7 @@ public class TestGame {
 
     @Test
     public void is_ended() {
-        game.computeMove(new Move(0, 0, Side.LEFT));
-        game.computeMove(new Move(0, 0, Side.RIGHT));
-        game.computeMove(new Move(0, 0, Side.UP));
-        game.computeMove(new Move(0, 0, Side.DOWN));
-
+        Game game = new TwoPlayersGame(2, 2, player1, player2, cli);
 
         game.computeMove(new Move(0, 0, Side.LEFT));
         game.computeMove(new Move(0, 0, Side.RIGHT));
@@ -47,6 +45,8 @@ public class TestGame {
 
     @Test
     public void one_point_to_player2() {
+        Game game = new TwoPlayersGame(2, 2, player1, player2, cli);
+
         game.computeMove(new Move(0, 0, Side.LEFT));
         game.computeMove(new Move(0, 0, Side.DOWN));
         game.computeMove(new Move(0, 0, Side.UP));
@@ -58,18 +58,22 @@ public class TestGame {
 
     @Test
     public void player1_plays_first() {
+        Game game = new TwoPlayersGame(2, 2, player1, player2, cli);
         Assertions.assertEquals(game.player1, game.currentPlayer);
     }
 
     @Test
     public void player2_plays_second() {
+        Game game = new TwoPlayersGame(2, 2, player1, player2, cli);
         game.computeMove(new Move(0, 0, Side.LEFT));
 
         Assertions.assertEquals(game.player2, game.currentPlayer);
     }
 
     @Test
-    public void game_swap_players_after_one_point() {
+    public void game_does_not_swap_players_after_a_point() {
+        Game game = new TwoPlayersGame(2, 2, player1, player2, cli);
+
         game.computeMove(new Move(0, 0, Side.LEFT));
         game.computeMove(new Move(0, 0, Side.DOWN));
         game.computeMove(new Move(0, 0, Side.UP));
@@ -81,4 +85,30 @@ public class TestGame {
         );
 
     }
+
+
+    @ParameterizedTest
+    @CsvSource({"0,0,UP,TRUE","0,0,DOWN,TRUE","0,0,LEFT,FALSE","0,0,RIGHT,FALSE",
+            "0,1,UP,TRUE","0,1,LEFT,FALSE","1,1,LEFT,TRUE","0,2,UP,FALSE","2,2,DOWN,FALSE","1,3,UP,FALSE"})
+    public void move_is_allowed(int x, int y, Side side, boolean inRange) {
+        Game game = new TwoPlayersGame(2, 2, player1, player2, cli);
+        game.computeMove(new Move(0, 0, Side.LEFT));
+        game.computeMove(new Move(0, 0, Side.RIGHT));
+        Move move = new Move(x,y,side);
+        Assertions.assertEquals(inRange, game.isMoveAllowed(move));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0,0,RIGHT,TRUE","0,0,DOWN,FALSE","0,1,DOWN,FALSE","1,1,UP,FALSE"})
+    public void box_of_the_move_has_been_closed(int x, int y, Side side, boolean hasCloseABox) {
+        Game game = new TwoPlayersGame(2, 2, player1, player2, cli);
+        game.computeMove(new Move(0, 0, Side.UP));
+        game.computeMove(new Move(0, 0, Side.LEFT));
+        game.computeMove(new Move(0, 0, Side.DOWN));
+        Move move = new Move(x,y,side);
+        game.computeMove(move);
+        Assertions.assertEquals(hasCloseABox, game.boxOfTheMoveHasBeenClosed(move));
+    }
+
+
 }

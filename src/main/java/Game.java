@@ -8,14 +8,14 @@ public abstract class Game {
     protected Board board;
     protected IOManager ioManager;
 
-    public Game(int nRows, int nCols, Player p1, Player p2, IOManager ioManager) {
+    public abstract void startGame();
+
+    protected Game(int nRows, int nCols, Player p1, Player p2, IOManager ioManager) {
         this.player1 = this.currentPlayer = p1;
         this.player2 = p2;
         this.ioManager = ioManager;
         board = new Board(nRows, nCols);
     }
-
-    public abstract void startGame();
 
     public void endGame() {
         ioManager.showWinner();
@@ -30,23 +30,23 @@ public abstract class Game {
 
             board.drawLine(move);
             ioManager.updateMove(move, currentPlayer);
-
-            boolean atLeastOnePointScoredByCurrentPlayer = false;
-
-            if (board.isBoxCompleted(move)) {
-                currentPlayer.onePointDone();
-                ioManager.updateCompletedBox(move, currentPlayer);
-                atLeastOnePointScoredByCurrentPlayer = true;
-            }
-
             Move otherMove = board.getNeighbourSideMove(move);
-            if (otherMove.getSide() != Side.INVALID && board.isBoxCompleted(otherMove)) {
-                currentPlayer.onePointDone();
-                ioManager.updateCompletedBox(otherMove, currentPlayer);
-                atLeastOnePointScoredByCurrentPlayer = true;
-            }
-            if (!atLeastOnePointScoredByCurrentPlayer) swapPlayers();
+
+            boolean atLeastOnePointScoredByCurrentPlayer =
+                    boxOfTheMoveHasBeenClosed(move) || boxOfTheMoveHasBeenClosed(otherMove);
+
+            if (!atLeastOnePointScoredByCurrentPlayer)
+                swapPlayers();
         }
+    }
+
+    public boolean boxOfTheMoveHasBeenClosed(Move move) {
+        if (move.getSide() != Side.INVALID && board.isBoxCompleted(move)) {
+            currentPlayer.onePointDone();
+            ioManager.updateCompletedBox(move, currentPlayer);
+            return true;
+        }
+        return false;
     }
 
     public void printScoreBoard() {

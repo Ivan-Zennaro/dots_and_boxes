@@ -15,7 +15,9 @@ public class ComputerVsComputerGame extends Game {
             printScoreBoard();
             try {
                 Thread.sleep(500);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         endGame();
     }
