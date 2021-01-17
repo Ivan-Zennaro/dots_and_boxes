@@ -67,7 +67,7 @@ public class Cli extends IOManager {
         System.out.println(getStringBoard());
         System.out.println(getStringPlayerPoint(player1));
         System.out.println(getStringPlayerPoint(player2));
-        System.out.println("Is the turn of Player" + currentPlayer.getFirstLetterName());
+        System.out.println("Is the turn of Player " + currentPlayer.getFirstLetterName());
     }
 
     public String getStringPlayerPoint (Player player){

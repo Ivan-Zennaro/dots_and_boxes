@@ -4,6 +4,9 @@ import java.util.Scanner;
 public class TerminalMainUI {
     private static Scanner keyboard = new Scanner(System.in);
 
+    private static  Player player1 = new Player("Albert", Color.RED);
+    private static Player player2 = new Player("Ben", Color.BLU);
+
     private static final String rulesAndHelp = """
                                     
             !!Help and Rules!!                   
@@ -45,8 +48,6 @@ public class TerminalMainUI {
                 }
                 case "3" -> {
 
-                    Player player1 = new Player("Albert", Color.RED);
-                    Player player2 = new Player("Ben", Color.BLU);
                     Game game = GameFactory.createComputerVsComputerGameWithCli(2, 2, player1, player2);
                     game.startGame();
                     System.out.println("\n--------------------------\nGAME ENDED\n--------------------------\n");
@@ -83,29 +84,20 @@ public class TerminalMainUI {
     }
 
     public static void start2PlayerGameWithCLI() {
-        int input = 2;
-        System.out.println("Insert board size (Default: 2):");
-        try {
-            input = Integer.parseInt(keyboard.nextLine());
-        } catch (NumberFormatException | IllegalStateException | NoSuchElementException e) {
-            System.out.println("Invalid Insertion. Default is taken.");
-        }
-        Player player1 = new Player("Albert", Color.RED);
-        Player player2 = new Player("Ben", Color.BLU);
-        Game game = GameFactory.create2PlayerGameWithCli(input, input, player1, player2);
+        int nRows = getIntegerValueFromKeyboard("Insert number of Rows (Default: 3):",3);
+        int nCols = getIntegerValueFromKeyboard("Insert number of Columns (Default: 3):",3);
+        Game game = GameFactory.create2PlayerGameWithCli(nRows, nCols, player1, player2);
         game.startGame();
     }
 
+
+
     public static void startComputerGameWithCLI() {
-        int input = 3;
-        System.out.println("Insert board size (Default: 3):");
-        try {
-            input = Integer.parseInt(keyboard.nextLine());
-        } catch (NumberFormatException | IllegalStateException | NoSuchElementException e) {
-            System.out.println("Invalid Insertion. Default is taken.");
-        }
+        int nRows = getIntegerValueFromKeyboard("Insert number of Rows (Default: 3):",3);
+        int nCols = getIntegerValueFromKeyboard("Insert number of Columns (Default: 3):",3);
+
         Difficulty difficulty = Difficulty.EASY;
-        System.out.println("Insert game difficulty: EASY, MEDIUM or HARD(Default: EASY):");
+        System.out.println("Insert game difficulty: EASY, MEDIUM or HARD (Default: EASY):");
         try {
             String inputString = keyboard.nextLine();
             switch (inputString) {
@@ -116,15 +108,11 @@ public class TerminalMainUI {
         } catch (IllegalStateException | NoSuchElementException e) {
             System.out.println("Invalid Insertion. Default is taken.");
         }
-        Player player1 = new Player("Albert", Color.RED);
-        Player player2 = new Player("Ben", Color.BLU);
-        Game game = GameFactory.createPlayerVsComputerGameWithCli(input, input, player1, player2, difficulty);
+        Game game = GameFactory.createPlayerVsComputerGameWithCli(nRows, nCols, player1, player2, difficulty);
         game.startGame();
     }
 
     public static void startServerGameWithCli() {
-        Player player1 = new Player("Albert", Color.RED);
-        Player player2 = new Player("Ben", Color.BLU);
         Game game = GameFactory.createServerGameWithCli(player1, player2);
         game.startGame();
     }
@@ -134,11 +122,22 @@ public class TerminalMainUI {
         System.out.println("Insert IP address:");
         ip = keyboard.nextLine();
 
-        Player player1 = new Player("Albert", Color.RED);
-        Player player2 = new Player("Ben", Color.BLU);
         System.out.println("Connecting...");
         Game game = GameFactory.createClientGameWithCli(player1, player2, ip);
         game.startGame();
 
+    }
+
+    private static int getIntegerValueFromKeyboard(String stringToShow, int defaultValue) {
+        int input;
+        System.out.println(stringToShow);
+        try {
+            input = Integer.parseInt(keyboard.nextLine());
+            if (input < 1) throw new NumberFormatException();
+        } catch (NumberFormatException | IllegalStateException | NoSuchElementException e) {
+            input = defaultValue;
+            System.out.println("Invalid Insertion. Default is taken.");
+        }
+        return input;
     }
 }
