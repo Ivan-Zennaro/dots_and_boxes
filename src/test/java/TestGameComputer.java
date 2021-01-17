@@ -1,9 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,11 +21,11 @@ public class TestGameComputer {
     @Test
     public void get_missing_side_from_box() {
         assertAll(
-                () -> assertEquals(Side.LEFT, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.UP,Side.RIGHT,Side.DOWN))))),
-                () -> assertEquals(Side.RIGHT, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.UP,Side.LEFT,Side.DOWN))))),
-                () -> assertEquals(Side.DOWN, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.UP,Side.LEFT,Side.RIGHT))))),
-                () -> assertEquals(Side.UP, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.LEFT,Side.RIGHT,Side.DOWN))))),
-                () -> assertEquals(Side.INVALID, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.RIGHT,Side.DOWN)))))
+                () -> assertEquals(Side.LEFT, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.UP, Side.RIGHT, Side.DOWN))))),
+                () -> assertEquals(Side.RIGHT, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.UP, Side.LEFT, Side.DOWN))))),
+                () -> assertEquals(Side.DOWN, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.UP, Side.LEFT, Side.RIGHT))))),
+                () -> assertEquals(Side.UP, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.LEFT, Side.RIGHT, Side.DOWN))))),
+                () -> assertEquals(Side.INVALID, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.RIGHT, Side.DOWN)))))
         );
     }
 
@@ -73,4 +71,27 @@ public class TestGameComputer {
         );
     }
 
+
+    @Test
+    public void draw_line_in_a_random_box_with_2_side_not_completed_also_for_the_neighbour() {
+        ComputerVsComputerGame game = new ComputerVsComputerGame(2, 2, p1, p2, new Cli(2, 2, p1, p2));
+        game.computeMove(new Move(1, 0, Side.UP));
+        game.computeMove(new Move(1, 0, Side.DOWN));
+        game.computeMove(new Move(1, 0, Side.RIGHT));
+        game.computeMove(new Move(1, 0, Side.LEFT));
+        game.computeMove(new Move(1, 1, Side.DOWN));
+        game.computeMove(new Move(0, 1, Side.UP));
+        game.computeMove(new Move(0, 1, Side.RIGHT));
+        Set<Move> possibleMove = new HashSet<>();
+        while (possibleMove.size() < 1)
+            possibleMove.add(game.getComputerMove());
+        for (Move move: possibleMove) {
+            Assertions.assertAll(
+                    () -> Assertions.assertEquals(0, move.getX()),
+                    () -> Assertions.assertEquals(0, move.getY()),
+                    () -> Assertions.assertNotEquals(Side.DOWN, move.getSide()),
+                    () -> Assertions.assertNotEquals(Side.RIGHT, move.getSide())
+            );
+        }
+    }
 }
