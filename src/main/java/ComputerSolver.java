@@ -87,13 +87,10 @@ public class ComputerSolver {
             int indexCandidate = boxes.indexOf(box);
             int rowCandidate = indexCandidate / board.getBoardColumns();
             int colCandidate = indexCandidate % board.getBoardColumns();
-            List<Side> candidateSides = Stream.of(Side.DOWN, Side.UP, Side.LEFT, Side.RIGHT)
+            Stream.of(Side.DOWN, Side.UP, Side.LEFT, Side.RIGHT)
                     .filter(side -> !box.hasLineBySide(side))
                     .filter(side -> predicateSide.test(box, side))
-                    .collect(Collectors.toList());
-            for (Side side : candidateSides) {
-                candidateMoves.add(new Move(rowCandidate, colCandidate, side));
-            }
+                    .forEach(side -> candidateMoves.add(new Move(rowCandidate, colCandidate, side)));
         }
 
         if (!candidateMoves.isEmpty())
