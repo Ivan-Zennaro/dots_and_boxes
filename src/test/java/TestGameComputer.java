@@ -11,12 +11,6 @@ public class TestGameComputer {
     Player p1 = UtilityTest.getMockP1();
     Player p2 = UtilityTest.getMockP2();
 
-    @Test
-    public void matrix_converted_into_list() {
-        Integer[][] matrix = {{1, 2}, {3, 4}};
-        List<Integer> list = Arrays.asList(1, 2, 3, 4);
-        Assertions.assertEquals(list, ComputerSolver.matrixToList(matrix));
-    }
 
     @Test
     public void get_missing_side_from_box() {
@@ -30,19 +24,49 @@ public class TestGameComputer {
     }
 
     @Test
-    public void draw_line_that_allow_to_close_two_consecutive_boxes() {
+    public void draw_line_that_limit_the_opponent_points() {
         ComputerVsComputerGame game = new ComputerVsComputerGame(3, 3, p1, p2, new Cli(3, 3, p1, p2));
-        game.computeMove(new Move(0, 0, Side.UP));
-        game.computeMove(new Move(0, 0, Side.DOWN));
-        game.computeMove(new Move(0, 0, Side.LEFT));
+
+        game.computeMove(new Move(2, 0, Side.DOWN));
+        game.computeMove(new Move(2, 1, Side.DOWN));
+        game.computeMove(new Move(2, 2, Side.DOWN));
 
         game.computeMove(new Move(2, 0, Side.LEFT));
-        game.computeMove(new Move(2, 0, Side.DOWN));
-        game.computeMove(new Move(2, 0, Side.UP));
+        game.computeMove(new Move(2, 1, Side.LEFT));
+        game.computeMove(new Move(2, 2, Side.LEFT));
+        game.computeMove(new Move(2, 2, Side.RIGHT));
 
-        game.computeMove(new Move(2, 1, Side.RIGHT));
-        game.computeMove(new Move(2, 1, Side.UP));
-        Assertions.assertEquals(new Move(2, 0, Side.RIGHT), game.getComputerMove());
+        game.computeMove(new Move(1, 0, Side.DOWN));
+        game.computeMove(new Move(1, 1, Side.DOWN));
+        game.computeMove(new Move(1, 2, Side.DOWN));
+
+        game.computeMove(new Move(1, 0, Side.LEFT));
+        game.computeMove(new Move(1, 1, Side.LEFT));
+        game.computeMove(new Move(1, 2, Side.LEFT));
+
+        game.computeMove(new Move(0, 0, Side.RIGHT));
+        game.computeMove(new Move(0, 2, Side.UP));
+        game.computeMove(new Move(0, 2, Side.RIGHT));
+
+        game.computeMove(new Move(0, 0, Side.DOWN));
+        game.computeMove(new Move(0, 1, Side.DOWN));
+
+        /*          0   1   2
+                           ---
+                0     |       |
+                   --- ---
+                1 |   |   |
+                   --- --- ---
+                2 |   |   |   |
+                   --- --- ---
+       */
+
+        Move move = game.getComputerMove();
+
+        assertAll(
+                () -> Assertions.assertEquals(0, move.getX()),
+                () -> Assertions.assertEquals(0, move.getY())
+        );
     }
 
 
@@ -85,7 +109,7 @@ public class TestGameComputer {
         Set<Move> possibleMove = new HashSet<>();
         while (possibleMove.size() < 1)
             possibleMove.add(game.getComputerMove());
-        for (Move move: possibleMove) {
+        for (Move move : possibleMove) {
             Assertions.assertAll(
                     () -> Assertions.assertEquals(0, move.getX()),
                     () -> Assertions.assertEquals(0, move.getY()),

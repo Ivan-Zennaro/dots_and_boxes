@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -9,62 +6,73 @@ import java.util.stream.Stream;
 
 public class ComputerSolver {
 
+    private List<Box> boxes;
     private Board board;
     private Difficulty difficulty;
 
     private static Random rand = new Random();
 
     public ComputerSolver(Board board, Difficulty difficulty) {
+        this.boxes = Arrays.stream(board.getBoxes())
+                .flatMap(Arrays::stream)
+                .collect(Collectors.toList());
         this.board = board;
         this.difficulty = difficulty;
     }
 
     public Move getComputerMove() {
-        List<Box> boxes = matrixToList(board.getBoxes());
 
-        Move move = getMove_thatCloseAtLeast2Boxes(boxes);
-        if (move.isValid() && difficulty == Difficulty.HARD) return move;
+        Move move = getMove_thatClosesABox();
+        if (move != null && move.isValid()) return move;
 
-        move = getMove_thatClosesABox(boxes);
-        if (move.isValid()) return move;
+        move = getMove_thatDoesNotPutTheThirdLineInABox();
+        if (move != null && move.isValid() && difficulty != Difficulty.EASY) return move;
 
-        move = getMove_thatDoesNotPutTheThirdLineInABox(boxes);
-        if (move.isValid() && difficulty != Difficulty.EASY) return move;
+        move = getMove_thatLimitOpponentPoints();
+        if (move != null && move.isValid() && difficulty == Difficulty.HARD) return move;
 
-        move = getRandomMove(boxes);
-        if (move.isValid()) return move;
+        move = getRandomMove();
+        if (move != null && move.isValid()) return move;
 
         return Move.getInvalidMove();
     }
 
-    private Move getMove_thatCloseAtLeast2Boxes(List<Box> boxes) {
-        return getMoveWithConstraint(box -> box.getNumberOfDrawnLine() == 3, (box, side) -> {
-            Box sideBox = getNeighbourBox(box, side, boxes);
-            if (sideBox == null) return false;
-            return sideBox.getNumberOfDrawnLine() == 2;
-        }, boxes);
+    private Move getMove_thatClosesABox() {
+        return getMoveWithConstraint(box -> box.getNumberOfDrawnLine() == 3, (box, side) -> true);
     }
 
-    private Move getMove_thatClosesABox(List<Box> boxes) {
-        return getMoveWithConstraint(box -> box.getNumberOfDrawnLine() == 3, (box, side) -> true, boxes);
-    }
-
-    private Move getMove_thatDoesNotPutTheThirdLineInABox(List<Box> boxes) {
+    private Move getMove_thatDoesNotPutTheThirdLineInABox() {
         return getMoveWithConstraint(box -> box.getNumberOfDrawnLine() != 2,
-                (box, side) -> {
-                    Box sideBox = getNeighbourBox(box, side, boxes);
-                    if (sideBox == null) return true;
-                    return sideBox.getNumberOfDrawnLine() != 2;
-                }, boxes);
+                (box, side) -> sideOfBoxHasNotANeighbourWith_2_Drawn_lines(box,side));
     }
 
-    private Move getRandomMove(List<Box> boxes) {
-        return getMoveWithConstraint((box) -> true, (box, side) -> true, boxes);
+
+    private Move getMove_thatLimitOpponentPoints() {
+        return getMoveWithConstraint(box -> box.getNumberOfDrawnLine() == 2, (box, side) ->
+            otherMissingSideHasNotANeighbourWith_2_Drawn_lines(box,side) &&
+                    sideOfBoxHasNotANeighbourWith_2_Drawn_lines(box,side));
+    }
+
+    private boolean sideOfBoxHasNotANeighbourWith_2_Drawn_lines (Box box,Side side){
+        Box sideBox = getNeighbourBox(box, side);
+        if (sideBox == null) return true;
+        return sideBox.getNumberOfDrawnLine() != 2;
+    }
+
+    private boolean otherMissingSideHasNotANeighbourWith_2_Drawn_lines (Box box,Side side){
+        Box copyOfCurrentBox = getACopyOfTheBox(box);
+        copyOfCurrentBox.drawLine(side);
+        Side missingSide = getMissingSideFromBox(copyOfCurrentBox);
+
+        return sideOfBoxHasNotANeighbourWith_2_Drawn_lines(box,missingSide);
+    }
+
+    private Move getRandomMove() {
+        return getMoveWithConstraint((box) -> true, (box, side) -> true);
     }
 
     private Move getMoveWithConstraint(Predicate<Box> predicateBox,
-                                       BiPredicate<Box, Side> predicateSide,
-                                       List<Box> boxes) {
+                                       BiPredicate<Box, Side> predicateSide) {
 
         List<Box> candidateBoxes = boxes.stream()
                 .filter(box -> !box.isCompleted())
@@ -94,17 +102,17 @@ public class ComputerSolver {
         return Move.getInvalidMove();
     }
 
-    public int getRowBox_b_in_boxes(List<Box> boxes, Box b) {
+    public int getRowBox_b_in_boxes(Box b) {
         return boxes.indexOf(b) / board.getBoardColumns();
     }
 
-    public int getColBox_b_in_boxes(List<Box> boxes, Box b) {
+    public int getColBox_b_in_boxes(Box b) {
         return boxes.indexOf(b) % board.getBoardColumns();
     }
 
-    public Box getNeighbourBox(Box currentBox, Side side, List<Box> boxes) {
-        int row = getRowBox_b_in_boxes(boxes, currentBox);
-        int col = getColBox_b_in_boxes(boxes, currentBox);
+    public Box getNeighbourBox(Box currentBox, Side side) {
+        int row = getRowBox_b_in_boxes(currentBox);
+        int col = getColBox_b_in_boxes(currentBox);
         Move sideMove = board.getNeighbourSideMove(new Move(row, col, side));
         if (!sideMove.isValid()) return null;
         return board.getBoxByMove(sideMove);
@@ -112,24 +120,22 @@ public class ComputerSolver {
 
     public static Side getMissingSideFromBox(Box box) {
         if (box.getNumberOfDrawnLine() != 3) return Side.INVALID;
-        if (!box.hasLineBySide(Side.LEFT)) return Side.LEFT;
-        if (!box.hasLineBySide(Side.DOWN)) return Side.DOWN;
-        if (!box.hasLineBySide(Side.RIGHT)) return Side.RIGHT;
-        if (!box.hasLineBySide(Side.UP)) return Side.UP;
-        return Side.INVALID;
-    }
-
-    public static <T> List<T> matrixToList(T[][] matrix) {
-        List<T> list = new ArrayList<>();
-        for (T[] array : matrix)
-            list.addAll(Arrays.asList(array));
-        return list;
+        return Arrays.stream(Side.values()).filter
+                (side -> !box.hasLineBySide(side)).findFirst().orElse(Side.INVALID);
     }
 
     public static <T> T getRandomElementFromList(List<T> list) {
         if (list == null || list.isEmpty()) return null;
 
         return list.get(rand.nextInt(list.size()));
+    }
+
+    private Box getACopyOfTheBox(Box box) {
+        Box copyBox = new Box();
+        Arrays.stream(Side.values()).filter(side -> box.hasLineBySide(side)).
+                forEach(side -> copyBox.drawLine(side));
+
+        return copyBox;
     }
 
 
