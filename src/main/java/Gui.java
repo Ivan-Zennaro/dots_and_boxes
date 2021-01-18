@@ -77,7 +77,6 @@ public class Gui extends IOManager {
         }
     };
 
-
     public Gui(int boardRows, int boardCols, Player p1, Player p2, String frameName) {
         super(boardRows, boardCols, p1, p2);
 
@@ -95,6 +94,46 @@ public class Gui extends IOManager {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setVisible(true);
+    }
+
+    private void prepareGrid() {
+        int boardWidth = graphicBoard[0].length * DOT_SIZE + (graphicBoard[0].length - 1) * BOX_SIZE;
+
+        JPanel grid = new JPanel(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = constraints.gridy = 0;
+        addSpaceLineToGrid(grid, constraints, boardWidth);
+        addSpaceLineToGrid(grid, constraints, boardWidth);
+
+        JPanel playerAndScorePanel = new JPanel(new GridLayout(2, 2));
+        playerAndScorePanel.setPreferredSize(new Dimension((mappedCols <= 3 ? 3 : 2) * boardWidth, 2 * BOX_SIZE));
+
+        playerAndScorePanel.add(getNewPlayerLabel(player1.getName(), player1));
+        playerAndScorePanel.add(getNewPlayerLabel(player2.getName(), player2));
+        p1ScoreLabel = getNewPlayerLabel("Score: 0", player1);
+        playerAndScorePanel.add(p1ScoreLabel);
+        p2ScoreLabel = getNewPlayerLabel("Score: 0", player2);
+        playerAndScorePanel.add(p2ScoreLabel);
+        ++constraints.gridy;
+        grid.add(playerAndScorePanel, constraints);
+        addSpaceLineToGrid(grid, constraints, boardWidth);
+
+        addGraphicBoardDesign(grid, constraints);
+        addSpaceLineToGrid(grid, constraints, boardWidth);
+
+        statusLabel = getNewPlayerLabel(player1.getName() + "'s Turn...", player1);
+        ++constraints.gridy;
+        grid.add(statusLabel, constraints);
+        addSpaceLineToGrid(grid, constraints, boardWidth);
+
+        JButton goBackButton = new JButton("Main Menu");
+        goBackButton.setPreferredSize(new Dimension(boardWidth, BOX_SIZE));
+        goBackButton.addActionListener(backListener);
+        ++constraints.gridy;
+        grid.add(goBackButton, constraints);
+        addSpaceLineToGrid(grid, constraints, boardWidth);
+
+        frame.setContentPane(grid);
     }
 
     protected boolean isSetLine(int x, int y) {
@@ -136,11 +175,11 @@ public class Gui extends IOManager {
         }
     }
 
-    private JLabel getHorizontalEdge() {
+    private JLabel getHorizontalLineLabel() {
         return getLabel(BOX_SIZE, DOT_SIZE);
     }
 
-    private JLabel getVerticalEdge() {
+    private JLabel getVerticalLineLabel() {
         return getLabel(DOT_SIZE, BOX_SIZE);
     }
 
@@ -172,6 +211,50 @@ public class Gui extends IOManager {
         return label;
     }
 
+
+    private JLabel getNewPlayerLabel(String text, Player player) {
+        JLabel tempLabel = new JLabel(text, SwingConstants.CENTER);
+        tempLabel.setForeground(player.getColor().getAwtColor());
+        tempLabel.setFont(new Font("Verdana", Font.BOLD, 15));
+        return tempLabel;
+    }
+
+
+    private void addSpaceLineToGrid(JPanel grid, GridBagConstraints constraints, int boardWidth) {
+        ++constraints.gridy;
+        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
+    }
+
+    private void addGraphicBoardDesign(JPanel grid, GridBagConstraints constraints) {
+        for (int i = 0; i < graphicBoard.length; i++) {
+            JPanel pane = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+            for (int j = 0; isValidPositionInMatrix(i, j); j++) {
+                if (isaRawOfHorizontalLines(i)) {
+                    pane.add(getDot());
+                    graphicBoard[i][j] = getHorizontalLineLabel();
+                    pane.add(graphicBoard[i][j]);
+                } else {
+                    graphicBoard[i][j] = getVerticalLineLabel();
+                    pane.add(graphicBoard[i][j]);
+                    if (j < graphicBoard[0].length - 1) {
+                        box[i / 2][j] = getBox();
+                        pane.add(box[i / 2][j]);
+                    }
+                }
+
+            }
+            if (isaRawOfHorizontalLines(i))
+                pane.add(getDot());
+
+            ++constraints.gridy;
+            grid.add(pane, constraints);
+        }
+    }
+
+    private boolean isaRawOfHorizontalLines(int i) {
+        return i % 2 == 0;
+    }
+
     @Override
     public Move readMove() {
         mouseEnabled = true;
@@ -187,7 +270,6 @@ public class Gui extends IOManager {
         mouseEnabled = false;
         return moveToPass;
     }
-
 
     @Override
     public void updateMove(Move move, Player player) {
@@ -207,8 +289,8 @@ public class Gui extends IOManager {
     public void updateGameInfo(Player currentPlayer) {
         currentPlayerColor = currentPlayer.getColor().getAwtColor();
 
-        p1ScoreLabel.setText(String.valueOf(player1.getPoints()));
-        p2ScoreLabel.setText(String.valueOf(player2.getPoints()));
+        p1ScoreLabel.setText("Score: " + player1.getPoints());
+        p2ScoreLabel.setText("Score: " + player2.getPoints());
 
         statusLabel.setForeground(currentPlayer.getColor().getAwtColor());
         statusLabel.setText(currentPlayer.getName() + "'s Turn...");
@@ -236,103 +318,5 @@ public class Gui extends IOManager {
         }
     }
 
-    private JLabel getNewPlayerLabel(String text, Player player) {
-        JLabel tempLabel = new JLabel(text, SwingConstants.CENTER);
-        tempLabel.setForeground(player.getColor().getAwtColor());
-        tempLabel.setFont(new Font("Verdana", Font.BOLD, 15));
-        return tempLabel;
-    }
-
-    private void prepareGrid() {
-        int boardWidth = graphicBoard[0].length * DOT_SIZE + (graphicBoard[0].length - 1) * BOX_SIZE;
-
-        JPanel grid = new JPanel(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
-
-        JPanel playerPanel = new JPanel(new GridLayout(2, 2));
-        if (graphicBoard[0].length > 3) playerPanel.setPreferredSize(new Dimension(2 * boardWidth, BOX_SIZE));
-        else playerPanel.setPreferredSize(new Dimension(2 * boardWidth, 2 * BOX_SIZE));
-
-
-        playerPanel.add(getNewPlayerLabel("Player 1:", player1));
-        playerPanel.add(getNewPlayerLabel("Player 2:", player2));
-        playerPanel.add(getNewPlayerLabel(player1.getName(), player1));
-        playerPanel.add(getNewPlayerLabel(player2.getName(), player2));
-        ++constraints.gridy;
-        grid.add(playerPanel, constraints);
-
-        ++constraints.gridy;
-        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
-
-        JPanel scorePanel = new JPanel(new GridLayout(2, 2));
-        scorePanel.setPreferredSize(new Dimension(2 * boardWidth, BOX_SIZE));
-
-        scorePanel.add(getNewPlayerLabel("Score:", player1));
-        scorePanel.add(getNewPlayerLabel("Score:", player2));
-
-        p1ScoreLabel = getNewPlayerLabel("0", player1);
-        scorePanel.add(p1ScoreLabel);
-        p2ScoreLabel = getNewPlayerLabel("0", player2);
-        scorePanel.add(p2ScoreLabel);
-        ++constraints.gridy;
-        grid.add(scorePanel, constraints);
-
-        ++constraints.gridy;
-        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
-
-
-        addGraphicBoardDesign(grid, constraints);
-
-        ++constraints.gridy;
-        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
-
-        statusLabel = getNewPlayerLabel(player1.getName() + "'s Turn...", player1);
-        ++constraints.gridy;
-        grid.add(statusLabel, constraints);
-
-        ++constraints.gridy;
-        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
-
-        JButton goBackButton = new JButton("Go Back to Main Menu");
-        goBackButton.setPreferredSize(new Dimension(boardWidth, BOX_SIZE));
-        goBackButton.addActionListener(backListener);
-        ++constraints.gridy;
-        grid.add(goBackButton, constraints);
-
-        frame.setContentPane(grid);
-    }
-
-    private void addGraphicBoardDesign(JPanel grid, GridBagConstraints constraints) {
-        for (int i = 0; i < graphicBoard.length; i++) {
-            JPanel pane = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-            for (int j = 0; isValidPositionInMatrix(i, j); j++) {
-                if (isaRawOfHorizontalLines(i)) {
-                    pane.add(getDot());
-                    graphicBoard[i][j] = getHorizontalEdge();
-                    pane.add(graphicBoard[i][j]);
-                } else {
-                    graphicBoard[i][j] = getVerticalEdge();
-                    pane.add(graphicBoard[i][j]);
-                    if (j < graphicBoard[0].length - 1) {
-                        box[i / 2][j] = getBox();
-                        pane.add(box[i / 2][j]);
-                    }
-                }
-
-            }
-            if (isaRawOfHorizontalLines(i))
-                pane.add(getDot());
-
-            ++constraints.gridy;
-            grid.add(pane, constraints);
-        }
-    }
-
-    private boolean isaRawOfHorizontalLines(int i) {
-        return i % 2 == 0;
-    }
 }
 
