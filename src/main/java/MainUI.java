@@ -24,7 +24,7 @@ public class MainUI {
     String[] size = {"1", "2", "3", "4", "5"};
 
 
-    private JTextField player1Name, ipAddress, humanName;
+    private JTextField player1Name, ipAddress;
     private DefaultComboBoxModel<String> optionsPlayer2Model;
     private JComboBox<String> optionsPlayer2, colorBoxPlayer1, colorBoxPlayer2, colSelection, rowSelection;
 

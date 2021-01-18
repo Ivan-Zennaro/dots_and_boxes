@@ -1,7 +1,6 @@
 import javax.swing.*;
 
 public class RulesPage extends JFrame{
-    private JFrame frame;
     private JTextArea textArea;
     private JPanel panel;
     private String rulesText = """
