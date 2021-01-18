@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
@@ -10,7 +9,7 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 public class MainUI {
 
     private int rows, cols;
-    private String me, otherPlayer, ip, player2Name;
+    private String me, player2Type, ip, player2Name;
     private Color color1, color2;
     private RulesPage rulesPage = new RulesPage();
     private String startGame = null;
@@ -108,7 +107,7 @@ public class MainUI {
                 playerError.setText("You MUST select player2 type");
             } else {
                 playerError.setText("");
-                otherPlayer = playersType.get(typeOfPlayerIndex);
+                player2Type = playersType.get(typeOfPlayerIndex);
 
                 int sum=0;
                 if(playersType.size()==6){
@@ -325,9 +324,9 @@ public class MainUI {
         switch (startGame) {
             case "demo" -> GameFactory.createComputerVsComputerGameWithGUI(3, 3, new Player("Player 1", Color.BLU), new Player("Player 2", Color.RED)).startGame();
             case "pvp" -> GameFactory.create2PlayerGameWithGUI(rows, cols, new Player(me, color1), new Player(player2Name, color2)).startGame();
-            case "pvc1" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.EASY).startGame();
-            case "pvc2" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.MEDIUM).startGame();
-            case "pvc3" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.HARD).startGame();
+            case "pvc1" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(player2Type, color2), Difficulty.EASY).startGame();
+            case "pvc2" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(player2Type, color2), Difficulty.MEDIUM).startGame();
+            case "pvc3" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(player2Type, color2), Difficulty.HARD).startGame();
             case "host" -> GameFactory.createServerGameWithGUI(new Player(me, color1), new Player("Remote opponent", Color.BLU)).startGame();
             case "join" -> GameFactory.createClientGameWithGUI(new Player("Remote opponent", Color.BLU), new Player(me, color1), ip).startGame();
             default -> throw new IllegalStateException("Unexpected value: " + startGame);
