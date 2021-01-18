@@ -13,15 +13,18 @@ public class ServerGame extends Game {
         super(nRows, nCols, player1, player2, ioManager);
     }
 
+
     @Override
     public void startGame() {
 
         try (ServerSocket server = new ServerSocket(PORT)) {
 
+            closerWhenBackButtonPressed(server);
+
             System.out.println("Server ready....");
             Socket socket = server.accept();
 
-            serverAndSocketCloserWhenBackButtonPressed(server, socket);
+            closerWhenBackButtonPressed(socket);
 
             OutputStream outputStream = socket.getOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
@@ -64,14 +67,13 @@ public class ServerGame extends Game {
 
     }
 
-    private void serverAndSocketCloserWhenBackButtonPressed(ServerSocket server, Socket socket) {
+    private void closerWhenBackButtonPressed(java.io.Closeable closeable) {
         new Thread(() -> {
             boolean timeToStopThread = false;
             while (!timeToStopThread) {
                 if (ioManager.getBackPress()) {
                     try {
-                        server.close();
-                        socket.close();
+                        closeable.close();
                         timeToStopThread = true;
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -85,4 +87,5 @@ public class ServerGame extends Game {
             }
         }).start();
     }
+
 }
