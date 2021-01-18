@@ -314,12 +314,14 @@ public class Gui extends IOManager {
     }
 
     @Override
-    public void errorHandler(String msg) {
+    public void errorHandler(String msg, boolean fatalError) {
         if (!getBackPress()) {
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.INFORMATION_MESSAGE);
-            frame.setVisible(false);
-            frame.dispose();
-            new Thread(() -> new MainUI().initMenu()).start();
+            if (fatalError) {
+                frame.setVisible(false);
+                frame.dispose();
+                new Thread(() -> new MainUI().initMenu()).start();
+            }
         }
     }
 

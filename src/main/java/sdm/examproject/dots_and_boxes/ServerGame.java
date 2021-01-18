@@ -54,10 +54,10 @@ public class ServerGame extends Game {
             endGame();
 
         }catch (BindException e){
-            ioManager.errorHandler("Port already used");
+            ioManager.errorHandler("Port already used", true);
         }
         catch (IOException e) {
-            ioManager.errorHandler("Impossible to connect to Client");
+            ioManager.errorHandler("Impossible to connect to Client", true);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

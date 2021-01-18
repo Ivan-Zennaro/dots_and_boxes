@@ -34,7 +34,10 @@ public abstract class Game {
 
             if (!atLeastOnePointScoredByCurrentPlayer)
                 swapPlayers();
+        }else {
+            ioManager.errorHandler("Move not allowed!", false);
         }
+
     }
 
     protected boolean boxOfTheMoveHasBeenClosed(Move move) {

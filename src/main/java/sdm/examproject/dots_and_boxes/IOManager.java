@@ -12,7 +12,7 @@ public abstract class IOManager {
 
     public abstract void showWinner();
 
-    public abstract void errorHandler(String msg);
+    public abstract void errorHandler(String msg, boolean fatalError);
 
     protected Player player1, player2;
     protected int mappedRows, mappedCols;

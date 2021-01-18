@@ -60,7 +60,7 @@ public class Cli extends IOManager {
     }
 
     @Override
-    public void errorHandler(String msg) {
+    public void errorHandler(String msg, boolean fatalError) {
         System.out.println(msg);
     }
 
