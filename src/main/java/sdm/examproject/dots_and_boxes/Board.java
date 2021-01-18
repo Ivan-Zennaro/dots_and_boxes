@@ -44,22 +44,8 @@ public class Board {
     }
 
     public Move getNeighbourSideMove(Move move) {
-
-        if (move.isSideHorizontal()) {
-            Move neighbourHorizontalMove = new Move(move.getX() + move.getCoordShift(), move.getY(), move.getInvertedSide());
-            if (isMoveInBoardRange(neighbourHorizontalMove)) {
-                return neighbourHorizontalMove;
-            }
-        }
-
-        if (move.isSideVertical()) {
-            Move neighbourVerticalMove = new Move(move.getX(), move.getY() + move.getCoordShift(), move.getInvertedSide());
-            if (isMoveInBoardRange(neighbourVerticalMove)) {
-                return neighbourVerticalMove;
-            }
-        }
-
-        return Move.getInvalidMove();
+        Move neighbourMove = move.getNeighbourMove();
+        return isMoveInBoardRange(neighbourMove) ? neighbourMove : Move.getInvalidMove();
     }
 
     public Box getBoxByMove(Move move) {
