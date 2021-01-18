@@ -40,7 +40,8 @@ public class Board {
     }
 
     private boolean isMoveInBoardRange(Move move) {
-        return move.getX() < boardRows && move.getY() < boardColumns && move.getX() >= 0 && move.getY() >= 0;
+        int x = move.getX(), y = move.getY();
+        return x < boardRows && y < boardColumns && x >= 0 && y >= 0;
     }
 
     public Move getNeighbourSideMove(Move move) {
