@@ -99,15 +99,15 @@ public class ComputerSolver {
         return Move.getInvalidMove();
     }
 
-    public int getRowBox_b_in_boxes(Box b) {
+    private int getRowBox_b_in_boxes(Box b) {
         return boxes.indexOf(b) / board.getBoardColumns();
     }
 
-    public int getColBox_b_in_boxes(Box b) {
+    private int getColBox_b_in_boxes(Box b) {
         return boxes.indexOf(b) % board.getBoardColumns();
     }
 
-    public Box getNeighbourBox(Box currentBox, Side side) {
+    private Box getNeighbourBox(Box currentBox, Side side) {
         int row = getRowBox_b_in_boxes(currentBox);
         int col = getColBox_b_in_boxes(currentBox);
         Move sideMove = board.getNeighbourSideMove(new Move(row, col, side));
@@ -115,13 +115,13 @@ public class ComputerSolver {
         return board.getBoxByMove(sideMove);
     }
 
-    public static Side getMissingSideFromBox(Box box) {
+    private static Side getMissingSideFromBox(Box box) {
         if (box.getNumberOfDrawnLine() != 3) return Side.INVALID;
         return Arrays.stream(Side.values()).filter
                 (side -> !box.hasLineBySide(side)).findFirst().orElse(Side.INVALID);
     }
 
-    public static <T> T getRandomElementFromList(List<T> list) {
+    private static <T> T getRandomElementFromList(List<T> list) {
         if (list == null || list.isEmpty()) return null;
 
         return list.get(rand.nextInt(list.size()));
@@ -134,6 +134,4 @@ public class ComputerSolver {
 
         return copyBox;
     }
-
-
 }

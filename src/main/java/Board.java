@@ -15,51 +15,49 @@ public class Board {
         }
     }
 
-    public boolean boxHasAlreadyLine(Move move) {
-        Box chosenBox = boxes[move.getX()][move.getY()];
-        return chosenBox.hasLineBySide(move.getSide());
-    }
-
     public void drawLine(Move move) {
         Box chosenBox = getBoxByMove(move);
         chosenBox.drawLine(move.getSide());
 
         Move otherMove = getNeighbourSideMove(move);
-        if (otherMove.getSide() != Side.INVALID) {
+        if (otherMove.isValid()) {
             Box otherBox = getBoxByMove(otherMove);
             otherBox.drawLine(otherMove.getSide());
         }
     }
 
-    public boolean isMoveInBoardRange(Move move) {
+    public boolean isMoveAllowed(Move move) {
+        return isMoveInBoardRange(move) &&
+                move.isValid() &&
+                !boxHasAlreadyLine(move);
+    }
+
+    private boolean boxHasAlreadyLine(Move move) {
+        Box chosenBox = boxes[move.getX()][move.getY()];
+        return chosenBox.hasLineBySide(move.getSide());
+    }
+
+    private boolean isMoveInBoardRange(Move move) {
         return move.getX() < boardRows && move.getY() < boardColumns && move.getX() >= 0 && move.getY() >= 0;
     }
 
     public Move getNeighbourSideMove(Move move) {
 
         if (move.isSideHorizontal()) {
-            Move neighbourHorizontalMove = new Move(move.getX() + getCoordShift(move.getSide()), move.getY(), move.getSide().reverse());
+            Move neighbourHorizontalMove = new Move(move.getX() + move.getCoordShift(), move.getY(), move.getInvertedSide());
             if (isMoveInBoardRange(neighbourHorizontalMove)) {
                 return neighbourHorizontalMove;
             }
         }
 
         if (move.isSideVertical()) {
-            Move neighbourVerticalMove = new Move(move.getX(), move.getY() + getCoordShift(move.getSide()), move.getSide().reverse());
+            Move neighbourVerticalMove = new Move(move.getX(), move.getY() + move.getCoordShift(), move.getInvertedSide());
             if (isMoveInBoardRange(neighbourVerticalMove)) {
                 return neighbourVerticalMove;
             }
         }
 
         return Move.getInvalidMove();
-    }
-
-    private int getCoordShift(Side side) {
-        return switch (side) {
-            case LEFT,UP -> -1;
-            case DOWN,RIGHT -> +1;
-            default -> 0;
-        };
     }
 
     public Box getBoxByMove(Move move) {

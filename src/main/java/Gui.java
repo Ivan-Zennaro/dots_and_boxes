@@ -11,8 +11,8 @@ public class Gui extends IOManager {
 
     private final static int DOT_SIZE = 16;
     private final static int BOX_SIZE = 80;
-    public static final Color DEFAULT_BORDER_LINE_COLOR = Color.WHITE;
-    public static final Color DEFAULT_BACKGROUND_LINE_COLOR = Color.getColor("#ffffff00");
+    private static final Color DEFAULT_BORDER_LINE_COLOR = Color.WHITE;
+    private static final Color DEFAULT_BACKGROUND_LINE_COLOR = Color.getColor("#ffffff00");
 
     private JFrame frame;
     private JLabel p1ScoreLabel, p2ScoreLabel, statusLabel;
@@ -97,7 +97,7 @@ public class Gui extends IOManager {
         frame.setVisible(true);
     }
 
-    public boolean isSetLine(int x, int y) {
+    protected boolean isSetLine(int x, int y) {
         return isSetLine[x][y];
     }
 
@@ -105,7 +105,7 @@ public class Gui extends IOManager {
         isSetLine[x][y] = true;
     }
 
-    public boolean isSetBox(int x, int y) {
+    protected boolean isSetBox(int x, int y) {
         return box[x][y].getBackground().equals(player1.getColor().getAwtColor()) || box[x][y].getBackground().equals(player2.getColor().getAwtColor());
     }
 

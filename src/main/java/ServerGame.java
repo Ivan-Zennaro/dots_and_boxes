@@ -35,7 +35,7 @@ public class ServerGame extends Game {
                 if (currentPlayer == player1) {
                     move = ioManager.readMove();
 
-                    if (isMoveAllowed(move)) {
+                    if (board.isMoveAllowed(move)) {
                         objectOutputStream.writeObject(move);
                         objectOutputStream.flush();
 
