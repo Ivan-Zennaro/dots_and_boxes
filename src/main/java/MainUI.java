@@ -162,7 +162,7 @@ public class MainUI {
     }
 
     private void instantiateFrameObject() {
-        frame = new JFrame("Dots and Boxes");
+        frame = new JFrame("Dots and Boxes - Main Menu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         player1Name = new JTextField("Your Name");

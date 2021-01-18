@@ -4,27 +4,27 @@ public class GameFactory {
 
     //GUI Games
     public static Game create2PlayerGameWithGUI(int nRow, int nCols, Player p1, Player p2) {
-        Gui gui = new Gui(nRow, nCols, p1, p2);
+        Gui gui = new Gui(nRow, nCols, p1, p2,"PvP Game - Local");
         return new TwoPlayersGame(nRow, nCols, p1, p2, gui);
     }
 
     public static Game createComputerVsComputerGameWithGUI(int nRow, int nCols, Player p1, Player p2) {
-        Gui gui = new Gui(nRow, nCols, p1, p2);
+        Gui gui = new Gui(nRow, nCols, p1, p2,"DEMO - Local");
         return new ComputerVsComputerGame(nRow, nCols, p1, p2, gui);
     }
 
     public static Game createPlayerVsComputerGameWithGUI(int nRow, int nCols, Player p1, Player p2, Difficulty difficulty) {
-        Gui gui = new Gui(nRow, nCols, p1, p2);
+        Gui gui = new Gui(nRow, nCols, p1, p2,"PvComputer - Local");
         return new PlayerVsComputerGame(nRow, nCols, p1, p2, gui, difficulty);
     }
 
     public static Game createServerGameWithGUI(Player p1, Player p2) {
-        Gui gui = new Gui(3, 3, p1, p2);
+        Gui gui = new Gui(3, 3, p1, p2, "PvP Game - Host");
         return new ServerGame(3, 3, p1, p2, gui);
     }
 
     public static Game createClientGameWithGUI(Player p1, Player p2, String ip) {
-        Gui gui = new Gui(3, 3, p1, p2);
+        Gui gui = new Gui(3, 3, p1, p2, "PvP Game - Client");
         return new ClientGame(3, 3, p1, p2, gui, ip);
     }
 

@@ -14,12 +14,13 @@ public class RulesPage {
             4. Two players compete to complete most boxes in the game grid\s
             and to get more points!
             5.You can also choose to host or join a server-based game on the main menu.
+              NOTICE: this version only supports local game, so the IP adress is always the local address 127.0.0.1
                         
             Enjoy the game!""";
 
 
     public RulesPage() {
-        this.frame = new JFrame("Dots and Boxes rules");
+        this.frame = new JFrame("Dots and Boxes - Rules");
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         this.textArea = new JTextArea(8, 40);

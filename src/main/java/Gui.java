@@ -75,7 +75,7 @@ public class Gui extends IOManager {
     };
 
 
-    public Gui(int boardRows, int boardCols, Player p1, Player p2) {
+    public Gui(int boardRows, int boardCols, Player p1, Player p2,String frameName) {
         super(boardRows, boardCols, p1, p2);
 
         graphicBoard = new JLabel[mappedRows][mappedCols];
@@ -83,7 +83,7 @@ public class Gui extends IOManager {
         isSetLine = new boolean[mappedRows][mappedCols];
         box = new JLabel[boardRows][boardCols];
 
-        frame = new JFrame("Dots and Boxes");
+        frame = new JFrame("Dots and Boxes - "+ frameName);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         prepareGrid();
