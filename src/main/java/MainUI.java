@@ -8,6 +8,7 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class MainUI {
 
+    private final static String IMAGE_PATH = "src/images/dots-and-boxes-ICON.PNG";
     private int rows, cols;
     private String me, player2Type, ip, player2Name;
     private Color color1, color2;
@@ -59,7 +60,10 @@ public class MainUI {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (optionsPlayer2.getSelectedItem() == "Human") {
-                player2Name = JOptionPane.showInputDialog(null,"Select the name for the human Player","Human Name player 2", JOptionPane.INFORMATION_MESSAGE );
+
+                player2Name = (String)JOptionPane.showInputDialog(null, "Select the name for the human player",
+                        "Human Name Player 2", JOptionPane.INFORMATION_MESSAGE);
+
 
                 if(player2Name!=null && !player2Name.equals("") && !optionsPlayer2.getItemAt(2).equals("Human")) {
                     optionsPlayer2Model.insertElementAt(player2Name, 1);
@@ -134,12 +138,6 @@ public class MainUI {
     };
 
     public MainUI() {
-
-        instantiateMainFrameObjects();
-
-    }
-
-    private void instantiateMainFrameObjects() {
         frame = new JFrame("Dots and Boxes - Main Menu");
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -296,7 +294,8 @@ public class MainUI {
         ++constraints.gridy;
         grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
 
-
+        Image icon = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH);
+        frame.setIconImage(icon);
         frame.setContentPane(grid);
         frame.pack();
         frame.setLocationRelativeTo(null);
