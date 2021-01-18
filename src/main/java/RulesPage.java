@@ -13,8 +13,8 @@ public class RulesPage {
             3. The player who completes a box gets a point and has an extra turn;
             4. Two players compete to complete most boxes in the game grid\s
             and to get more points!
-            5.You can also choose to host or join a server-based game on the main menu.
-              NOTICE: this version only supports local game, so the IP address is always the local address 127.0.0.1
+            5.You can also choose to host or join a server-based game on the main menu;
+              NOTICE: this version supports LAN game: if you plan to play on local the IP address is then the local address 127.0.0.1 .
                         
             Enjoy the game!""";
 

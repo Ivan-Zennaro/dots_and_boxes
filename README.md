@@ -68,8 +68,8 @@ From this menu you can select:
 3. Player colors
 4. Board dimensions
 5. Local: to play the game in your machine
-6. Host:  to start hosting a 3x3 game and wait for another player in LAN to join the game
-7. Join:  to join a hosted game by another user present in LAN, specifying his internal IP address.
+6. Host:  to start hosting a 3x3 PvP game and wait for another player in LAN to join the game
+7. Join:  to join a hosted PvP game by another user present in LAN, specifying his internal IP address.
 8. "Demo" button to view a game demonstration
 
 Then press "Start Game!". 
