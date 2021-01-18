@@ -1,19 +1,24 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
+import java.util.List;
+
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class MainUI {
 
     private int rows, cols;
-    private String me, otherPlayer, ip;
+    private String me, otherPlayer, ip, player2Name;
     private Color color1, color2;
     private RulesPage rulesPage = new RulesPage();
+    private HumanNameFrame HumanFrame = new HumanNameFrame();
     private String startGame = null;
 
     private static JFrame frame;
     private JLabel playerError, colorError;
 
-    String[] playersType = {"Select player", "Human", "Computer Easy", "Computer Medium", "Computer Hard"};
+    List<String> playersType = Arrays.asList("Select player", "Human", "Computer Easy", "Computer Medium", "Computer Hard");
     String[] colors = {"<html><font color='" + Color.RED.getRGBstring() + "'>RED", "<html><font color='" + Color.BLU.getRGBstring() + "'>BLU", "<html><font color='" + Color.GREEN.getRGBstring() + "'>GREEN", "<html><font color='" + Color.PURPLE.getRGBstring() + "'>PURPLE"};
     Color[] colorsObject = {Color.RED, Color.BLU, Color.GREEN, Color.PURPLE};
     String[] size = {"1", "2", "3", "4", "5"};
@@ -55,7 +60,7 @@ public class MainUI {
     private ActionListener demo = e -> startGame = "demo";
 
 
-    private ActionListener close = new ActionListener() {
+   /* private ActionListener close = new ActionListener() {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -65,50 +70,64 @@ public class MainUI {
             optionsPlayer2Model.removeElementAt(2);
             frame1.dispose();
         }
-    };
+    };*/
     private ActionListener select = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (optionsPlayer2.getSelectedIndex() == 1 && optionsPlayer2.getSelectedItem() == "Human") {
+            if (optionsPlayer2.getSelectedItem() == "Human") {
+                player2Name = JOptionPane.showInputDialog("Select the name for he Human Player", "Human Name");
 
-                JPanel gridName = new JPanel(new GridBagLayout());
-                GridBagConstraints constraints = new GridBagConstraints();
-                constraints.gridx = 0;
-                constraints.gridy = 0;
+                if(player2Name!=null && !player2Name.equals("")){
+                    playersType.set(1,player2Name);
+                    optionsPlayer2Model.insertElementAt(player2Name, 1);
+                    if (optionsPlayer2.getItemAt(2).toString()){
+                        optionsPlayer2Model.removeElementAt(1);
+                        playersType.set(1,player2Name);
+                        optionsPlayer2Model.insertElementAt(player2Name, 1);
+                    }
 
-
-                JLabel message = new JLabel("Insert the name for the Human Player", SwingConstants.CENTER);
-                message.setPreferredSize(new Dimension(240, 50));
-                ++constraints.gridy;
-                gridName.add(message, constraints);
-
-
-                JPanel namePanel = new JPanel(new GridLayout(4, 1));
-                namePanel.setPreferredSize(new Dimension(150, 70));
-
-                namePanel.add(humanName, constraints);
-                namePanel.add(getEmptyLabel(new Dimension(150, 20)));
-                confirmPlayer2HumanName = new JButton("Confirm");
-                namePanel.add(confirmPlayer2HumanName);
-                namePanel.add(getEmptyLabel(new Dimension(150, 20)));
-
-                humanName.addFocusListener(new resetTextField(humanName, "Human Name"));
-                confirmPlayer2HumanName.addActionListener(close);
-
-                ++constraints.gridy;
-                gridName.add(namePanel, constraints);
-
-
-                frame1.setContentPane(gridName);
-                frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame1.pack();
-                frame1.setLocationRelativeTo(null);
-                frame1.setVisible(true);
+                }
             }
-
-
         }
     };
+
+    /*private void setLayoutForTheHumanNameFrame() {
+
+
+        JPanel gridName = new JPanel(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+
+
+        JLabel message = new JLabel("Insert the name for the Human Player", SwingConstants.CENTER);
+        message.setPreferredSize(new Dimension(240, 50));
+        ++constraints.gridy;
+        gridName.add(message, constraints);
+
+
+        JPanel namePanel = new JPanel(new GridLayout(4, 1));
+        namePanel.setPreferredSize(new Dimension(150, 70));
+
+        namePanel.add(humanName, constraints);
+        namePanel.add(getEmptyLabel(new Dimension(150, 20)));
+        confirmPlayer2HumanName = new JButton("Confirm");
+        namePanel.add(confirmPlayer2HumanName);
+        namePanel.add(getEmptyLabel(new Dimension(150, 20)));
+
+        humanName.addFocusListener(new resetTextField(humanName, "Human Name"));
+        confirmPlayer2HumanName.addActionListener(close);
+
+        ++constraints.gridy;
+        gridName.add(namePanel, constraints);
+
+
+        frame1.setContentPane(gridName);
+        frame1.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame1.pack();
+        frame1.setLocationRelativeTo(null);
+        frame1.setVisible(true);
+    }*/
 
     private ActionListener submitListener = new ActionListener() {
         @Override
@@ -134,7 +153,20 @@ public class MainUI {
                 playerError.setText("You MUST select player2 type");
             } else {
                 playerError.setText("");
-                otherPlayer = playersType[typeOfPlayerIndex];
+                otherPlayer = playersType.get(typeOfPlayerIndex);
+
+                int sum=0;
+                if(playersType.size()==6){
+                    startGame =
+                            switch (typeOfPlayerIndex) {
+                                case 1 -> "pvp";
+                                case 3 -> "pvc1";
+                                case 4 -> "pvc2";
+                                case 5 -> "pvc3";
+                                default -> "pvp";
+                            };
+
+                }
                 startGame =
                         switch (typeOfPlayerIndex) {
                             case 1 -> "pvp";
@@ -150,23 +182,23 @@ public class MainUI {
 
     public MainUI() {
 
-        instantiateFrameObject();
+        instantiateMainFrameObjects();
 
-        instantiateFrame1Objects();
+        instantiateHumanNameFrameObjects();
     }
 
-    private void instantiateFrame1Objects() {
+    private void instantiateHumanNameFrameObjects() {
         frame1 = new JFrame("Player-2");
-        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame1.setDefaultCloseOperation(EXIT_ON_CLOSE);
         humanName = new JTextField("Human Name");
     }
 
-    private void instantiateFrameObject() {
+    private void instantiateMainFrameObjects() {
         frame = new JFrame("Dots and Boxes - Main Menu");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         player1Name = new JTextField("Your Name");
-        optionsPlayer2Model = new DefaultComboBoxModel<>(playersType);
+        optionsPlayer2Model = new DefaultComboBoxModel<String>(playersType.toArray(new String[0]));
         optionsPlayer2 = new JComboBox<>(optionsPlayer2Model);
         optionsPlayer2.setSelectedIndex(0);
 
@@ -329,6 +361,7 @@ public class MainUI {
         frame.dispose();
 
         startGame();
+
     }
 
     private void startGame() {
@@ -340,7 +373,7 @@ public class MainUI {
             case "pvc3" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.HARD).startGame();
             case "host" -> GameFactory.createServerGameWithGUI(new Player(me, color1), new Player("Remote opponent", Color.BLU)).startGame();
             case "join" -> GameFactory.createClientGameWithGUI(new Player("Remote opponent", Color.BLU), new Player(me, color1), ip).startGame();
-
+            default -> throw new IllegalStateException("Unexpected value: " + startGame);
         }
     }
 
