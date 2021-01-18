@@ -30,9 +30,6 @@ public class MainUI {
     private JRadioButton[] localOrRemote;
     private ButtonGroup sizeGroup;
 
-    private JFrame frame1;
-    private JButton confirmPlayer2HumanName;
-
     private static final class resetTextField extends FocusAdapter {
         JTextField fieldTxt;
         String text;
@@ -62,7 +59,7 @@ public class MainUI {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (optionsPlayer2.getSelectedItem() == "Human") {
-                player2Name = JOptionPane.showInputDialog(null, "Insert the name for the Human Player","Human Player 2", JOptionPane.INFORMATION_MESSAGE);
+                player2Name = JOptionPane.showInputDialog(null,"Select the name for the human Player","Human Name player 2", JOptionPane.INFORMATION_MESSAGE );
 
                 if(player2Name!=null && !player2Name.equals("") && !optionsPlayer2.getItemAt(2).equals("Human")) {
                     optionsPlayer2Model.insertElementAt(player2Name, 1);
@@ -140,13 +137,6 @@ public class MainUI {
 
         instantiateMainFrameObjects();
 
-        instantiateHumanNameFrameObjects();
-    }
-
-    private void instantiateHumanNameFrameObjects() {
-        frame1 = new JFrame("Player-2");
-        frame1.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        humanName = new JTextField("Human Name");
     }
 
     private void instantiateMainFrameObjects() {
@@ -305,6 +295,7 @@ public class MainUI {
 
         ++constraints.gridy;
         grid.add(getEmptyLabel(new Dimension(500, 25)), constraints);
+
 
         frame.setContentPane(grid);
         frame.pack();
