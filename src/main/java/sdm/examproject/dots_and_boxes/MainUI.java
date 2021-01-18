@@ -2,7 +2,10 @@ package sdm.examproject.dots_and_boxes;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +23,7 @@ public class MainUI {
     private static JFrame frame;
     private JLabel playerError, colorError;
 
-    private List<String> playersType = new ArrayList<>(List.of("Select player", "Human", "Computer Easy", "Computer Medium", "Computer Hard"));
+    private List<String> playersType = new ArrayList<>(List.of("Select player", "Computer Easy", "Computer Medium", "Computer Hard", "Human"));
     private String[] colors = {"<html><font color='" + Color.RED.getRGBstring() + "'>RED", "<html><font color='" + Color.BLU.getRGBstring() + "'>BLU", "<html><font color='" + Color.GREEN.getRGBstring() + "'>GREEN", "<html><font color='" + Color.PURPLE.getRGBstring() + "'>PURPLE"};
     private Color[] colorsObject = {Color.RED, Color.BLU, Color.GREEN, Color.PURPLE};
     private String[] size = {"1", "2", "3", "4", "5"};
@@ -31,7 +34,6 @@ public class MainUI {
     private JComboBox<String> optionsPlayer2, colorBoxPlayer1, colorBoxPlayer2, colSelection, rowSelection;
 
     private JRadioButton[] localOrRemote;
-    private ButtonGroup sizeGroup;
 
     private static final class resetTextField extends FocusAdapter {
         JTextField fieldTxt;
@@ -56,35 +58,24 @@ public class MainUI {
         }
     }
 
-    private ActionListener demo = e -> startGame = "demo";
-
-    private ActionListener select = new ActionListener() {
+    private ActionListener selectPlayer2Listener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (optionsPlayer2.getSelectedItem() == "Human") {
+            if (optionsPlayer2.getSelectedItem().equals("Human")) {
 
-                player2Name = (String)JOptionPane.showInputDialog(null, "Select the name for the human player",
+                player2Name = JOptionPane.showInputDialog(null, "Select the name for the human player",
                         "Human Name Player 2", JOptionPane.INFORMATION_MESSAGE);
 
-
-                if(player2Name!=null && !player2Name.equals("") && !optionsPlayer2.getItemAt(2).equals("Human")) {
-                    optionsPlayer2Model.insertElementAt(player2Name, 1);
-                    playersType.add(1,player2Name);
+                if (player2Name != null && !player2Name.equals("") ){
+                    if (!optionsPlayer2.getItemAt(4).equals("Human")) {
+                        optionsPlayer2Model.removeElementAt(4);
+                    }
+                    optionsPlayer2Model.insertElementAt(player2Name, 4);
                 }
-                else if ((player2Name!=null && !player2Name.equals("") && optionsPlayer2.getItemAt(2).equals("Human"))){
-                        playersType.remove(1);
-                        playersType.add(1,player2Name);
-                        optionsPlayer2Model.removeElementAt(1);
-                        optionsPlayer2Model.insertElementAt(player2Name, 1);
-                }
-
-                optionsPlayer2.setSelectedIndex(1);
-                player2Name = playersType.get(1);
-
+                optionsPlayer2.setSelectedIndex(4);
             }
         }
     };
-
 
     private ActionListener submitListener = new ActionListener() {
         @Override
@@ -95,7 +86,6 @@ public class MainUI {
             color2 = colorsObject[colorBoxPlayer2.getSelectedIndex()];
             cols = Integer.parseInt(colSelection.getSelectedItem().toString());
             rows = Integer.parseInt(rowSelection.getSelectedItem().toString());
-
 
             if (me.equals("")) {
                 playerError.setText("You MUST type player1 name");
@@ -110,30 +100,16 @@ public class MainUI {
                 playerError.setText("You MUST select player2 type");
             } else {
                 playerError.setText("");
-                player2Type = playersType.get(typeOfPlayerIndex);
+                player2Type = optionsPlayer2.getItemAt(typeOfPlayerIndex);
 
-                int sum=0;
-                if(playersType.size()==6){
-                    startGame =
-                            switch (typeOfPlayerIndex) {
-                                case 1 -> "pvp";
-                                case 3 -> "pvc1";
-                                case 4 -> "pvc2";
-                                case 5 -> "pvc3";
-                                default -> "pvp";
-                            };
+                startGame =
+                        switch (typeOfPlayerIndex) {
+                            case 1 -> "pvc1";
+                            case 2 -> "pvc2";
+                            case 3 -> "pvc3";
+                            default -> "pvp";
+                        };
 
-                }
-                else {
-                    startGame =
-                            switch (typeOfPlayerIndex) {
-                                case 1 -> "pvp";
-                                case 2 -> "pvc1";
-                                case 3 -> "pvc2";
-                                case 4 -> "pvc3";
-                                default -> "pvp";
-                            };
-                }
             }
         }
 
@@ -160,7 +136,7 @@ public class MainUI {
         rowSelection.setSelectedIndex(2);
 
         localOrRemote = new JRadioButton[3];
-        sizeGroup = new ButtonGroup();
+        ButtonGroup sizeGroup = new ButtonGroup();
         localOrRemote[0] = new JRadioButton("Local", true);
         localOrRemote[1] = new JRadioButton("Host");
         localOrRemote[2] = new JRadioButton("Join");
@@ -201,7 +177,7 @@ public class MainUI {
 
 
         player1Name.addFocusListener(new resetTextField(player1Name, "Your Name"));
-        optionsPlayer2.addActionListener(select);
+        optionsPlayer2.addActionListener(selectPlayer2Listener);
 
 
         ++constraints.gridy;
@@ -283,7 +259,7 @@ public class MainUI {
         JButton submitButton = new JButton("Start Game");
 
         ruleButton.addActionListener(e -> rulesPage.setVisible(true));
-        demoButton.addActionListener(demo);
+        demoButton.addActionListener(e -> startGame = "demo");
         submitButton.addActionListener(submitListener);
 
         submissionPanel.add(ruleButton);

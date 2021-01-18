@@ -19,7 +19,7 @@ public class PlayerVsComputerGame extends Game {
                 computeMove(computerSolver.getComputerMove());
             printScoreBoard();
             try{
-                Thread.sleep(200);
+                Thread.sleep(500);
             }catch (Exception e){
                 e.printStackTrace();
             }
