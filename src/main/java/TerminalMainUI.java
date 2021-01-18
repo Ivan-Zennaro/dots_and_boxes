@@ -32,9 +32,13 @@ public class TerminalMainUI {
     public static void main(String[] args) {
 
         boolean flagEndProgram = false;
-        System.out.println("Welcome to Dots and Boxes!\n");
+        System.out.println("----------------------------\n");
+        System.out.println("-Welcome to Dots and Boxes!-\n");
+        System.out.println("----------------------------\n");
         System.out.println(rulesAndHelp);
+
         while (!flagEndProgram) {
+            System.out.println("\n!!Main Menu!!");
             String input = getInput();
             switch (input) {
                 case "?" -> System.out.println(rulesAndHelp);

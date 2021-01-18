@@ -51,13 +51,16 @@ Worked in pair programming to continue the Server-Client version.
   ### Enjoy the game!
 
 ## Cli version
-You can select which type of game to start from the menu.
+Once started, the command "?" prints the help and rules text.
+
+You can insert which game mode you want to start from the main menu.
 
 The following is the representation of the board in the Command Line version.
 
 To insert a line there are 3 parameters [*x*, *y*, *side*]:
 - *x*,*y* are the coordinates of one of the two adjacent boxes composed by that line
-- *side* = [U, R, L, R] is the position of the line with respect to that box: Up, Down, Left, Right.
+- *side* = [U, D, L, R] is the position of the line with respect to that box: Up, Down, Left, Right.
+
 
 ![Command Line Game Screenshot](images/dots-and-boxes-Cli-screenshot.PNG)
 
