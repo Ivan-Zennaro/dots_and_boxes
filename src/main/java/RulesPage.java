@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-public class RulesPage {
+public class RulesPage extends JFrame{
     private JFrame frame;
     private JTextArea textArea;
     private JPanel panel;
@@ -20,8 +20,8 @@ public class RulesPage {
 
 
     public RulesPage() {
-        this.frame = new JFrame("Dots and Boxes - Rules");
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.setTitle("Dots and Boxes - Rules");
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         this.textArea = new JTextArea(8, 40);
         textArea.setEditable(false);
@@ -30,13 +30,10 @@ public class RulesPage {
         this.panel = new JPanel();
         panel.add(textArea);
 
-        frame.add(panel);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
+        this.add(panel);
+        this.pack();
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
     }
 
-    public void seeFrame() {
-        frame.setVisible(true);
-    }
 }

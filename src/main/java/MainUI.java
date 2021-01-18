@@ -12,7 +12,7 @@ public class MainUI {
     private int rows, cols;
     private String me, player2Type, ip, player2Name;
     private Color color1, color2;
-    private RulesPage rulesPage = new RulesPage();
+    private JFrame rulesPage = new RulesPage();
     private String startGame = null;
 
     private static JFrame frame;
@@ -280,7 +280,7 @@ public class MainUI {
         JButton demoButton = new JButton("Demo");
         JButton submitButton = new JButton("Start Game");
 
-        ruleButton.addActionListener(e -> rulesPage.seeFrame());
+        ruleButton.addActionListener(e -> rulesPage.setVisible(true));
         demoButton.addActionListener(demo);
         submitButton.addActionListener(submitListener);
 
