@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 
 public class Gui extends IOManager {
 
+    private final static String IMAGE_PATH = "src/images/dots-and-boxes-ICON.PNG";
     private final static int DOT_SIZE = 16;
     private final static int BOX_SIZE = 80;
     private static final Color DEFAULT_BORDER_LINE_COLOR = Color.WHITE;
@@ -90,6 +91,8 @@ public class Gui extends IOManager {
 
         prepareGrid();
 
+        Image icon = Toolkit.getDefaultToolkit().getImage(IMAGE_PATH);
+        frame.setIconImage(icon);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
