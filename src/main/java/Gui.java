@@ -11,13 +11,14 @@ public class Gui extends IOManager {
 
     private final static int DOT_SIZE = 16;
     private final static int BOX_SIZE = 80;
-    public static final Color DEFAULT_BORDER_LINE_COLOR = Color.WHITE;
-    public static final Color DEFAULT_BACKGROUND_LINE_COLOR = Color.getColor("#ffffff00");
+    private static final Color DEFAULT_BORDER_LINE_COLOR = Color.WHITE;
+    private static final Color DEFAULT_BACKGROUND_LINE_COLOR = Color.getColor("#ffffff00");
 
     private JFrame frame;
     private JLabel p1ScoreLabel, p2ScoreLabel, statusLabel;
     private JLabel[][] box, graphicBoard;
 
+    private boolean mouseEnabled = false;
     private boolean[][] isSetLine;
     private Move bufferMove;
     private Color currentPlayerColor;
@@ -29,7 +30,8 @@ public class Gui extends IOManager {
 
         @Override
         public void mousePressed(MouseEvent mouseEvent) {
-            bufferMove = getCoordinateOfTheClickedLine(mouseEvent.getSource());
+            if (mouseEnabled)
+                bufferMove = getCoordinateOfTheClickedLine(mouseEvent.getSource());
         }
 
         @Override
@@ -38,7 +40,8 @@ public class Gui extends IOManager {
 
         @Override
         public void mouseEntered(MouseEvent mouseEvent) {
-            setLabelBackgroundColorAtMouseEvent(mouseEvent, currentPlayerColor, true);
+            if (mouseEnabled)
+                setLabelBackgroundColorAtMouseEvent(mouseEvent, currentPlayerColor, true);
         }
 
         @Override
@@ -75,7 +78,7 @@ public class Gui extends IOManager {
     };
 
 
-    public Gui(int boardRows, int boardCols, Player p1, Player p2,String frameName) {
+    public Gui(int boardRows, int boardCols, Player p1, Player p2, String frameName) {
         super(boardRows, boardCols, p1, p2);
 
         graphicBoard = new JLabel[mappedRows][mappedCols];
@@ -83,7 +86,7 @@ public class Gui extends IOManager {
         isSetLine = new boolean[mappedRows][mappedCols];
         box = new JLabel[boardRows][boardCols];
 
-        frame = new JFrame("Dots and Boxes - "+ frameName);
+        frame = new JFrame("Dots and Boxes - " + frameName);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         prepareGrid();
@@ -94,7 +97,7 @@ public class Gui extends IOManager {
         frame.setVisible(true);
     }
 
-    public boolean isSetLine(int x, int y) {
+    protected boolean isSetLine(int x, int y) {
         return isSetLine[x][y];
     }
 
@@ -102,7 +105,7 @@ public class Gui extends IOManager {
         isSetLine[x][y] = true;
     }
 
-    public boolean isSetBox(int x, int y) {
+    protected boolean isSetBox(int x, int y) {
         return box[x][y].getBackground().equals(player1.getColor().getAwtColor()) || box[x][y].getBackground().equals(player2.getColor().getAwtColor());
     }
 
@@ -171,6 +174,7 @@ public class Gui extends IOManager {
 
     @Override
     public Move readMove() {
+        mouseEnabled = true;
         while (bufferMove == null) {
             try {
                 Thread.sleep(100);
@@ -180,6 +184,7 @@ public class Gui extends IOManager {
         }
         Move moveToPass = bufferMove;
         bufferMove = null;
+        mouseEnabled = false;
         return moveToPass;
     }
 

@@ -8,7 +8,7 @@ public abstract class Game {
     protected Board board;
     protected IOManager ioManager;
 
-    public abstract void startGame();
+    protected abstract void startGame();
 
     protected Game(int nRows, int nCols, Player p1, Player p2, IOManager ioManager) {
         this.player1 = this.currentPlayer = p1;
@@ -17,16 +17,12 @@ public abstract class Game {
         board = new Board(nRows, nCols);
     }
 
-    public void endGame() {
+    protected void endGame() {
         ioManager.showWinner();
     }
 
-    protected boolean isMoveAllowed(Move move) {
-        return board.isMoveInBoardRange(move) && move.getSide() != Side.INVALID && !board.boxHasAlreadyLine(move);
-    }
-
-    public void computeMove(Move move) {
-        if (isMoveAllowed(move)) {
+    protected void computeMove(Move move) {
+        if (board.isMoveAllowed(move)) {
 
             board.drawLine(move);
             ioManager.updateMove(move, currentPlayer);
@@ -40,8 +36,8 @@ public abstract class Game {
         }
     }
 
-    public boolean boxOfTheMoveHasBeenClosed(Move move) {
-        if (move.getSide() != Side.INVALID && board.isBoxCompleted(move)) {
+    protected boolean boxOfTheMoveHasBeenClosed(Move move) {
+        if (move.isValid() && board.isBoxCompleted(move)) {
             currentPlayer.onePointDone();
             ioManager.updateCompletedBox(move, currentPlayer);
             return true;
@@ -49,15 +45,15 @@ public abstract class Game {
         return false;
     }
 
-    public void printScoreBoard() {
+    protected void printScoreBoard() {
         ioManager.updateGameInfo(currentPlayer);
     }
 
-    public void swapPlayers() {
+    protected void swapPlayers() {
         currentPlayer = currentPlayer == player1 ? player2 : player1;
     }
 
-    public boolean isGameFinished() {
+    protected boolean isGameFinished() {
         return player1.getPoints() + player2.getPoints() >= board.getBoardColumns() * board.getBoardRows();
     }
 

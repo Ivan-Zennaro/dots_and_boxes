@@ -57,6 +57,24 @@ public class Move implements Serializable {
         return result;
     }
 
+    public int getCoordShift() {
+        return switch (this.side) {
+            case LEFT,UP -> -1;
+            case DOWN,RIGHT -> +1;
+            default -> 0;
+        };
+    }
+
+    public Side getInvertedSide(){
+        return switch (this.side){
+            case UP-> Side.DOWN;
+            case DOWN-> Side.UP;
+            case LEFT-> Side.RIGHT;
+            case RIGHT-> Side.LEFT;
+            default -> Side.INVALID;
+        };
+    }
+
     public static Move parseMove(String input) {
         try {
             String[] splitInput = input.split(" ");

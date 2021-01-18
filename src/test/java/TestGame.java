@@ -105,17 +105,6 @@ public class TestGame {
 
 
     @ParameterizedTest
-    @CsvSource({"0,0,UP,TRUE","0,0,DOWN,TRUE","0,0,LEFT,FALSE","0,0,RIGHT,FALSE",
-            "0,1,UP,TRUE","0,1,LEFT,FALSE","1,1,LEFT,TRUE","0,2,UP,FALSE","2,2,DOWN,FALSE","1,3,UP,FALSE"})
-    public void move_is_allowed(int x, int y, Side side, boolean inRange) {
-        Game game = new TwoPlayersGame(2, 2, player1, player2, cli);
-        game.computeMove(new Move(0, 0, Side.LEFT));
-        game.computeMove(new Move(0, 0, Side.RIGHT));
-        Move move = new Move(x,y,side);
-        Assertions.assertEquals(inRange, game.isMoveAllowed(move));
-    }
-
-    @ParameterizedTest
     @CsvSource({"0,0,RIGHT,TRUE","0,0,DOWN,FALSE","0,1,DOWN,FALSE","1,1,UP,FALSE"})
     public void box_of_the_move_has_been_closed(int x, int y, Side side, boolean hasCloseABox) {
         Game game = new TwoPlayersGame(2, 2, player1, player2, cli);

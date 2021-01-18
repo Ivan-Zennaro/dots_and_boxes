@@ -29,11 +29,11 @@ public abstract class IOManager {
         return backPress;
     }
 
-    public static int getMappedY(Move move) {
+    protected static int getMappedY(Move move) {
         return move.getSide() == Side.RIGHT ? move.getY() + 1 : move.getY();
     }
 
-    public static int getMappedX(Move move) {
+    protected static int getMappedX(Move move) {
         int tempX = move.getX() * 2 + 1;
         if (move.getSide() == Side.UP)
             return tempX - 1;

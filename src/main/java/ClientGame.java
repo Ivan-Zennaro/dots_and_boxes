@@ -31,7 +31,7 @@ public class ClientGame extends Game {
                 if (currentPlayer == player2) {
                     move = ioManager.readMove();
 
-                    if (isMoveAllowed(move)) {
+                    if (board.isMoveAllowed(move)) {
                         objectOutputStream.writeObject(move);
                         objectOutputStream.flush();
                     }

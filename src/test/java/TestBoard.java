@@ -9,20 +9,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestBoard {
 
     @ParameterizedTest
-    @ValueSource(strings = {"UP", "DOWN", "LEFT", "RIGHT"})
-    public void a_line_is_correctly_drawn_in_a_box(Side side) {
-        Board board = new Board(1, 1);
-        Move move = new Move(0, 0, side);
-        board.drawLine(move);
-        assertTrue(board.boxHasAlreadyLine(move));
-    }
-
-    @ParameterizedTest
-    @CsvSource({"0,0,RIGHT,TRUE", "0,0,DOWN,TRUE", "0,0,UP,TRUE", "0,1,UP,FALSE", "1,1,UP,FALSE"})
-    public void move_is_in_board_range(int x, int y, Side side, boolean inRange) {
-        Board board = new Board(1, 1);
-        Move move = new Move(x, y, side);
-        assertEquals(inRange, board.isMoveInBoardRange(move));
+    @CsvSource({"0,0,UP,TRUE","0,0,DOWN,TRUE","0,0,LEFT,FALSE","0,0,RIGHT,FALSE",
+            "0,1,UP,TRUE","0,1,LEFT,FALSE","1,1,LEFT,TRUE","0,2,UP,FALSE","2,2,DOWN,FALSE","1,3,UP,FALSE"})
+    public void move_is_allowed(int x, int y, Side side, boolean moveIsAllowed) {
+        Board board = new Board(2, 2);
+        board.drawLine(new Move(0, 0, Side.LEFT));
+        board.drawLine(new Move(0, 0, Side.RIGHT));
+        Move move = new Move(x,y,side);
+        Assertions.assertEquals(moveIsAllowed, board.isMoveAllowed(move));
     }
 
     @ParameterizedTest
@@ -41,7 +35,7 @@ public class TestBoard {
         Move move = new Move(x_1, y_1, side_1);
         Move neighbourMove = new Move(x_2, y_2, side_2);
         board.drawLine(move);
-        assertTrue(board.boxHasAlreadyLine(neighbourMove));
+        assertFalse(board.isMoveAllowed(neighbourMove));
     }
 
     @ParameterizedTest

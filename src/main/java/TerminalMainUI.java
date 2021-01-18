@@ -32,9 +32,13 @@ public class TerminalMainUI {
     public static void main(String[] args) {
 
         boolean flagEndProgram = false;
-        System.out.println("Welcome to Dots and Boxes!\n");
+        System.out.println("----------------------------\n");
+        System.out.println("-Welcome to Dots and Boxes!-\n");
+        System.out.println("----------------------------\n");
         System.out.println(rulesAndHelp);
+
         while (!flagEndProgram) {
+            System.out.println("\n!!Main Menu!!");
             String input = getInput();
             switch (input) {
                 case "?" -> System.out.println(rulesAndHelp);
@@ -72,7 +76,7 @@ public class TerminalMainUI {
     }
 
 
-    public static String getInput() {
+    private static String getInput() {
         String input = "";
         System.out.println("Insert Game Mode (Insert \"?\" for Help,\"quit\" to quit the game)");
         try {
@@ -83,7 +87,7 @@ public class TerminalMainUI {
         return input;
     }
 
-    public static void start2PlayerGameWithCLI() {
+    private static void start2PlayerGameWithCLI() {
         int nRows = getIntegerValueFromKeyboard("Insert number of Rows (Default: 3):",3);
         int nCols = getIntegerValueFromKeyboard("Insert number of Columns (Default: 3):",3);
         Game game = GameFactory.create2PlayerGameWithCli(nRows, nCols, player1, player2);
@@ -92,7 +96,7 @@ public class TerminalMainUI {
 
 
 
-    public static void startComputerGameWithCLI() {
+    private static void startComputerGameWithCLI() {
         int nRows = getIntegerValueFromKeyboard("Insert number of Rows (Default: 3):",3);
         int nCols = getIntegerValueFromKeyboard("Insert number of Columns (Default: 3):",3);
 
@@ -112,12 +116,12 @@ public class TerminalMainUI {
         game.startGame();
     }
 
-    public static void startServerGameWithCli() {
+    private static void startServerGameWithCli() {
         Game game = GameFactory.createServerGameWithCli(player1, player2);
         game.startGame();
     }
 
-    public static void startClientGameWithCli() {
+    private static void startClientGameWithCli() {
         String ip;
         System.out.println("Insert IP address:");
         ip = keyboard.nextLine();

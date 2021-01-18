@@ -51,13 +51,14 @@ Worked in pair programming to continue the Server-Client version.
   ### Enjoy the game!
 
 ## Cli version
-You can select which type of game to start from the menu.
+You can insert which game mode you want to start from the main menu.
 
 The following is the representation of the board in the Command Line version.
 
 To insert a line there are 3 parameters [*x*, *y*, *side*]:
 - *x*,*y* are the coordinates of one of the two adjacent boxes composed by that line
-- *side* = [U, R, L, R] is the position of the line with respect to that box: Up, Down, Left, Right.
+- *side* = [U, D, L, R] is the position of the line with respect to that box: Up, Down, Left, Right.
+
 
 ![Command Line Game Screenshot](images/dots-and-boxes-Cli-screenshot.PNG)
 
@@ -68,8 +69,8 @@ From this menu you can select:
 3. Player colors
 4. Board dimensions
 5. Local: to play the game in your machine
-6. Host:  to start hosting a 3x3 game and wait for another player in LAN to join the game
-7. Join:  to join a hosted game by another user present in LAN, specifying his internal IP address.
+6. Host:  to start hosting a 3x3 PvP game and wait for another player in LAN to join the game
+7. Join:  to join a hosted PvP game by another user present in LAN, specifying his internal IP address.
 8. "Demo" button to view a game demonstration
 
 Then press "Start Game!". 

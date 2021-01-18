@@ -13,17 +13,6 @@ public class TestGameComputer {
 
 
     @Test
-    public void get_missing_side_from_box() {
-        assertAll(
-                () -> assertEquals(Side.LEFT, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.UP, Side.RIGHT, Side.DOWN))))),
-                () -> assertEquals(Side.RIGHT, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.UP, Side.LEFT, Side.DOWN))))),
-                () -> assertEquals(Side.DOWN, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.UP, Side.LEFT, Side.RIGHT))))),
-                () -> assertEquals(Side.UP, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.LEFT, Side.RIGHT, Side.DOWN))))),
-                () -> assertEquals(Side.INVALID, ComputerSolver.getMissingSideFromBox(new Box(new HashSet<>(Arrays.asList(Side.RIGHT, Side.DOWN)))))
-        );
-    }
-
-    @Test
     public void draw_line_that_limit_the_opponent_points() {
         ComputerVsComputerGame game = new ComputerVsComputerGame(3, 3, p1, p2, new Cli(3, 3, p1, p2));
 
