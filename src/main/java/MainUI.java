@@ -18,10 +18,10 @@ public class MainUI {
     private static JFrame frame;
     private JLabel playerError, colorError;
 
-    List<String> playersType = new ArrayList<>(List.of("Select player", "Human", "Computer Easy", "Computer Medium", "Computer Hard"));
-    String[] colors = {"<html><font color='" + Color.RED.getRGBstring() + "'>RED", "<html><font color='" + Color.BLU.getRGBstring() + "'>BLU", "<html><font color='" + Color.GREEN.getRGBstring() + "'>GREEN", "<html><font color='" + Color.PURPLE.getRGBstring() + "'>PURPLE"};
-    Color[] colorsObject = {Color.RED, Color.BLU, Color.GREEN, Color.PURPLE};
-    String[] size = {"1", "2", "3", "4", "5"};
+    private List<String> playersType = new ArrayList<>(List.of("Select player", "Human", "Computer Easy", "Computer Medium", "Computer Hard"));
+    private String[] colors = {"<html><font color='" + Color.RED.getRGBstring() + "'>RED", "<html><font color='" + Color.BLU.getRGBstring() + "'>BLU", "<html><font color='" + Color.GREEN.getRGBstring() + "'>GREEN", "<html><font color='" + Color.PURPLE.getRGBstring() + "'>PURPLE"};
+    private Color[] colorsObject = {Color.RED, Color.BLU, Color.GREEN, Color.PURPLE};
+    private String[] size = {"1", "2", "3", "4", "5"};
 
 
     private JTextField player1Name, ipAddress;
