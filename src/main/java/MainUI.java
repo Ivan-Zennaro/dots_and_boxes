@@ -75,18 +75,22 @@ public class MainUI {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (optionsPlayer2.getSelectedItem() == "Human") {
-                player2Name = JOptionPane.showInputDialog("Select the name for he Human Player", "Human Name");
+                player2Name = JOptionPane.showInputDialog(null, "Insert the name for the Human Player","Human Player 2", JOptionPane.INFORMATION_MESSAGE);
 
-                if(player2Name!=null && !player2Name.equals("")){
-                    playersType.set(1,player2Name);
+                if(player2Name!=null && !player2Name.equals("") && !optionsPlayer2.getItemAt(2).equals("Human")) {
                     optionsPlayer2Model.insertElementAt(player2Name, 1);
-                    if (optionsPlayer2.getItemAt(2).toString()){
-                        optionsPlayer2Model.removeElementAt(1);
-                        playersType.set(1,player2Name);
-                        optionsPlayer2Model.insertElementAt(player2Name, 1);
-                    }
-
+                    playersType.add(1,player2Name);
                 }
+                else if ((player2Name!=null && !player2Name.equals("") && optionsPlayer2.getItemAt(2).equals("Human"))){
+                        playersType.remove(1);
+                        playersType.add(1,player2Name);
+                        optionsPlayer2Model.removeElementAt(1);
+                        optionsPlayer2Model.insertElementAt(player2Name, 1);
+                }
+
+                optionsPlayer2.setSelectedIndex(1);
+                player2Name = playersType.get(1);
+
             }
         }
     };
@@ -367,7 +371,7 @@ public class MainUI {
     private void startGame() {
         switch (startGame) {
             case "demo" -> GameFactory.createComputerVsComputerGameWithGUI(3, 3, new Player("Player 1", Color.BLU), new Player("Player 2", Color.RED)).startGame();
-            case "pvp" -> GameFactory.create2PlayerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2)).startGame();
+            case "pvp" -> GameFactory.create2PlayerGameWithGUI(rows, cols, new Player(me, color1), new Player(player2Name, color2)).startGame();
             case "pvc1" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.EASY).startGame();
             case "pvc2" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.MEDIUM).startGame();
             case "pvc3" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(otherPlayer, color2), Difficulty.HARD).startGame();
