@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,13 +13,12 @@ public class MainUI {
     private String me, otherPlayer, ip, player2Name;
     private Color color1, color2;
     private RulesPage rulesPage = new RulesPage();
-    private HumanNameFrame HumanFrame = new HumanNameFrame();
     private String startGame = null;
 
     private static JFrame frame;
     private JLabel playerError, colorError;
 
-    List<String> playersType = Arrays.asList("Select player", "Human", "Computer Easy", "Computer Medium", "Computer Hard");
+    List<String> playersType = new ArrayList<>(List.of("Select player", "Human", "Computer Easy", "Computer Medium", "Computer Hard"));
     String[] colors = {"<html><font color='" + Color.RED.getRGBstring() + "'>RED", "<html><font color='" + Color.BLU.getRGBstring() + "'>BLU", "<html><font color='" + Color.GREEN.getRGBstring() + "'>GREEN", "<html><font color='" + Color.PURPLE.getRGBstring() + "'>PURPLE"};
     Color[] colorsObject = {Color.RED, Color.BLU, Color.GREEN, Color.PURPLE};
     String[] size = {"1", "2", "3", "4", "5"};
@@ -59,18 +59,6 @@ public class MainUI {
 
     private ActionListener demo = e -> startGame = "demo";
 
-
-   /* private ActionListener close = new ActionListener() {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            confirmPlayer2HumanName = (JButton) e.getSource();
-            playersType[1] = humanName.getText();
-            optionsPlayer2Model.insertElementAt(humanName.getText(), 1);
-            optionsPlayer2Model.removeElementAt(2);
-            frame1.dispose();
-        }
-    };*/
     private ActionListener select = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -95,43 +83,6 @@ public class MainUI {
         }
     };
 
-    /*private void setLayoutForTheHumanNameFrame() {
-
-
-        JPanel gridName = new JPanel(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-
-
-        JLabel message = new JLabel("Insert the name for the Human Player", SwingConstants.CENTER);
-        message.setPreferredSize(new Dimension(240, 50));
-        ++constraints.gridy;
-        gridName.add(message, constraints);
-
-
-        JPanel namePanel = new JPanel(new GridLayout(4, 1));
-        namePanel.setPreferredSize(new Dimension(150, 70));
-
-        namePanel.add(humanName, constraints);
-        namePanel.add(getEmptyLabel(new Dimension(150, 20)));
-        confirmPlayer2HumanName = new JButton("Confirm");
-        namePanel.add(confirmPlayer2HumanName);
-        namePanel.add(getEmptyLabel(new Dimension(150, 20)));
-
-        humanName.addFocusListener(new resetTextField(humanName, "Human Name"));
-        confirmPlayer2HumanName.addActionListener(close);
-
-        ++constraints.gridy;
-        gridName.add(namePanel, constraints);
-
-
-        frame1.setContentPane(gridName);
-        frame1.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame1.pack();
-        frame1.setLocationRelativeTo(null);
-        frame1.setVisible(true);
-    }*/
 
     private ActionListener submitListener = new ActionListener() {
         @Override
@@ -171,14 +122,16 @@ public class MainUI {
                             };
 
                 }
-                startGame =
-                        switch (typeOfPlayerIndex) {
-                            case 1 -> "pvp";
-                            case 2 -> "pvc1";
-                            case 3 -> "pvc2";
-                            case 4 -> "pvc3";
-                            default -> "pvp";
-                        };
+                else {
+                    startGame =
+                            switch (typeOfPlayerIndex) {
+                                case 1 -> "pvp";
+                                case 2 -> "pvc1";
+                                case 3 -> "pvc2";
+                                case 4 -> "pvc3";
+                                default -> "pvp";
+                            };
+                }
             }
         }
 
