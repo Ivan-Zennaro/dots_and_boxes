@@ -40,6 +40,8 @@ Adapted Main Menus for Gui and Terminal to call the various game modes
 13/01/2021
 Worked in pair programming to continue the Server-Client version.
 
+19/01/2021 Almost completed. ALmost ready to send the repo.
+
 ## Rules
 
   1. Choose the players' identity and color, and the grid size;
