@@ -3,7 +3,7 @@ package sdm.examproject.dots_and_boxes;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-public class Cli extends IOManager {
+public class CliGameManager extends IOManager {
 
     private final static String HORIZONTAL_LINE = " ---";
     private final static String VERTICAL_LINE = "|   ";
@@ -11,7 +11,7 @@ public class Cli extends IOManager {
     private String[][] graphicBoard;
     private Scanner keyboard;
 
-    public Cli(int boardRows, int boardCols, Player p1, Player p2) {
+    public CliGameManager(int boardRows, int boardCols, Player p1, Player p2) {
 
         super(boardRows,boardCols,p1,p2);
 
@@ -75,6 +75,7 @@ public class Cli extends IOManager {
     public String getStringPlayerPoint (Player player){
         return "Player " + player.getFirstLetterName() + " got " + player.getPoints() + " points";
     }
+
 
     public String getStringBoard() {
         StringBuilder stringBuilder = new StringBuilder(System.lineSeparator() + "    ");

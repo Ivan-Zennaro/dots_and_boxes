@@ -18,7 +18,6 @@ public abstract class IOManager {
     protected int mappedRows, mappedCols;
     protected boolean backPress = false;
 
-
     protected IOManager (int boardRows, int boardCols, Player p1, Player p2){
         this.player1 = p1;
         this.player2 = p2;

@@ -10,13 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestGameComputer {
 
-    Player p1 = UtilityTest.getDummyP1();
-    Player p2 = UtilityTest.getDummyP2();
-
+    private final Player p1 = UtilityTest.getDummyP1();
+    private final Player p2 = UtilityTest.getDummyP2();
 
     @Test
     public void draw_line_that_limit_the_opponent_points() {
-        ComputerVsComputerGame game = new ComputerVsComputerGame(3, 3, p1, p2, new Cli(3, 3, p1, p2));
+        DemoGame game = new DemoGame(3, 3, p1, p2, new CliGameManager(3, 3, p1, p2));
 
         game.computeMove(new Move(2, 0, Side.DOWN));
         game.computeMove(new Move(2, 1, Side.DOWN));
@@ -42,16 +41,6 @@ public class TestGameComputer {
         game.computeMove(new Move(0, 0, Side.DOWN));
         game.computeMove(new Move(0, 1, Side.DOWN));
 
-        /*          0   1   2
-                           ---
-                0     |       |
-                   --- ---
-                1 |   |   |
-                   --- --- ---
-                2 |   |   |   |
-                   --- --- ---
-       */
-
         Move move = game.getComputerMove();
 
         assertAll(
@@ -63,7 +52,7 @@ public class TestGameComputer {
 
     @Test
     public void draw_line_in_a_missing_position_of_a_box() {
-        ComputerVsComputerGame game = new ComputerVsComputerGame(2, 2, p1, p2, new Cli(2, 2, p1, p2));
+        DemoGame game = new DemoGame(2, 2, p1, p2, new CliGameManager(2, 2, p1, p2));
         game.computeMove(new Move(1, 1, Side.LEFT));
         game.computeMove(new Move(1, 1, Side.RIGHT));
         game.computeMove(new Move(1, 1, Side.DOWN));
@@ -72,7 +61,7 @@ public class TestGameComputer {
 
     @Test
     public void draw_line_in_a_random_box_with_2_side_not_completed() {
-        ComputerVsComputerGame game = new ComputerVsComputerGame(2, 2, p1, p2, new Cli(2, 2, p1, p2));
+        DemoGame game = new DemoGame(2, 2, p1, p2, new CliGameManager(2, 2, p1, p2));
         game.computeMove(new Move(1, 1, Side.LEFT));
         game.computeMove(new Move(1, 1, Side.DOWN));
         game.computeMove(new Move(0, 0, Side.UP));
@@ -89,7 +78,7 @@ public class TestGameComputer {
 
     @Test
     public void draw_line_in_a_random_box_with_2_side_not_completed_also_for_the_neighbour() {
-        ComputerVsComputerGame game = new ComputerVsComputerGame(2, 2, p1, p2, new Cli(2, 2, p1, p2));
+        DemoGame game = new DemoGame(2, 2, p1, p2, new CliGameManager(2, 2, p1, p2));
         game.computeMove(new Move(1, 0, Side.UP));
         game.computeMove(new Move(1, 0, Side.DOWN));
         game.computeMove(new Move(1, 0, Side.RIGHT));

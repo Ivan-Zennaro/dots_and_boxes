@@ -9,7 +9,7 @@ import java.awt.event.FocusEvent;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
-public class MainUI {
+public class MenuGui {
 
     private final static String IMAGE_PATH = "src/images/dots-and-boxes-ICON.PNG";
     private int rows, cols;
@@ -151,7 +151,7 @@ public class MainUI {
 
     };
 
-    public MainUI() {
+    public MenuGui() {
         frame = new JFrame("Dots and Boxes - Main Menu");
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -352,7 +352,7 @@ public class MainUI {
     }
 
     public static void main(String[] args) {
-        new MainUI().initMenu();
+        new MenuGui().initMenu();
     }
 
 }

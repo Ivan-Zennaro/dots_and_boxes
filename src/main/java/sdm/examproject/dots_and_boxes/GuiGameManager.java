@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class Gui extends IOManager {
+public class GuiGameManager extends IOManager {
 
     private final static String IMAGE_PATH = "src/images/dots-and-boxes-ICON.PNG";
     private final static int DOT_SIZE = 16;
@@ -74,13 +74,13 @@ public class Gui extends IOManager {
             backPress = true;
 
             frame.dispose();
-            Thread thread = new Thread(() -> new MainUI().initMenu());
+            Thread thread = new Thread(() -> new MenuGui().initMenu());
             thread.start();
 
         }
     };
 
-    public Gui(int boardRows, int boardCols, Player p1, Player p2, String frameName) {
+    public GuiGameManager(int boardRows, int boardCols, Player p1, Player p2, String frameName) {
         super(boardRows, boardCols, p1, p2);
 
         graphicBoard = new JLabel[mappedRows][mappedCols];
@@ -320,7 +320,7 @@ public class Gui extends IOManager {
             if (fatalError) {
                 frame.setVisible(false);
                 frame.dispose();
-                new Thread(() -> new MainUI().initMenu()).start();
+                new Thread(() -> new MenuGui().initMenu()).start();
             }
         }
     }

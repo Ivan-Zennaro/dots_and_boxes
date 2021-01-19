@@ -48,7 +48,7 @@ public class ClientGame extends Game {
             endGame();
 
         } catch (IOException e) {
-            ioManager.errorHandler("Impossible to connect to Server",true);
+            ioManager.errorHandler("Impossible to connect to Server", true);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

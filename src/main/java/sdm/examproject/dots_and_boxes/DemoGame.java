@@ -1,10 +1,10 @@
 package sdm.examproject.dots_and_boxes;
 
-public class ComputerVsComputerGame extends Game {
+public class DemoGame extends Game {
 
     private ComputerSolver computerSolver;
 
-    public ComputerVsComputerGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager) {
+    public DemoGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager) {
         super(nRows, nCols, p1, p2, ioManager);
         this.computerSolver = new ComputerSolver(board, Difficulty.HARD);
     }
@@ -27,6 +27,5 @@ public class ComputerVsComputerGame extends Game {
     public Move getComputerMove() {
         return computerSolver.getComputerMove();
     }
-
 
 }

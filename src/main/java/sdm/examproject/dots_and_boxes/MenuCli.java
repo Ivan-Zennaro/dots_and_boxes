@@ -3,7 +3,7 @@ package sdm.examproject.dots_and_boxes;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class TerminalMainUI {
+public class MenuCli {
     private static Scanner keyboard = new Scanner(System.in);
 
     private static  Player player1 = new Player("Albert", Color.RED);
