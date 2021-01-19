@@ -6,8 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -23,10 +21,10 @@ public class MainUI {
     private static JFrame frame;
     private JLabel playerError, colorError;
 
-    private List<String> playersType = new ArrayList<>(List.of( "Computer Easy", "Computer Medium", "Computer Hard", "Human"));
-    private String[] colors = {"<html><font color='" + Color.RED.getRGBstring() + "'>RED", "<html><font color='" + Color.BLU.getRGBstring() + "'>BLU", "<html><font color='" + Color.GREEN.getRGBstring() + "'>GREEN", "<html><font color='" + Color.PURPLE.getRGBstring() + "'>PURPLE"};
-    private Color[] colorsObject = {Color.RED, Color.BLU, Color.GREEN, Color.PURPLE};
-    private String[] size = {"1", "2", "3", "4", "5"};
+    private final String[] playersType = {"Computer Easy", "Computer Medium", "Computer Hard", "Human"};
+    private final String[] colors = {"<html><font color='" + Color.RED.getRGBstring() + "'>RED", "<html><font color='" + Color.BLU.getRGBstring() + "'>BLU", "<html><font color='" + Color.GREEN.getRGBstring() + "'>GREEN", "<html><font color='" + Color.PURPLE.getRGBstring() + "'>PURPLE"};
+    private final Color[] colorsObject = {Color.RED, Color.BLU, Color.GREEN, Color.PURPLE};
+    private final String[] size = {"1", "2", "3", "4", "5"};
 
 
     private JTextField player1Name, ipAddress;
@@ -158,7 +156,7 @@ public class MainUI {
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         player1Name = new JTextField("Bob");
-        optionsPlayer2 = new JComboBox<>(playersType.toArray(new String[0]));
+        optionsPlayer2 = new JComboBox<>(playersType);
         optionsPlayer2.setSelectedIndex(0);
 
         ipAddress = new JTextField("Opponent IP address");
