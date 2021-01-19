@@ -1,5 +1,7 @@
-# dots_and_boxes
+# Dots and Boxes
 [![Build Status](https://travis-ci.com/Ivan-Zennaro/dots_and_boxes.svg?branch=main)](https://travis-ci.com/Ivan-Zennaro/dots_and_boxes)
+
+Dots and Boxes is a pencil-and-paper game for two players. It was first published in the 19th century by French mathematician Édouard Lucas, who called it la pipopipette. It has gone by many other names, including the game of dots, dot to dot grid, boxes, and pigs in a pen.
 
 ## Rules
 
@@ -46,3 +48,11 @@ Click on a line to play your turn.
 Check if it is your turn on the label under the grid.
 
 ![Graphical User Interface Board Screenshot](images/dots-and-boxes-GUI-Board.gif)
+
+### Developers
+
+- [Luca Crozzoli](https://github.com/Luca-Crozzoli)
+- [Ivan Zennaro](https://github.com/Ivan-Zennaro)
+- [Nicola Domenis](http://github.com/nicdom23)
+- [Stefano Pasquini](https://github.com/JawaCoder)
+- [Dario Crosera](https://github.com/drocro)
