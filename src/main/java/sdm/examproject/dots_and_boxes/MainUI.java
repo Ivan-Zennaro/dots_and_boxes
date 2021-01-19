@@ -30,7 +30,6 @@ public class MainUI {
 
 
     private JTextField player1Name, ipAddress;
-    private DefaultComboBoxModel<String> optionsPlayer2Model;
     private JComboBox<String> optionsPlayer2, colorBoxPlayer1, colorBoxPlayer2, colSelection, rowSelection;
 
     private JRadioButton[] localOrRemote;
@@ -68,11 +67,12 @@ public class MainUI {
 
                 if (player2Name != null && !player2Name.equals("") ){
                     if (!optionsPlayer2.getItemAt(4).equals("Human")) {
-                        optionsPlayer2Model.removeElementAt(4);
+                        optionsPlayer2.removeItemAt(4);
                     }
-                    optionsPlayer2Model.insertElementAt(player2Name, 4);
+                    optionsPlayer2.insertItemAt(player2Name, 4);
                 }
                 optionsPlayer2.setSelectedIndex(4);
+                player2Name = optionsPlayer2.getItemAt(4);
             }
         }
     };
@@ -120,8 +120,7 @@ public class MainUI {
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         player1Name = new JTextField("Your Name");
-        optionsPlayer2Model = new DefaultComboBoxModel<String>(playersType.toArray(new String[0]));
-        optionsPlayer2 = new JComboBox<>(optionsPlayer2Model);
+        optionsPlayer2 = new JComboBox<>(playersType.toArray(new String[0]));
         optionsPlayer2.setSelectedIndex(0);
 
         ipAddress = new JTextField("Opponent IP address");
