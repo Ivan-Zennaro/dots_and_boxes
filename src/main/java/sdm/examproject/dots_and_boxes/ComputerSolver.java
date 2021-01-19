@@ -25,16 +25,16 @@ public class ComputerSolver {
     public Move getComputerMove() {
 
         Move move = getMove_thatClosesABox();
-        if (move != null && move.isValid()) return move;
+        if (move.isValid()) return move;
 
         move = getMove_thatDoesNotPutTheThirdLineInABox();
-        if (move != null && move.isValid() && difficulty != Difficulty.EASY) return move;
+        if (move.isValid() && difficulty != Difficulty.EASY) return move;
 
         move = getMove_thatLimitOpponentPoints();
-        if (move != null && move.isValid() && difficulty == Difficulty.HARD) return move;
+        if (move.isValid() && difficulty == Difficulty.HARD) return move;
 
         move = getRandomMove();
-        if (move != null && move.isValid()) return move;
+        if (move.isValid()) return move;
 
         return Move.getInvalidMove();
     }
@@ -101,17 +101,17 @@ public class ComputerSolver {
         return Move.getInvalidMove();
     }
 
-    private int getRowBox_b_in_boxes(Box b) {
+    private int getRowNumberInMatrixRepresentation(Box b) {
         return boxes.indexOf(b) / board.getBoardColumns();
     }
 
-    private int getColBox_b_in_boxes(Box b) {
+    private int getColNumberInMatrixRepresentation(Box b) {
         return boxes.indexOf(b) % board.getBoardColumns();
     }
 
     private Box getNeighbourBox(Box currentBox, Side side) {
-        int row = getRowBox_b_in_boxes(currentBox);
-        int col = getColBox_b_in_boxes(currentBox);
+        int row = getRowNumberInMatrixRepresentation(currentBox);
+        int col = getColNumberInMatrixRepresentation(currentBox);
         Move sideMove = board.getNeighbourSideMove(new Move(row, col, side));
         if (!sideMove.isValid()) return null;
         return board.getBoxByMove(sideMove);
@@ -123,17 +123,17 @@ public class ComputerSolver {
                 (side -> !box.hasLineBySide(side)).findFirst().orElse(Side.INVALID);
     }
 
-    private static <T> T getRandomElementFromList(List<T> list) {
-        if (list == null || list.isEmpty()) return null;
-
-        return list.get(rand.nextInt(list.size()));
-    }
-
     private Box getACopyOfTheBox(Box box) {
         Box copyBox = new Box();
         Arrays.stream(Side.values()).filter(side -> box.hasLineBySide(side)).
                 forEach(side -> copyBox.drawLine(side));
 
         return copyBox;
+    }
+
+    private <T> T getRandomElementFromList(List<T> list) {
+        if (list == null || list.isEmpty()) return null;
+
+        return list.get(rand.nextInt(list.size()));
     }
 }
