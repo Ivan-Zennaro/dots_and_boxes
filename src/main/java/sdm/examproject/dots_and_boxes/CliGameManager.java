@@ -5,8 +5,8 @@ import java.util.stream.IntStream;
 
 public class CliGameManager extends IOManager {
 
-    private final static String HORIZONTAL_LINE = " ---";
-    private final static String VERTICAL_LINE = "|   ";
+    private static final String HORIZONTAL_LINE = " ---";
+    private static final String VERTICAL_LINE = "|   ";
 
     private final String[][] graphicBoard;
     private final Scanner keyboard;
