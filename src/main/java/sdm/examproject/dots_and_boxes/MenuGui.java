@@ -335,7 +335,7 @@ public class MenuGui {
 
     private void startGame() {
         switch (startGame) {
-            case "demo" -> GameFactory.createComputerVsComputerGameWithGUI(3, 3, new Player("Player 1", Color.BLU), new Player("Player 2", Color.RED)).startGame();
+            case "demo" -> GameFactory.createDemoGameWithGUI(3, 3, new Player("Player 1", Color.BLU), new Player("Player 2", Color.RED)).startGame();
             case "pvp" -> GameFactory.create2PlayerGameWithGUI(rows, cols, new Player(me, color1), new Player(player2Name, color2)).startGame();
             case "pvc1" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(player2Type, color2), Difficulty.EASY).startGame();
             case "pvc2" -> GameFactory.createPlayerVsComputerGameWithGUI(rows, cols, new Player(me, color1), new Player(player2Type, color2), Difficulty.MEDIUM).startGame();

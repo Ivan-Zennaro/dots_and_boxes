@@ -57,7 +57,7 @@ public class MenuCli {
                 }
                 case "3" -> {
 
-                    Game game = GameFactory.createComputerVsComputerGameWithCli(2, 2, player1, player2);
+                    Game game = GameFactory.createDemoGameWithCli(2, 2, player1, player2);
                     game.startGame();
                     System.out.println("\n--------------------------\nGAME ENDED\n--------------------------\n");
                 }

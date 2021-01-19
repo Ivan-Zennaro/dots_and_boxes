@@ -10,7 +10,7 @@ public class GameFactory {
         return new TwoPlayersGame(nRow, nCols, p1, p2, guiGameManager);
     }
 
-    public static Game createComputerVsComputerGameWithGUI(int nRow, int nCols, Player p1, Player p2) {
+    public static Game createDemoGameWithGUI(int nRow, int nCols, Player p1, Player p2) {
         GuiGameManager guiGameManager = new GuiGameManager(nRow, nCols, p1, p2,"DEMO - Local");
         return new DemoGame(nRow, nCols, p1, p2, guiGameManager);
     }
@@ -37,7 +37,7 @@ public class GameFactory {
         return new TwoPlayersGame(nRow, nCols, p1, p2, cliGameManager);
     }
 
-    public static Game createComputerVsComputerGameWithCli(int nRow, int nCols, Player p1, Player p2) {
+    public static Game createDemoGameWithCli(int nRow, int nCols, Player p1, Player p2) {
         CliGameManager cliGameManager = new CliGameManager(nRow, nCols, p1, p2);
         return new DemoGame(nRow, nCols, p1, p2, cliGameManager);
     }
