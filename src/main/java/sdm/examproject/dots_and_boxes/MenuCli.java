@@ -6,8 +6,8 @@ import java.util.Scanner;
 public class MenuCli {
     private static final Scanner keyboard = new Scanner(System.in);
 
-    private static final Player player1 = new Player("Albert", Color.RED);
-    private static final Player player2 = new Player("Ben", Color.BLU);
+    private static Player player1;
+    private static Player player2;
 
     private static final String rulesAndHelp = """
                                     
@@ -40,6 +40,9 @@ public class MenuCli {
         System.out.println(rulesAndHelp);
 
         while (!flagEndProgram) {
+            player1 = new Player("Albert", Color.RED);
+            player2 = new Player("Ben", Color.BLU);
+
             System.out.println("\n!!Main Menu!!");
             String input = getInput();
             switch (input) {
@@ -71,8 +74,8 @@ public class MenuCli {
                 case "quit" -> flagEndProgram = true;
                 default -> System.out.println("INVALID INPUT");
             }
-        }
 
+        }
         keyboard.close();
         System.out.println("Goodbye!");
     }
