@@ -141,18 +141,12 @@ public class TestCliGameManager {
     }
 
     private String getWinnerString(int indexWinner, Player player1, Player player2) {
-        String winnerString;
+        String winnerString = switch (indexWinner) {
+            case 1 -> "Player " + player1.getFirstLetterName() + " WON!";
+            case 2 -> "Player " + player2.getFirstLetterName() + " WON!";
+            default -> "TIE!";
+        };
 
-        switch (indexWinner) {
-            case 1:
-                winnerString = "Player " + player1.getFirstLetterName() + " WON!";
-                break;
-            case 2:
-                winnerString = "Player " + player2.getFirstLetterName() + " WON!";
-                break;
-            default:
-                winnerString = "TIE!";
-        }
         return winnerString;
     }
 }
