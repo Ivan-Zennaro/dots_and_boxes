@@ -59,7 +59,15 @@ public class Move implements Serializable {
         return result;
     }
 
-    public int getCoordShift() {
+    public Move getNeighbourMove (){
+        if (isSideHorizontal())
+            return new Move(x + getCoordShift(), y, side.inverse);
+        else
+            return new Move( x, y + getCoordShift(), side.inverse);
+    }
+
+
+    private int getCoordShift() {
         return switch (this.side) {
             case LEFT,UP -> -1;
             case DOWN,RIGHT -> +1;
@@ -67,15 +75,7 @@ public class Move implements Serializable {
         };
     }
 
-    public Side getInvertedSide(){
-        return switch (this.side){
-            case UP-> Side.DOWN;
-            case DOWN-> Side.UP;
-            case LEFT-> Side.RIGHT;
-            case RIGHT-> Side.LEFT;
-            default -> Side.INVALID;
-        };
-    }
+
 
     public static Move parseMove(String input) {
         try {

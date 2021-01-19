@@ -7,6 +7,15 @@ public enum Side {
     RIGHT,
     INVALID;
 
+    public Side inverse;
+
+    static {
+        UP.inverse = DOWN;
+        DOWN.inverse = UP;
+        LEFT.inverse = RIGHT;
+        RIGHT.inverse = LEFT;
+    }
+
     public char asChar() {
         return name().charAt(0);
     }
