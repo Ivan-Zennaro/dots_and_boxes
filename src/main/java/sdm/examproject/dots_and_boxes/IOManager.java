@@ -14,8 +14,10 @@ public abstract class IOManager {
 
     public abstract void errorHandler(String msg, boolean fatalError);
 
-    protected Player player1, player2;
-    protected int mappedRows, mappedCols;
+    protected final Player player1;
+    protected final Player player2;
+    protected final int mappedRows;
+    protected final int mappedCols;
     protected boolean backPress = false;
 
     protected IOManager (int boardRows, int boardCols, Player p1, Player p2){

@@ -2,7 +2,7 @@ package sdm.examproject.dots_and_boxes;
 
 public class PlayerVsComputerGame extends Game {
 
-    private ComputerSolver computerSolver;
+    private final ComputerSolver computerSolver;
 
     public PlayerVsComputerGame(int nRows, int nCols, Player p1, Player p2, IOManager ioManager, Difficulty difficulty) {
         super(nRows, nCols, p1, p2, ioManager);

@@ -17,16 +17,17 @@ public class GuiGameManager extends IOManager {
     private static final Color DEFAULT_BORDER_LINE_COLOR = Color.WHITE;
     private static final Color DEFAULT_BACKGROUND_LINE_COLOR = Color.getColor("#ffffff00");
 
-    private JFrame frame;
+    private final JFrame frame;
     private JLabel p1ScoreLabel, p2ScoreLabel, statusLabel;
-    private JLabel[][] box, graphicBoard;
+    private final JLabel[][] box;
+    private final JLabel[][] graphicBoard;
 
     private boolean mouseEnabled = false;
-    private boolean[][] isSetLine;
+    private final boolean[][] isSetLine;
     private Move bufferMove;
     private Color currentPlayerColor;
 
-    private MouseListener mouseListener = new MouseListener() {
+    private final MouseListener mouseListener = new MouseListener() {
         @Override
         public void mouseClicked(MouseEvent mouseEvent) {
         }
@@ -67,7 +68,7 @@ public class GuiGameManager extends IOManager {
 
     };
 
-    private ActionListener backListener = new ActionListener() {
+    private final ActionListener backListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
 

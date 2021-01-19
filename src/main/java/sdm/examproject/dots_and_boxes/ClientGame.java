@@ -6,7 +6,7 @@ import java.net.Socket;
 public class ClientGame extends Game {
 
     private final int PORT = 1234;
-    private String ip;
+    private final String ip;
 
     public ClientGame(int nRows, int nCols, Player player1, Player player2, IOManager ioManager, String ip) {
         super(nRows, nCols, player1, player2, ioManager);

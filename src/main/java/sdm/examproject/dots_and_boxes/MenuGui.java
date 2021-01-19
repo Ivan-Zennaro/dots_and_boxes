@@ -15,7 +15,7 @@ public class MenuGui {
     private int rows, cols;
     private String me, player2Type, ip, player2Name;
     private Color color1, color2;
-    private JFrame rulesPage = new RulesPage();
+    private final JFrame rulesPage = new RulesPage();
     private String startGame = null;
 
     private static JFrame frame;
@@ -27,14 +27,19 @@ public class MenuGui {
     private final String[] size = {"1", "2", "3", "4", "5"};
 
 
-    private JTextField player1Name, ipAddress;
-    private JComboBox<String> optionsPlayer2, colorBoxPlayer1, colorBoxPlayer2, colSelection, rowSelection;
+    private final JTextField player1Name;
+    private final JTextField ipAddress;
+    private final JComboBox<String> optionsPlayer2;
+    private final JComboBox<String> colorBoxPlayer1;
+    private final JComboBox<String> colorBoxPlayer2;
+    private final JComboBox<String> colSelection;
+    private final JComboBox<String> rowSelection;
 
-    private JRadioButton[] localOrRemote;
+    private final JRadioButton[] localOrRemote;
 
     private static final class resetTextField extends FocusAdapter {
-        JTextField fieldTxt;
-        String text;
+        final JTextField fieldTxt;
+        final String text;
 
         public resetTextField(JTextField fieldTxt, String text) {
             super();
@@ -55,7 +60,7 @@ public class MenuGui {
         }
     }
 
-    private ActionListener selectPlayer2Listener = new ActionListener() {
+    private final ActionListener selectPlayer2Listener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (optionsPlayer2.getSelectedItem().equals("Human")) {
@@ -75,7 +80,7 @@ public class MenuGui {
         }
     };
 
-    private ActionListener manageInputVisibilityWhenLocalSelected = new ActionListener() {
+    private final ActionListener manageInputVisibilityWhenLocalSelected = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             ipAddress.setEnabled(false);
@@ -87,7 +92,7 @@ public class MenuGui {
         }
     };
 
-    private ActionListener manageInputVisibilityWhenHostSelected = new ActionListener() {
+    private final ActionListener manageInputVisibilityWhenHostSelected = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             ipAddress.setEnabled(false);
@@ -100,7 +105,7 @@ public class MenuGui {
         }
     };
 
-    private ActionListener manageInputVisibilityWhenJoinSelected = new ActionListener() {
+    private final ActionListener manageInputVisibilityWhenJoinSelected = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             ipAddress.setEnabled(true);
@@ -113,7 +118,7 @@ public class MenuGui {
         }
     };
 
-    private ActionListener submitListener = new ActionListener() {
+    private final ActionListener submitListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             me = player1Name.getText();

@@ -8,11 +8,11 @@ import java.util.stream.Stream;
 
 public class ComputerSolver {
 
-    private List<Box> boxes;
-    private Board board;
-    private Difficulty difficulty;
+    private final List<Box> boxes;
+    private final Board board;
+    private final Difficulty difficulty;
 
-    private static Random rand = new Random();
+    private static final Random rand = new Random();
 
     public ComputerSolver(Board board, Difficulty difficulty) {
         this.boxes = Arrays.stream(board.getBoxes())

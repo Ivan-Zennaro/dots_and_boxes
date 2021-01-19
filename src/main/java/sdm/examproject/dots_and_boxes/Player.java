@@ -2,8 +2,8 @@ package sdm.examproject.dots_and_boxes;
 
 public class Player {
 
-    private String name;
-    private Color color;
+    private final String name;
+    private final Color color;
     private int points;
 
     public Player(String name, Color color) {

@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Box {
 
-    private Set<Side> drawnSides;
+    private final Set<Side> drawnSides;
 
     public Box() {
         drawnSides = new HashSet<>();

@@ -3,9 +3,9 @@ package sdm.examproject.dots_and_boxes;
 import javax.swing.*;
 
 public class RulesPage extends JFrame{
-    private JTextArea textArea;
-    private JPanel panel;
-    private String rulesText = """
+    private final JTextArea textArea;
+    private final JPanel panel;
+    private final String rulesText = """
             Welcome to Dots and Boxes!\s
                         
             The rules are:

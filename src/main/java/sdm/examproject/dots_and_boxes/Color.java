@@ -7,8 +7,8 @@ public enum Color {
     GREEN("\u001B[32m",new java.awt.Color(117, 181, 43)),
     PURPLE("\u001B[35m",new java.awt.Color(135, 23, 191));
 
-    private String cliColorCode;
-    private java.awt.Color awtColor;
+    private final String cliColorCode;
+    private final java.awt.Color awtColor;
 
     Color (String cliColorCode, java.awt.Color awtColor){
         this.cliColorCode = cliColorCode;

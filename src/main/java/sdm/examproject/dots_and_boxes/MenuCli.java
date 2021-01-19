@@ -4,10 +4,10 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class MenuCli {
-    private static Scanner keyboard = new Scanner(System.in);
+    private static final Scanner keyboard = new Scanner(System.in);
 
-    private static  Player player1 = new Player("Albert", Color.RED);
-    private static Player player2 = new Player("Ben", Color.BLU);
+    private static final Player player1 = new Player("Albert", Color.RED);
+    private static final Player player2 = new Player("Ben", Color.BLU);
 
     private static final String rulesAndHelp = """
                                     

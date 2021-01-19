@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class Move implements Serializable {
 
-    private int x;
-    private int y;
-    private Side side;
+    private final int x;
+    private final int y;
+    private final Side side;
 
     public Move(int x, int y, Side side) {
         this.x = x;

@@ -2,9 +2,9 @@ package sdm.examproject.dots_and_boxes;
 
 public class Board {
 
-    private Box[][] boxes;
-    private int boardRows;
-    private int boardColumns;
+    private final Box[][] boxes;
+    private final int boardRows;
+    private final int boardColumns;
 
     public Board(int numberOfBoxesInARow, int numberOfBoxesInAColumn) {
         this.boxes = new Box[numberOfBoxesInARow][numberOfBoxesInAColumn];

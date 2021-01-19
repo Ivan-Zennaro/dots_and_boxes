@@ -2,12 +2,12 @@ package sdm.examproject.dots_and_boxes;
 
 public abstract class Game {
 
-    protected Player player1;
-    protected Player player2;
+    protected final Player player1;
+    protected final Player player2;
     protected Player currentPlayer;
 
-    protected Board board;
-    protected IOManager ioManager;
+    protected final Board board;
+    protected final IOManager ioManager;
 
     protected abstract void startGame();
 

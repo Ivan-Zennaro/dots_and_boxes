@@ -8,8 +8,8 @@ public class CliGameManager extends IOManager {
     private final static String HORIZONTAL_LINE = " ---";
     private final static String VERTICAL_LINE = "|   ";
 
-    private String[][] graphicBoard;
-    private Scanner keyboard;
+    private final String[][] graphicBoard;
+    private final Scanner keyboard;
 
     public CliGameManager(int boardRows, int boardCols, Player p1, Player p2) {
 
