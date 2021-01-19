@@ -23,7 +23,7 @@ public class MainUI {
     private static JFrame frame;
     private JLabel playerError, colorError;
 
-    private List<String> playersType = new ArrayList<>(List.of("Select player", "Computer Easy", "Computer Medium", "Computer Hard", "Human"));
+    private List<String> playersType = new ArrayList<>(List.of( "Computer Easy", "Computer Medium", "Computer Hard", "Human"));
     private String[] colors = {"<html><font color='" + Color.RED.getRGBstring() + "'>RED", "<html><font color='" + Color.BLU.getRGBstring() + "'>BLU", "<html><font color='" + Color.GREEN.getRGBstring() + "'>GREEN", "<html><font color='" + Color.PURPLE.getRGBstring() + "'>PURPLE"};
     private Color[] colorsObject = {Color.RED, Color.BLU, Color.GREEN, Color.PURPLE};
     private String[] size = {"1", "2", "3", "4", "5"};
@@ -66,14 +66,52 @@ public class MainUI {
                         "Human Name Player 2", JOptionPane.INFORMATION_MESSAGE);
 
                 if (player2Name != null && !player2Name.equals("") ){
-                    if (!optionsPlayer2.getItemAt(4).equals("Human")) {
-                        optionsPlayer2.removeItemAt(4);
+                    if (!optionsPlayer2.getItemAt(3).equals("Human")) {
+                        optionsPlayer2.removeItemAt(3);
                     }
-                    optionsPlayer2.insertItemAt(player2Name, 4);
+                    optionsPlayer2.insertItemAt(player2Name, 3);
                 }
-                optionsPlayer2.setSelectedIndex(4);
-                player2Name = optionsPlayer2.getItemAt(4);
+                optionsPlayer2.setSelectedIndex(3);
+                player2Name = optionsPlayer2.getItemAt(3);
             }
+        }
+    };
+
+    private ActionListener manageInputVisibilityWhenLocalSelected = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ipAddress.setEnabled(false);
+            optionsPlayer2.setEnabled(true);
+            colorBoxPlayer1.setEnabled(true);
+            colorBoxPlayer2.setEnabled(true);
+            colSelection.setEnabled(true);
+            rowSelection.setEnabled(true);
+        }
+    };
+
+    private ActionListener manageInputVisibilityWhenHostSelected = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ipAddress.setEnabled(false);
+            optionsPlayer2.setEnabled(false);
+            colorBoxPlayer1.setEnabled(true);
+            colorBoxPlayer2.setEnabled(false);
+            colSelection.setEnabled(false);
+            rowSelection.setEnabled(false);
+
+        }
+    };
+
+    private ActionListener manageInputVisibilityWhenJoinSelected = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ipAddress.setEnabled(true);
+            optionsPlayer2.setEnabled(false);
+            colorBoxPlayer1.setEnabled(true);
+            colorBoxPlayer2.setEnabled(false);
+            colSelection.setEnabled(false);
+            rowSelection.setEnabled(false);
+
         }
     };
 
@@ -87,8 +125,8 @@ public class MainUI {
             cols = Integer.parseInt(colSelection.getSelectedItem().toString());
             rows = Integer.parseInt(rowSelection.getSelectedItem().toString());
 
-            if (me.equals("")) {
-                playerError.setText("You MUST type player1 name");
+            if (me.equals(player2Name)) {
+                playerError.setText("You MUST select 2 different names for players");
             } else if (color1.equals(color2)) {
                 colorError.setText("You MUST select 2 different colors for players");
             } else if (localOrRemote[2].isSelected()) {
@@ -96,17 +134,17 @@ public class MainUI {
                 startGame = "join";
             } else if (localOrRemote[1].isSelected()) {
                 startGame = "host";
-            } else if (typeOfPlayerIndex == 0) {
-                playerError.setText("You MUST select player2 type");
+            } else if (optionsPlayer2.getSelectedItem().equals("Human")) {
+                playerError.setText("You MUST select Human Name for Player 2");
             } else {
                 playerError.setText("");
                 player2Type = optionsPlayer2.getItemAt(typeOfPlayerIndex);
 
                 startGame =
                         switch (typeOfPlayerIndex) {
-                            case 1 -> "pvc1";
-                            case 2 -> "pvc2";
-                            case 3 -> "pvc3";
+                            case 0 -> "pvc1";
+                            case 1 -> "pvc2";
+                            case 2 -> "pvc3";
                             default -> "pvp";
                         };
 
@@ -119,7 +157,7 @@ public class MainUI {
         frame = new JFrame("Dots and Boxes - Main Menu");
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        player1Name = new JTextField("Your Name");
+        player1Name = new JTextField("Bob");
         optionsPlayer2 = new JComboBox<>(playersType.toArray(new String[0]));
         optionsPlayer2.setSelectedIndex(0);
 
@@ -139,6 +177,9 @@ public class MainUI {
         localOrRemote[0] = new JRadioButton("Local", true);
         localOrRemote[1] = new JRadioButton("Host");
         localOrRemote[2] = new JRadioButton("Join");
+        localOrRemote[0].addActionListener(manageInputVisibilityWhenLocalSelected);
+        localOrRemote[1].addActionListener(manageInputVisibilityWhenHostSelected);
+        localOrRemote[2].addActionListener(manageInputVisibilityWhenJoinSelected);
         sizeGroup.add(localOrRemote[0]);
         sizeGroup.add(localOrRemote[1]);
         sizeGroup.add(localOrRemote[2]);
@@ -175,7 +216,7 @@ public class MainUI {
         modePanel.add(optionsPlayer2);
 
 
-        player1Name.addFocusListener(new resetTextField(player1Name, "Your Name"));
+        player1Name.addFocusListener(new resetTextField(player1Name, "Bob"));
         optionsPlayer2.addActionListener(selectPlayer2Listener);
 
 
@@ -278,6 +319,8 @@ public class MainUI {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setVisible(true);
+        optionsPlayer2.requestFocus();
+        localOrRemote[0].doClick();
 
         waitForCorrectUserAction();
 
