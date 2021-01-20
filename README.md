@@ -27,7 +27,7 @@ To insert a line there are 3 parameters [*x*, *y*, *side*]:
 
 Remember, colors are properly displayed in a terminal that supports **ANSI escape codes**. 
 
-Generally it works wrell for Unix shell prompts.
+Generally it works well in Unix shell prompts.
 
 ## Gui version
 From this menu you can select:
