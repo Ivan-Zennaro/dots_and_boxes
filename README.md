@@ -25,6 +25,10 @@ To insert a line there are 3 parameters [*x*, *y*, *side*]:
 
 ![Command Line Game Screenshot](images/dots-and-boxes-Cli-screenshot.PNG)
 
+Remember, colors are properly displayed in a terminal that supports **ANSI escape codes**. 
+
+Generally it works wrell for Unix shell prompts.
+
 ## Gui version
 From this menu you can select:
 1. Player-1 name
