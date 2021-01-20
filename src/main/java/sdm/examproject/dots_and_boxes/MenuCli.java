@@ -31,7 +31,7 @@ public class MenuCli {
                         
             Enjoy the game!""";
 
-    public static void main(String[] args) {
+    public static void mainCLI() {
 
         boolean flagEndProgram = false;
         System.out.println("----------------------------\n");
