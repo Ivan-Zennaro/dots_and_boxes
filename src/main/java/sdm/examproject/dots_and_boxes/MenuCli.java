@@ -25,7 +25,7 @@ public class MenuCli {
             Insert "1" to start a 2 player game.
             Insert "2" to start a game versus the computer.
             Insert "3" to start a demo of the game.
-            Insert "4" to start a host a game.
+            Insert "4" to start a hosting of the game.
             Insert "5" to join a game.
             Insert "quit" to end the program 
                         
