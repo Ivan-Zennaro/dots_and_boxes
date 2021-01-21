@@ -24,10 +24,15 @@ To insert a line there are 3 parameters [*x*, *y*, *side*]:
 
 ##Note: 
 This is what most resembles the alpha version of the game for which we planned a pvp game via cli.
-In order to play this game, either go to the unify-main branch and launch via local computer terminal the file dots-and-boxes.jar
-As
+In order to play this game, either go to the unify-main branch and launch via local computer terminal the file out/artifacts/dots_and_boxes_jar/dots-and-boxes.jar
+As( once you open the folder in the local terminal of the computer via a right click command on the file in the Project side-window)
 
 ```$java dots_and_boxes.jar cli```
+
+!!Please, notice that the colors of the command lines have been optimized via the IntelliJ, and via a Windows terminal 
+they do not work properly. Try an unix-supporting terminal. Unfortunately, this OS mismatch has been revealed too late in the development to be dealt with, if not even on the day of the deadline.
+!! So to speak, this way to start the code has not been discussed enough and is a little despised because of this misbehaviour.
+On Linux or Mac it should work fine and is an ok way to play the game.
 
 Then instructions are prompted. A few references to add:
 - input 1 returns what was the alpha version's behaviour. The underlying code has since been refactored and upgraded;
@@ -41,8 +46,7 @@ Then instructions are prompted. A few references to add:
   (for your information, these have been tested and work, we will be able to reproduce them for you if you are interested to see)
   !!Please, insert your input only as your turn has begun, else the input will be "buffered", and sent as a game input as soon as your turn starts: this might be a rule to follow even for the other modes, as keyboard input is open at all times but the game input is open only when the game prompts a new move.
   Also, the two players must change their turn on the keyboard as a local game is played: to do that follow the turnation given by the command line output at the start of each turn.
-
-
+  
 The second way to call the game is to go to the main branch and simply run the main method of the MenuCli class. What is said above, of course, still applies.
 
 ![Command Line Game Screenshot](images/dots-and-boxes-Cli-screenshot.PNG)
@@ -90,7 +94,8 @@ As
 ```$java dots_and_boxes.jar gui```
 
 or else go to the ```main``` branch and run the main method at the last line of MenuGui.
-However separate jar files could be produced in the main class as soon as one main is selected.
+However separate jar files could be produced in the main class as soon as one main is selected. This however has not been
+done in the final version but has been tried successfully and can be reproduced during the presentation.
 
 
 ### Developers
