@@ -22,15 +22,22 @@ To insert a line there are 3 parameters [*x*, *y*, *side*]:
 - *x*,*y* are the coordinates of one of the two adjacent boxes composed by that line
 - *side* = [U, D, L, R] is the position of the line with respect to that box: Up, Down, Left, Right.
 
-##Note: 
+
+![Command Line Game Screenshot](images/dots-and-boxes-Cli-screenshot.PNG)
+
+Remember, colors are properly displayed in a terminal that supports **ANSI escape codes**. 
+
+Generally it works well in Unix shell prompts.
+
+##Note:
 This is what most resembles the alpha version of the game for which we planned a pvp game via cli.
 In order to play this game, either go to the unify-main branch and launch via local computer terminal the file out/artifacts/dots_and_boxes_jar/dots-and-boxes.jar
 As( once you open the folder in the local terminal of the computer via a right click command on the file in the Project side-window)
 
 ```$java dots_and_boxes.jar cli```
 
-!!Please, notice that the colors of the command lines have been optimized via the IntelliJ, and via a Windows terminal 
-they do not work properly. Try an unix-supporting terminal. Unfortunately, this OS mismatch has been revealed too late in the development to be dealt with, if not even on the day of the deadline.
+!!Please, notice that the colors of the command lines have been optimized via the IntelliJ, and via a Windows terminal
+they do not work properly. Try a unix-supporting terminal. Unfortunately, this OS mismatch has been revealed too late in the development to be dealt with, if not even on the day of the deadline.
 !! So to speak, this way to start the code has not been discussed enough and is a little despised because of this misbehaviour.
 On Linux or Mac it should work fine and is an ok way to play the game.
 
@@ -40,20 +47,14 @@ Then instructions are prompted. A few references to add:
   Game rules are applied, cli is shown working, game starts and ends in one run, no input to insert (cli version might have a long time to insert the input, this is an automatized game);
 - input 2 is the game versus the computer, which might run faster since it requires half of the input, and it also tests what is tested on the mode 3;
 - in order to run both input 4(hosting server) and input 5(running client) you need to run the program on two different terminals.
- In one terminal you will have to choose input 4, so it sets up the server and waits for a client to connect. In the other terminal you will have to select the client and you must insert the local address 127.0.0.1 . 
+  In one terminal you will have to choose input 4, so it sets up the server and waits for a client to connect. In the other terminal you will have to select the client and you must insert the local address 127.0.0.1 .
   A server only accepts one client and the server-client game is exclusively pvp, no options could be choosen to change that or to modify the board.
   Extra features, like mixed-interface server-client game or a via-LAN server-client game will maybe be shown at the presentation if there will be time
   (for your information, these have been tested and work, we will be able to reproduce them for you if you are interested to see)
   !!Please, insert your input only as your turn has begun, else the input will be "buffered", and sent as a game input as soon as your turn starts: this might be a rule to follow even for the other modes, as keyboard input is open at all times but the game input is open only when the game prompts a new move.
   Also, the two players must change their turn on the keyboard as a local game is played: to do that follow the turnation given by the command line output at the start of each turn.
-  
+
 The second way to call the game is to go to the main branch and simply run the main method of the MenuCli class. What is said above, of course, still applies.
-
-![Command Line Game Screenshot](images/dots-and-boxes-Cli-screenshot.PNG)
-
-Remember, colors are properly displayed in a terminal that supports **ANSI escape codes**. 
-
-Generally it works well in Unix shell prompts.
 
 ## Gui version
 From this menu you can select:
