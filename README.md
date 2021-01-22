@@ -12,6 +12,16 @@ Dots and Boxes is a pencil-and-paper game for two players. It was first publishe
   5. You can also choose to host or join a server-based game on the main menu.
                         
   ### Enjoy the game!
+  
+## Quick-run options
+- open IntelliJ
+- go to File -> New -> Project from Version Control...
+- insert the url of this repo (copy paste from this browser window) and then press "Clone"
+- ckeck to have the corect sdk version (15)
+- run MenuCli class for the command line version of the game
+- run MenuGui class for the graphic user interface version of the game
+
+If you want to know other launch configurations, please continue reading.
 
 ## Cli version
 You can insert which game mode you want to start from the main menu.
